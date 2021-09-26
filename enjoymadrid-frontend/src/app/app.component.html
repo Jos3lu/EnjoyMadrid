@@ -1,29 +1,55 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
+  <ion-menu contentId="main-content" type="overlay">
+    <ion-content>
+      <ion-list id="pages-list">
+        <ion-grid id="user">
+          <ion-row>
+            <ion-col>
+              <ion-avatar>
+                <img alt="route" src="./assets/user.png">
+              </ion-avatar>
+            </ion-col>
+            <ion-col class="ion-align-self-center">
+              <div>
+              <ion-list-header>User Name</ion-list-header>
+              <ion-note>hi@ionicframework.com</ion-note>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
+        <ion-item routerDirection="root" routerLink="/index" lines="none" detail="false" routerLinkActive="selected">
+          <ion-icon slot="start" name="map-outline"></ion-icon>
+          <ion-label>Mis rutas</ion-label>
+        </ion-item>
+      </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+      <ion-list id="preferences-list">
+        <ion-list-header>Preferencias</ion-list-header>
 
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ion-menu>
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
+        <ion-item lines="none">
+          <ion-icon slot="start" name="moon-outline"></ion-icon>
+          <ion-label>Tema Oscuro</ion-label>
+          <ion-toggle slot="end" [(ngModel)]="darkTheme" (ionChange)="updateTheme()"></ion-toggle>
+        </ion-item>
+        <ion-item lines="none" detail="true">
+          <ion-icon slot="start" name="thermometer-outline"></ion-icon>
+          <ion-label>Temperatura</ion-label>
+          <ion-select value="celsius" cancel-text="Cancelar">
+            <ion-select-option value="celsius">Grado Celsius (°C)</ion-select-option>
+            <ion-select-option value="fahrenheit">Grado Fahrenheit (°F)</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item lines="none" detail="true">
+          <ion-icon slot="start" name="footsteps-outline"></ion-icon>
+          <ion-label>Distancia</ion-label>
+          <ion-select value="kilometros" cancel-text="Cancelar">
+            <ion-select-option value="kilometros">Sistema métrico (Kilómetros)</ion-select-option>
+            <ion-select-option value="millas">Sistema imperial (Millas)</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>
