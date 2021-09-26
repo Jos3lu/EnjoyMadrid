@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import com.enjoymadrid.model.interfaces.UserInterfaces;
@@ -30,16 +31,16 @@ public class User {
 	@JsonView(UserInterfaces.BasicData.class)
 	private String password;
 	
+	@Lob
+	byte[] photo;
+	
 	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.REMOVE)
 	@JsonView(UserInterfaces.RoutesData.class)
-	private List<Route> routes;
+	private List<Route> routes = new LinkedList<>();;
 	
-	public User() {
-		this.routes = new LinkedList<>();
-	}
+	public User() {}
 
 	public User(String name, String email, String password) {
-		this();
 		this.name = name;
 		this.email = email;
 		this.password = password;
@@ -83,6 +84,14 @@ public class User {
 
 	public void setRoutes(List<Route> routes) {
 		this.routes = routes;
+	}
+	
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
 	}
 
 	@Override

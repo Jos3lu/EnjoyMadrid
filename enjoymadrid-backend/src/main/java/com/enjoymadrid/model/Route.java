@@ -1,5 +1,6 @@
 package com.enjoymadrid.model;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,21 +26,22 @@ public class Route {
 	@JsonView(RouteInterfaces.BasicData.class)
 	private String name;
 	
-	@OneToMany(mappedBy = "route", orphanRemoval = true, cascade = CascadeType.REMOVE)
+	@JsonView(RouteInterfaces.BasicData.class)
+	private LocalDate date;
+	
+	@OneToMany(mappedBy = "route", orphanRemoval = true, cascade = CascadeType.ALL)
 	@JsonView(RouteInterfaces.PointsData.class)
-	private List<Point> points;
+	private List<Point> points = new LinkedList<>();
 	
 	@ManyToOne
 	@JsonView(RouteInterfaces.UserData.class)
 	private User user;
 	
-	public Route() {
-		points = new LinkedList<>();
-	}
+	public Route() {}
 	
-	public Route(String name) {
-		this();
+	public Route(String name, LocalDate date) {
 		this.name = name;
+		this.date = date;
 	}
 
 	public Long getId() {
@@ -56,6 +58,14 @@ public class Route {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 	public List<Point> getPoints() {
@@ -76,7 +86,7 @@ public class Route {
 
 	@Override
 	public String toString() {
-		return "Route [id=" + id + ", name=" + name + ", points=" + points + ", user=" + user + "]";
+		return "Route [id=" + id + ", name=" + name + ", date=" + date + ", points=" + points + ", user=" + user + "]";
 	}
-	
+
 }

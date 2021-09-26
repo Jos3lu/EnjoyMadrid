@@ -1,14 +1,13 @@
 package com.enjoymadrid.serviceslogic;
 
-import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.enjoymadrid.components.UserComponent;
 import com.enjoymadrid.model.User;
 import com.enjoymadrid.model.repositories.UserRepository;
 import com.enjoymadrid.services.UserService;
@@ -18,15 +17,13 @@ public class UserServicelogic implements UserService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	UserComponent userComponent;
 
 	@Override
-	public List<User> getUsers() {
-		return userRepository.findAll();
-	}
-
-	@Override
-	public Optional<User> getUser(Long userId) {
-		return userRepository.findById(userId);
+	public Optional<User> getUser(Long id) {
+		return userRepository.findById(id);
 	}
 
 	@Override
@@ -34,13 +31,44 @@ public class UserServicelogic implements UserService {
 		if (userRepository.findByEmail(user.getEmail()) != null) {
 			return null;
 		} else {
-			user.setId(null);
 			user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 			userRepository.save(user);
 			return user;
 		}
 	}
+
+	@Override
+	public User updateUser(User pastUser, User updatedUser) {
+		updatedUser.setId(pastUser.getId());
+		updatedUser.setRoutes(pastUser.getRoutes());
+		
+		if (!(updatedUser.getPassword() == null) && !updatedUser.getPassword().isBlank()) {
+			updatedUser.setPassword(new BCryptPasswordEncoder().encode(updatedUser.getPassword()));
+		}
+		
+		return userRepository.save(updatedUser);
+	}
 	
+	@Override
+	public boolean deleteUser(Long id) {
+		Optional<User> user = getUser(id);
+		if (user.isPresent()) {
+			userRepository.delete(user.get());
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean userComplete(User user) {
+		return user != null && user.getEmail() != null 
+				&& user.getName() != null;
+	}
 	
+	@Override
+	public boolean userNotPossibleModification(User pastUser, User updatedUser) {
+		return !updatedUser.getEmail().equals(pastUser.getEmail()) && 
+				userRepository.findByEmail(updatedUser.getEmail()) != null;
+	}
 	
 }
