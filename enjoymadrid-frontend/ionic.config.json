@@ -1,0 +1,7 @@
+{
+  "name": "enjoymadrid-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
