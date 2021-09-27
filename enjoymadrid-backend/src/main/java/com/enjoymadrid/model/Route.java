@@ -29,6 +29,8 @@ public class Route {
 	@JsonView(RouteInterfaces.BasicData.class)
 	private LocalDate date;
 	
+	// Distancia total
+	
 	@OneToMany(mappedBy = "route", orphanRemoval = true, cascade = CascadeType.ALL)
 	@JsonView(RouteInterfaces.PointsData.class)
 	private List<Point> points = new LinkedList<>();
@@ -82,11 +84,6 @@ public class Route {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	@Override
-	public String toString() {
-		return "Route [id=" + id + ", name=" + name + ", date=" + date + ", points=" + points + ", user=" + user + "]";
 	}
 
 }

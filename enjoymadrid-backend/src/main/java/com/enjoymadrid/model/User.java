@@ -94,10 +94,4 @@ public class User {
 		this.photo = photo;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", routes="
-				+ routes + "]";
-	}
-	
 }

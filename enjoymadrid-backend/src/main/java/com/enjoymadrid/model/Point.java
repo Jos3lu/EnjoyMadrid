@@ -162,13 +162,5 @@ public class Point {
 	public void setRoute(Route route) {
 		this.route = route;
 	}
-
-	@Override
-	public String toString() {
-		return "Point [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", name=" + name
-				+ ", adress=" + adress + ", phone=" + phone + ", description=" + description + ", email=" + email
-				+ ", opening_hours=" + opening_hours + ", url=" + url + ", wheelchair=" + wheelchair + ", route="
-				+ route + "]";
-	}
 	
 }

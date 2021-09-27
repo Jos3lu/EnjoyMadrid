@@ -1,21 +1,29 @@
 package com.enjoymadrid.services;
 
-import java.util.Optional;
-
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.enjoymadrid.model.User;
 
 @Service
 public interface UserService {
 	
-	public Optional<User> getUser(Long id);
+	public User getUser(Long id);
+	
+	public Resource getImageUser(Long id);
 	
 	public User createUser(User user);
 	
-	public User updateUser(User pastUser, User updatedUser);
+	public void createImageUser(Long id, MultipartFile imageFile);
 	
-	public boolean deleteUser(Long id);
+	public User updateUser(Long id, User updatedUser);
+	
+	public void updateImageUser(Long id, MultipartFile imageFile);
+	
+	public void deleteUser(Long id);
+	
+	public void deleteImageUser(Long id);
 	
 	public boolean userComplete(User user);
 	
