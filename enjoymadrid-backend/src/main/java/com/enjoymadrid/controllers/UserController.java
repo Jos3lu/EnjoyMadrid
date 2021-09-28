@@ -30,6 +30,7 @@ public class UserController {
 	@GetMapping("/{id}")
 	@JsonView(UserInterfaces.RoutesData.class)
 	public ResponseEntity<User> getUser(@PathVariable Long id) {
+		//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return ResponseEntity.ok(userService.getUser(id));
 	}
 	
@@ -62,7 +63,7 @@ public class UserController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id}/image")
 	@JsonView(UserInterfaces.BasicData.class)
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 		return ResponseEntity.ok().build();

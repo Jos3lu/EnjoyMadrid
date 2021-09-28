@@ -30,7 +30,7 @@ public class Route {
 	
 	// Distancia total
 	
-	@ManyToMany(mappedBy = "route")
+	@ManyToMany(mappedBy = "routes")
 	@JsonView(RouteInterfaces.PointsData.class)
 	private List<Point> points = new LinkedList<>();
 	

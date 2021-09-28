@@ -1,7 +1,9 @@
 package com.enjoymadrid.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -52,15 +54,17 @@ public class Point {
 	@JsonView(PointInterfaces.BasicData.class)
 	private String type;
 	
+	@ElementCollection
 	@JsonView(PointInterfaces.BasicData.class)
-	private List<String> categories;
+	private List<String> categories = new LinkedList<>();
 	
+	@ElementCollection
 	@JsonView(PointInterfaces.BasicData.class)
-	private List<String> images;
+	private List<String> images = new LinkedList<>();
 	
 	@ManyToMany
 	@JsonView(PointInterfaces.RouteData.class)
-	private Route route;
+	private List<Route> routes = new LinkedList<>();
 	
 	public Point() {}
 
@@ -200,12 +204,12 @@ public class Point {
 		this.images = images;
 	}
 
-	public Route getRoute() {
-		return route;
+	public List<Route> getRoute() {
+		return routes;
 	}
 
-	public void setRoute(Route route) {
-		this.route = route;
+	public void setRoute(List<Route> routes) {
+		this.routes = routes;
 	}
 	
 }

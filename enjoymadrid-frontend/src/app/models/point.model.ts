@@ -1,4 +1,4 @@
-import { Route } from "./route.model";
+//import { Route } from "./route.model";
 
 export interface Point {
     id?: number;
@@ -15,5 +15,5 @@ export interface Point {
     type?: string;
     categories?: string[];
     images?: string[];
-    routes?: Route[];
+    //routes?: Route[];
 }

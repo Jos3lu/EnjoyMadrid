@@ -10,7 +10,8 @@ export class IndexPage implements OnInit {
 
   public id: string;
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute) { 
+  }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get("id");
