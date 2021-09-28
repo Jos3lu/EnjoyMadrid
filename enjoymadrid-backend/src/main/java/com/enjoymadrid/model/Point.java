@@ -1,10 +1,12 @@
 package com.enjoymadrid.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 import com.enjoymadrid.model.interfaces.PointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -30,7 +32,13 @@ public class Point {
 	private String adress;
 	
 	@JsonView(PointInterfaces.BasicData.class)
+	private Integer zipcode;
+	
+	@JsonView(PointInterfaces.BasicData.class)
 	private String phone;
+	
+	@JsonView(PointInterfaces.BasicData.class)
+	private String web;
 	
 	@JsonView(PointInterfaces.BasicData.class)
 	private String description;
@@ -39,32 +47,37 @@ public class Point {
 	private String email;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	private String opening_hours;
+	private String horary;
+			
+	@JsonView(PointInterfaces.BasicData.class)
+	private String type;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	private String url;
+	private List<String> categories;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	private String wheelchair;
+	private List<String> images;
 	
-	@ManyToOne
+	@ManyToMany
 	@JsonView(PointInterfaces.RouteData.class)
 	private Route route;
 	
 	public Point() {}
 
-	public Point(Double longitude, Double latitude, String name, String adress, String phone,
-			String description, String email, String opening_hours, String url, String wheelchair) {
+	public Point(Double longitude, Double latitude, String name, String adress, Integer zipcode, String phone, String web,
+			String description, String email, String horary, String type, List<String> categories, List<String> images) {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.name = name;
 		this.adress = adress;
 		this.phone = phone;
+		this.web = web;
 		this.description = description;
 		this.email = email;
-		this.opening_hours = opening_hours;
-		this.url = url;
-		this.wheelchair = wheelchair;
+		this.horary = horary;
+		this.type = type;
+		this.categories = categories;
+		this.images = images;
 	}
 
 	public Long getId() {
@@ -107,12 +120,28 @@ public class Point {
 		this.adress = adress;
 	}
 
+	public Integer getZipcode() {
+		return zipcode;
+	}
+
+	public void setZipcode(Integer zipcode) {
+		this.zipcode = zipcode;
+	}
+
 	public String getPhone() {
 		return phone;
 	}
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getWeb() {
+		return web;
+	}
+
+	public void setWeb(String web) {
+		this.web = web;
 	}
 
 	public String getDescription() {
@@ -132,27 +161,43 @@ public class Point {
 	}
 
 	public String getOpening_hours() {
-		return opening_hours;
+		return horary;
 	}
 
-	public void setOpening_hours(String opening_hours) {
-		this.opening_hours = opening_hours;
+	public void setOpening_hours(String horary) {
+		this.horary = horary;
+	}
+	
+	public String getHorary() {
+		return horary;
 	}
 
-	public String getUrl() {
-		return url;
+	public void setHorary(String horary) {
+		this.horary = horary;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public String getType() {
+		return type;
 	}
 
-	public String getWheelchair() {
-		return wheelchair;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public void setWheelchair(String wheelchair) {
-		this.wheelchair = wheelchair;
+	public List<String> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
+	}
+
+	public List<String> getImages() {
+		return images;
+	}
+
+	public void setImages(List<String> images) {
+		this.images = images;
 	}
 
 	public Route getRoute() {
