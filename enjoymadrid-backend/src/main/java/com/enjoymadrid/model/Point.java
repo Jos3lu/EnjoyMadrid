@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
 import com.enjoymadrid.model.interfaces.PointInterfaces;
@@ -31,7 +32,7 @@ public class Point {
 	private String name;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	private String adress;
+	private String address;
 	
 	@JsonView(PointInterfaces.BasicData.class)
 	private Integer zipcode;
@@ -42,12 +43,18 @@ public class Point {
 	@JsonView(PointInterfaces.BasicData.class)
 	private String web;
 	
+	@Lob
 	@JsonView(PointInterfaces.BasicData.class)
 	private String description;
 	
 	@JsonView(PointInterfaces.BasicData.class)
 	private String email;
 	
+	@Lob
+	@JsonView(PointInterfaces.BasicData.class)
+	private String paymentServices;
+	
+	@Lob
 	@JsonView(PointInterfaces.BasicData.class)
 	private String horary;
 			
@@ -57,7 +64,7 @@ public class Point {
 	@ElementCollection
 	@JsonView(PointInterfaces.BasicData.class)
 	private List<String> categories = new LinkedList<>();
-	
+			
 	@ElementCollection
 	@JsonView(PointInterfaces.BasicData.class)
 	private List<String> images = new LinkedList<>();
@@ -68,16 +75,19 @@ public class Point {
 	
 	public Point() {}
 
-	public Point(Double longitude, Double latitude, String name, String adress, Integer zipcode, String phone, String web,
-			String description, String email, String horary, String type, List<String> categories, List<String> images) {
+	public Point(Double longitude, Double latitude, String name, String address, Integer zipcode, String phone,
+			String web, String description, String email, String paymentServices, String horary,
+			String type, List<String> categories, List<String> images) {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.name = name;
-		this.adress = adress;
+		this.address = address;
+		this.zipcode = zipcode;
 		this.phone = phone;
 		this.web = web;
 		this.description = description;
 		this.email = email;
+		this.paymentServices = paymentServices;
 		this.horary = horary;
 		this.type = type;
 		this.categories = categories;
@@ -114,14 +124,6 @@ public class Point {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getAdress() {
-		return adress;
-	}
-
-	public void setAdress(String adress) {
-		this.adress = adress;
 	}
 
 	public Integer getZipcode() {
@@ -172,12 +174,28 @@ public class Point {
 		this.horary = horary;
 	}
 	
+	public String getPaymentServices() {
+		return paymentServices;
+	}
+
+	public void setPaymentServices(String paymentServices) {
+		this.paymentServices = paymentServices;
+	}
+
 	public String getHorary() {
 		return horary;
 	}
 
 	public void setHorary(String horary) {
 		this.horary = horary;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getType() {
@@ -204,12 +222,21 @@ public class Point {
 		this.images = images;
 	}
 
-	public List<Route> getRoute() {
+	public List<Route> getRoutes() {
 		return routes;
 	}
 
-	public void setRoute(List<Route> routes) {
+	public void setRoutes(List<Route> routes) {
 		this.routes = routes;
+	}
+
+	@Override
+	public String toString() {
+		return "Point [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", name=" + name
+				+ ", address=" + address + ", zipcode=" + zipcode + ", phone=" + phone + ", web=" + web
+				+ ", description=" + description + ", email=" + email + ", paymentServices=" + paymentServices
+				+ ", horary=" + horary + ", type=" + type + ", categories=" + categories
+				+ ", images=" + images + ", routes=" + routes + "]";
 	}
 	
 }
