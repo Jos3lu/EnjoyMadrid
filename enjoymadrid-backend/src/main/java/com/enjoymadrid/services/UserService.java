@@ -2,10 +2,12 @@ package com.enjoymadrid.services;
 
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.enjoymadrid.model.User;
 
+@Transactional
 @Service
 public interface UserService {
 	

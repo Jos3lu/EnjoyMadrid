@@ -2,6 +2,7 @@ package com.enjoymadrid.model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -10,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.enjoymadrid.model.interfaces.PointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -64,6 +68,10 @@ public class Point {
 	@ElementCollection
 	@JsonView(PointInterfaces.BasicData.class)
 	private List<String> categories = new LinkedList<>();
+	
+	@ElementCollection
+	@JsonView(PointInterfaces.BasicData.class)
+	private List<String> subcategories = new LinkedList<>();
 			
 	@ElementCollection
 	@JsonView(PointInterfaces.BasicData.class)
@@ -71,13 +79,20 @@ public class Point {
 	
 	@ManyToMany
 	@JsonView(PointInterfaces.RouteData.class)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Route> routes = new LinkedList<>();
 	
 	public Point() {}
+	
+	public Point(Double longitude, Double latitude, String name) {
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.name = name;
+	}
 
 	public Point(Double longitude, Double latitude, String name, String address, Integer zipcode, String phone,
 			String web, String description, String email, String paymentServices, String horary,
-			String type, List<String> categories, List<String> images) {
+			String type, List<String> categories, List<String> subcategories, List<String> images) {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.name = name;
@@ -91,6 +106,7 @@ public class Point {
 		this.horary = horary;
 		this.type = type;
 		this.categories = categories;
+		this.subcategories = subcategories;
 		this.images = images;
 	}
 
@@ -214,6 +230,14 @@ public class Point {
 		this.categories = categories;
 	}
 
+	public List<String> getSubcategories() {
+		return subcategories;
+	}
+
+	public void setSubcategories(List<String> subcategories) {
+		this.subcategories = subcategories;
+	}
+
 	public List<String> getImages() {
 		return images;
 	}
@@ -231,12 +255,16 @@ public class Point {
 	}
 
 	@Override
-	public String toString() {
-		return "Point [id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", name=" + name
-				+ ", address=" + address + ", zipcode=" + zipcode + ", phone=" + phone + ", web=" + web
-				+ ", description=" + description + ", email=" + email + ", paymentServices=" + paymentServices
-				+ ", horary=" + horary + ", type=" + type + ", categories=" + categories
-				+ ", images=" + images + ", routes=" + routes + "]";
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Point other = (Point) obj;
+		return Objects.equals(latitude, other.latitude) && Objects.equals(longitude, other.longitude)
+				&& Objects.equals(name, other.name);
 	}
 	
 }

@@ -4,13 +4,19 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -28,38 +34,87 @@ import com.enjoymadrid.model.repositories.PointRepository;
 
 @Component
 @EnableScheduling
-public class LoadPointsComponent implements CommandLineRunner {
+public class LoadPointsComponent implements CommandLineRunner{
 
 	@Autowired
 	private PointRepository pointRepository;
 
+	private CyclicBarrier waitToEnd;
+	private List<Point> points;
+	private Logger logger = LoggerFactory.getLogger(LoadPointsComponent.class);
+
+	@Override
+	public void run(String... args) throws Exception {
+		loadData();
+	}
+
+	/**
+	 * This method is executed all the days at 8 a.m (and the first time the server is activated), 
+	 * checking for new information and deleting old information
+	 */
 	@Scheduled(cron = "0 0 8 * * *", zone = "Europe/Madrid")
-	public void loadData() throws SAXException, IOException, ParserConfigurationException {
+	private void loadData() {
+		String[] dataOrigins = {"turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml", "restaurantes_v1_es.xml"};
+
+		ExecutorService ex = Executors.newFixedThreadPool(dataOrigins.length);
+		waitToEnd = new CyclicBarrier(dataOrigins.length + 1);
+		points = Collections.synchronizedList(new LinkedList<>());
+
+		for (String origin : dataOrigins) {
+			ex.execute(() -> loadDataPoints(origin));
+		}
+		ex.shutdown();	
+
+		try {
+			waitToEnd.await();
+		} catch (InterruptedException | BrokenBarrierException e) {
+			ex.shutdownNow();
+			return;
+		}
+
+		// Delete points not found anymore on the Madrid city hall page
+		List<Point> pointsDataBase = pointRepository.findAll();
+		pointsDataBase.stream().filter(point -> !points.contains(point)).forEach(point -> pointRepository.delete(point));
+		logger.info("Database updated");
+	}
+
+
+	private void loadDataPoints(String typeTourism) {
 		RestTemplate template = new RestTemplate();
-		byte[] response = template.getForObject("https://www.esmadrid.com/opendata/turismo_v1_es.xml", String.class)
+		byte[] response = template.getForObject("https://www.esmadrid.com/opendata/" + typeTourism, String.class)
 				.getBytes();
 
-		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-				.parse(new ByteArrayInputStream(response));
+		Document document = null;
+		try {
+			document = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+					.parse(new ByteArrayInputStream(response));
+		} catch (SAXException | IOException | ParserConfigurationException e) {
+			e.printStackTrace();
+			return;
+		}
 		document.getDocumentElement().normalize();
 
 		NodeList listNodes = document.getElementsByTagName("service");
-		
-		String currentDate = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toString().split("T")[0]; // Current date in
-		// Spain/Madrid
+
+		// Spain/Madrid current day
+		String currentDate = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toString().split("T")[0];
 		for (int i = 0; i < listNodes.getLength(); i++) {
 			Node node = listNodes.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) node;
 
 				String name = element.getElementsByTagName("name").item(0).getTextContent();
-				if (pointRepository.findByNameIgnoreCase(name) != null
+				Double longitude = tryParseDouble(element.getElementsByTagName("longitude").item(0).getTextContent());
+				Double latitude = tryParseDouble(element.getElementsByTagName("latitude").item(0).getTextContent());
+				// To delete the points that are removed from the page of Madrid
+				points.add(new Point(longitude, latitude, name));
+
+				// If point is already in database and has been updated or is not in the database we update/add the point in the DB
+				if (pointRepository.findTopByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude) != null
 						&& !currentDate.equals(element.getAttribute("fechaActualizacion"))) {
 					continue;
 				}
 
-				Double longitude = tryParseDouble(element.getElementsByTagName("longitude").item(0).getTextContent());
-				Double latitude = tryParseDouble(element.getElementsByTagName("latitude").item(0).getTextContent());
 				String address = element.getElementsByTagName("address").item(0).getTextContent();
 				Integer zipcode = tryParseInteger(element.getElementsByTagName("zipcode").item(0).getTextContent());
 				String phone = element.getElementsByTagName("phone").item(0).getTextContent();
@@ -70,6 +125,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				String paymentServices = "";
 				String horary = "";
 				List<String> categories = new LinkedList<>();
+				List<String> subcategories = new LinkedList<>();
 				List<String> images = new LinkedList<>();
 
 				NodeList listNodesItems = element.getElementsByTagName("item");
@@ -95,12 +151,14 @@ public class LoadPointsComponent implements CommandLineRunner {
 						case "Categoria":			
 							categories.add(elementItem.getTextContent());
 							break;
+							
+						case "SubCategoria":
+							subcategories.add(elementItem.getTextContent());
+							break;
 						}
-
 					}
-
 				}
-				
+
 				NodeList listNodesMedia = element.getElementsByTagName("media");
 				for (int j = 0; j < listNodesMedia.getLength(); j++) {
 					Node nodeMedia = listNodesMedia.item(j);				
@@ -109,12 +167,18 @@ public class LoadPointsComponent implements CommandLineRunner {
 						images.add(elementMedia.getTextContent());
 					}
 				}
-				
+
 				Point point = new Point(longitude, latitude, name, address, zipcode, phone, web, 
-						description, email, paymentServices, horary, type, categories, images);
+						description, email, paymentServices, horary, type, categories, subcategories, images);
+				// Save the point in the database
 				pointRepository.save(point);
 			}
 		}	
+
+		try {
+			waitToEnd.await();
+		} catch (InterruptedException | BrokenBarrierException e) {}
+
 	}
 
 	private Double tryParseDouble(String parseString) {
@@ -131,11 +195,6 @@ public class LoadPointsComponent implements CommandLineRunner {
 		} catch (NumberFormatException e) {
 			return null;
 		}
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		loadData();
 	}
 
 }
