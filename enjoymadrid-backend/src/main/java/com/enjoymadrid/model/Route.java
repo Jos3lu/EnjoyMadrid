@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.enjoymadrid.model.interfaces.RouteInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -32,6 +35,7 @@ public class Route {
 	
 	@ManyToMany(mappedBy = "routes")
 	@JsonView(RouteInterfaces.PointsData.class)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Point> points = new LinkedList<>();
 	
 	@ManyToOne

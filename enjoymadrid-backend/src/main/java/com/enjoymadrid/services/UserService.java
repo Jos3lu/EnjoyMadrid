@@ -2,12 +2,10 @@ package com.enjoymadrid.services;
 
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.enjoymadrid.model.User;
 
-@Transactional
 @Service
 public interface UserService {
 	
@@ -26,9 +24,5 @@ public interface UserService {
 	public void deleteUser(Long id);
 	
 	public void deleteImageUser(Long id);
-	
-	public boolean userComplete(User user);
-	
-	public boolean userNotPossibleModification(User pastUser, User updatedUser);
-	
+		
 }

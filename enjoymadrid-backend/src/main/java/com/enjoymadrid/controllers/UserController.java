@@ -24,13 +24,16 @@ import com.fasterxml.jackson.annotation.JsonView;
 @RequestMapping("/api/users")
 public class UserController {
 	
-	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 		
 	@GetMapping("/{id}")
 	@JsonView(UserInterfaces.RoutesData.class)
 	public ResponseEntity<User> getUser(@PathVariable Long id) {
-		//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return ResponseEntity.ok(userService.getUser(id));
 	}
 	

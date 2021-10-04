@@ -1,10 +1,12 @@
 package com.enjoymadrid.services;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+import com.enjoymadrid.model.Point;
+
 @Service
-public class PointService {
+public interface PointService {
 
+	public Point getPoint(Long id);
+	
 }
