@@ -4,11 +4,10 @@ package com.enjoymadrid.serviceslogic;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,6 +16,7 @@ import com.enjoymadrid.model.repositories.UserRepository;
 import com.enjoymadrid.services.UserService;
 
 @Service
+@Transactional
 public class UserServiceLogic implements UserService {
 	
 	private UserRepository userRepository;
@@ -27,48 +27,41 @@ public class UserServiceLogic implements UserService {
 	}
 	
 	@Override
-	public User getUser(Long id) {
-		return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + id));
+	public User getUser(Long userId) {
+		return this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + userId));
 	}
 	
 	@Override
-	public Resource getImageUser(Long id) {
-		User user = getUser(id);
-		if (user.getPhoto() == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Photo of user not found: " + id);
-		}
-		return new ByteArrayResource(user.getPhoto());
-	}
-
-	@Override
-	public User createUser(User user) {
+	public User createUser(User user, MultipartFile imageUser) {
 		if (!userComplete(user) && user.getPassword() == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request of user, creation not done");
-		} else if (userRepository.findByEmail(user.getEmail()) != null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Creation not done, bad request of user");
+		} else if (this.userRepository.findByEmail(user.getEmail()) != null) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Creation of user not possible");
+		} else if (!imageUser.isEmpty()) {
+			try {
+				user.setPhoto(imageUser.getBytes());
+			} catch (IOException e) {
+				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not create photo of user", e);
+			}
 		}
+		
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-		return userRepository.save(user);	
-	}
-
-	@Override
-	public void createImageUser(Long id, MultipartFile imageFile) {
-		User user = getUser(id);
-		try {
-			user.setPhoto(imageFile.getBytes());
-		} catch (IOException e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not create photo of user: " + id, e);
-		}
-		userRepository.save(user);
+		return this.userRepository.save(user);	
 	}
 	
 	@Override
-	public User updateUser(Long id, User updatedUser) {
-		User pastUser = getUser(id);
+	public User updateUser(Long userId, User updatedUser, MultipartFile imageUser) {
+		User pastUser = getUser(userId);
 		if (!userComplete(updatedUser)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request of user: " + id);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request of user: " + userId);
 		} else if (userNotPossibleModification(pastUser, updatedUser)) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Request of user not possible: " + id);
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Request of user not possible: " + userId);
+		} else if (!imageUser.isEmpty()) {
+			try {
+				updatedUser.setPhoto(imageUser.getBytes());
+			} catch (IOException e) {
+				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not update photo of user: " + userId, e);
+			}
 		}
 		
 		updatedUser.setId(pastUser.getId());
@@ -77,34 +70,13 @@ public class UserServiceLogic implements UserService {
 		if (!(updatedUser.getPassword() == null) && !updatedUser.getPassword().isBlank()) {
 			updatedUser.setPassword(new BCryptPasswordEncoder().encode(updatedUser.getPassword()));
 		}		
-		return userRepository.save(updatedUser);
+		return this.userRepository.save(updatedUser);
 	}
-	
+		
 	@Override
-	public void updateImageUser(Long id, MultipartFile imageFile) {
-		User user = getUser(id);
-		if (user.getPhoto() == null) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Update of photo user not possible: " + id);
-		}
-		try {
-			user.setPhoto(imageFile.getBytes());
-		} catch (IOException e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not update photo of user: " + id, e);
-		}
-		userRepository.save(user);
-	}
-	
-	@Override
-	public void deleteUser(Long id) {
-		User user = getUser(id);
-		userRepository.delete(user);
-	}
-
-	@Override
-	public void deleteImageUser(Long id) {
-		User user = getUser(id);
-		user.setPhoto(null);
-		userRepository.save(user);
+	public void deleteUser(Long userId) {
+		User user = getUser(userId);
+		this.userRepository.delete(user);
 	}
 	
 	public boolean userComplete(User user) {
@@ -114,7 +86,7 @@ public class UserServiceLogic implements UserService {
 	
 	public boolean userNotPossibleModification(User pastUser, User updatedUser) {
 		return !updatedUser.getEmail().equals(pastUser.getEmail()) && 
-				userRepository.findByEmail(updatedUser.getEmail()) != null;
+				this.userRepository.findByEmail(updatedUser.getEmail()) != null;
 	}
 	
 }

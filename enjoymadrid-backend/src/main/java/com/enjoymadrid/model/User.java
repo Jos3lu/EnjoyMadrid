@@ -25,17 +25,22 @@ public class User {
 	@JsonView(UserInterfaces.BasicData.class)
 	private String name;
 	
-	@JsonView(UserInterfaces.BasicData.class)
+	@JsonView(UserInterfaces.ExtendData.class)
 	private String email;
 	
-	@JsonView(UserInterfaces.BasicData.class)
+	@JsonView(UserInterfaces.ExtendData.class)
 	private String password;
 	
 	@Lob
-	byte[] photo;
+	@JsonView(UserInterfaces.BasicData.class)
+	private byte[] photo;
 	
-	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.REMOVE)
-	@JsonView(UserInterfaces.RoutesData.class)
+	@OneToMany(mappedBy = "point", orphanRemoval = true, cascade = CascadeType.REMOVE)
+	@JsonView(UserInterfaces.CommentData.class)
+	private List<Comment> comments = new LinkedList<>();
+	
+	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+	@JsonView(UserInterfaces.RouteData.class)
 	private List<Route> routes = new LinkedList<>();;
 	
 	public User() {}
@@ -77,14 +82,6 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public List<Route> getRoutes() {
-		return routes;
-	}
-
-	public void setRoutes(List<Route> routes) {
-		this.routes = routes;
-	}
 	
 	public byte[] getPhoto() {
 		return photo;
@@ -94,4 +91,20 @@ public class User {
 		this.photo = photo;
 	}
 
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public List<Route> getRoutes() {
+		return routes;
+	}
+
+	public void setRoutes(List<Route> routes) {
+		this.routes = routes;
+	}
+	
 }

@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './index.page.html',
   styleUrls: ['./index.page.scss'],
 })
-export class IndexPage implements OnInit {
+export class IndexPage implements OnInit { 
 
   public id: string;
 

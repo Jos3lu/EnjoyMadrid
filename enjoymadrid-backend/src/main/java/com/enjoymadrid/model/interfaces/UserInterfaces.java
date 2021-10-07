@@ -6,6 +6,10 @@ public class UserInterfaces {
 	
 	public static interface BasicData {}
 	
-	public static interface RoutesData extends BasicData, RouteInterfaces.BasicData {}
+	public static interface ExtendData extends BasicData {} 
+	
+	public static interface CommentData extends CommentInterfaces.PointData {}
+	
+	public static interface RouteData extends RouteInterfaces.BasicData {}
 
 }

@@ -6,6 +6,6 @@ public class PointInterfaces {
 	
 	public static interface BasicData {}
 	
-	public static interface RouteData extends BasicData, RouteInterfaces.BasicData {}
+	public static interface CommentData extends CommentInterfaces.BasicData {}
 
 }

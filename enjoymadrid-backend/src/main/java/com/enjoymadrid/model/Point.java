@@ -4,16 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import javax.persistence.OneToMany;
 
 import com.enjoymadrid.model.interfaces.PointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -77,10 +75,9 @@ public class Point {
 	@JsonView(PointInterfaces.BasicData.class)
 	private List<String> images = new LinkedList<>();
 	
-	@ManyToMany
-	@JsonView(PointInterfaces.RouteData.class)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Route> routes = new LinkedList<>();
+	@OneToMany(mappedBy = "point", orphanRemoval = true, cascade = CascadeType.REMOVE)
+	@JsonView(PointInterfaces.CommentData.class)
+	private List<Comment> comments = new LinkedList<>();
 	
 	public Point() {}
 	
@@ -246,12 +243,12 @@ public class Point {
 		this.images = images;
 	}
 
-	public List<Route> getRoutes() {
-		return routes;
+	public List<Comment> getComments() {
+		return comments;
 	}
 
-	public void setRoutes(List<Route> routes) {
-		this.routes = routes;
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override

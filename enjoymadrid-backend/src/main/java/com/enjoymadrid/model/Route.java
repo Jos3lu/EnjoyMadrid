@@ -33,7 +33,9 @@ public class Route {
 	
 	// Distancia total
 	
-	@ManyToMany(mappedBy = "routes")
+	// Datos parametrizar ruta
+	
+	@ManyToMany
 	@JsonView(RouteInterfaces.PointsData.class)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Point> points = new LinkedList<>();

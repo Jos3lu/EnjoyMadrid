@@ -1,54 +1,58 @@
 <ion-app>
   <ion-menu contentId="main-content" type="overlay">
     <ion-content>
-      <ion-list id="pages-list">
-        <ion-grid id="user">
-          <ion-row>
-            <ion-col>
-              <ion-avatar>
-                <img alt="route" src="./assets/user.png">
-              </ion-avatar>
-            </ion-col>
-            <ion-col class="ion-align-self-center">
-              <div>
-              <ion-list-header>User Name</ion-list-header>
-              <ion-note>hi@ionicframework.com</ion-note>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+      <ion-menu-toggle auto-hide="true">
+        <ion-list id="pages-list">
+          <ion-grid id="user">
+            <ion-row>
+              <ion-col>
+                <ion-avatar>
+                  <img alt="route" src="./assets/user.png">
+                </ion-avatar>
+              </ion-col>
+              <ion-col class="ion-align-self-center">
+                <div>
+                  <ion-list-header>User Name</ion-list-header>
+                  <ion-note>hi@ionicframework.com</ion-note>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-item routerLink="/home" lines="none" detail="false" routerLinkActive="selected">
+            <ion-icon slot="start" name="map-outline"></ion-icon>
+            <ion-label>Mis rutas</ion-label>
+          </ion-item>
+          <ion-item routerLink="/user-comments" lines="none" detail="false" routerLinkActive="selected">
+            <ion-icon slot="start" name="map-outline"></ion-icon>
+            <ion-label>Mis comentarios</ion-label>
+          </ion-item>
+        </ion-list>
 
-        <ion-item routerDirection="root" routerLink="/index" lines="none" detail="false" routerLinkActive="selected">
-          <ion-icon slot="start" name="map-outline"></ion-icon>
-          <ion-label>Mis rutas</ion-label>
-        </ion-item>
-      </ion-list>
-
-      <ion-list id="preferences-list">
-        <ion-list-header>Preferencias</ion-list-header>
-
-        <ion-item lines="none">
-          <ion-icon slot="start" name="moon-outline"></ion-icon>
-          <ion-label>Tema Oscuro</ion-label>
-          <ion-toggle slot="end" [(ngModel)]="darkTheme" (ionChange)="updateTheme()"></ion-toggle>
-        </ion-item>
-        <ion-item lines="none" detail="true">
-          <ion-icon slot="start" name="thermometer-outline"></ion-icon>
-          <ion-label>Temperatura</ion-label>
-          <ion-select value="celsius" cancel-text="Cancelar">
-            <ion-select-option value="celsius">Grado Celsius (°C)</ion-select-option>
-            <ion-select-option value="fahrenheit">Grado Fahrenheit (°F)</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item lines="none" detail="true">
-          <ion-icon slot="start" name="footsteps-outline"></ion-icon>
-          <ion-label>Distancia</ion-label>
-          <ion-select value="kilometros" cancel-text="Cancelar">
-            <ion-select-option value="kilometros">Sistema métrico (Kilómetros)</ion-select-option>
-            <ion-select-option value="millas">Sistema imperial (Millas)</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
+        <ion-list id="preferences-list">
+          <ion-list-header>Preferencias</ion-list-header>
+          <ion-item lines="none">
+            <ion-icon slot="start" name="moon-outline"></ion-icon>
+            <ion-label>Tema Oscuro</ion-label>
+            <ion-toggle slot="end" [(ngModel)]="darkTheme" (ionChange)="updateTheme()"></ion-toggle>
+          </ion-item>
+          <ion-item lines="none" detail="true">
+            <ion-icon slot="start" name="thermometer-outline"></ion-icon>
+            <ion-label>Temperatura</ion-label>
+            <ion-select value="celsius" cancel-text="Cancelar">
+              <ion-select-option value="celsius">Grado Celsius (°C)</ion-select-option>
+              <ion-select-option value="fahrenheit">Grado Fahrenheit (°F)</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item lines="none" detail="true">
+            <ion-icon slot="start" name="footsteps-outline"></ion-icon>
+            <ion-label>Distancia</ion-label>
+            <ion-select value="kilometros" cancel-text="Cancelar">
+              <ion-select-option value="kilometros">Sistema métrico (Kilómetros)</ion-select-option>
+              <ion-select-option value="millas">Sistema imperial (Millas)</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      </ion-menu-toggle>
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>

@@ -10,6 +10,14 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./pages/index/index.module').then( m => m.IndexPageModule)
+  },
+  {
+    path: 'create-route',
+    loadChildren: () => import('./pages/create-route/create-route.module').then( m => m.CreateRoutePageModule)
+  },
+  {
+    path: 'user-comments',
+    loadChildren: () => import('./pages/user-comments/user-comments.module').then( m => m.UserCommentsPageModule)
   }
 ];
 

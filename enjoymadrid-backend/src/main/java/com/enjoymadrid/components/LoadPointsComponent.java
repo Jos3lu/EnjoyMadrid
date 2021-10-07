@@ -54,7 +54,7 @@ public class LoadPointsComponent implements CommandLineRunner{
 	 */
 	@Scheduled(cron = "0 0 8 * * *", zone = "Europe/Madrid")
 	private void loadData() {
-		String[] dataOrigins = {"turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml", "restaurantes_v1_es.xml"};
+		String[] dataOrigins = {"turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml", "restaurantes_v1_es.xml", "agenda_v1_es.xml"};
 
 		ExecutorService ex = Executors.newFixedThreadPool(dataOrigins.length);
 		waitToEnd = new CyclicBarrier(dataOrigins.length + 1);
