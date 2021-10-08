@@ -1,9 +1,36 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>createRoute</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-start">Nueva Ruta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="ion-padding-top">
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="11" class="myform">
+        <form>
+          <ion-item>
+            <ion-label position="stacked">Nombre de la ruta</ion-label>
+            <ion-input placeholder="Mi primera ruta"></ion-input>
+          </ion-item>
+          <ion-list>
+            <ion-list-header>Preferencias</ion-list-header>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start"></ion-checkbox>
+              <ion-label>Cultura</ion-label>
+            </ion-item>
+            <ion-list class="ion-padding-start">
+              <ion-item>
+                <ion-checkbox color="primary" slot="start"></ion-checkbox>
+                <ion-label class="ion-text-wrap">Escuelas de cocina y catas de vinos y aceites</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-list>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

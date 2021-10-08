@@ -1,5 +1,3 @@
-//import { Route } from "./route.model";
-
 export interface Point {
     id?: number;
     longitude: number;
@@ -15,5 +13,4 @@ export interface Point {
     type?: string;
     categories?: string[];
     images?: string[];
-    //routes?: Route[];
 }
