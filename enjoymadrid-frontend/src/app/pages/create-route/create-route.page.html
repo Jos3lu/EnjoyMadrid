@@ -16,19 +16,100 @@
             <ion-label position="stacked">Nombre de la ruta</ion-label>
             <ion-input placeholder="Mi primera ruta"></ion-input>
           </ion-item>
-          <ion-list>
+          <ion-list lines="none">
             <ion-list-header>Preferencias</ion-list-header>
             <ion-item>
-              <ion-checkbox color="secondary" slot="start"></ion-checkbox>
-              <ion-label>Cultura</ion-label>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="cultureSelected" name="culture"></ion-checkbox>
+              <ion-label class="ion-text-wrap">Cultura y arte</ion-label>
             </ion-item>
-            <ion-list class="ion-padding-start">
-              <ion-item>
-                <ion-checkbox color="primary" slot="start"></ion-checkbox>
-                <ion-label class="ion-text-wrap">Escuelas de cocina y catas de vinos y aceites</ion-label>
+            <ion-list *ngIf="cultureSelected" lines="none" class="ion-padding-start">
+              <ion-item *ngFor="let culture of cultureList; let i = index">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="culture.selected" name="culture {{i + 1}}">
+                </ion-checkbox>
+                <ion-label class="ion-text-wrap">{{culture.value}}</ion-label>
               </ion-item>
             </ion-list>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="gardensSelected" name="gardens"></ion-checkbox>
+              <ion-label class="ion-text-wrap">Parques y jardines</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="guideCompaniesSelected" name="guidecompanies">
+              </ion-checkbox>
+              <ion-label class="ion-text-wrap">Empresas de guías turísticas</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="monumentsSelected" name="monuments">
+              </ion-checkbox>
+              <ion-label class="ion-text-wrap">Edificios y monumentos</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="eventsSelected" name="events"></ion-checkbox>
+              <ion-label class="ion-text-wrap">Espacios para eventos</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="leisureCentersSelected" name="leisureCenters">
+              </ion-checkbox>
+              <ion-label class="ion-text-wrap">Centros de ocio</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="sportSelected" name="sports"></ion-checkbox>
+              <ion-label class="ion-text-wrap">Deporte</ion-label>
+            </ion-item>
+            <ion-list *ngIf="sportSelected" lines="none" class="ion-padding-start">
+              <ion-item *ngFor="let sport of sportsList; let i = index">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="sport.selected" name="sport {{i + 1}}">
+                </ion-checkbox>
+                <ion-label class="ion-text-wrap">{{sport.value}}</ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="storesSelected" name="stores"></ion-checkbox>
+              <ion-label class="ion-text-wrap">Tiendas</ion-label>
+            </ion-item>
+            <ion-list *ngIf="storesSelected" lines="none" class="ion-padding-start">
+              <ion-item *ngFor="let store of storesList; let i = index">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="store.selected" name="store {{i + 1}}">
+                </ion-checkbox>
+                <ion-label class="ion-text-wrap">{{store.value}}</ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="clubsSelected" name="clubs"></ion-checkbox>
+              <ion-label class="ion-text-wrap">Noche</ion-label>
+            </ion-item>
+            <ion-list *ngIf="clubsSelected" lines="none" class="ion-padding-start">
+              <ion-item *ngFor="let club of clubsList; let i = index">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="club.selected" name="club {{i + 1}}">
+                </ion-checkbox>
+                <ion-label class="ion-text-wrap">{{club.value}}</ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="restaurantsSelected" name="restaurant">
+              </ion-checkbox>
+              <ion-label class="ion-text-wrap">Restaurantes</ion-label>
+            </ion-item>
+            <ion-list *ngIf="restaurantsSelected" lines="none" class="ion-padding-start">
+              <ion-item *ngFor="let restaurant of restaurantsList; let i = index">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="restaurant.selected"
+                  name="restaurant {{i + 1}}"></ion-checkbox>
+                <ion-label class="ion-text-wrap">{{restaurant.value}}</ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-item>
+              <ion-checkbox color="secondary" slot="start" [(ngModel)]="othersSelected" name="others"></ion-checkbox>
+              <ion-label class="ion-text-wrap">Otros</ion-label>
+            </ion-item>
           </ion-list>
+          <ion-item>
+            <ion-label name="maxPoints" min="2" [(ngModel)]="maxPoints" class="ion-text-wrap" position="stacked">Número
+              máximo de sitios a visitar</ion-label>
+            <ion-input type="number" placeholder="20"></ion-input>
+          </ion-item>
+          <div class="ion-text-end ion-margin-top">
+            <ion-button>Crear ruta</ion-button>
+          </div>
         </form>
       </ion-col>
     </ion-row>
