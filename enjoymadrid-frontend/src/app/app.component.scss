@@ -82,3 +82,12 @@ ion-select::part(text),
 ion-select::part(icon) {
   display: none;
 }
+
+a:link, a:visited {
+  color: rgb(131, 121, 121);
+  text-decoration: none;
+}
+
+a:hover, a:active {
+  color: #3880ff;
+}

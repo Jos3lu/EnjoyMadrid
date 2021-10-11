@@ -32,18 +32,12 @@ public class UserServiceLogic implements UserService {
 	}
 	
 	@Override
-	public User createUser(User user, MultipartFile imageUser) {
-		if (!userComplete(user) && user.getPassword() == null) {
+	public User createUser(User user) {
+		if (!userComplete(user) || (user.getPassword() == null || user.getPassword().isBlank())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Creation not done, bad request of user");
 		} else if (this.userRepository.findByEmail(user.getEmail()) != null) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Creation of user not possible");
-		} else if (!imageUser.isEmpty()) {
-			try {
-				user.setPhoto(imageUser.getBytes());
-			} catch (IOException e) {
-				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not create photo of user", e);
-			}
-		}
+		} 
 		
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		return this.userRepository.save(user);	
@@ -80,11 +74,12 @@ public class UserServiceLogic implements UserService {
 	}
 	
 	public boolean userComplete(User user) {
-		return user != null && user.getEmail() != null 
-				&& user.getName() != null;
+		return user != null && user.getEmail() != null && !user.getEmail().isBlank()
+				&& user.getName() != null && !user.getName().isBlank();
 	}
 	
 	public boolean userNotPossibleModification(User pastUser, User updatedUser) {
+		// User changes email & already exists in the database
 		return !updatedUser.getEmail().equals(pastUser.getEmail()) && 
 				this.userRepository.findByEmail(updatedUser.getEmail()) != null;
 	}

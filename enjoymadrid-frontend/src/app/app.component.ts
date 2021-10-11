@@ -41,5 +41,4 @@ export class AppComponent {
     document.body.classList.toggle('dark', this.darkTheme);
   }
 
-
 }

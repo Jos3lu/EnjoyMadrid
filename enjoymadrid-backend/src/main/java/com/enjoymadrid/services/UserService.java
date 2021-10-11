@@ -10,7 +10,7 @@ public interface UserService {
 	
 	public User getUser(Long userId);
 		
-	public User createUser(User user, MultipartFile imageUser);
+	public User createUser(User user);
 		
 	public User updateUser(Long userId, User updatedUser,MultipartFile imageUser);
 	

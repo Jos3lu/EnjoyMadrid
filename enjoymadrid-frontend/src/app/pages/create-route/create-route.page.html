@@ -10,11 +10,11 @@
 <ion-content class="ion-padding-top">
   <ion-grid>
     <ion-row>
-      <ion-col size-md="11" class="myform">
+      <ion-col size-md="11" class="my-form">
         <form>
           <ion-item>
             <ion-label position="stacked">Nombre de la ruta</ion-label>
-            <ion-input placeholder="Mi primera ruta"></ion-input>
+            <ion-input type="text" placeholder="Mi primera ruta"></ion-input>
           </ion-item>
           <ion-list lines="none">
             <ion-list-header>Preferencias</ion-list-header>
@@ -102,13 +102,36 @@
               <ion-label class="ion-text-wrap">Otros</ion-label>
             </ion-item>
           </ion-list>
-          <ion-item>
-            <ion-label name="maxPoints" min="2" [(ngModel)]="maxPoints" class="ion-text-wrap" position="stacked">Número
-              máximo de sitios a visitar</ion-label>
-            <ion-input type="number" placeholder="20"></ion-input>
-          </ion-item>
+          <ion-list lines="none">
+            <ion-list-header>Número máximo de sitios a visitar</ion-list-header>
+            <ion-item>
+              <ion-range color="secondary" step="10" name="points" [(ngModel)]="maxPoints" min="10" max="500" pin>
+                <ion-label slot="start">10</ion-label>
+                <ion-label slot="end">500</ion-label>
+              </ion-range>
+            </ion-item>
+          </ion-list>
+          <ion-list lines="none">
+            <ion-list-header>Método de transporte</ion-list-header>
+            <ion-item>
+              <ion-segment color="secondary" value="walking">
+                <ion-segment-button value="walking">
+                  <ion-icon name="walk"></ion-icon>
+                </ion-segment-button>
+                <ion-segment-button value="bike">
+                  <ion-icon name="bicycle"></ion-icon>
+                </ion-segment-button>
+                <ion-segment-button value="publicTransport">
+                  <ion-icon name="bus"></ion-icon>
+                </ion-segment-button>
+                <ion-segment-button value="car">
+                  <ion-icon name="car"></ion-icon>
+                </ion-segment-button>
+              </ion-segment>
+            </ion-item>
+          </ion-list>
           <div class="ion-text-end ion-margin-top">
-            <ion-button>Crear ruta</ion-button>
+            <ion-button type="submit">Crear ruta</ion-button>
           </div>
         </form>
       </ion-col>

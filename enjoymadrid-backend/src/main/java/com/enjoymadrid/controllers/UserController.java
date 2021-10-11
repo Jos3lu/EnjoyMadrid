@@ -38,8 +38,8 @@ public class UserController {
 		
 	@PostMapping("/users")
 	@JsonView(UserInterfaces.ExtendData.class)
-	public ResponseEntity<User> createUser(@RequestBody User user, @RequestParam MultipartFile imageUser) {
-		return new ResponseEntity<User>(this.userService.createUser(user, imageUser), HttpStatus.CREATED);
+	public ResponseEntity<User> createUser(@RequestBody User user) {
+		return new ResponseEntity<User>(this.userService.createUser(user), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/users/{id}")

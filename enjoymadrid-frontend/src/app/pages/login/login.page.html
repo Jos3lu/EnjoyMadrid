@@ -1,0 +1,55 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center"><img class="img-size" alt="Enjoy Madrid" src="./assets/logo.png"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="5" size-xs="12" class="my-form">
+        <h1>Iniciar sesión</h1>
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input type="email" placeholder="ramon@gmail.com"></ion-input>
+        </ion-item>
+        <ion-item class="togglePassword">
+          <ion-label position="stacked">Contraseña</ion-label>
+          <ion-input [type]="showPasswordLogin ? 'text' : 'password'" placeholder="5&RXX@FbFBv6"></ion-input>
+          <a slot="end" (click)="togglePasswordLogin()">
+            <ion-icon [hidden]="showPasswordLogin" name="eye-off-outline"></ion-icon>
+            <ion-icon [hidden]="!showPasswordLogin" name="eye-outline"></ion-icon>
+          </a>
+        </ion-item>
+        <div class="ion-text-end ion-margin-top">
+          <ion-button type="submit">Iniciar sesión</ion-button>
+        </div>
+      </ion-col>
+      <ion-col size-md="5" size-xs="12" class="my-form">
+        <h1>Registrarse</h1>
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input placeholder="Ramón"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input placeholder="ramon@gmail.com"></ion-input>
+        </ion-item>
+        <ion-item class="togglePassword">
+          <ion-label position="stacked">Contraseña</ion-label>
+          <ion-input [type]="showPasswordSingIn ? 'text' : 'password'" placeholder="5&RXX@FbFBv6"></ion-input>
+          <a slot="end" (click)="togglePasswordSignIn()">
+            <ion-icon [hidden]="showPasswordSingIn" name="eye-off-outline"></ion-icon>
+            <ion-icon [hidden]="!showPasswordSingIn" name="eye-outline"></ion-icon>
+          </a>
+        </ion-item>
+        <div class="ion-text-end ion-margin-top">
+          <ion-button type="submit">Registrarse</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

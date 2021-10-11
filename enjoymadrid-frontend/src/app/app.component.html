@@ -53,8 +53,15 @@
           </ion-select>
         </ion-item>
       </ion-list>
-
     </ion-content>
+    <ion-menu-toggle auto-hide="true">
+      <ion-footer class="ion-no-border">
+        <ion-toolbar class="ion-text-end">
+          <a class="ion-padding-end" routerLink="/login">Iniciar sesión / Registrarse</a>
+          <a (click)="logout()">Logout</a>
+        </ion-toolbar>
+      </ion-footer>
+    </ion-menu-toggle>
   </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

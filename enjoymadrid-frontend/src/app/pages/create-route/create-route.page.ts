@@ -18,6 +18,7 @@ export class CreateRoutePage implements OnInit {
   clubsSelected: boolean;
   restaurantsSelected: boolean;
   othersSelected: boolean;
+  
   cultureList: any[];
   sportsList: any[];
   storesList: any[];

@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/user-comments/user-comments.module').then( m => m.UserCommentsPageModule)
   },
   {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/page-not-found/page-not-found.module').then( m => m.PageNotFoundPageModule)
   }
