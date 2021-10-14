@@ -11,7 +11,7 @@ import com.enjoymadrid.model.repositories.UserRepository;
 public class DataBase implements CommandLineRunner{
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {

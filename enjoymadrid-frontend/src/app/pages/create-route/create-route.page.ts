@@ -69,6 +69,8 @@ export class CreateRoutePage implements OnInit {
     {value: "Especiales", selected: false}, {value: "Bares", selected: false}, {value: "Vegano", selected: false}, 
     {value: "Vegetariano", selected: false}, {value: "Tapas", selected: false}, {value: "Tabernas", selected: false}];
 
+    this.maxPoints = 50;
+
   }
 
 }

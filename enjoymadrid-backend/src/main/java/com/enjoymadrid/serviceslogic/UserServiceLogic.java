@@ -3,7 +3,6 @@ package com.enjoymadrid.serviceslogic;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,8 @@ import com.enjoymadrid.services.UserService;
 @Transactional
 public class UserServiceLogic implements UserService {
 	
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	
-	@Autowired
 	public UserServiceLogic(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}

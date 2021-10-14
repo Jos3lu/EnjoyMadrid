@@ -2,7 +2,6 @@ package com.enjoymadrid.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +17,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 @RequestMapping("/api")
 public class RouteController {
 	
-	private RouteService routeService;
+	private final RouteService routeService;
 	
-	@Autowired
 	public RouteController(RouteService routeService) {
 		this.routeService = routeService;
 	}

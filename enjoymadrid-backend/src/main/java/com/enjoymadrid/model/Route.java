@@ -30,9 +30,7 @@ public class Route {
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	private LocalDate date;
-	
-	// Distancia total
-	
+		
 	// Datos parametrizar ruta
 	
 	@ManyToMany

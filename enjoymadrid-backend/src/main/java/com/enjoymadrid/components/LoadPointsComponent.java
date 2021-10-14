@@ -17,7 +17,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -36,12 +35,15 @@ import com.enjoymadrid.model.repositories.PointRepository;
 @EnableScheduling
 public class LoadPointsComponent implements CommandLineRunner{
 
-	@Autowired
-	private PointRepository pointRepository;
-
 	private CyclicBarrier waitToEnd;
 	private List<Point> points;
-	private Logger logger = LoggerFactory.getLogger(LoadPointsComponent.class);
+	private static final Logger logger = LoggerFactory.getLogger(LoadPointsComponent.class);
+	
+	private final PointRepository pointRepository;
+	
+	public LoadPointsComponent(PointRepository pointRepository) {
+		this.pointRepository = pointRepository;
+	}
 
 	@Override
 	public void run(String... args) throws Exception {

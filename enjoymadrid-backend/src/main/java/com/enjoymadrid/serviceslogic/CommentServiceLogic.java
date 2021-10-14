@@ -2,7 +2,6 @@ package com.enjoymadrid.serviceslogic;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,11 +17,10 @@ import com.enjoymadrid.services.CommentService;
 @Service
 public class CommentServiceLogic implements CommentService {
 
-	private CommentRepository commentRepository;
-	private UserRepository userRepository;
-	private PointRepository pointRepository;
+	private final CommentRepository commentRepository;
+	private final UserRepository userRepository;
+	private final PointRepository pointRepository;
 	
-	@Autowired
 	public CommentServiceLogic(CommentRepository commentRepository, UserRepository userRepository, PointRepository pointRepository) {
 		this.commentRepository = commentRepository;
 		this.userRepository = userRepository;
@@ -60,6 +58,15 @@ public class CommentServiceLogic implements CommentService {
 	@Override
 	public void deleteComment(Long commentId) {
 		Comment comment = this.commentRepository.findById(commentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found: " + commentId));
+		//Remove comment from the user entity
+		//comment.getUser().getComments().remove(comment);
+		List<Comment> commentsUser = comment.getUser().getComments();
+		commentsUser.remove(comment);
+		comment.getUser().setComments(commentsUser);
+		//Remove comment from the point entity
+		List<Comment> commentsPoint = comment.getPoint().getComments();
+		commentsPoint.remove(comment);
+		comment.getPoint().setComments(commentsPoint);
 		this.commentRepository.delete(comment);
 	}
 

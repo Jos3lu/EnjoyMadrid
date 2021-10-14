@@ -1,26 +1,19 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from 'src/app/models/user.model';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 
-    'Content-Type': 'application/json' 
-  })
-};
+import { VarService } from '../var/var.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  usersUrl = "http://localhost:8080/api/users/";
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private varService: VarService) { }
 
   getUser(id: number): Observable<User> {
-    return this.httpClient.get(this.usersUrl + id).pipe(
+    return this.httpClient.get(this.varService.API_URL + id).pipe(
       catchError(this.handleError)
     ) as Observable<User>;
   }

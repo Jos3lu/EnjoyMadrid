@@ -2,7 +2,6 @@ package com.enjoymadrid.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,9 +25,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 @RequestMapping("/api")
 public class CommentController {
 
-	private CommentService commentService;
-	
-	@Autowired
+	private final CommentService commentService;
+
 	public CommentController(CommentService commentService) {
 		this.commentService = commentService;
 	}
