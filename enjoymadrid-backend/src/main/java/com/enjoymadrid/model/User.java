@@ -4,14 +4,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.enjoymadrid.model.interfaces.UserInterfaces;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
@@ -23,16 +29,24 @@ public class User {
 	private Long id;
 	
 	@JsonView(UserInterfaces.BasicData.class)
+	@NotBlank(message = "Name cannot be empty")
+	@Size(min = 2, max = 40, message = "Name must be between 2 and 40 characters")
 	private String name;
 	
-	@JsonView(UserInterfaces.ExtendData.class)
+	@JsonView(UserInterfaces.EmailData.class)
+	@Email(message = "Email must be valid")
+	@NotBlank(message = "Email cannot be empty")
+	@Column(unique = true)
 	private String email;
 	
-	@JsonView(UserInterfaces.ExtendData.class)
+	@JsonIgnore
+	@NotBlank(message = "Password cannot be empty")
+	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", 
+		message = "Password must be at least one number, one uppercase and one lowercase letter, and at least 7 characters")
 	private String password;
 	
 	@Lob
-	@JsonView(UserInterfaces.BasicData.class)
+	@JsonView(UserInterfaces.PictureData.class)
 	private byte[] photo;
 	
 	@OneToMany(mappedBy = "point", orphanRemoval = true, cascade = CascadeType.REMOVE)

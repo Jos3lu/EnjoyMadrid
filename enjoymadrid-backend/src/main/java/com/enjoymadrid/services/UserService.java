@@ -1,5 +1,7 @@
 package com.enjoymadrid.services;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,9 +12,11 @@ public interface UserService {
 	
 	public User getUser(Long userId);
 		
-	public User createUser(User user);
+	public User createUser(@Valid User user);
 		
-	public User updateUser(Long userId, User updatedUser,MultipartFile imageUser);
+	public User updateUser(Long userId, @Valid User updatedUser);
+	
+	public User updateUserImage(Long userId, MultipartFile imageUser);
 	
 	public void deleteUser(Long userId);
 		

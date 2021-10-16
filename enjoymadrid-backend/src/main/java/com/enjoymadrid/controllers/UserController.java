@@ -1,5 +1,7 @@
 package com.enjoymadrid.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.enjoymadrid.model.User;
+import com.enjoymadrid.model.dtos.UserDto;
 import com.enjoymadrid.model.interfaces.UserInterfaces;
 import com.enjoymadrid.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -33,20 +36,28 @@ public class UserController {
 	public ResponseEntity<User> getUser(@PathVariable Long userId) {
 		return ResponseEntity.ok(this.userService.getUser(userId));
 	}
-		
-	@PostMapping("/users")
-	@JsonView(UserInterfaces.ExtendData.class)
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	
+	@PostMapping("/register")
+	@JsonView(UserInterfaces.EmailData.class)
+	public ResponseEntity<User> createUser(@Valid @RequestBody UserDto userDto) {
+		User user = new User(userDto.getName(), userDto.getEmail(), userDto.getPassword());
 		return new ResponseEntity<User>(this.userService.createUser(user), HttpStatus.CREATED);
 	}
-
-	@PutMapping("/users/{id}")
-	@JsonView(UserInterfaces.ExtendData.class)
-	public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User updatedUser, @RequestParam MultipartFile imageUser) {
-		return ResponseEntity.ok(this.userService.updateUser(userId, updatedUser, imageUser));
+		
+	@PutMapping("/users/{userId}")
+	@JsonView(UserInterfaces.EmailData.class)
+	public ResponseEntity<User> updateUser(@PathVariable Long userId, @Valid @RequestBody UserDto updatedUserDto) {
+		User updatedUser = new User(updatedUserDto.getName(), updatedUserDto.getEmail(), updatedUserDto.getPassword());
+		return ResponseEntity.ok(this.userService.updateUser(userId, updatedUser));
+	}
+	
+	@PutMapping("/users/{userId}/picture")
+	@JsonView(UserInterfaces.PictureData.class)
+	public ResponseEntity<User> updateUserImage(@PathVariable Long userId, @RequestParam MultipartFile imageUser) {
+		return ResponseEntity.ok(this.userService.updateUserImage(userId, imageUser));
 	}
 		
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
 		userService.deleteUser(userId);
 		return ResponseEntity.ok().build();

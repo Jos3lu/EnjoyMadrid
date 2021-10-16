@@ -112,7 +112,7 @@ public class LoadPointsComponent implements CommandLineRunner{
 				points.add(new Point(longitude, latitude, name));
 
 				// If point is already in database and has been updated or is not in the database we update/add the point in the DB
-				if (pointRepository.findTopByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude) != null
+				if (pointRepository.findTopByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude).isPresent()
 						&& !currentDate.equals(element.getAttribute("fechaActualizacion"))) {
 					continue;
 				}

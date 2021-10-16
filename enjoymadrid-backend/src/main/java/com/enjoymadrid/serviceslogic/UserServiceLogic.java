@@ -1,12 +1,10 @@
 package com.enjoymadrid.serviceslogic;
 
-
 import java.io.IOException;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,15 +13,16 @@ import com.enjoymadrid.model.repositories.UserRepository;
 import com.enjoymadrid.services.UserService;
 
 @Service
-@Transactional
 public class UserServiceLogic implements UserService {
 	
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 	
-	public UserServiceLogic(UserRepository userRepository) {
+	public UserServiceLogic(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
-	
+
 	@Override
 	public User getUser(Long userId) {
 		return this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + userId));
@@ -31,38 +30,42 @@ public class UserServiceLogic implements UserService {
 	
 	@Override
 	public User createUser(User user) {
-		if (!userComplete(user) || (user.getPassword() == null || user.getPassword().isBlank())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Creation not done, bad request of user");
-		} else if (this.userRepository.findByEmail(user.getEmail()) != null) {
+		if (this.userRepository.existsByEmail(user.getEmail())) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Creation of user not possible");
-		} 
+		} else if (user.getPassword() == null || user.getPassword().isBlank()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password cannot be empty, bad request");
+		}
 		
-		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return this.userRepository.save(user);	
 	}
 	
 	@Override
-	public User updateUser(Long userId, User updatedUser, MultipartFile imageUser) {
+	public User updateUser(Long userId, User updatedUser) {
 		User pastUser = getUser(userId);
-		if (!userComplete(updatedUser)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request of user: " + userId);
-		} else if (userNotPossibleModification(pastUser, updatedUser)) {
+		if (userNotPossibleModification(pastUser, updatedUser)) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Request of user not possible: " + userId);
-		} else if (!imageUser.isEmpty()) {
-			try {
-				updatedUser.setPhoto(imageUser.getBytes());
-			} catch (IOException e) {
-				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not update photo of user: " + userId, e);
-			}
 		}
 		
 		updatedUser.setId(pastUser.getId());
 		updatedUser.setRoutes(pastUser.getRoutes());
+		updatedUser.setComments(pastUser.getComments());
+		if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
+			updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+		}	
 		
-		if (!(updatedUser.getPassword() == null) && !updatedUser.getPassword().isBlank()) {
-			updatedUser.setPassword(new BCryptPasswordEncoder().encode(updatedUser.getPassword()));
-		}		
 		return this.userRepository.save(updatedUser);
+	}
+	
+	@Override
+	public User updateUserImage(Long userId, MultipartFile imageUser) {
+		User user = getUser(userId);
+		try {
+			user.setPhoto(imageUser.getBytes());
+		} catch (IOException e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not update photo of user: " + userId, e);
+		}
+		return this.userRepository.save(user);
 	}
 		
 	@Override
@@ -70,16 +73,11 @@ public class UserServiceLogic implements UserService {
 		User user = getUser(userId);
 		this.userRepository.delete(user);
 	}
-	
-	public boolean userComplete(User user) {
-		return user != null && user.getEmail() != null && !user.getEmail().isBlank()
-				&& user.getName() != null && !user.getName().isBlank();
-	}
-	
-	public boolean userNotPossibleModification(User pastUser, User updatedUser) {
+		
+	private boolean userNotPossibleModification(User pastUser, User updatedUser) {
 		// User changes email & already exists in the database
 		return !updatedUser.getEmail().equals(pastUser.getEmail()) && 
-				this.userRepository.findByEmail(updatedUser.getEmail()) != null;
+				this.userRepository.existsByEmail(updatedUser.getEmail());
 	}
 	
 }

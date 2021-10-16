@@ -2,6 +2,8 @@ package com.enjoymadrid.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,13 +49,13 @@ public class CommentController {
 	
 	@PostMapping("/comments")
 	@JsonView(CommentInterfaces.BasicData.class)
-	public ResponseEntity<Comment> createComment(@RequestBody Comment comment, @RequestParam Long userId, @RequestParam Long pointId) {
+	public ResponseEntity<Comment> createComment(@Valid @RequestBody Comment comment, @RequestParam Long userId, @RequestParam Long pointId) {
 		return new ResponseEntity<Comment>(this.commentService.createComment(comment, userId, pointId), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/comments/{commentId}")
 	@JsonView(CommentInterfaces.BasicData.class)
-	public ResponseEntity<Comment> updateComment(@PathVariable Long commentId, @RequestBody Comment updatedcomment) {
+	public ResponseEntity<Comment> updateComment(@PathVariable Long commentId, @Valid @RequestBody Comment updatedcomment) {
 		return ResponseEntity.ok(this.commentService.updateComment(commentId, updatedcomment));
 	}
 	

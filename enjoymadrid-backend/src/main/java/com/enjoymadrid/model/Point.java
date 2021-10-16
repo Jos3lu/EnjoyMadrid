@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
 import com.enjoymadrid.model.interfaces.PointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -31,6 +32,7 @@ public class Point {
 	private Double latitude;
 	
 	@JsonView(PointInterfaces.BasicData.class)
+	@NotEmpty(message = "Name cannot be empty")
 	private String name;
 	
 	@JsonView(PointInterfaces.BasicData.class)

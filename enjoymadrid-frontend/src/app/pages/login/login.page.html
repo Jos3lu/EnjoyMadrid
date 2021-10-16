@@ -25,14 +25,15 @@
             <ion-label position="stacked">Contraseña</ion-label>
             <ion-input [(ngModel)]="userLogin.password" name="passwordLogin" #passwordLogin="ngModel"
               [type]="showPasswordLogin ? 'text' : 'password'" placeholder="5&RXX@FbFBv6"
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required></ion-input>
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" required>
+            </ion-input>
             <a slot="end" (click)="togglePasswordLogin()">
               <ion-icon [hidden]="showPasswordLogin" name="eye-off-outline"></ion-icon>
               <ion-icon [hidden]="!showPasswordLogin" name="eye-outline"></ion-icon>
             </a>
           </ion-item>
           <div [hidden]="passwordLogin.valid || passwordLogin.pristine" class="invalid-input">
-            Contraseña no válida
+            Contraseña no válida (al menos 7 caracteres, una número, una mayúscula y una minúscula)
           </div>
           <div class="ion-text-end ion-margin-top">
             <ion-button type="submit" [disabled]="!loginForm.form.valid">Iniciar sesión</ion-button>
@@ -57,7 +58,7 @@
           <ion-item class="toggle-password">
             <ion-label position="stacked">Contraseña</ion-label>
             <ion-input [(ngModel)]="userSignIn.password" name="passwordSignIn" #passwordSignIn="ngModel"
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" [type]="showPasswordSignIn ? 'text' : 'password'"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" [type]="showPasswordSignIn ? 'text' : 'password'"
               placeholder="5&RXX@FbFBv6" required>
             </ion-input>
             <a slot="end" (click)="togglePasswordSignIn()">

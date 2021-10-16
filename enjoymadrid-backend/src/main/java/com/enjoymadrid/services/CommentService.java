@@ -2,6 +2,8 @@ package com.enjoymadrid.services;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Service;
 
 import com.enjoymadrid.model.Comment;
@@ -13,9 +15,9 @@ public interface CommentService {
 	
 	public List<Comment> getPointComments(Long pointId);
 	
-	public Comment createComment(Comment comment, Long userId, Long pointId);
+	public Comment createComment(@Valid Comment comment, Long userId, Long pointId);
 	
-	public Comment updateComment(Long commentId, Comment updatedcomment);
+	public Comment updateComment(Long commentId, @Valid Comment updatedcomment);
 	
 	public void deleteComment(Long commentId);
 	

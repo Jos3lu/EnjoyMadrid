@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -26,6 +27,7 @@ public class Route {
 	private Long id;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
+	@NotBlank(message = "Name cannot be empty")
 	private String name;
 	
 	@JsonView(RouteInterfaces.BasicData.class)

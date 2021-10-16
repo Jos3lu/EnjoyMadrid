@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.enjoymadrid.model.interfaces.CommentInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -20,6 +22,7 @@ public class Comment {
 	
 	@Lob
 	@JsonView(CommentInterfaces.BasicData.class)
+	@NotBlank(message = "Comment cannot be empty")
 	private String commentary;
 	
 	@ManyToOne
