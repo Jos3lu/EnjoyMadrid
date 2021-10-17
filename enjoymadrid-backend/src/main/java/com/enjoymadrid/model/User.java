@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -30,19 +29,19 @@ public class User {
 	
 	@JsonView(UserInterfaces.BasicData.class)
 	@NotBlank(message = "Name cannot be empty")
-	@Size(min = 2, max = 40, message = "Name must be between 2 and 40 characters")
+	@Size(max = 50, message = "Username must be less than 50 characters")
 	private String name;
 	
-	@JsonView(UserInterfaces.EmailData.class)
-	@Email(message = "Email must be valid")
-	@NotBlank(message = "Email cannot be empty")
+	@JsonView(UserInterfaces.UsernameData.class)
+	@NotBlank(message = "Username cannot be empty")
+	@Size(max = 50, message = "Username must be less than 50 characters")
 	@Column(unique = true)
-	private String email;
+	private String username;
 	
 	@JsonIgnore
 	@NotBlank(message = "Password cannot be empty")
 	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", 
-		message = "Password must be at least one number, one uppercase and one lowercase letter, and at least 7 characters")
+		message = "Password must have at least one number, one uppercase and one lowercase letter, and at least 7 characters")
 	private String password;
 	
 	@Lob
@@ -59,9 +58,9 @@ public class User {
 	
 	public User() {}
 
-	public User(String name, String email, String password) {
+	public User(String name, String username, String password) {
 		this.name = name;
-		this.email = email;
+		this.username = username;
 		this.password = password;
 	}
 
@@ -81,12 +80,12 @@ public class User {
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {

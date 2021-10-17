@@ -11,6 +11,8 @@ import com.enjoymadrid.model.User;
 public interface UserService {
 	
 	public User getUser(Long userId);
+	
+	public User getUserByUsername(String username);
 		
 	public User createUser(@Valid User user);
 		

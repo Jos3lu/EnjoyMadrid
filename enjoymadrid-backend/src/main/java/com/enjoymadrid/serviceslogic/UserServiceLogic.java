@@ -29,9 +29,14 @@ public class UserServiceLogic implements UserService {
 	}
 	
 	@Override
+	public User getUserByUsername(String username) {
+		return this.userRepository.findByUsername(username).orElse(null);
+	}
+	
+	@Override
 	public User createUser(User user) {
-		if (this.userRepository.existsByEmail(user.getEmail())) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Creation of user not possible");
+		if (this.userRepository.existsByUsername(user.getUsername())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Creation of user not possible, username already exists");
 		} else if (user.getPassword() == null || user.getPassword().isBlank()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password cannot be empty, bad request");
 		}
@@ -76,8 +81,8 @@ public class UserServiceLogic implements UserService {
 		
 	private boolean userNotPossibleModification(User pastUser, User updatedUser) {
 		// User changes email & already exists in the database
-		return !updatedUser.getEmail().equals(pastUser.getEmail()) && 
-				this.userRepository.existsByEmail(updatedUser.getEmail());
+		return !updatedUser.getUsername().equals(pastUser.getUsername()) && 
+				this.userRepository.existsByUsername(updatedUser.getUsername());
 	}
 	
 }

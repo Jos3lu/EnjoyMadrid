@@ -37,17 +37,23 @@ public class UserController {
 		return ResponseEntity.ok(this.userService.getUser(userId));
 	}
 	
-	@PostMapping("/register")
-	@JsonView(UserInterfaces.EmailData.class)
+	@GetMapping("/users")
+	@JsonView(UserInterfaces.UsernameData.class)
+	public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
+		return ResponseEntity.ok(this.userService.getUserByUsername(username));
+	}
+	
+	@PostMapping("/signup")
+	@JsonView(UserInterfaces.UsernameData.class)
 	public ResponseEntity<User> createUser(@Valid @RequestBody UserDto userDto) {
-		User user = new User(userDto.getName(), userDto.getEmail(), userDto.getPassword());
+		User user = new User(userDto.getName(), userDto.getUsername(), userDto.getPassword());
 		return new ResponseEntity<User>(this.userService.createUser(user), HttpStatus.CREATED);
 	}
 		
 	@PutMapping("/users/{userId}")
-	@JsonView(UserInterfaces.EmailData.class)
+	@JsonView(UserInterfaces.UsernameData.class)
 	public ResponseEntity<User> updateUser(@PathVariable Long userId, @Valid @RequestBody UserDto updatedUserDto) {
-		User updatedUser = new User(updatedUserDto.getName(), updatedUserDto.getEmail(), updatedUserDto.getPassword());
+		User updatedUser = new User(updatedUserDto.getName(), updatedUserDto.getUsername(), updatedUserDto.getPassword());
 		return ResponseEntity.ok(this.userService.updateUser(userId, updatedUser));
 	}
 	

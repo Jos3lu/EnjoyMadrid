@@ -1,5 +1,7 @@
 package com.enjoymadrid.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import com.enjoymadrid.model.interfaces.CommentInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -25,6 +26,9 @@ public class Comment {
 	@NotBlank(message = "Comment cannot be empty")
 	private String commentary;
 	
+	@JsonView(CommentInterfaces.BasicData.class)
+	private LocalDate date;
+	
 	@ManyToOne
 	@JsonView(CommentInterfaces.UserData.class)
 	private User user;
@@ -35,8 +39,9 @@ public class Comment {
 	
 	public Comment() {}
 
-	public Comment(String commentary) {
+	public Comment(String commentary, LocalDate date) {
 		this.commentary = commentary;
+		this.date = date;
 	}
 
 	public Long getId() {
@@ -53,6 +58,14 @@ public class Comment {
 
 	public void setCommentary(String commentary) {
 		this.commentary = commentary;
+	}
+	
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 	public User getUser() {

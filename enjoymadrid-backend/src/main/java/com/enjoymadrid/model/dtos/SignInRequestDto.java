@@ -1,28 +1,22 @@
 package com.enjoymadrid.model.dtos;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class UserDto {
+public class SignInRequestDto {
 
-	@NotBlank(message = "Name cannot be empty")
-	@Size(min = 2, max = 40, message = "Name must be between 2 and 40 characters")
-	private String name;
-	
 	@NotBlank(message = "Username cannot be empty")
 	@Size(max = 50, message = "Username must be less than 50 characters")
+	@Column(unique = true)
 	private String username;
 	
+	@NotBlank(message = "Password cannot be empty")
+	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", 
+		message = "Password must have at least one number, one uppercase and one lowercase letter, and at least 7 characters")
 	private String password;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	
 	public String getUsername() {
 		return username;
 	}
@@ -34,9 +28,9 @@ public class UserDto {
 	public String getPassword() {
 		return password;
 	}
-
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 }

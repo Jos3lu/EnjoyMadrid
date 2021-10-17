@@ -17,34 +17,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.enjoymadrid.model.dtos.LoginRequestDto;
-import com.enjoymadrid.model.dtos.LoginResponseDto;
-import com.enjoymadrid.model.interfaces.UserInterfaces;
+import com.enjoymadrid.model.dtos.SignInRequestDto;
+import com.enjoymadrid.model.dtos.SignInResponseDto;
 import com.enjoymadrid.security.jwt.JwtUtilityToken;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("/api")
-public class LoginController {
+public class AuthController {
 	
 	private final AuthenticationManager authenticationManager;
 	private final JwtUtilityToken jwtUtilityToken;
 	
-	public LoginController(AuthenticationManager authenticationManager, JwtUtilityToken jwtUtilityToken) {
+	public AuthController(AuthenticationManager authenticationManager, JwtUtilityToken jwtUtilityToken) {
 		this.authenticationManager = authenticationManager;
 		this.jwtUtilityToken = jwtUtilityToken;
 	}
 
-	@PostMapping("/login")
-	public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginDto) {
-		Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+	@PostMapping("/signin")
+	public ResponseEntity<SignInResponseDto> signIn(@Valid @RequestBody SignInRequestDto loginDto) {
+		Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		String jwtToken = jwtUtilityToken.generateToken(auth);
-		return ResponseEntity.ok(new LoginResponseDto(jwtToken));
+		return ResponseEntity.ok(new SignInResponseDto(jwtToken));
 	}
 	
-	@GetMapping("/logout")
-	public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+	@GetMapping("/signout")
+	public ResponseEntity<Void> SignOut(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);

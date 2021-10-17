@@ -1,12 +1,12 @@
 package com.enjoymadrid.model.dtos;
 
-public class LoginResponseDto {
+public class SignInResponseDto {
 	
 	private String token;
 	
-	public LoginResponseDto() {}
+	public SignInResponseDto() {}
 	
-	public LoginResponseDto(String token) {
+	public SignInResponseDto(String token) {
 		this.token = token;
 	}
 
@@ -17,5 +17,7 @@ public class LoginResponseDto {
 	public void setToken(String token) {
 		this.token = token;
 	}
+	
+	
 	
 }

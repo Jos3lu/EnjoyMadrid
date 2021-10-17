@@ -1,0 +1,87 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center"><img class="img-size" alt="Enjoy Madrid" src="./assets/logo.png"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="5" size-xs="12" class="my-form">
+        <h1>Iniciar sesión</h1>
+        <form (ngSubmit)="onSignIn()" #signInForm="ngForm">
+          <ion-item>
+            <ion-label position="stacked">Nombre de usuario</ion-label>
+            <ion-input [(ngModel)]="userSignIn.username" name="usernameSignIn" #usernameSignIn="ngModel" type="text"
+              placeholder="ramon_11" maxlength="50" required></ion-input>
+          </ion-item>
+          <div [hidden]="usernameSignIn.valid || usernameSignIn.pristine" class="invalid-input">
+            Nombre de usuario no puede estar vacío
+          </div>
+          <ion-item class="toggle-password">
+            <ion-label position="stacked">Contraseña</ion-label>
+            <ion-input [(ngModel)]="userSignIn.password" name="passwordSignIn" #passwordSignIn="ngModel"
+              [type]="showPasswordSignIn ? 'text' : 'password'" placeholder="5&RXstX@FbFBv6"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" required>
+            </ion-input>
+            <a slot="end" (click)="togglePasswordSignIn()">
+              <ion-icon [hidden]="showPasswordSignIn" name="eye-off-outline"></ion-icon>
+              <ion-icon [hidden]="!showPasswordSignIn" name="eye-outline"></ion-icon>
+            </a>
+          </ion-item>
+          <div [hidden]="passwordSignIn.valid || passwordSignIn.pristine" class="invalid-input">
+            Contraseña no válida (al menos 7 caracteres, un número, una mayúscula y una minúscula)
+          </div>
+          <div class="ion-text-end ion-margin-top">
+            <ion-button type="submit" [disabled]="!signInForm.form.valid">Iniciar sesión</ion-button>
+          </div>
+        </form>
+      </ion-col>
+      <ion-col size-md="5" size-xs="12" class="my-form">
+        <h1>Registrarse</h1>
+        <form (ngSubmit)="onSignUp()" #signUpForm="ngForm">
+          <ion-item>
+            <ion-label position="stacked">Nombre</ion-label>
+            <ion-input placeholder="Ramón" [(ngModel)]="userSignUp.name" name="nameSignUp" #nameSignUp="ngModel" maxlength="50" required></ion-input>
+          </ion-item>
+          <div [hidden]="nameSignUp.valid || nameSignUp.pristine" class="invalid-input">
+            El nombre no puede estar vacío
+          </div>
+          <ion-item>
+            <ion-label position="stacked">Nombre de usuario</ion-label>
+            <ion-input [(ngModel)]="userSignUp.username" [ngModelOptions]="{updateOn: 'blur'}" name="usernameSignUp" #usernameSignUp="ngModel"
+            placeholder="ramon_11" maxlength="50" required uniqueusernamevalidator></ion-input>
+          </ion-item>
+          <div *ngIf="usernameSignUp.invalid && (usernameSignUp.dirty || usernameSignUp.touched)" class="invalid-input">
+            <div *ngIf="usernameSignUp.errors?.required">
+              Nombre de usuario no puede estar vacío
+            </div>
+            <div *ngIf="usernameSignUp.errors?.usernameTaken">
+              El nombre de usuario ya existe
+            </div>
+          </div>
+          <ion-item class="toggle-password">
+            <ion-label position="stacked">Contraseña</ion-label>
+            <ion-input [(ngModel)]="userSignUp.password" name="passwordSignUp" #passwordSignUp="ngModel"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" [type]="showPasswordSignUp ? 'text' : 'password'"
+              placeholder="5&RXstX@FbFBv6" required>
+            </ion-input>
+            <a slot="end" (click)="togglePasswordSignUp()">
+              <ion-icon [hidden]="showPasswordSignUp" name="eye-off-outline"></ion-icon>
+              <ion-icon [hidden]="!showPasswordSignUp" name="eye-outline"></ion-icon>
+            </a>
+          </ion-item>
+          <div [hidden]="passwordSignUp.valid || passwordSignUp.pristine" class="invalid-input">
+            Debe contener al menos 7 caracteres, un número, una mayúscula y una minúscula
+          </div>
+          <div class="ion-text-end ion-margin-top">
+            <ion-button type="submit" [disabled]="!signUpForm.form.valid">Registrarse</ion-button>
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
