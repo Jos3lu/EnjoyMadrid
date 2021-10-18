@@ -1,30 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@capacitor/storage';
-
-const KEY_TOKEN = 'token-jwt';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenStorageService {
 
-  constructor() { }
+  private tokenJwt: BehaviorSubject<string>;
 
-  async signOut() {
-    await Storage.clear();
-  }
+  constructor() {
+    this.tokenJwt = new BehaviorSubject<string>(null);
+   }
 
-  async saveToken(token: string) {
-    await Storage.remove({ key : KEY_TOKEN })
-    await Storage.set({ 
-      key: KEY_TOKEN,
-      value: token,
-     })
+  setToken(token: string) {
+    this.tokenJwt.next(token);
   }
 
   getToken() {
-    const token = Storage.get({ key: KEY_TOKEN });
-    return token;
+    return this.tokenJwt.value;
   }
 
 }

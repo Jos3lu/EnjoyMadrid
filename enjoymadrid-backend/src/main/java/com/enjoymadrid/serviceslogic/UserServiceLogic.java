@@ -34,15 +34,15 @@ public class UserServiceLogic implements UserService {
 	}
 	
 	@Override
-	public User createUser(User user) {
+	public void createUser(User user) {
 		if (this.userRepository.existsByUsername(user.getUsername())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Creation of user not possible, username already exists");
 		} else if (user.getPassword() == null || user.getPassword().isBlank()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password cannot be empty, bad request");
 		}
-		
+				
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		return this.userRepository.save(user);	
+		this.userRepository.save(user);	
 	}
 	
 	@Override

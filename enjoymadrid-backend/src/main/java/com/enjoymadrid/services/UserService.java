@@ -14,7 +14,7 @@ public interface UserService {
 	
 	public User getUserByUsername(String username);
 		
-	public User createUser(@Valid User user);
+	public void createUser(@Valid User user);
 		
 	public User updateUser(Long userId, @Valid User updatedUser);
 	

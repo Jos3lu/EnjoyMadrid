@@ -12,8 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let authRequest = req;
-        let tokenJwt = null;
-        this.tokenStorage.getToken().then(token => tokenJwt = token.value);
+        const tokenJwt = this.tokenStorage.getToken();
         if (tokenJwt != null) {
             authRequest = req.clone({
                 headers: req.headers.set(HEADER_TOKEN_KEY, 'Bearer ' + tokenJwt)

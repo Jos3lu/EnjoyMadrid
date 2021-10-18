@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.enjoymadrid.model.User;
 import com.enjoymadrid.model.dtos.SignInRequestDto;
 import com.enjoymadrid.model.dtos.SignInResponseDto;
 import com.enjoymadrid.security.jwt.JwtUtilityToken;
+import com.enjoymadrid.services.UserService;
 
 @RestController
 @RequestMapping("/api")
@@ -27,10 +29,12 @@ public class AuthController {
 	
 	private final AuthenticationManager authenticationManager;
 	private final JwtUtilityToken jwtUtilityToken;
+	private final UserService userService;
 	
-	public AuthController(AuthenticationManager authenticationManager, JwtUtilityToken jwtUtilityToken) {
+	public AuthController(AuthenticationManager authenticationManager, JwtUtilityToken jwtUtilityToken, UserService userService) {
 		this.authenticationManager = authenticationManager;
 		this.jwtUtilityToken = jwtUtilityToken;
+		this.userService = userService;
 	}
 
 	@PostMapping("/signin")
@@ -38,7 +42,8 @@ public class AuthController {
 		Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		String jwtToken = jwtUtilityToken.generateToken(auth);
-		return ResponseEntity.ok(new SignInResponseDto(jwtToken));
+		User user = userService.getUserByUsername(loginDto.getUsername());
+		return ResponseEntity.ok(new SignInResponseDto(jwtToken, user.getId(), user.getName(), user.getUsername(), user.getPhoto()));
 	}
 	
 	@GetMapping("/signout")

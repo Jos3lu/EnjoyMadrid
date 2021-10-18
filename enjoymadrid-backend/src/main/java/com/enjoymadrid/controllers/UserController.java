@@ -44,10 +44,10 @@ public class UserController {
 	}
 	
 	@PostMapping("/signup")
-	@JsonView(UserInterfaces.UsernameData.class)
-	public ResponseEntity<User> createUser(@Valid @RequestBody UserDto userDto) {
+	public ResponseEntity<Void> createUser(@Valid @RequestBody UserDto userDto) {
 		User user = new User(userDto.getName(), userDto.getUsername(), userDto.getPassword());
-		return new ResponseEntity<User>(this.userService.createUser(user), HttpStatus.CREATED);
+		this.userService.createUser(user);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 		
 	@PutMapping("/users/{userId}")

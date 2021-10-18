@@ -15,10 +15,15 @@ public class DataBase implements CommandLineRunner{
 	private UserRepository userRepository;
 	
 	@Override
-	public void run(String... args) throws Exception {
-		userRepository.save(new User("Ramon","ramoneitor", new BCryptPasswordEncoder().encode("1fsdfsdAff3")));
-		userRepository.save(new User("Pepe", "pepeitor", new BCryptPasswordEncoder().encode("dfdsjhf3213DS")));
-		userRepository.save(new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd")));
+	public void run(String... args) throws Exception {		
+		User user1 = new User("Ramon","ramoneitor", new BCryptPasswordEncoder().encode("1fsdfsdAff3"));
+		userRepository.save(user1);
+		
+		User user2 = new User("Pepe", "pepeitor", new BCryptPasswordEncoder().encode("dfdsjhf3213DS"));
+		userRepository.save(user2);
+		
+		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
+		userRepository.save(user3);
 	}
 	
 }

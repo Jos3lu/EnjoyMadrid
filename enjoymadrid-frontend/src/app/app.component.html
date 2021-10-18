@@ -1,19 +1,19 @@
 <ion-app>
-  <ion-menu contentId="main-content" type="overlay">
+  <ion-menu (ionWillOpen)="isUserLogged()" contentId="main-content" type="overlay">
     <ion-content>
       <ion-menu-toggle auto-hide="true">
         <ion-list id="pages-list">
           <ion-grid id="user">
             <ion-row>
-              <ion-col>
+              <ion-col size="auto">
                 <ion-avatar>
-                  <img alt="route" src="./assets/user.png">
+                  <img alt="route" [src]="userLogged?.photo ? 'data:image/jpg;base64,' + userLogged.photo : 'assets/user.png'">
                 </ion-avatar>
               </ion-col>
               <ion-col class="ion-align-self-center">
                 <div>
-                  <ion-list-header>User Name</ion-list-header>
-                  <ion-note>hi@ionicframework.com</ion-note>
+                  <ion-list-header>{{ userLogged?.name ? userLogged.name : 'Usuario Anónimo' }}</ion-list-header>
+                  <ion-note>@{{ userLogged?.username ? userLogged.username : 'anonimo' }}</ion-note>
                 </div>
               </ion-col>
             </ion-row>
@@ -58,7 +58,7 @@
       <ion-footer class="ion-no-border">
         <ion-toolbar class="ion-text-end">
           <a class="ion-padding-end" routerLink="/login">Iniciar sesión / Registrarse</a>
-          <a (click)="logout()">Logout</a>
+          <a (click)="signOut()" href="">Logout</a>
         </ion-toolbar>
       </ion-footer>
     </ion-menu-toggle>

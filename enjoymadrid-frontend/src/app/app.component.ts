@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User } from './models/user.model';
+import { AuthService } from './services/auth/auth.service';
+import { TokenStorageService } from './services/token/token-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +14,31 @@ export class AppComponent {
   darkTheme: boolean;
   // #527c9e Color Logo
 
-  constructor() {
+  userLogged: User;
+
+  constructor(
+    private authService: AuthService,
+    private tokenService: TokenStorageService
+  ) {
     this.selectDarkOrLightTheme();
   }
 
+  isUserLogged() {
+    if (this.authService.isUserLoggedIn()) {
+      this.userLogged = this.authService.getUserAuth();
+    }
+  }
+
+  signOut() {
+    this.authService.signOut().subscribe(
+      _ => {
+        this.userLogged = null;
+        this.authService.setUserAuth(null);
+        this.tokenService.setToken(null);
+      }
+    );
+  }
+  
   selectDarkOrLightTheme() {
     // Get preference of user about color scheme
     const prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)');
