@@ -83,11 +83,12 @@ ion-select::part(icon) {
   display: none;
 }
 
-a:link, a:visited {
-  color: rgb(131, 121, 121);
+a {
   text-decoration: none;
+  cursor: pointer;
+  color: rgb(131, 121, 121);
 }
 
-a:hover, a:active {
+a:hover, a:active, a:not([href]):hover, a:not([href]):active {
   color: #3880ff;
 }

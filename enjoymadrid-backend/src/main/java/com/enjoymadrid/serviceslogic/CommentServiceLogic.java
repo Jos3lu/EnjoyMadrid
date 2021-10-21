@@ -29,20 +29,20 @@ public class CommentServiceLogic implements CommentService {
 	
 	@Override
 	public List<Comment> getUserComments(Long userId) {
-		User user = this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + userId));
+		User user = this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 		return user.getComments();
 	}
 
 	@Override
 	public List<Comment> getPointComments(Long pointId) {
-		Point point = this.pointRepository.findById(pointId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Point not found: " + pointId));
+		Point point = this.pointRepository.findById(pointId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Punto no encontrado"));
 		return point.getComments();
 	}
 	
 	@Override
 	public Comment createComment(Comment comment, Long userId, Long pointId) {
-		User user = this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User of comment not found: " + userId));
-		Point point = this.pointRepository.findById(pointId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Point of comment not found: " + pointId));
+		User user = this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comentario del usuario no encontrado"));
+		Point point = this.pointRepository.findById(pointId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comentario del punto no encontrado"));
 		
 		// Set user
 		comment.setUser(user);
@@ -58,14 +58,14 @@ public class CommentServiceLogic implements CommentService {
 
 	@Override
 	public Comment updateComment(Long commentId, Comment updatedComment) {
-		Comment comment = this.commentRepository.findById(commentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found: " + commentId));
+		Comment comment = this.commentRepository.findById(commentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comentario no encontrado"));
 		comment.setCommentary(updatedComment.getCommentary());
 		return comment;
 	}
 
 	@Override
 	public void deleteComment(Long commentId) {
-		Comment comment = this.commentRepository.findById(commentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found: " + commentId));
+		Comment comment = this.commentRepository.findById(commentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comentario no encontrado"));
 		//Remove comment from the user entity
 		User user = comment.getUser();
 		user.getComments().remove(comment);

@@ -45,23 +45,18 @@
         <form (ngSubmit)="onSignUp()" #signUpForm="ngForm">
           <ion-item>
             <ion-label position="stacked">Nombre</ion-label>
-            <ion-input placeholder="Ramón" [(ngModel)]="userSignUp.name" name="nameSignUp" #nameSignUp="ngModel" maxlength="50" required></ion-input>
+            <ion-input type="text" placeholder="Ramón" [(ngModel)]="userSignUp.name" name="nameSignUp" #nameSignUp="ngModel" maxlength="50" required></ion-input>
           </ion-item>
           <div [hidden]="nameSignUp.valid || nameSignUp.pristine" class="invalid-input">
             El nombre no puede estar vacío
           </div>
           <ion-item>
             <ion-label position="stacked">Nombre de usuario</ion-label>
-            <ion-input [(ngModel)]="userSignUp.username" [ngModelOptions]="{updateOn: 'blur'}" name="usernameSignUp" #usernameSignUp="ngModel"
-            placeholder="ramon_11" maxlength="50" required uniqueusernamevalidator></ion-input>
+            <ion-input type="text" [(ngModel)]="userSignUp.username" name="usernameSignUp" #usernameSignUp="ngModel"
+            placeholder="ramon_11" maxlength="50" required></ion-input>
           </ion-item>
-          <div *ngIf="usernameSignUp.invalid && (usernameSignUp.dirty || usernameSignUp.touched)" class="invalid-input">
-            <div *ngIf="usernameSignUp.errors?.required">
-              Nombre de usuario no puede estar vacío
-            </div>
-            <div *ngIf="usernameSignUp.errors?.usernameTaken">
-              El nombre de usuario ya existe
-            </div>
+          <div [hidden]="usernameSignUp.valid || usernameSignUp.pristine" class="invalid-input">
+            El nombre no puede estar vacío
           </div>
           <ion-item class="toggle-password">
             <ion-label position="stacked">Contraseña</ion-label>

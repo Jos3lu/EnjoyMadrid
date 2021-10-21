@@ -3,6 +3,7 @@ package com.enjoymadrid.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -51,14 +52,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.authorizeRequests().antMatchers("/**", "/h2-console/**").permitAll().anyRequest().authenticated()
-		.and().csrf().disable()
+		http
+		.cors().and().csrf().disable()
 		.exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and()
+		.authorizeRequests()
+		.antMatchers(HttpMethod.PUT, "/api/users/**").authenticated()
+		.antMatchers(HttpMethod.GET, "/api/users/**").authenticated()
+		.antMatchers("/**", "/h2-console/**").permitAll()
+		.and().csrf().disable()
+		.httpBasic().disable();
 		
         //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		http.headers().frameOptions().sameOrigin();
 			
+		// jwtAuthTokenFilter triggers before UsernamePasswordAuthenticationFilter
 		http.addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 		

@@ -6,7 +6,7 @@ public class CommentInterfaces {
 	
 	public static interface BasicData {}
 	
-	public static interface UserData extends BasicData, UserInterfaces.PictureData {}
+	public static interface UserData extends BasicData, UserInterfaces.PictureExtendData {}
 	
 	public static interface PointData extends BasicData, PointInterfaces.BasicData {}
 	

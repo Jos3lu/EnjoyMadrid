@@ -32,7 +32,7 @@ public class Point {
 	private Double latitude;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	@NotEmpty(message = "Name cannot be empty")
+	@NotEmpty(message = "El nombre no puede estar vacío")
 	private String name;
 	
 	@JsonView(PointInterfaces.BasicData.class)

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,10 +18,16 @@ const routes: Routes = [
   },
   {
     path: 'user-comments',
-    loadChildren: () => import('./pages/user-comments/user-comments.module').then( m => m.UserCommentsPageModule)
+    loadChildren: () => import('./pages/user-comments/user-comments.module').then( m => m.UserCommentsPageModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'login',
+    path: 'update-user',
+    loadChildren: () => import('./pages/update-user/update-user.module').then( m => m.UpdateUserPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'sign',
     loadChildren: () => import('./pages/sign/sign.module').then( m => m.LoginPageModule)
   },
   {

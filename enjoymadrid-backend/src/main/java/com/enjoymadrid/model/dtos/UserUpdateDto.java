@@ -3,17 +3,18 @@ package com.enjoymadrid.model.dtos;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class UserDto {
-
-	@NotBlank(message = "Name cannot be empty")
-	@Size(min = 2, max = 40, message = "Name must be between 2 and 40 characters")
+public class UserUpdateDto {
+	
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Size(max = 50, message = "El nombre debe tener menos de 50 caracteres")
 	private String name;
 	
-	@NotBlank(message = "Username cannot be empty")
-	@Size(max = 50, message = "Username must be less than 50 characters")
+	@NotBlank(message = "El nombre de usuario no puede estar vacío")
+	@Size(max = 50, message = "El nombre de usuario debe tener menos de 50 caracteres")
 	private String username;
 	
 	private String password;
+	private String oldPassword;
 
 	public String getName() {
 		return name;
@@ -37,6 +38,14 @@ public class UserDto {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getOldPassword() {
+		return this.oldPassword;
+	}
+	
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 	
 }

@@ -22,7 +22,7 @@ public class PointServiceLogic implements PointService {
 
 	@Override
 	public List<Point> getRoutePoints(Long routeId) {
-		Route route = this.routeRepository.findById(routeId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Route not found: " + routeId));
+		Route route = this.routeRepository.findById(routeId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ruta no encontrada"));
 		return route.getPoints();
 	}
 

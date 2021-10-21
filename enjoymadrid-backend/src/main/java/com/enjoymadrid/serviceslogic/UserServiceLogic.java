@@ -25,20 +25,18 @@ public class UserServiceLogic implements UserService {
 
 	@Override
 	public User getUser(Long userId) {
-		return this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + userId));
+		return this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 	}
 	
 	@Override
 	public User getUserByUsername(String username) {
-		return this.userRepository.findByUsername(username).orElse(null);
+		return this.userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado: " + username));
 	}
-	
+		
 	@Override
 	public void createUser(User user) {
 		if (this.userRepository.existsByUsername(user.getUsername())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Creation of user not possible, username already exists");
-		} else if (user.getPassword() == null || user.getPassword().isBlank()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password cannot be empty, bad request");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se puede crear la cuenta, el nombre de usuario ya existe");
 		}
 				
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -46,18 +44,27 @@ public class UserServiceLogic implements UserService {
 	}
 	
 	@Override
-	public User updateUser(Long userId, User updatedUser) {
+	public User updateUser(Long userId, User updatedUser, String oldPassword) {
 		User pastUser = getUser(userId);
-		if (userNotPossibleModification(pastUser, updatedUser)) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Request of user not possible: " + userId);
-		}
 		
 		updatedUser.setId(pastUser.getId());
+		updatedUser.setPhoto(pastUser.getPhoto());
 		updatedUser.setRoutes(pastUser.getRoutes());
 		updatedUser.setComments(pastUser.getComments());
+		
+		// Check if current password matches the password inserted in the form as current password
+		if (oldPassword != null && !oldPassword.isBlank() 
+				&& !passwordEncoder.matches(oldPassword, pastUser.getPassword())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La contraseña actual no coincide con la que se ha ingresado");
+		}
+						
+		// If user changes password, encode and save it
 		if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
 			updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-		}	
+		} else {
+			updatedUser.setPassword(pastUser.getPassword());
+		}
+				
 		
 		return this.userRepository.save(updatedUser);
 	}
@@ -68,7 +75,7 @@ public class UserServiceLogic implements UserService {
 		try {
 			user.setPhoto(imageUser.getBytes());
 		} catch (IOException e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not update photo of user: " + userId, e);
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al procesar la foto de perfil", e);
 		}
 		return this.userRepository.save(user);
 	}
@@ -78,11 +85,5 @@ public class UserServiceLogic implements UserService {
 		User user = getUser(userId);
 		this.userRepository.delete(user);
 	}
-		
-	private boolean userNotPossibleModification(User pastUser, User updatedUser) {
-		// User changes email & already exists in the database
-		return !updatedUser.getUsername().equals(pastUser.getUsername()) && 
-				this.userRepository.existsByUsername(updatedUser.getUsername());
-	}
-	
+			
 }

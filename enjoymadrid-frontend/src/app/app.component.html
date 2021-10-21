@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu (ionWillOpen)="isUserLogged()" contentId="main-content" type="overlay">
+  <ion-menu (ionWillOpen)="checkIfUserLogged()" contentId="main-content" type="overlay">
     <ion-content>
       <ion-menu-toggle auto-hide="true">
         <ion-list id="pages-list">
@@ -7,10 +7,10 @@
             <ion-row>
               <ion-col size="auto">
                 <ion-avatar>
-                  <img alt="route" [src]="userLogged?.photo ? 'data:image/jpg;base64,' + userLogged.photo : 'assets/user.png'">
+                  <img alt="route" [src]="userLogged?.photo ? 'data:image/jpeg;base64,' + userLogged.photo : 'assets/user.png'">
                 </ion-avatar>
               </ion-col>
-              <ion-col class="ion-align-self-center">
+              <ion-col size="auto" class="ion-align-self-center">
                 <div>
                   <ion-list-header>{{ userLogged?.name ? userLogged.name : 'Usuario Anónimo' }}</ion-list-header>
                   <ion-note>@{{ userLogged?.username ? userLogged.username : 'anonimo' }}</ion-note>
@@ -25,6 +25,14 @@
           <ion-item routerLink="/user-comments" lines="none" detail="false" routerLinkActive="selected">
             <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
             <ion-label>Mis comentarios</ion-label>
+          </ion-item>
+          <ion-item routerLink="/update-user" lines="none" detail="false" routerLinkActive="selected">
+            <ion-icon slot="start" name="person-outline"></ion-icon>
+            <ion-label>Modificar perfil</ion-label>
+          </ion-item>
+          <ion-item button="true" (click)="deleteAccount()" lines="none" detail="false">
+            <ion-icon color="danger" slot="start" name="trash-outline"></ion-icon>
+            <ion-label color="danger">Borrar cuenta</ion-label>
           </ion-item>
         </ion-list>
       </ion-menu-toggle>
@@ -57,8 +65,8 @@
     <ion-menu-toggle auto-hide="true">
       <ion-footer class="ion-no-border">
         <ion-toolbar class="ion-text-end">
-          <a class="ion-padding-end" routerLink="/login">Iniciar sesión / Registrarse</a>
-          <a (click)="signOut()" href="">Logout</a>
+          <a *ngIf="!isUserLogged" class="ion-padding-end" routerLink="/sign">Iniciar sesión / Registrarse</a>
+          <a *ngIf="isUserLogged" class="ion-padding-end" (click)="signOut()">Cerrar sesión</a>
         </ion-toolbar>
       </ion-footer>
     </ion-menu-toggle>

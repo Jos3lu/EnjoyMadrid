@@ -28,20 +28,20 @@ public class User {
 	private Long id;
 	
 	@JsonView(UserInterfaces.BasicData.class)
-	@NotBlank(message = "Name cannot be empty")
-	@Size(max = 50, message = "Username must be less than 50 characters")
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Size(max = 50, message = "El nombre debe tener menos de 50 caracteres")
 	private String name;
 	
 	@JsonView(UserInterfaces.UsernameData.class)
-	@NotBlank(message = "Username cannot be empty")
-	@Size(max = 50, message = "Username must be less than 50 characters")
+	@NotBlank(message = "El nombre de usuario no puede estar vacío")
+	@Size(max = 50, message = "El nombre de usuario debe tener menos de 50 caracteres")
 	@Column(unique = true)
 	private String username;
 	
 	@JsonIgnore
-	@NotBlank(message = "Password cannot be empty")
+	@NotBlank(message = "La contraseña no puede estar vacía")
 	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", 
-		message = "Password must have at least one number, one uppercase and one lowercase letter, and at least 7 characters")
+		message = "La contraseña debe incluir al menos un número, una minúscula, una mayúscula y al menos 7 caracteres")
 	private String password;
 	
 	@Lob

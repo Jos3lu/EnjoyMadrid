@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.enjoymadrid.model.User;
-import com.enjoymadrid.model.dtos.UserDto;
+import com.enjoymadrid.model.dtos.UserCreateDto;
+import com.enjoymadrid.model.dtos.UserUpdateDto;
 import com.enjoymadrid.model.interfaces.UserInterfaces;
 import com.enjoymadrid.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -42,19 +43,19 @@ public class UserController {
 	public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
 		return ResponseEntity.ok(this.userService.getUserByUsername(username));
 	}
-	
+		
 	@PostMapping("/signup")
-	public ResponseEntity<Void> createUser(@Valid @RequestBody UserDto userDto) {
+	public ResponseEntity<Void> createUser(@Valid @RequestBody UserCreateDto userDto) {
 		User user = new User(userDto.getName(), userDto.getUsername(), userDto.getPassword());
 		this.userService.createUser(user);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 		
 	@PutMapping("/users/{userId}")
-	@JsonView(UserInterfaces.UsernameData.class)
-	public ResponseEntity<User> updateUser(@PathVariable Long userId, @Valid @RequestBody UserDto updatedUserDto) {
+	@JsonView(UserInterfaces.ExtendData.class)
+	public ResponseEntity<User> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateDto updatedUserDto) {
 		User updatedUser = new User(updatedUserDto.getName(), updatedUserDto.getUsername(), updatedUserDto.getPassword());
-		return ResponseEntity.ok(this.userService.updateUser(userId, updatedUser));
+		return ResponseEntity.ok(this.userService.updateUser(userId, updatedUser, updatedUserDto.getOldPassword()));
 	}
 	
 	@PutMapping("/users/{userId}/picture")
@@ -65,7 +66,7 @@ public class UserController {
 		
 	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-		userService.deleteUser(userId);
+		this.userService.deleteUser(userId);
 		return ResponseEntity.ok().build();
 	}
 }

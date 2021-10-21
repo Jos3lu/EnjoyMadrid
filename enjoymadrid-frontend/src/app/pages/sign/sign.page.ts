@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
-import { TokenStorageService } from 'src/app/services/token/token-storage.service';
 
 @Component({
   selector: 'app-sign',
@@ -13,19 +12,26 @@ import { TokenStorageService } from 'src/app/services/token/token-storage.servic
 export class SignPage implements OnInit {
 
   // To show/hide the password in login and sign in
-  showPasswordSignIn: boolean = false;
-  showPasswordSignUp: boolean = false;
+  showPasswordSignIn: boolean;
+  showPasswordSignUp: boolean;
 
+  // Info of the sign in and sign up forms
   userSignIn: User;
   userSignUp: User;
 
   constructor(
     private authService: AuthService, 
-    private tokenService: TokenStorageService,
     private sharedService: SharedService,
-    private router: Router) { }
+    private router: Router
+    ) {}
 
   ngOnInit() {
+    this.initForms();
+  }
+
+  initForms() {
+    this.showPasswordSignIn = false;
+    this.showPasswordSignUp = false;
     this.userSignIn = {username: '', password: ''};
     this.userSignUp = {name: '', username: '', password: ''};
   }
@@ -40,10 +46,10 @@ export class SignPage implements OnInit {
 
   onSignIn() {
     this.authService.signIn(this.userSignIn).subscribe(
-      data => {
-        this.onResponse(data);
+      _ => {
+        this.onResponse();
       },
-      _ => this.sharedService.showToast('No se ha podido iniciar sesión. Vuelve a intentarlo.')
+      _ => this.sharedService.showToast('No se ha podido iniciar sesión. Mira que todo sea correcto y vuelve a intentarlo.')
     );
   }
 
@@ -51,18 +57,20 @@ export class SignPage implements OnInit {
     this.authService.signUp(this.userSignUp).subscribe(
       _ => {
         this.authService.signIn({ username: this.userSignUp.username, password: this.userSignUp.password }).subscribe(
-          data => {
-            this.onResponse(data);
+          _ => {
+            this.onResponse();
           }
         );
       },
-      _ => this.sharedService.showToast('No se ha podido crear la cuenta. Vuelve a interntarlo')
+      error => {
+        this.sharedService.handleError(error);
+        this.sharedService.showToast(error.error.message);
+      }
     );
   }
 
-  onResponse(data: any) {
-    this.tokenService.setToken(data.token);
-    this.authService.setUserAuth({ id: data.id, name: data.name, username: data.username, photo: data.photo });
+  onResponse() {
+    this.initForms();
     this.router.navigateByUrl('/');
   }
 

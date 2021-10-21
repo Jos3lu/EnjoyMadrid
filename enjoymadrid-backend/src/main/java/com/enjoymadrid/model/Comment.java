@@ -23,7 +23,7 @@ public class Comment {
 	
 	@Lob
 	@JsonView(CommentInterfaces.BasicData.class)
-	@NotBlank(message = "Comment cannot be empty")
+	@NotBlank(message = "El comentario no puede estar vacío")
 	private String commentary;
 	
 	@JsonView(CommentInterfaces.BasicData.class)

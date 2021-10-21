@@ -27,7 +27,7 @@ public class Route {
 	private Long id;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotBlank(message = "Name cannot be empty")
+	@NotBlank(message = "El nombre no puede estar vacío")
 	private String name;
 	
 	@JsonView(RouteInterfaces.BasicData.class)

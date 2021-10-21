@@ -1,0 +1,33 @@
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.maxSizeImg {
+    max-width: 350px;
+    max-height: 350px;
+}
+
+.paddingItem {
+    padding-top: 10px;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover, a:active, a:not([href]):hover, a:not([href]):active {
+    color: rgb(100, 87, 87);
+}
+
+.toggle-password {
+    align-items: flex-end;
+}
+
+.invalid-input {
+    font-size: small;
+    margin-top: 0.5em;
+    color: #721c24;
+}

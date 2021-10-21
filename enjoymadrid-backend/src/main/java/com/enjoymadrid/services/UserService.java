@@ -16,7 +16,7 @@ public interface UserService {
 		
 	public void createUser(@Valid User user);
 		
-	public User updateUser(Long userId, @Valid User updatedUser);
+	public User updateUser(Long userId, @Valid User updatedUser, String oldPassword);
 	
 	public User updateUserImage(Long userId, MultipartFile imageUser);
 	

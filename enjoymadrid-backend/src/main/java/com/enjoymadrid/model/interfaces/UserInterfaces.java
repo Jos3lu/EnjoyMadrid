@@ -7,8 +7,10 @@ public class UserInterfaces {
 	public static interface BasicData {}
 	
 	public static interface UsernameData extends BasicData {} 
+		
+	public static interface PictureData {}
 	
-	public static interface PictureData extends BasicData {}
+	public static interface PictureExtendData extends BasicData, PictureData {}
 	
 	public static interface ExtendData extends UsernameData, PictureData {}
 	

@@ -1,0 +1,89 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center"><img class="img-size" alt="Enjoy Madrid" src="./assets/logo.png"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-top">
+  <form (ngSubmit)="onSubmit()" #updateUserForm="ngForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-xs="12" size-md="10" class="my-form">
+          <ion-row>
+            <ion-col size-xs="12" size-md="auto">
+              <ion-item lines="none">
+                <ion-card>
+                  <ion-img class="maxSizeImg" [src]="user?.photo ? 'data:image/jpeg;base64,' + user.photo : 'assets/user.png'"></ion-img>
+                  <ion-card-header color="light" class="ion-text-center">
+                    <a (click)="pictureProfile.click()">Cambiar la foto</a>
+                  </ion-card-header>
+                </ion-card>
+                <input class="ion-hide" #pictureProfile type="file" (change)="loadProfilePicture($event)"
+                  id="file-input" accept="image/*">
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item lines="inset">
+                <ion-label position="stacked">Nombre</ion-label>
+                <ion-input type="text" [(ngModel)]="user.name" name="name" #name="ngModel" maxlength="50"
+                  placeholder="Nombre" required></ion-input>
+              </ion-item>
+              <div [hidden]="name.valid || name.pristine" class="invalid-input">
+                El nombre no puede estar vacío
+              </div>
+              <ion-item lines="inset">
+                <ion-label position="stacked">Nombre de usuario</ion-label>
+                <ion-input type="text" disabled="true" [(ngModel)]="user.username" name="username" #username="ngModel"
+                  placeholder="Nombre de usuario" maxlength="50" required></ion-input>
+              </ion-item>
+              <div [hidden]="username.valid || username.pristine" class="invalid-input">
+                Nombre de usuario no puede estar vacío
+              </div>
+              <ion-item class="paddingItem" lines="none">
+                <ion-checkbox color="secondary" slot="start" [(ngModel)]="passwordSelected" name="password">
+                </ion-checkbox>
+                <ion-label class="ion-text-wrap">Nueva contraseña</ion-label>
+              </ion-item>
+              <ion-item-group *ngIf="passwordSelected">
+                <ion-item lines="inset" class="toggle-password">
+                  <ion-label position="stacked">Actual contraseña</ion-label>
+                  <ion-input [(ngModel)]="user.oldPassword" name="currentPassword" #currentPassword="ngModel"
+                    [type]="showPasswordCurrent ? 'text' : 'password'" placeholder="Actual contraseña"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" required>
+                  </ion-input>
+                  <a slot="end" (click)="togglePasswordCurrent()">
+                    <ion-icon [hidden]="showPasswordCurrent" name="eye-off-outline"></ion-icon>
+                    <ion-icon [hidden]="!showPasswordCurrent" name="eye-outline"></ion-icon>
+                  </a>
+                </ion-item>
+                <div [hidden]="currentPassword.valid || currentPassword.pristine" class="invalid-input">
+                  Contraseña no válida (al menos 7 caracteres, un número, una mayúscula y una minúscula)
+                </div>
+                <ion-item lines="inset" class="toggle-password">
+                  <ion-label position="stacked">Nueva contraseña</ion-label>
+                  <ion-input [(ngModel)]="user.password" name="newPassword" #newPassword="ngModel"
+                    [type]="showPasswordNew ? 'text' : 'password'" placeholder="Nueva contraseña"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" required>
+                  </ion-input>
+                  <a slot="end" (click)="togglePasswordNew()">
+                    <ion-icon [hidden]="showPasswordNew" name="eye-off-outline"></ion-icon>
+                    <ion-icon [hidden]="!showPasswordNew" name="eye-outline"></ion-icon>
+                  </a>
+                </ion-item>
+                <div [hidden]="newPassword.valid || newPassword.pristine" class="invalid-input">
+                  Contraseña no válida (al menos 7 caracteres, un número, una mayúscula y una minúscula)
+                </div>
+              </ion-item-group>
+              <div class="ion-text-end ion-margin-top">
+                <ion-button [disabled]="!updateUserForm.form.valid" fill="clear" type="submit">Actualizar perfil</ion-button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

@@ -17,7 +17,7 @@ export class SharedService {
   async showToast(message: string) {
     const toast = await toastController.create({
       color: 'dark',
-      duration: 2000,
+      duration: 3000,
       message: message,
     });
 
@@ -35,7 +35,7 @@ export class SharedService {
     }
     // Return an observable with a error message.
     return throwError(
-      'Something bad happened; please try again later.');
+      'Algo ha pasado. Inténtalo de nuevo');
   }
 
 }

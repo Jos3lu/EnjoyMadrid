@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { User } from './models/user.model';
 import { AuthService } from './services/auth/auth.service';
+import { SharedService } from './services/shared/shared.service';
 import { TokenStorageService } from './services/token/token-storage.service';
+import { UserService } from './services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -15,17 +19,24 @@ export class AppComponent {
   // #527c9e Color Logo
 
   userLogged: User;
+  isUserLogged: boolean;
 
   constructor(
     private authService: AuthService,
-    private tokenService: TokenStorageService
+    private userService: UserService,
+    private sharedService: SharedService,
+    private tokenService: TokenStorageService,
+    private route: Router,
+    private toastController: ToastController
   ) {
     this.selectDarkOrLightTheme();
+    this.isUserLogged = false;
   }
 
-  isUserLogged() {
+  checkIfUserLogged() {
     if (this.authService.isUserLoggedIn()) {
       this.userLogged = this.authService.getUserAuth();
+      this.isUserLogged = true;
     }
   }
 
@@ -33,10 +44,40 @@ export class AppComponent {
     this.authService.signOut().subscribe(
       _ => {
         this.userLogged = null;
+        this.isUserLogged = false;
         this.authService.setUserAuth(null);
         this.tokenService.setToken(null);
+        this.route.navigateByUrl('/');
       }
     );
+  }
+
+  async deleteAccount() {
+    const toast = await this.toastController.create({
+      header: 'Eliminar mi cuenta de forma definitiva',
+      position: 'top',
+      buttons: [
+        {
+          side: 'end',
+          text: 'Aceptar',
+          handler: () => {
+            this.userService.deleteUser(this.userLogged.id).subscribe(
+              _ => {
+                this.signOut();
+                this.sharedService.showToast('Cuenta borrada con éxito');
+              },
+              error => this.sharedService.showToast(error.error.message)
+            );
+          }
+        }, {
+          side: 'end',
+          text: 'Cancelar'
+        }
+      ]
+    });
+    if (this.isUserLogged) {
+      await toast.present();
+    }
   }
   
   selectDarkOrLightTheme() {

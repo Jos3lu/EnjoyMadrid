@@ -22,7 +22,7 @@ public class RouteServiceLogic implements RouteService {
 
 	@Override
 	public List<Route> getUserRoutes(Long userId) {
-		User user = this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + userId));
+		User user = this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 		return user.getRoutes();
 	}
 
