@@ -53,13 +53,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http
-		.cors().and().csrf().disable()
+		.csrf().disable()
 		.exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 		.authorizeRequests()
-		.antMatchers(HttpMethod.PUT, "/api/users/**").authenticated()
-		.antMatchers(HttpMethod.GET, "/api/users/**").authenticated()
+		.antMatchers(HttpMethod.GET, "/api/users", "/api/users/*").authenticated()
+		.antMatchers(HttpMethod.PUT, "/api/users/*", "/api/users/*/picture").authenticated()
+		.antMatchers(HttpMethod.DELETE, "/api/users/*").authenticated()
 		.antMatchers("/**", "/h2-console/**").permitAll()
 		.and().csrf().disable()
 		.httpBasic().disable();
