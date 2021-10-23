@@ -64,7 +64,9 @@ export class SignPage implements OnInit {
       },
       error => {
         this.sharedService.handleError(error);
-        this.sharedService.showToast(error.error.message);
+        if (error.error.message) {
+          this.sharedService.showToast(error.error.message);
+        }
       }
     );
   }

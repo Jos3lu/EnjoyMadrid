@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
@@ -27,10 +28,10 @@ export class UpdateUserPage implements OnInit {
   ) {
     this.showPasswordCurrent;
     this.showPasswordNew;
-   }
+  }
 
   ngOnInit() {
-    this.user = {id: -1, name: '', username: '', oldPassword: '', password: ''};
+    this.user = { id: -1, name: '', username: '', oldPassword: '', password: '' };
   }
 
   ionViewWillEnter() {
@@ -55,10 +56,7 @@ export class UpdateUserPage implements OnInit {
           this.user.photo = user.photo;
           this.authService.getUserAuth().photo = user.photo;
         },
-        error => {
-          this.sharedService.handleError(error);
-          this.sharedService.showToast(error.error.message);
-        }
+        error => this.onError(error)
       );
     }
   }
@@ -83,10 +81,13 @@ export class UpdateUserPage implements OnInit {
         }
         this.router.navigateByUrl('/');
       },
-      error => {
-        this.sharedService.handleError(error);
-        this.sharedService.showToast(error.error.message);
-      }
-    );
-  }  
+      error => this.onError(error));
+  }
+
+  onError(error: HttpErrorResponse) {
+    this.sharedService.handleError(error);
+    if (error.error.message) {
+      this.sharedService.showToast(error.error.message);
+    }
+  }
 }
