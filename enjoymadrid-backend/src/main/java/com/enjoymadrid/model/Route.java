@@ -32,6 +32,9 @@ public class Route {
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	private LocalDate date;
+	
+	@JsonView(RouteInterfaces.BasicData.class)
+	private Integer amount;
 		
 	// Datos parametrizar ruta
 	

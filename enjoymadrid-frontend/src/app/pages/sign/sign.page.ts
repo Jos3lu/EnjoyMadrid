@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
+import { UserModel } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
 
@@ -16,8 +16,8 @@ export class SignPage implements OnInit {
   showPasswordSignUp: boolean;
 
   // Info of the sign in and sign up forms
-  userSignIn: User;
-  userSignUp: User;
+  userSignIn: UserModel;
+  userSignUp: UserModel;
 
   constructor(
     private authService: AuthService, 
@@ -49,7 +49,7 @@ export class SignPage implements OnInit {
       _ => {
         this.onResponse();
       },
-      _ => this.sharedService.showToast('No se ha podido iniciar sesión. Mira que todo sea correcto y vuelve a intentarlo.')
+      _ => this.sharedService.showToast('No se ha podido iniciar sesión. Mira que todo sea correcto y vuelve a intentarlo.', 5000)
     );
   }
 
@@ -65,7 +65,7 @@ export class SignPage implements OnInit {
       error => {
         this.sharedService.handleError(error);
         if (error.error.message) {
-          this.sharedService.showToast(error.error.message);
+          this.sharedService.showToast(error.error.message, 3000);
         }
       }
     );

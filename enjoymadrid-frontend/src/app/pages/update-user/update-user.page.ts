@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
+import { UserModel } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class UpdateUserPage implements OnInit {
 
-  user: User;
+  user: UserModel;
   imageUser: File;
 
   // Show/hide passwords
@@ -87,7 +87,7 @@ export class UpdateUserPage implements OnInit {
   onError(error: HttpErrorResponse) {
     this.sharedService.handleError(error);
     if (error.error.message) {
-      this.sharedService.showToast(error.error.message);
+      this.sharedService.showToast(error.error.message, 3000);
     }
   }
 }

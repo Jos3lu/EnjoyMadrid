@@ -1,4 +1,4 @@
-export interface Point {
+export interface PointModel {
     id?: number;
     longitude?: number;
     latitude?: number;

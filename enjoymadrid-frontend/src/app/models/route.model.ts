@@ -1,5 +1,5 @@
-export interface Route {
+export interface RouteModel {
     id?: number;
     name: string;
-    date: Date;
+    date?: Date;
 }

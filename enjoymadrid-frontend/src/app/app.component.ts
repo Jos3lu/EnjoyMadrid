@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { User } from './models/user.model';
+import { UserModel } from './models/user.model';
 import { AuthService } from './services/auth/auth.service';
 import { SharedService } from './services/shared/shared.service';
 import { TokenStorageService } from './services/token/token-storage.service';
@@ -18,7 +18,7 @@ export class AppComponent {
   darkTheme: boolean;
   // #527c9e Color Logo
 
-  userLogged: User;
+  userLogged: UserModel;
   isUserLogged: boolean;
 
   constructor(
@@ -64,9 +64,9 @@ export class AppComponent {
             this.userService.deleteUser(this.userLogged.id).subscribe(
               _ => {
                 this.signOut();
-                this.sharedService.showToast('Cuenta borrada con éxito');
+                this.sharedService.showToast('Cuenta borrada con éxito', 3000);
               },
-              error => this.sharedService.showToast(error.error.message)
+              error => this.sharedService.showToast(error.error.message, 3000)
             );
           }
         }, {

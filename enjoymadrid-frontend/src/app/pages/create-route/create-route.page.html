@@ -11,99 +11,35 @@
   <ion-grid>
     <ion-row>
       <ion-col size-md="11" class="my-form">
-        <form>
+        <form (ngSubmit)="onCreateRoute()" #routeForm="ngForm">
           <ion-item>
             <ion-label position="stacked">Nombre de la ruta</ion-label>
-            <ion-input type="text" placeholder="Mi primera ruta" required></ion-input>
+            <ion-input type="text" placeholder="Mi primera ruta" [(ngModel)]="route.name" name="nameRoute"
+              #nameRoute="ngModel" required></ion-input>
           </ion-item>
+          <div [hidden]="nameRoute.valid || nameRoute.pristine" class="invalid-input">
+            El nombre no puede estar vacío
+          </div>
           <ion-list lines="none">
             <ion-list-header>Preferencias</ion-list-header>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="cultureSelected" name="culture"></ion-checkbox>
-              <ion-label class="ion-text-wrap">Cultura y arte</ion-label>
-            </ion-item>
-            <ion-list *ngIf="cultureSelected" lines="none" class="ion-padding-start">
-              <ion-item *ngFor="let culture of cultureList; let i = index">
-                <ion-checkbox color="primary" slot="start" [(ngModel)]="culture.selected" name="culture {{i + 1}}">
+            <ion-item-group *ngFor="let preference of preferences">
+              <ion-item>
+                <ion-checkbox color="secondary" slot="start" [(ngModel)]="preference.selected" [name]="preference.value">
                 </ion-checkbox>
-                <ion-label class="ion-text-wrap">{{culture.value}}</ion-label>
+                <ion-label class="ion-text-wrap">{{preference.value}}</ion-label>
               </ion-item>
-            </ion-list>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="gardensSelected" name="gardens"></ion-checkbox>
-              <ion-label class="ion-text-wrap">Parques y jardines</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="guideCompaniesSelected" name="guidecompanies">
-              </ion-checkbox>
-              <ion-label class="ion-text-wrap">Empresas de guías turísticas</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="monumentsSelected" name="monuments">
-              </ion-checkbox>
-              <ion-label class="ion-text-wrap">Edificios y monumentos</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="eventsSelected" name="events"></ion-checkbox>
-              <ion-label class="ion-text-wrap">Espacios para eventos</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="leisureCentersSelected" name="leisureCenters">
-              </ion-checkbox>
-              <ion-label class="ion-text-wrap">Centros de ocio</ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="sportSelected" name="sports"></ion-checkbox>
-              <ion-label class="ion-text-wrap">Deporte</ion-label>
-            </ion-item>
-            <ion-list *ngIf="sportSelected" lines="none" class="ion-padding-start">
-              <ion-item *ngFor="let sport of sportsList; let i = index">
-                <ion-checkbox color="primary" slot="start" [(ngModel)]="sport.selected" name="sport {{i + 1}}">
-                </ion-checkbox>
-                <ion-label class="ion-text-wrap">{{sport.value}}</ion-label>
-              </ion-item>
-            </ion-list>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="storesSelected" name="stores"></ion-checkbox>
-              <ion-label class="ion-text-wrap">Tiendas</ion-label>
-            </ion-item>
-            <ion-list *ngIf="storesSelected" lines="none" class="ion-padding-start">
-              <ion-item *ngFor="let store of storesList; let i = index">
-                <ion-checkbox color="primary" slot="start" [(ngModel)]="store.selected" name="store {{i + 1}}">
-                </ion-checkbox>
-                <ion-label class="ion-text-wrap">{{store.value}}</ion-label>
-              </ion-item>
-            </ion-list>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="clubsSelected" name="clubs"></ion-checkbox>
-              <ion-label class="ion-text-wrap">Noche</ion-label>
-            </ion-item>
-            <ion-list *ngIf="clubsSelected" lines="none" class="ion-padding-start">
-              <ion-item *ngFor="let club of clubsList; let i = index">
-                <ion-checkbox color="primary" slot="start" [(ngModel)]="club.selected" name="club {{i + 1}}">
-                </ion-checkbox>
-                <ion-label class="ion-text-wrap">{{club.value}}</ion-label>
-              </ion-item>
-            </ion-list>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="restaurantsSelected" name="restaurant">
-              </ion-checkbox>
-              <ion-label class="ion-text-wrap">Restaurantes</ion-label>
-            </ion-item>
-            <ion-list *ngIf="restaurantsSelected" lines="none" class="ion-padding-start">
-              <ion-item *ngFor="let restaurant of restaurantsList; let i = index">
-                <ion-checkbox color="primary" slot="start" [(ngModel)]="restaurant.selected"
-                  name="restaurant {{i + 1}}"></ion-checkbox>
-                <ion-label class="ion-text-wrap">{{restaurant.value}}</ion-label>
-              </ion-item>
-            </ion-list>
-            <ion-item>
-              <ion-checkbox color="secondary" slot="start" [(ngModel)]="othersSelected" name="others"></ion-checkbox>
-              <ion-label class="ion-text-wrap">Otros</ion-label>
-            </ion-item>
+              <ion-list *ngIf="preference.selected && preference.subpreferences" lines="none" class="ion-padding-start">
+                <ion-item *ngFor="let subpreference of preference.subpreferences">
+                  <ion-checkbox color="primary" slot="start" [(ngModel)]="subpreference.selected"
+                    [name]="subpreference.value">
+                  </ion-checkbox>
+                  <ion-label class="ion-text-wrap">{{subpreference.value}}</ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-item-group>
           </ion-list>
           <ion-list lines="none">
-            <ion-list-header>Número máximo de sitios a visitar</ion-list-header>
+            <ion-list-header>Número máximo de lugares a visitar</ion-list-header>
             <ion-item>
               <ion-range color="secondary" step="10" name="points" [(ngModel)]="maxPoints" min="10" max="500" pin>
                 <ion-label slot="start">10</ion-label>
@@ -114,7 +50,7 @@
           <ion-list lines="none">
             <ion-list-header>Método de transporte</ion-list-header>
             <ion-item>
-              <ion-segment color="secondary" value="walking">
+              <ion-segment (ionChange)="transportChanged($event)" color="secondary" value="walking">
                 <ion-segment-button value="walking">
                   <ion-icon name="walk"></ion-icon>
                 </ion-segment-button>
@@ -131,7 +67,7 @@
             </ion-item>
           </ion-list>
           <div class="ion-text-end ion-margin-top">
-            <ion-button type="submit">Crear ruta</ion-button>
+            <ion-button [disabled]="!routeForm.form.valid" type="submit">Crear ruta</ion-button>
           </div>
         </form>
       </ion-col>

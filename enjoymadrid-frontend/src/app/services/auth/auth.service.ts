@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { User } from 'src/app/models/user.model';
+import { UserModel } from 'src/app/models/user.model';
 import { SharedService } from '../shared/shared.service';
 import { TokenStorageService } from '../token/token-storage.service';
 
@@ -15,17 +15,17 @@ const headerOptions = {
 })
 export class AuthService {
 
-  private currentUser: BehaviorSubject<User>;
+  private currentUser: BehaviorSubject<UserModel>;
 
   constructor(
     private httpClient: HttpClient, 
     private sharedService: SharedService,
     private tokenService: TokenStorageService
   ) {
-    this.currentUser = new BehaviorSubject<User>(null);
+    this.currentUser = new BehaviorSubject<UserModel>(null);
   }
 
-  setUserAuth(userAuth: User) {
+  setUserAuth(userAuth: UserModel) {
     this.currentUser.next(userAuth);
   }
 
@@ -33,11 +33,11 @@ export class AuthService {
     return this.currentUser.value ? true : false;
   }
 
-  getUserAuth(): User {
+  getUserAuth(): UserModel {
     return this.currentUser.value;
   }
 
-  signIn(userSignIn: User): Observable<any> {
+  signIn(userSignIn: UserModel): Observable<any> {
     return this.httpClient.post<any>(this.sharedService.API_URL + "signin", userSignIn, headerOptions).pipe(
       tap(data => {
         this.tokenService.setToken(data.token);
@@ -47,7 +47,7 @@ export class AuthService {
     );
   }
 
-  signUp(userSignUp: User): Observable<any> {
+  signUp(userSignUp: UserModel): Observable<any> {
     return this.httpClient.post<any>(this.sharedService.API_URL + 'signup', userSignUp, headerOptions);
   }
 

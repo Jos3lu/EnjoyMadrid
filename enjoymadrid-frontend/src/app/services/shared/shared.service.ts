@@ -14,10 +14,10 @@ export class SharedService {
   constructor() { }
 
   // Show alerts to user
-  async showToast(message: string) {
+  async showToast(message: string, timeout: number) {
     const toast = await toastController.create({
       color: 'dark',
-      duration: 3000,
+      duration: timeout,
       message: message,
     });
 
