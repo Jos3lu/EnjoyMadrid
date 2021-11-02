@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
@@ -47,18 +48,18 @@ public class User {
 	@Lob
 	@JsonView(UserInterfaces.PictureData.class)
 	private byte[] photo;
-	
-	@OneToMany(mappedBy = "point", orphanRemoval = true, cascade = CascadeType.REMOVE)
-	@JsonView(UserInterfaces.CommentData.class)
-	private List<Comment> comments = new LinkedList<>();
-	
-	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+		
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "user_id")
 	@JsonView(UserInterfaces.RouteData.class)
 	private List<Route> routes = new LinkedList<>();;
 	
 	public User() {}
 
-	public User(String name, String username, String password) {
+	public User(
+			@NotBlank(message = "El nombre no puede estar vacío") @Size(max = 50, message = "El nombre debe tener menos de 50 caracteres") String name,
+			@NotBlank(message = "El nombre de usuario no puede estar vacío") @Size(max = 50, message = "El nombre de usuario debe tener menos de 50 caracteres") String username,
+			@NotBlank(message = "La contraseña no puede estar vacía") @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", message = "La contraseña debe incluir al menos un número, una minúscula, una mayúscula y al menos 7 caracteres") String password) {
 		this.name = name;
 		this.username = username;
 		this.password = password;
@@ -95,21 +96,13 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public byte[] getPhoto() {
 		return photo;
 	}
 
 	public void setPhoto(byte[] photo) {
 		this.photo = photo;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	public List<Route> getRoutes() {

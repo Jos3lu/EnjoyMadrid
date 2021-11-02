@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteModel } from 'src/app/models/route.model';
+import { RouteService } from 'src/app/services/route/route.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
 
 @Component({
@@ -13,9 +14,11 @@ export class CreateRoutePage implements OnInit {
   preferences: any;
   nameRoute: string;
   maxPoints: number;
-  transport: string;
 
-  constructor(private sharedService: SharedService) { }
+  constructor(
+    private sharedService: SharedService,
+    private routeService: RouteService
+  ) { }
 
   ngOnInit() {
     this.initRoute();
@@ -138,12 +141,8 @@ export class CreateRoutePage implements OnInit {
 
   }
 
-  transportChanged(event: any) {
-    this.transport = event.detail.value;
-  }
-
   onCreateRoute() {
-    let listPreferences = new Map<string, string[]>();
+    let listPreferences: any = [];
 
     for (let preference of this.preferences) {
       if (preference.selected) {
@@ -158,14 +157,24 @@ export class CreateRoutePage implements OnInit {
           }
         } 
 
-        listPreferences.set(preference.value, listSubpreferences);
+        // Add each preference (and the subpreferences)
+        listPreferences.push({ category: preference.value, subcategories: listSubpreferences });
       }
     }
 
-    if (!listPreferences.size) {
+    if (!listPreferences.length) {
       this.sharedService.showToast('Seguro que tienes alguna preferencia, selecciona al menos una y ya se podrá crear la ruta', 5000);
       return;
     }
+
+    this.route.preferences = listPreferences;
+    this.route.maxPoints = this.maxPoints;
+
+    this.routeService.createRoute(this.route).subscribe(
+      (points: any) => {
+        console.log(points);
+      }
+    );
   }
 
 }

@@ -4,94 +4,89 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
-import com.enjoymadrid.model.interfaces.PointInterfaces;
+import com.enjoymadrid.model.interfaces.TouristicPointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
-public class Point {
+public class TouristicPoint {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private Long id;
 	
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private Double longitude;
 	
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private Double latitude;
 	
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	@NotEmpty(message = "El nombre no puede estar vacío")
 	private String name;
 	
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String address;
 	
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private Integer zipcode;
 	
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String phone;
 	
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String web;
 	
 	@Lob
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String description;
 	
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String email;
 	
 	@Lob
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String paymentServices;
 	
 	@Lob
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String horary;
 			
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String type;
 	
 	@ElementCollection
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> categories = new LinkedList<>();
 	
 	@ElementCollection
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> subcategories = new LinkedList<>();
 			
 	@ElementCollection
-	@JsonView(PointInterfaces.BasicData.class)
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> images = new LinkedList<>();
 	
-	@OneToMany(mappedBy = "point", orphanRemoval = true, cascade = CascadeType.REMOVE)
-	@JsonView(PointInterfaces.CommentData.class)
-	private List<Comment> comments = new LinkedList<>();
+	public TouristicPoint() {}
 	
-	public Point() {}
-	
-	public Point(Double longitude, Double latitude, String name) {
+	public TouristicPoint(Double longitude, Double latitude, @NotEmpty(message = "El nombre no puede estar vacío") String name) {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.name = name;
 	}
 
-	public Point(Double longitude, Double latitude, String name, String address, Integer zipcode, String phone,
-			String web, String description, String email, String paymentServices, String horary,
-			String type, List<String> categories, List<String> subcategories, List<String> images) {
+	public TouristicPoint(Double longitude, Double latitude, @NotEmpty(message = "El nombre no puede estar vacío") String name, 
+			String address, Integer zipcode, String phone, String web, String description, String email, 
+			String paymentServices, String horary, String type, List<String> categories, 
+			List<String> subcategories, List<String> images) {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.name = name;
@@ -245,14 +240,6 @@ public class Point {
 		this.images = images;
 	}
 
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -261,7 +248,7 @@ public class Point {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Point other = (Point) obj;
+		TouristicPoint other = (TouristicPoint) obj;
 		return Objects.equals(latitude, other.latitude) && Objects.equals(longitude, other.longitude)
 				&& Objects.equals(name, other.name);
 	}

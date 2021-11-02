@@ -47,25 +47,6 @@
               </ion-range>
             </ion-item>
           </ion-list>
-          <ion-list lines="none">
-            <ion-list-header>Método de transporte</ion-list-header>
-            <ion-item>
-              <ion-segment (ionChange)="transportChanged($event)" color="secondary" value="walking">
-                <ion-segment-button value="walking">
-                  <ion-icon name="walk"></ion-icon>
-                </ion-segment-button>
-                <ion-segment-button value="bike">
-                  <ion-icon name="bicycle"></ion-icon>
-                </ion-segment-button>
-                <ion-segment-button value="publicTransport">
-                  <ion-icon name="bus"></ion-icon>
-                </ion-segment-button>
-                <ion-segment-button value="car">
-                  <ion-icon name="car"></ion-icon>
-                </ion-segment-button>
-              </ion-segment>
-            </ion-item>
-          </ion-list>
           <div class="ion-text-end ion-margin-top">
             <ion-button [disabled]="!routeForm.form.valid" type="submit">Crear ruta</ion-button>
           </div>

@@ -14,24 +14,27 @@ const headerOptions = {
 })
 export class UserService {
 
-  constructor(private httpClient: HttpClient, private sharedService: SharedService) { }
+  constructor(
+    private httpClient: HttpClient, 
+    private sharedService: SharedService
+  ) { }
 
   getUser(id: number): Observable<UserModel> {
-    return this.httpClient.get<UserModel>(this.sharedService.API_URL + 'users/' + id).pipe(
+    return this.httpClient.get(this.sharedService.API_URL + 'users/' + id).pipe(
       catchError(this.sharedService.handleError)
     );
   }
 
   updateUser(id: number, user: UserModel): Observable<UserModel> {
-    return this.httpClient.put<UserModel>(this.sharedService.API_URL + 'users/' + id, user, headerOptions);
+    return this.httpClient.put(this.sharedService.API_URL + 'users/' + id, user, headerOptions);
   }
 
   updateUserPictureProfile(id: number, imageForm: FormData): Observable<UserModel> {
-    return this.httpClient.put<UserModel>(this.sharedService.API_URL + 'users/' + id + '/picture', imageForm);
+    return this.httpClient.put(this.sharedService.API_URL + 'users/' + id + '/picture', imageForm);
   }
 
   deleteUser(id: number): Observable<any> {
-    return this.httpClient.delete<any>(this.sharedService.API_URL + 'users/' + id).pipe(
+    return this.httpClient.delete(this.sharedService.API_URL + 'users/' + id).pipe(
       catchError(this.sharedService.handleError)
     )
   }

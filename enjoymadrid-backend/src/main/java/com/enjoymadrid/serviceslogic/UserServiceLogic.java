@@ -50,7 +50,6 @@ public class UserServiceLogic implements UserService {
 		updatedUser.setId(pastUser.getId());
 		updatedUser.setPhoto(pastUser.getPhoto());
 		updatedUser.setRoutes(pastUser.getRoutes());
-		updatedUser.setComments(pastUser.getComments());
 		
 		// Check if current password matches the password inserted in the form as current password
 		if (oldPassword != null && !oldPassword.isBlank() 

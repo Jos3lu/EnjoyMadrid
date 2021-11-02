@@ -13,9 +13,7 @@ public class UserInterfaces {
 	public static interface PictureExtendData extends BasicData, PictureData {}
 	
 	public static interface ExtendData extends UsernameData, PictureData {}
-	
-	public static interface CommentData extends CommentInterfaces.PointData {}
-	
+		
 	public static interface RouteData extends RouteInterfaces.BasicData {}
 
 }

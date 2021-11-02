@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
@@ -28,25 +30,40 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.enjoymadrid.model.Point;
-import com.enjoymadrid.model.repositories.PointRepository;
+import com.enjoymadrid.model.TouristicPoint;
+import com.enjoymadrid.model.User;
+import com.enjoymadrid.model.repositories.TouristicPointRepository;
+import com.enjoymadrid.model.repositories.UserRepository;
 
 @Component
 @EnableScheduling
 public class LoadPointsComponent implements CommandLineRunner{
 
 	private CyclicBarrier waitToEnd;
-	private List<Point> points;
+	private List<TouristicPoint> touristicPoints;
 	private static final Logger logger = LoggerFactory.getLogger(LoadPointsComponent.class);
 	
-	private final PointRepository pointRepository;
+	private final TouristicPointRepository touristicPointRepository;
+	private final UserRepository userRepository;
 	
-	public LoadPointsComponent(PointRepository pointRepository) {
-		this.pointRepository = pointRepository;
+	
+	public LoadPointsComponent(TouristicPointRepository pointRepository, UserRepository userRepository) {
+		this.touristicPointRepository = pointRepository;
+		this.userRepository = userRepository;
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		User user1 = new User("Ramon","ramoneitor", new BCryptPasswordEncoder().encode("1fsdfsdAff3"));
+		userRepository.save(user1);
+		
+		User user2 = new User("Pepe", "pepeitor", new BCryptPasswordEncoder().encode("dfdsjhf3213DS"));
+		userRepository.save(user2);
+		
+		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
+		userRepository.save(user3);
+		
 		loadData();
 	}
 
@@ -60,10 +77,10 @@ public class LoadPointsComponent implements CommandLineRunner{
 
 		ExecutorService ex = Executors.newFixedThreadPool(dataOrigins.length);
 		waitToEnd = new CyclicBarrier(dataOrigins.length + 1);
-		points = Collections.synchronizedList(new LinkedList<>());
+		touristicPoints = Collections.synchronizedList(new LinkedList<>());
 
 		for (String origin : dataOrigins) {
-			ex.execute(() -> loadDataPoints(origin));
+			ex.execute(() -> loadDataTouristicPoints(origin));
 		}
 		ex.shutdown();	
 
@@ -75,13 +92,16 @@ public class LoadPointsComponent implements CommandLineRunner{
 		}
 
 		// Delete points not found anymore on the Madrid city hall page
-		List<Point> pointsDataBase = pointRepository.findAll();
-		pointsDataBase.stream().filter(point -> !points.contains(point)).forEach(point -> pointRepository.delete(point));
-		logger.info("Database updated");
+		touristicPointRepository.findAll()
+			.stream()
+			.filter(point -> !touristicPoints.contains(point))
+			.forEach(point -> touristicPointRepository.delete(point));
+			
+		logger.info("Touristic points updated in database");
 	}
 
 
-	private void loadDataPoints(String typeTourism) {
+	private void loadDataTouristicPoints(String typeTourism) {
 		RestTemplate template = new RestTemplate();
 		byte[] response = template.getForObject("https://www.esmadrid.com/opendata/" + typeTourism, String.class)
 				.getBytes();
@@ -99,7 +119,7 @@ public class LoadPointsComponent implements CommandLineRunner{
 		NodeList listNodes = document.getElementsByTagName("service");
 
 		// Spain/Madrid current day
-		String currentDate = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toString().split("T")[0];
+		String currentDate = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate().toString();
 		for (int i = 0; i < listNodes.getLength(); i++) {
 			Node node = listNodes.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -108,12 +128,13 @@ public class LoadPointsComponent implements CommandLineRunner{
 				String name = element.getElementsByTagName("name").item(0).getTextContent();
 				Double longitude = tryParseDouble(element.getElementsByTagName("longitude").item(0).getTextContent());
 				Double latitude = tryParseDouble(element.getElementsByTagName("latitude").item(0).getTextContent());
+				
 				// To delete the points that are removed from the page of Madrid
-				points.add(new Point(longitude, latitude, name));
+				touristicPoints.add(new TouristicPoint(longitude, latitude, name));
 
 				// If point is already in database and has been updated or is not in the database we update/add the point in the DB
-				if (pointRepository.findTopByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude).isPresent()
-						&& !currentDate.equals(element.getAttribute("fechaActualizacion"))) {
+				Optional<TouristicPoint> pointDB = touristicPointRepository.findTopByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude);
+				if (pointDB.isPresent() && !currentDate.equals(element.getAttribute("fechaActualizacion"))) {
 					continue;
 				}
 
@@ -170,10 +191,15 @@ public class LoadPointsComponent implements CommandLineRunner{
 					}
 				}
 
-				Point point = new Point(longitude, latitude, name, address, zipcode, phone, web, 
+				TouristicPoint point = new TouristicPoint(longitude, latitude, name, address, zipcode, phone, web, 
 						description, email, paymentServices, horary, type, categories, subcategories, images);
+				
+				if (pointDB.isPresent()) {
+					point.setId(pointDB.get().getId());
+				}
+				
 				// Save the point in the database
-				pointRepository.save(point);
+				touristicPointRepository.save(point);
 			}
 		}	
 

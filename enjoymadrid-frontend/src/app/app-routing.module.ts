@@ -17,11 +17,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/create-route/create-route.module').then( m => m.CreateRoutePageModule)
   },
   {
-    path: 'user-comments',
-    loadChildren: () => import('./pages/user-comments/user-comments.module').then( m => m.UserCommentsPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'update-user',
     loadChildren: () => import('./pages/update-user/update-user.module').then( m => m.UpdateUserPageModule),
     canActivate: [AuthGuard]

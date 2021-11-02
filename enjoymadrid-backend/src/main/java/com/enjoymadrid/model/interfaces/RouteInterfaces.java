@@ -6,8 +6,6 @@ public class RouteInterfaces {
 	
 	public static interface BasicData {}
 	
-	public static interface PointsData extends PointInterfaces.BasicData {}
-	
-	public static interface UserData extends UserInterfaces.BasicData {}
+	//public static interface PointsData extends TouristicPointInterfaces.BasicData {}
 	
 }
