@@ -22,28 +22,23 @@
           </div>
           <ion-list lines="none">
             <ion-list-header>Preferencias</ion-list-header>
-            <ion-item-group *ngFor="let preference of preferences">
+            <ion-item-group *ngFor="let preference of preferences; let i = index">
               <ion-item>
-                <ion-checkbox color="secondary" slot="start" [(ngModel)]="preference.selected" [name]="preference.value">
-                </ion-checkbox>
-                <ion-label class="ion-text-wrap">{{preference.value}}</ion-label>
+                <ion-label class="ion-text-wrap">{{preference.name}}</ion-label>
+                <div slot="start">
+                  <ion-icon class="color-star" name="star" *ngFor="let n of [1,2,3,4,5]"
+                    [ngStyle]="{'color': changeColor(n, i)}" (click)="onRating(n, i)">
+                  </ion-icon>
+                </div>
               </ion-item>
-              <ion-list *ngIf="preference.selected && preference.subpreferences" lines="none" class="ion-padding-start">
-                <ion-item *ngFor="let subpreference of preference.subpreferences">
-                  <ion-checkbox color="primary" slot="start" [(ngModel)]="subpreference.selected"
-                    [name]="subpreference.value">
-                  </ion-checkbox>
-                  <ion-label class="ion-text-wrap">{{subpreference.value}}</ion-label>
-                </ion-item>
-              </ion-list>
             </ion-item-group>
           </ion-list>
           <ion-list lines="none">
-            <ion-list-header>Número máximo de lugares a visitar</ion-list-header>
+            <ion-list-header>Distancia máxima andando hasta el siguiente modo de transporte</ion-list-header>
             <ion-item>
-              <ion-range color="secondary" step="10" name="points" [(ngModel)]="maxPoints" min="10" max="500" pin>
-                <ion-label slot="start">10</ion-label>
-                <ion-label slot="end">500</ion-label>
+              <ion-range color="secondary" step="100" name="points" [(ngModel)]="route.maxDist" min="200" max="5000" pin>
+                <ion-label class="ion-text-wrap" slot="start">0.2 km</ion-label>
+                <ion-label class="ion-text-wrap" slot="end">5 km</ion-label>
               </ion-range>
             </ion-item>
           </ion-list>
