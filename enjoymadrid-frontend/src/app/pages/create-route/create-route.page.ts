@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { RouteModel } from 'src/app/models/route.model';
 import { RouteService } from 'src/app/services/route/route.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
+import { SelectPointPage } from '../select-point/select-point.page';
 
 @Component({
   selector: 'app-create-route',
@@ -16,7 +18,8 @@ export class CreateRoutePage implements OnInit {
 
   constructor(
     private sharedService: SharedService,
-    private routeService: RouteService
+    private routeService: RouteService,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -79,7 +82,7 @@ export class CreateRoutePage implements OnInit {
     return indexStar > this.preferences[index].value ? '#ccc' : '#ffc700';
   }
 
-  onCreateRoute() {
+  async onCreateRoute() {
 
     let mapPreferences = this.preferences.reduce((map, preference) => {
       map.set(preference.name, preference.value);
@@ -88,12 +91,21 @@ export class CreateRoutePage implements OnInit {
 
     this.route.preferences = mapPreferences;
 
+    const modal = await this.modalController.create({
+      component: SelectPointPage,
+      cssClass: 'my-modal',
+      componentProps: {
+        'route': this.route
+      }
+    });
+    return await modal.present();
+/*
     this.routeService.createRoute(this.route).subscribe(
       (points: any) => {
         console.log(points);
       }
     );
-
+*/
   }
 
 }
