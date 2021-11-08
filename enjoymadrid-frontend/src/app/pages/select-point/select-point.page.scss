@@ -1,0 +1,24 @@
+.my-searchbar {
+    z-index: 2;
+    position: fixed;
+    width: 30%;
+    --background: white;
+}
+
+@media only screen and (max-width: 1024px) {
+    .my-searchbar {
+        width: 80%;
+    }
+  }
+
+.my-map {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.my-list {
+    z-index: 2;
+    position: fixed;
+    width: 30%;
+}

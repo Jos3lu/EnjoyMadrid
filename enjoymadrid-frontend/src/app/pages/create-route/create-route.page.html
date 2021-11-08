@@ -14,8 +14,8 @@
         <form (ngSubmit)="onCreateRoute()" #routeForm="ngForm">
           <ion-item>
             <ion-label position="stacked">Nombre de la ruta</ion-label>
-            <ion-input type="text" placeholder="Mi Ruta" [(ngModel)]="route.name" name="nameRoute"
-              #nameRoute="ngModel" required></ion-input>
+            <ion-input type="text" placeholder="Mi Ruta" [(ngModel)]="route.name" name="nameRoute" #nameRoute="ngModel"
+              required></ion-input>
           </ion-item>
           <div [hidden]="nameRoute.valid || nameRoute.pristine" class="invalid-input">
             El nombre de la ruta no puede estar vacío
@@ -36,14 +36,29 @@
           <ion-list lines="none">
             <ion-list-header>Distancia máxima andando hasta el siguiente modo de transporte</ion-list-header>
             <ion-item>
-              <ion-range color="secondary" step="100" name="points" [(ngModel)]="route.maxDist" min="200" max="2500" pin>
+              <ion-range color="secondary" step="100" name="points" [(ngModel)]="route.maxDist" min="200" max="2500"
+                pin>
                 <ion-label class="ion-text-wrap" slot="start">0.2 km</ion-label>
                 <ion-label class="ion-text-wrap" slot="end">2.5 km</ion-label>
               </ion-range>
             </ion-item>
           </ion-list>
+          <ion-list>
+            <ion-list-header>Origen y Destino</ion-list-header>
+            <ion-item>
+              <ion-label position="stacked">Localización de origen</ion-label>
+              <ion-input type="text" placeholder="Elige un punto de origen" (ionFocus)="selectOrigin()" name="origin"
+                required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Localización de destino</ion-label>
+              <ion-input type="text" placeholder="Elige un punto de destino" (ionFocus)="selectDestination()"
+                name="destination" required></ion-input>
+            </ion-item>
+          </ion-list>
+
           <div class="ion-text-end ion-margin-top">
-            <ion-button [disabled]="!routeForm.form.valid" type="submit">Siguiente</ion-button>
+            <ion-button [disabled]="!routeForm.form.valid" type="submit">Crear Ruta</ion-button>
           </div>
         </form>
       </ion-col>

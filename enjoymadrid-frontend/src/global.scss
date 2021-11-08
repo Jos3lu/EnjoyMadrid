@@ -27,6 +27,12 @@
 
 /* Leaflet stylesheet to render maps correctly */
 @import "~leaflet/dist/leaflet.css";
+@import '~leaflet-geosearch/dist/geosearch.css';
+
+// Default icon marker
+.leaflet-default-icon-path {
+    background-image: url(https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png);
+}
 
 /* For alert (it includes select) component, for long text options */
 // Applies a text wrap on ion options

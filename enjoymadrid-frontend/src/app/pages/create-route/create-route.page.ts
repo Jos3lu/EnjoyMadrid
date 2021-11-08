@@ -82,6 +82,27 @@ export class CreateRoutePage implements OnInit {
     return indexStar > this.preferences[index].value ? '#ccc' : '#ffc700';
   }
 
+  async selectOrigin() {
+    const modal = await this.modalController.create({
+      component: SelectPointPage,
+      cssClass: 'my-modal',
+    });
+    modal.present();
+
+    const location = await modal.onWillDismiss();
+    console.log(location);
+  }
+
+  async selectDestination() {
+    const modal = await this.modalController.create({
+      component: SelectPointPage,
+      cssClass: 'my-modal',
+    });
+    modal.present();
+
+
+  }
+
   async onCreateRoute() {
 
     let mapPreferences = this.preferences.reduce((map, preference) => {
@@ -91,14 +112,8 @@ export class CreateRoutePage implements OnInit {
 
     this.route.preferences = mapPreferences;
 
-    const modal = await this.modalController.create({
-      component: SelectPointPage,
-      cssClass: 'my-modal',
-      componentProps: {
-        'route': this.route
-      }
-    });
-    return await modal.present();
+
+    
 /*
     this.routeService.createRoute(this.route).subscribe(
       (points: any) => {

@@ -1,4 +1,9 @@
 <ion-content>
-  <div id="map" style="width: 100%; height: 100%">
+  <div id="map" class="my-map">
   </div>
+  <ion-fab class="ion-margin ion-padding-bottom" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onSelect()" routerLink="/" shape="round">
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
