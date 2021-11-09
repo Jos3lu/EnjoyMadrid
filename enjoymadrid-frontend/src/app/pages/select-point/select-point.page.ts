@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RouteModel } from 'src/app/models/route.model';
-import { GeoSearchControl, OpenStreetMapProvider, SearchControl } from 'leaflet-geosearch';
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as L from 'leaflet';
+import { SharedService } from 'src/app/services/shared/shared.service';
 
 @Component({
   selector: 'app-select-point',
@@ -11,9 +12,13 @@ import * as L from 'leaflet';
 export class SelectPointPage implements OnInit {
 
   provider = new OpenStreetMapProvider();
-  map: L.Map | L.LayerGroup<any>;
+  map: L.Map;
+  marker: L.Marker; 
 
-  constructor() { }
+  constructor(
+    private geolocation: Geolocation,
+    private sharedService: SharedService
+  ) { }
 
   ngOnInit() {
   }
@@ -29,8 +34,8 @@ export class SelectPointPage implements OnInit {
     });
 
     const layers = {
-      "Satélite": satellite,
-      "Predeterminado": standard
+      "<span style='cursor: pointer'>Satélite</span>": satellite,
+      "<span style='cursor: pointer'>Predeterminado</span>": standard
     };
 
     const searchControl = GeoSearchControl({
@@ -38,7 +43,9 @@ export class SelectPointPage implements OnInit {
       style: 'bar',
       autoCompleteDelay: 500,
       showMarker: false,
-      searchLabel: 'Buscar o clicar mapa'
+      retainZoomLevel: true,
+      searchLabel: 'Buscar o clicar mapa',
+      notFoundMessage: 'No se ha podido encontrar la dirección',
     });
 
     this.map = L.map('map', {
@@ -57,16 +64,30 @@ export class SelectPointPage implements OnInit {
 
   }
 
-  async searchPoint(result: any) {
-    //L.marker([result.location.x, result.location.y]).addTo(this.map);
-    L.marker([40.41379255, -3.6920378829351304]).addTo(this.map);
-    console.log(result);
+  searchPoint(result: any) {
+    this.setMarker(result.location.y, result.location.x);
   }
 
   selectPoint(result: any) {
-    console.log(result);
-    //const address = await this.provider.reverseUrl
-    L.marker([result.latlng.lat, result.latlng.lng]).addTo(this.map);
+    this.setMarker(result.latlng.lat, result.latlng.lng);
+  }
+
+  searchCurrentLocation() {
+    this.geolocation.getCurrentPosition().then(position => {
+      this.setMarker(position.coords.latitude, position.coords.longitude);
+    }).catch(error => {
+      this.sharedService.showToast('No se ha podido obtener la localización', 3000);
+      console.log(error);
+    });
+  }
+
+  setMarker(latitude: number, longitude: number) {
+    if(this.marker) {
+      this.map.removeLayer(this.marker); 
+    }
+    this.marker = L.marker([latitude, longitude]);
+    this.marker.addTo(this.map);
+    this.map.flyTo([latitude, longitude], 18);
   }
 
   onSelect() {

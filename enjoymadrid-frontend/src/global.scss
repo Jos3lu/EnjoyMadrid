@@ -29,6 +29,11 @@
 @import "~leaflet/dist/leaflet.css";
 @import '~leaflet-geosearch/dist/geosearch.css';
 
+/* Search bar of leaflet control */
+.leaflet-control-geosearch {
+    margin-top: 25px;
+}
+
 // Default icon marker
 .leaflet-default-icon-path {
     background-image: url(https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png);

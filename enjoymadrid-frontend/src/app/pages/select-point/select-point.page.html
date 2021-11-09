@@ -1,4 +1,9 @@
 <ion-content>
+  <div class="my-location">
+    <ion-button (click)="searchCurrentLocation()" class="my-button-location" size="small">
+      <ion-icon name="location-outline"></ion-icon>
+    </ion-button>
+  </div>
   <div id="map" class="my-map">
   </div>
   <ion-fab class="ion-margin ion-padding-bottom" vertical="bottom" horizontal="end" slot="fixed">
