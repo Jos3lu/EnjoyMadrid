@@ -3,8 +3,8 @@ export interface RouteModel {
     name: string;
     preferences?: Map<string, number>;
     maxDist?: number;
-    origin?: any;
-    destination?: any;
+    origin?: string;
+    destination?: string;
     totalDist?: number;
     totalTime?: number;
     date?: Date;

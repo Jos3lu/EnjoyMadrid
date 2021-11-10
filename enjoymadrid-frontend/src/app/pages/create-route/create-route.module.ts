@@ -14,8 +14,9 @@ import { SelectPointPageModule } from '../select-point/select-point.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    CreateRoutePageRoutingModule
+    CreateRoutePageRoutingModule,
+    SelectPointPageModule
   ],
-  declarations: [CreateRoutePage]
+  declarations: [CreateRoutePage],
 })
 export class CreateRoutePageModule {}

@@ -3,6 +3,8 @@ import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as L from 'leaflet';
 import { SharedService } from 'src/app/services/shared/shared.service';
+import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-select-point',
@@ -11,13 +13,18 @@ import { SharedService } from 'src/app/services/shared/shared.service';
 })
 export class SelectPointPage implements OnInit {
 
+  @Input() isOrigin: boolean;
+
   provider = new OpenStreetMapProvider();
   map: L.Map;
   marker: L.Marker; 
+  point: any; 
 
   constructor(
     private geolocation: Geolocation,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private modalController: ModalController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -26,11 +33,11 @@ export class SelectPointPage implements OnInit {
   ionViewDidEnter() {
 
     const standard = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Imagery &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
 
     const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'Imagery &copy; Esri'
+      attribution: '&copy; Esri'
     });
 
     const layers = {
@@ -65,23 +72,24 @@ export class SelectPointPage implements OnInit {
   }
 
   searchPoint(result: any) {
-    this.setMarker(result.location.y, result.location.x);
+    this.setMarker(result.location.y, result.location.x, result.location.label);
   }
 
   selectPoint(result: any) {
-    this.setMarker(result.latlng.lat, result.latlng.lng);
+    this.setMarker(result.latlng.lat, result.latlng.lng, 'Ubicación seleccionada');
   }
 
   searchCurrentLocation() {
     this.geolocation.getCurrentPosition().then(position => {
-      this.setMarker(position.coords.latitude, position.coords.longitude);
+      this.setMarker(position.coords.latitude, position.coords.longitude, 'Tu ubicación');
     }).catch(error => {
       this.sharedService.showToast('No se ha podido obtener la localización', 3000);
       console.log(error);
     });
   }
 
-  setMarker(latitude: number, longitude: number) {
+  setMarker(latitude: number, longitude: number, location: string) {
+    this.point = { latitude: latitude, longitude: longitude, location: location };
     if(this.marker) {
       this.map.removeLayer(this.marker); 
     }
@@ -91,7 +99,15 @@ export class SelectPointPage implements OnInit {
   }
 
   onSelect() {
+    if (!this.point) {
+      this.sharedService.showToast('Selecciona una localización', 3000);
+      return;
+    }
 
+    this.modalController.dismiss({
+      'point': this.point
+    });
+    this.router.navigateByUrl('/create-route');
   }
 
 }

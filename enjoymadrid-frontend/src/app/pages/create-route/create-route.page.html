@@ -47,12 +47,12 @@
             <ion-list-header>Origen y Destino</ion-list-header>
             <ion-item>
               <ion-label position="stacked">Localización de origen</ion-label>
-              <ion-input type="text" placeholder="Elige un punto de origen" (ionFocus)="selectOrigin()" name="origin"
+              <ion-input type="text" [(ngModel)]="origin.location" placeholder="Elige un punto de origen" (ionFocus)="selectOrigin()" name="origin"
                 required></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="stacked">Localización de destino</ion-label>
-              <ion-input type="text" placeholder="Elige un punto de destino" (ionFocus)="selectDestination()"
+              <ion-input type="text" [(ngModel)]="destination.location" placeholder="Elige un punto de destino" (ionFocus)="selectDestination()"
                 name="destination" required></ion-input>
             </ion-item>
           </ion-list>

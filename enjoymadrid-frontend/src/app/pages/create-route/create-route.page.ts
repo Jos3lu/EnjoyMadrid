@@ -13,8 +13,9 @@ import { SelectPointPage } from '../select-point/select-point.page';
 export class CreateRoutePage implements OnInit {
 
   route: RouteModel;
-  nameRoute: string;
   preferences: any[];
+  origin: any;
+  destination: any;
 
   constructor(
     private sharedService: SharedService,
@@ -72,6 +73,9 @@ export class CreateRoutePage implements OnInit {
       }
     ];
 
+    this.origin = {latitude: 0, longitude: 0, location: ''};
+    this.destination = {latitude: 0, longitude: 0, location: ''};
+
   }
 
   onRating(value: number, index: number) {
@@ -86,21 +90,28 @@ export class CreateRoutePage implements OnInit {
     const modal = await this.modalController.create({
       component: SelectPointPage,
       cssClass: 'my-modal',
+      componentProps: {
+        'isOrigin': true
+      }
     });
     modal.present();
 
     const location = await modal.onWillDismiss();
-    console.log(location);
+    this.origin = location.data.point;
   }
 
   async selectDestination() {
     const modal = await this.modalController.create({
       component: SelectPointPage,
       cssClass: 'my-modal',
+      componentProps: {
+        'isOrigin': false
+      }
     });
     modal.present();
 
-
+    const location = await modal.onWillDismiss();
+    this.destination = location.data.point;
   }
 
   async onCreateRoute() {
@@ -111,7 +122,8 @@ export class CreateRoutePage implements OnInit {
     }, new Map<string, number>());
 
     this.route.preferences = mapPreferences;
-
+    this.route.origin = this.origin.latitude + ',' + this.origin.longitude;
+    this.route.destination = this.destination.latitude + ',' + this.destination.longitude;
 
     
 /*
