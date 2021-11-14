@@ -1,0 +1,55 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center"><img class="img-size" alt="Enjoy Madrid" src="./assets/logo.png"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-grid class="margin-web">
+    <ion-row>
+      <ion-col size-md="2" size-xs="12">
+        <ion-list lines="none">
+          <h6 class="categories">
+            Categorías
+          </h6>
+          <ion-item-group *ngFor="let category of categories; let i = index">
+            <ion-item (click)="categorySelected(i)">
+              <ion-label>
+                <ion-icon *ngIf="!category.selected" class="align-icon" slot="start" name="chevron-forward-outline"></ion-icon>
+                <ion-icon *ngIf="category.selected" class="align-icon" slot="start" name="chevron-down-outline"></ion-icon>
+                {{category.name}}
+              </ion-label>
+            </ion-item>
+            <ion-item-group *ngIf="category.selected" class="subcategories">
+              <ion-item *ngFor="let subcategory of category.subcategories">
+                <ion-label class="ion-text-wrap">
+                  <ion-icon class="align-icon" slot="start" name="chevron-forward-outline"></ion-icon>
+                  {{subcategory}}
+                </ion-label>
+              </ion-item>
+            </ion-item-group>
+          </ion-item-group>
+        </ion-list>
+      </ion-col>
+      <ion-col class="results">
+        <ion-list>
+          <h3>Resultados</h3>
+          <ion-item>
+            <ion-avatar slot="start">
+              <img alt="route" src="./assets/madrid1.jpg">
+            </ion-avatar>
+            <ion-label class="ion-text-wrap">
+              <h2 id="title-route">Nombre Ruta 1</h2>
+              <h3>Tiempo: X h Y min</h3>
+              <h3>Distancia: X km</h3>
+              <p>Fecha Creación: xx-xx-xxxx</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

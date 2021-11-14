@@ -17,8 +17,8 @@ export class SelectPointPage implements OnInit {
 
   provider = new OpenStreetMapProvider();
   map: L.Map;
-  marker: L.Marker; 
-  point: any; 
+  marker: L.Marker;
+  point: any;
 
   constructor(
     private geolocation: Geolocation,
@@ -90,8 +90,8 @@ export class SelectPointPage implements OnInit {
 
   setMarker(latitude: number, longitude: number, location: string) {
     this.point = { latitude: latitude, longitude: longitude, location: location };
-    if(this.marker) {
-      this.map.removeLayer(this.marker); 
+    if (this.marker) {
+      this.map.removeLayer(this.marker);
     }
     this.marker = L.marker([latitude, longitude]);
     this.marker.addTo(this.map);

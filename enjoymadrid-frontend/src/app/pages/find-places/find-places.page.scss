@@ -1,0 +1,30 @@
+@media only screen and (min-width: 768px) {
+    .results {
+      margin-left: 25px;
+    }
+}
+
+.results h3 {
+    font-weight: bold;
+}
+
+.categories {
+    font-weight: bold;
+}
+
+.align-icon {
+    vertical-align: text-top;
+}
+
+.subcategories {
+    margin-left: 15px;
+}
+
+.subcategories ion-item {
+    font-size: small;
+    color: #747475;
+}
+
+ion-item-group ion-label {
+    cursor: pointer;
+}

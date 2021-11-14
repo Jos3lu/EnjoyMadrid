@@ -17,6 +17,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/create-route/create-route.module').then( m => m.CreateRoutePageModule)
   },
   {
+    path: 'find-places',
+    loadChildren: () => import('./pages/find-places/find-places.module').then( m => m.FindPlacesPageModule)
+  },
+  {
     path: 'update-user',
     loadChildren: () => import('./pages/update-user/update-user.module').then( m => m.UpdateUserPageModule),
     canActivate: [AuthGuard]

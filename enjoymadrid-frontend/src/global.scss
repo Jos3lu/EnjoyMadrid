@@ -83,3 +83,10 @@ h1 {
     font-family: Georgia,serif; 
     text-shadow: 0 1px 1px #fff; 
 }
+
+// Margin for web
+@media only screen and (min-width: 768px) {
+    .margin-web {
+      margin: 20px 10px;
+    }
+}

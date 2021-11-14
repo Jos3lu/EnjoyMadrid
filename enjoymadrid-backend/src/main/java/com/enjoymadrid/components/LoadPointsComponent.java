@@ -64,7 +64,7 @@ public class LoadPointsComponent implements CommandLineRunner{
 		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
 		userRepository.save(user3);
 		
-		loadData();
+		loadDataTouristicPoints();
 	}
 
 	/**
@@ -72,8 +72,8 @@ public class LoadPointsComponent implements CommandLineRunner{
 	 * checking for new information and deleting old information
 	 */
 	@Scheduled(cron = "0 0 8 * * *", zone = "Europe/Madrid")
-	private void loadData() {
-		String[] dataOrigins = {"turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml", "restaurantes_v1_es.xml", "agenda_v1_es.xml"};
+	private void loadDataTouristicPoints() {
+		String[] dataOrigins = {"turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml", "restaurantes_v1_es.xml"};
 
 		ExecutorService ex = Executors.newFixedThreadPool(dataOrigins.length);
 		waitToEnd = new CyclicBarrier(dataOrigins.length + 1);
@@ -144,9 +144,9 @@ public class LoadPointsComponent implements CommandLineRunner{
 				String web = element.getElementsByTagName("web").item(0).getTextContent();
 				String description = element.getElementsByTagName("body").item(0).getTextContent();
 				String email = element.getElementsByTagName("email").item(0).getTextContent();
-				String type = "";
 				String paymentServices = "";
 				String horary = "";
+				String type = "";
 				List<String> categories = new LinkedList<>();
 				List<String> subcategories = new LinkedList<>();
 				List<String> images = new LinkedList<>();
@@ -190,7 +190,7 @@ public class LoadPointsComponent implements CommandLineRunner{
 						images.add(elementMedia.getTextContent());
 					}
 				}
-
+				
 				TouristicPoint point = new TouristicPoint(longitude, latitude, name, address, zipcode, phone, web, 
 						description, email, paymentServices, horary, type, categories, subcategories, images);
 				

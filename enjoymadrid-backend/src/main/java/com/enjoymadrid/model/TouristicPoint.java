@@ -59,14 +59,14 @@ public class TouristicPoint {
 	@Lob
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String horary;
-			
+	
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String type;
 	
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> categories = new LinkedList<>();
-	
+		
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> subcategories = new LinkedList<>();
@@ -82,11 +82,11 @@ public class TouristicPoint {
 		this.latitude = latitude;
 		this.name = name;
 	}
-
-	public TouristicPoint(Double longitude, Double latitude, @NotEmpty(message = "El nombre no puede estar vacío") String name, 
-			String address, Integer zipcode, String phone, String web, String description, String email, 
-			String paymentServices, String horary, String type, List<String> categories, 
-			List<String> subcategories, List<String> images) {
+			
+	public TouristicPoint(Double longitude, Double latitude,
+			@NotEmpty(message = "El nombre no puede estar vacío") String name, String address, Integer zipcode,
+			String phone, String web, String description, String email, String paymentServices, String horary,
+			String type, List<String> categories, List<String> subcategories, List<String> images) {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.name = name;
@@ -136,6 +136,14 @@ public class TouristicPoint {
 		this.name = name;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public Integer getZipcode() {
 		return zipcode;
 	}
@@ -176,14 +184,6 @@ public class TouristicPoint {
 		this.email = email;
 	}
 
-	public String getOpening_hours() {
-		return horary;
-	}
-
-	public void setOpening_hours(String horary) {
-		this.horary = horary;
-	}
-	
 	public String getPaymentServices() {
 		return paymentServices;
 	}
@@ -198,14 +198,6 @@ public class TouristicPoint {
 
 	public void setHorary(String horary) {
 		this.horary = horary;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public String getType() {

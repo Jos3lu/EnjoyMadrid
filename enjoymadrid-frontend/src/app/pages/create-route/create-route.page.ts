@@ -44,7 +44,7 @@ export class CreateRoutePage implements OnInit {
         value: 0
       }, 
       {
-        name: 'Escuelas de cocina y catas de vinos',
+        name: 'Escuelas de cocina y catas de vinos y aceites',
         value: 0
       },
       {
