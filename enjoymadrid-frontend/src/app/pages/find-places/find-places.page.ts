@@ -124,4 +124,8 @@ export class FindPlacesPage implements OnInit {
     this.categories[i].selected = true;
   }
 
+  subcategorySelected(subcategory: string) {
+    alert(subcategory);
+  }
+
 }

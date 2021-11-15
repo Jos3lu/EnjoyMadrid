@@ -34,7 +34,7 @@ public class Route {
 	//@ManyToMany
 	//@JoinTable(name="route_point", joinColumns=@JoinColumn(name="route_id"), inverseJoinColumns=@JoinColumn(name="point_id"))
 	//@JsonView(RouteInterfaces.PointsData.class)
-	//private List<TouristicPoint> points = new LinkedList<>();
+	//private List<Point> points = new LinkedList<>();
 		
 	public Route() {}
 	

@@ -1,7 +1,7 @@
 package com.enjoymadrid.components;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -23,7 +23,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -87,6 +86,7 @@ public class LoadPointsComponent implements CommandLineRunner{
 		try {
 			waitToEnd.await();
 		} catch (InterruptedException | BrokenBarrierException e) {
+			logger.error(e.getMessage());
 			ex.shutdownNow();
 			return;
 		}
@@ -100,20 +100,18 @@ public class LoadPointsComponent implements CommandLineRunner{
 		logger.info("Touristic points updated in database");
 	}
 
-
 	private void loadDataTouristicPoints(String typeTourism) {
-		RestTemplate template = new RestTemplate();
-		byte[] response = template.getForObject("https://www.esmadrid.com/opendata/" + typeTourism, String.class)
-				.getBytes();
 
 		Document document = null;
 		try {
 			document = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-					.parse(new ByteArrayInputStream(response));
+					.parse(new URL("https://www.esmadrid.com/opendata/" + typeTourism).openStream());
 		} catch (SAXException | IOException | ParserConfigurationException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return;
 		}
+				
+		// Normalize the xml response
 		document.getDocumentElement().normalize();
 
 		NodeList listNodes = document.getElementsByTagName("service");
@@ -205,7 +203,9 @@ public class LoadPointsComponent implements CommandLineRunner{
 
 		try {
 			waitToEnd.await();
-		} catch (InterruptedException | BrokenBarrierException e) {}
+		} catch (InterruptedException | BrokenBarrierException e) {
+			logger.error(e.getMessage());
+		}
 
 	}
 
