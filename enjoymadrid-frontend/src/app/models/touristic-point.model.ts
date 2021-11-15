@@ -9,8 +9,10 @@ export interface TouristicPointModel {
     web?: string;
     description?: string;
     email?: string;
+    paymentServices?: string;
     horary?: string;
     type?: string;
     categories?: string[];
+    subcategories?: string[];
     images?: string[];
 }

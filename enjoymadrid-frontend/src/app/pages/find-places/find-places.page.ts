@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { TouristicPointModel } from 'src/app/models/touristic-point.model';
+import { SharedService } from 'src/app/services/shared/shared.service';
+import { TouristicPointService } from 'src/app/services/touristic-point/touristic-point.service';
 
 @Component({
   selector: 'app-find-places',
@@ -7,10 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FindPlacesPage implements OnInit {
 
+  places: TouristicPointModel[];
   categories: any;
   selectedIndex: number;
 
-  constructor() { }
+  constructor(
+    private touristicPointService: TouristicPointService,
+    private sharedService: SharedService
+  ) { }
 
   ngOnInit() {
 
@@ -125,7 +132,12 @@ export class FindPlacesPage implements OnInit {
   }
 
   subcategorySelected(subcategory: string) {
-    alert(subcategory);
+    this.touristicPointService.getTouristicPointsByCategory(subcategory).subscribe(
+      places => {
+        this.places = places;
+      },
+      _ => this.sharedService.showToast('No se ha podido encontrar ningún sitio', 3000)
+    );
   }
 
 }
