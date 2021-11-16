@@ -2,7 +2,7 @@ export interface TouristicPointModel {
     id?: number;
     longitude?: number;
     latitude?: number;
-    name: string;
+    name?: string;
     address?: string;
     zipcode?: number;
     phone?: string;

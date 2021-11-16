@@ -11,6 +11,8 @@ import { TouristicPointService } from 'src/app/services/touristic-point/touristi
 export class FindPlacesPage implements OnInit {
 
   places: TouristicPointModel[];
+  lastIndex: number;
+  totalResults: number;
   categories: any;
   selectedIndex: number;
 
@@ -21,6 +23,9 @@ export class FindPlacesPage implements OnInit {
 
   ngOnInit() {
 
+    this.places = [];
+    this.lastIndex = 0;
+    this.totalResults = 0;
     this.selectedIndex = -1;
 
     this.categories = [
@@ -45,7 +50,7 @@ export class FindPlacesPage implements OnInit {
         subcategories: [
           'Centros deportivos',
           'Gimnasios',
-          'Spas y balneraios urbanos',
+          'Spas y balnearios urbanos',
           'Alquiler de bicicletas',
           'Golf',
           'Piscinas',
@@ -60,7 +65,7 @@ export class FindPlacesPage implements OnInit {
           'Joyerías',
           'Zapaterías',
           'Deporte',
-          'Compras tradidionales',
+          'Compras tradicionales',
           'Gourmet',
           'Moda',
           'Regalo-Hogar-Decoración',
@@ -68,7 +73,7 @@ export class FindPlacesPage implements OnInit {
           'Centros comerciales',
           'Complementos',
           'Moda infantil',
-          'Grandes almacenes',
+          'Grandes Almacenes',
           'Música',
           'Tecnología',
           'Heladerías',
@@ -95,7 +100,7 @@ export class FindPlacesPage implements OnInit {
           'Karaokes',
           'Bares',
           'Coctelerías',
-          'Chocalaterías',
+          'Chocolaterías',
           'Otros'
         ]
       },
@@ -119,25 +124,41 @@ export class FindPlacesPage implements OnInit {
 
   }
 
-  categorySelected(i: number) {
-    if (this.selectedIndex == i) {
+  categorySelected(index: number) {
+    if (this.selectedIndex == index) {
       this.categories[this.selectedIndex].selected = false;
       this.selectedIndex = -1;
       return;
     } else if (this.selectedIndex > -1) {
       this.categories[this.selectedIndex].selected = false;
     }
-    this.selectedIndex = i;
-    this.categories[i].selected = true;
+    this.selectedIndex = index;
+    this.categories[index].selected = true;
   }
 
   subcategorySelected(subcategory: string) {
     this.touristicPointService.getTouristicPointsByCategory(subcategory).subscribe(
       places => {
         this.places = places;
+        this.lastIndex = 10;
+        this.totalResults = places.length;
       },
       _ => this.sharedService.showToast('No se ha podido encontrar ningún sitio', 3000)
     );
+  }
+
+  loadPlaces(event: any) {
+    if (this.lastIndex + 10 > this.places.length) {
+      this.lastIndex = this.places.length;
+      event.target.disabled = true;
+    } else {
+      this.lastIndex += 10;
+      event.target.complete();
+    }
+  }
+
+  placeSelected() {
+
   }
 
 }

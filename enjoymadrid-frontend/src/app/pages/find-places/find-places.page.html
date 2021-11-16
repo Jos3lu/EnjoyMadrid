@@ -7,9 +7,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true">
+<ion-content>
   <ion-grid class="margin-web">
     <ion-row>
+
       <ion-col size-md="2" size-xs="12">
         <ion-list lines="none">
           <h5 class="categories-title">
@@ -34,22 +35,41 @@
           </ion-item-group>
         </ion-list>
       </ion-col>
+
       <ion-col class="results">
         <ion-list>
-          <h3>Resultados</h3>
-          <ion-item>
+          <h3 id="results-title">{{totalResults}} resultados </h3>
+          <ion-item *ngFor="let place of places | slice:0:lastIndex; let i = index" (click)="placeSelected(i)">
             <ion-avatar slot="start">
-              <img alt="route" src="./assets/madrid1.jpg">
+              <img [src]="place?.images[0] ? place.images[0] : 'assets/flag.png'">
             </ion-avatar>
             <ion-label class="ion-text-wrap">
-              <h2 id="title-route">Nombre Ruta 1</h2>
-              <h3>Tiempo: X h Y min</h3>
-              <h3>Distancia: X km</h3>
-              <p>Fecha Creación: xx-xx-xxxx</p>
+              <h2 class="title-route" [innerHTML]="place?.name"></h2>
+              <h4>Dirección: {{place?.address}}, {{place?.zipcode}} Madrid</h4>
+              <p *ngIf="place.categories.length > 0">
+                Categorías: 
+                <span *ngFor="let category of place.categories">
+                  {{category}}.
+                </span>
+              </p>
+              <p *ngIf="place.subcategories.length > 0">
+                Subcategorías: 
+                <span *ngFor="let subcategory of place.subcategories">
+                  {{subcategory}}.
+                </span>
+              </p>
             </ion-label>
           </ion-item>
         </ion-list>
+
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadPlaces($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </ion-col>
+
     </ion-row>
   </ion-grid>
 </ion-content>

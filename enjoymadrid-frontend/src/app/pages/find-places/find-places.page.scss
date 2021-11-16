@@ -20,6 +20,7 @@
 }
 
 .align-icon {
+    padding-top: 1px;
     vertical-align: text-top;
 }
 
@@ -35,3 +36,8 @@
 ion-item-group ion-label {
     cursor: pointer;
 }
+
+.title-route {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
