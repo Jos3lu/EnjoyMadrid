@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [scrollEvents]="true" (ionScroll)="onScrolling($event)">
   <ion-grid class="margin-web">
     <ion-row>
 
@@ -36,10 +36,10 @@
         </ion-list>
       </ion-col>
 
-      <ion-col class="results">
+      <ion-col id="results" class="results">
         <ion-list>
-          <h3 id="results-title">{{totalResults}} resultados </h3>
-          <ion-item *ngFor="let place of places | slice:0:lastIndex; let i = index" (click)="placeSelected(i)">
+          <h3>{{totalResults}} resultados </h3>
+          <ion-item *ngFor="let place of places; let i = index" (click)="placeSelected(i)">
             <ion-avatar slot="start">
               <img [src]="place?.images[0] ? place.images[0] : 'assets/flag.png'">
             </ion-avatar>
@@ -61,15 +61,13 @@
             </ion-label>
           </ion-item>
         </ion-list>
-
-        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadPlaces($event)">
-          <ion-infinite-scroll-content
-            loadingSpinner="bubbles"
-            loadingText="Loading more data...">
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
       </ion-col>
 
     </ion-row>
   </ion-grid>
+  <ion-fab *ngIf="showScrollTopButton" class="ion-margin-bottom ion-margin-end" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="scrollToTop()" color="dark" size="small">
+      <ion-icon name="chevron-up-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

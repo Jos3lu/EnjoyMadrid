@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonContent, Platform } from '@ionic/angular';
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { TouristicPointService } from 'src/app/services/touristic-point/touristic-point.service';
@@ -10,23 +11,32 @@ import { TouristicPointService } from 'src/app/services/touristic-point/touristi
 })
 export class FindPlacesPage implements OnInit {
 
+  // Get the content tag
+  @ViewChild(IonContent) content: IonContent;
+
+  // List of places to show
   places: TouristicPointModel[];
-  lastIndex: number;
+  // Total of places 
   totalResults: number;
+  // Different categories 
   categories: any;
+  // To open/close the subcategories of each category
   selectedIndex: number;
+  // Show/hide button to  scroll to top
+  showScrollTopButton: boolean;
 
   constructor(
     private touristicPointService: TouristicPointService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
 
     this.places = [];
-    this.lastIndex = 0;
     this.totalResults = 0;
     this.selectedIndex = -1;
+    this.showScrollTopButton = false;
 
     this.categories = [
       {
@@ -124,6 +134,18 @@ export class FindPlacesPage implements OnInit {
 
   }
 
+  onScrolling(event: any) {
+    if (event.detail.scrollTop > this.platform.height()) {
+      this.showScrollTopButton = true;
+    } else {
+      this.showScrollTopButton = false;
+    }
+  }
+
+  scrollToTop() {
+    this.content.scrollToTop(500);
+  }
+
   categorySelected(index: number) {
     if (this.selectedIndex == index) {
       this.categories[this.selectedIndex].selected = false;
@@ -140,21 +162,11 @@ export class FindPlacesPage implements OnInit {
     this.touristicPointService.getTouristicPointsByCategory(subcategory).subscribe(
       places => {
         this.places = places;
-        this.lastIndex = 10;
         this.totalResults = places.length;
+        this.content.scrollToPoint(0, document.getElementById('results').offsetTop, 500);
       },
       _ => this.sharedService.showToast('No se ha podido encontrar ningún sitio', 3000)
     );
-  }
-
-  loadPlaces(event: any) {
-    if (this.lastIndex + 10 > this.places.length) {
-      this.lastIndex = this.places.length;
-      event.target.disabled = true;
-    } else {
-      this.lastIndex += 10;
-      event.target.complete();
-    }
   }
 
   placeSelected() {
