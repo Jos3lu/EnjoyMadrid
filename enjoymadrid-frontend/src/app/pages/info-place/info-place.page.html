@@ -1,0 +1,28 @@
+<ion-content>
+  <swiper [autoplay]="true"
+  [pagination]="true"
+  [zoom]="true">
+    <ng-template *ngFor="let image of place?.images" swiperSlide>
+      <img [src]="image">
+    </ng-template>
+  </swiper>
+  <p [innerHTML]="place?.name"></p>
+  <p [innerHTML]="place?.address"></p>
+  <p [innerHTML]="place?.zipcode"></p>
+  <p [innerHTML]="place?.phone"></p>
+  <p [innerHTML]="place?.web"></p>
+  <p [innerHTML]="place?.description"></p>
+  <p [innerHTML]="place?.email"></p>
+  <p [innerHTML]="place?.paymentServices"></p>
+  <p [innerHTML]="place?.horaryy"></p>
+  <p [innerHTML]="place?.name"></p>
+  <p [innerHTML]="place?.name"></p>
+  <p>{{place?.name}}</p>
+  <p>{{place?.address}}</p>
+  <p>{{place?.zipcode}}</p>
+  <p>{{place?.phone}}</p>
+  <p>{{place?.name}}</p>
+  <p>{{place?.web}}</p>
+  <p>{{place?.description}}</p>
+
+</ion-content>

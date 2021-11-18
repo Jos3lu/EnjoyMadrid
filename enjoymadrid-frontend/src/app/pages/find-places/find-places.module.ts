@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { FindPlacesPageRoutingModule } from './find-places-routing.module';
 
 import { FindPlacesPage } from './find-places.page';
+import { InfoPlacePageModule } from '../info-place/info-place.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FindPlacesPageRoutingModule
+    FindPlacesPageRoutingModule,
+    InfoPlacePageModule
   ],
   declarations: [FindPlacesPage]
 })

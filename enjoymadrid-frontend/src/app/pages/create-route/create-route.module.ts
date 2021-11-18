@@ -10,6 +10,7 @@ import { CreateRoutePage } from './create-route.page';
 import { SelectPointPageModule } from '../select-point/select-point.module';
 
 @NgModule({
+  declarations: [CreateRoutePage],
   imports: [
     CommonModule,
     FormsModule,
@@ -17,6 +18,6 @@ import { SelectPointPageModule } from '../select-point/select-point.module';
     CreateRoutePageRoutingModule,
     SelectPointPageModule
   ],
-  declarations: [CreateRoutePage],
+  exports: [CreateRoutePage]
 })
 export class CreateRoutePageModule {}

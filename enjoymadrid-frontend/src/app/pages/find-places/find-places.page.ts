@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, Platform } from '@ionic/angular';
+import { IonContent, ModalController, Platform } from '@ionic/angular';
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { TouristicPointService } from 'src/app/services/touristic-point/touristic-point.service';
+import { InfoPlacePage } from '../info-place/info-place.page';
 
 @Component({
   selector: 'app-find-places',
@@ -28,7 +29,8 @@ export class FindPlacesPage implements OnInit {
   constructor(
     private touristicPointService: TouristicPointService,
     private sharedService: SharedService,
-    private platform: Platform
+    private platform: Platform,
+    private modalContrall: ModalController
   ) { }
 
   ngOnInit() {
@@ -169,8 +171,15 @@ export class FindPlacesPage implements OnInit {
     );
   }
 
-  placeSelected() {
-
+  async placeSelected(index: number) {
+    const modal = await this.modalContrall.create({
+      cssClass: 'my-modal',
+      component: InfoPlacePage,
+      componentProps: {
+        'place': this.places[index]
+      }
+    });
+    await modal.present();
   }
 
 }
