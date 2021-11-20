@@ -11,10 +11,10 @@ import { InfoPlacePage } from './info-place.page';
 
 @NgModule({
   imports: [
+    SwiperModule,
     CommonModule,
     FormsModule,
     IonicModule,
-    SwiperModule,
     InfoPlacePageRoutingModule
   ],
   declarations: [InfoPlacePage]

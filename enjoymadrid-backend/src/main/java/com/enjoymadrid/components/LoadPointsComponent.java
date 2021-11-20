@@ -139,7 +139,6 @@ public class LoadPointsComponent implements CommandLineRunner{
 				String address = element.getElementsByTagName("address").item(0).getTextContent();
 				Integer zipcode = tryParseInteger(element.getElementsByTagName("zipcode").item(0).getTextContent());
 				String phone = element.getElementsByTagName("phone").item(0).getTextContent();
-				String web = element.getElementsByTagName("web").item(0).getTextContent();
 				String description = element.getElementsByTagName("body").item(0).getTextContent();
 				String email = element.getElementsByTagName("email").item(0).getTextContent();
 				String paymentServices = "";
@@ -189,7 +188,7 @@ public class LoadPointsComponent implements CommandLineRunner{
 					}
 				}
 				
-				TouristicPoint point = new TouristicPoint(longitude, latitude, name, address, zipcode, phone, web, 
+				TouristicPoint point = new TouristicPoint(longitude, latitude, name, address, zipcode, phone, 
 						description, email, paymentServices, horary, type, categories, subcategories, images);
 				
 				if (pointDB.isPresent()) {

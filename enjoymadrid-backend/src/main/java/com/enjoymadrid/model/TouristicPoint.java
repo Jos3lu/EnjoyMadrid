@@ -41,10 +41,7 @@ public class TouristicPoint {
 	
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String phone;
-	
-	@JsonView(TouristicPointInterfaces.BasicData.class)
-	private String web;
-	
+		
 	@Lob
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String description;
@@ -85,7 +82,7 @@ public class TouristicPoint {
 			
 	public TouristicPoint(Double longitude, Double latitude,
 			@NotEmpty(message = "El nombre no puede estar vacío") String name, String address, Integer zipcode,
-			String phone, String web, String description, String email, String paymentServices, String horary,
+			String phone, String description, String email, String paymentServices, String horary,
 			String type, List<String> categories, List<String> subcategories, List<String> images) {
 		this.longitude = longitude;
 		this.latitude = latitude;
@@ -93,7 +90,6 @@ public class TouristicPoint {
 		this.address = address;
 		this.zipcode = zipcode;
 		this.phone = phone;
-		this.web = web;
 		this.description = description;
 		this.email = email;
 		this.paymentServices = paymentServices;
@@ -158,14 +154,6 @@ public class TouristicPoint {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public String getWeb() {
-		return web;
-	}
-
-	public void setWeb(String web) {
-		this.web = web;
 	}
 
 	public String getDescription() {

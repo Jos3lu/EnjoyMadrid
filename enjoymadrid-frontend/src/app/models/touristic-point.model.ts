@@ -6,7 +6,6 @@ export interface TouristicPointModel {
     address?: string;
     zipcode?: number;
     phone?: string;
-    web?: string;
     description?: string;
     email?: string;
     paymentServices?: string;

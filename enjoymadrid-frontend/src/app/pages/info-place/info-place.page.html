@@ -1,28 +1,59 @@
-<ion-content>
-  <swiper [autoplay]="true"
-  [pagination]="true"
-  [zoom]="true">
-    <ng-template *ngFor="let image of place?.images" swiperSlide>
-      <img [src]="image">
-    </ng-template>
-  </swiper>
-  <p [innerHTML]="place?.name"></p>
-  <p [innerHTML]="place?.address"></p>
-  <p [innerHTML]="place?.zipcode"></p>
-  <p [innerHTML]="place?.phone"></p>
-  <p [innerHTML]="place?.web"></p>
-  <p [innerHTML]="place?.description"></p>
-  <p [innerHTML]="place?.email"></p>
-  <p [innerHTML]="place?.paymentServices"></p>
-  <p [innerHTML]="place?.horaryy"></p>
-  <p [innerHTML]="place?.name"></p>
-  <p [innerHTML]="place?.name"></p>
-  <p>{{place?.name}}</p>
-  <p>{{place?.address}}</p>
-  <p>{{place?.zipcode}}</p>
-  <p>{{place?.phone}}</p>
-  <p>{{place?.name}}</p>
-  <p>{{place?.web}}</p>
-  <p>{{place?.description}}</p>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeInfoPlace()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center"><img class="img-size" alt="Enjoy Madrid" src="./assets/logo.png"></ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content>
+  <div id="margin-info">
+      <h1 [innerHTML]="place?.name"></h1>
+      <swiper [config]="optionsSlider">
+        <ng-template *ngFor="let image of place?.images" swiperSlide>
+          <img [src]="image ? image : 'assets/imageNotFound.png'">
+        </ng-template>
+      </swiper>
+
+      <div *ngIf="place.address">
+        <h3>Dirección</h3>
+        <p>
+          <ion-icon name="location-outline"></ion-icon>
+          <span [innerHTML]="place.address"></span>
+          <span *ngIf="place.zipcode">, {{place.zipcode}}</span>
+          <span> Madrid</span>
+        </p>
+      </div>
+
+      <div *ngIf="place.phone || place.email">
+        <h3>Contacto</h3>
+        <p *ngIf="place.phone">
+          <ion-icon name="call-outline"></ion-icon>
+          {{place.phone}}
+        </p>
+        <p *ngIf="place.email">
+          <ion-icon name="mail-outline"></ion-icon>
+          {{place.email}}
+        </p>
+      </div>
+
+      <div *ngIf="place.paymentServices">
+        <h3>Precio</h3>
+        <p [innerHTML]="place?.paymentServices"></p>
+      </div>
+
+      <div *ngIf="place.horary">
+        <h3>Horario</h3>
+        <p [innerHTML]="place.horary"></p>
+      </div>
+
+      <div *ngIf="place.description">
+        <h3>Conoce el lugar</h3>
+        <p [innerHTML]="place.description"></p>
+      </div>
+
+    </div>
 </ion-content>

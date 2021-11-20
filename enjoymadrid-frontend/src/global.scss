@@ -29,16 +29,9 @@
 @import "~leaflet/dist/leaflet.css";
 @import '~leaflet-geosearch/dist/geosearch.css';
 
-/* Slides */
-@import '~swiper/scss';
-@import '~@ionic/angular/css/ionic-swiper';
-@import '~swiper/scss';
-@import '~swiper/scss/autoplay';
-@import '~swiper/scss/keyboard';
-@import '~swiper/scss/pagination';
-@import '~swiper/scss/scrollbar';
-@import '~swiper/scss/zoom';
-@import '~@ionic/angular/css/ionic-swiper';
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 
 /* Search bar of leaflet control */
 .leaflet-control-geosearch {
@@ -91,7 +84,6 @@
 }
 
 h1 { 
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-shadow: 0 1px 1px #fff; 
 }
 
