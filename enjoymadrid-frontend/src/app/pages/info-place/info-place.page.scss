@@ -10,18 +10,23 @@
 @import "~swiper/css/effect-fade";
 @import '~@ionic/angular/css/ionic-swiper';
 
-h3 {
+
+#margin-info h3 {
     color: #0a1f44;
 }
 
-p {
+#margin-info p {
     color: #53627c;
 }
 
-div ion-icon {
+#margin-info ion-icon {
     vertical-align: text-bottom; 
     font-size: 1.2rem; 
     margin-right: 5px;
+}
+
+#margin-info ion-chip {
+    pointer-events: none;
 }
 
 #margin-info {
@@ -32,10 +37,6 @@ div ion-icon {
     #margin-info {
       margin: 30px 70px;
     }
-}
-
-#margin-info h1 {
-    text-align: center;
 }
 
 .swiper {

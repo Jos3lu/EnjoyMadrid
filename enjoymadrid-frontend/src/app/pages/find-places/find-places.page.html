@@ -39,7 +39,7 @@
       <ion-col id="results" class="results">
         <ion-list>
           <h3>{{totalResults}} resultados </h3>
-          <ion-item *ngFor="let place of places; let i = index" (click)="placeSelected(i)">
+          <ion-item *ngFor="let place of places | slice:0:lastIndex; let i = index" (click)="placeSelected(i)">
             <ion-avatar slot="start">
               <img [src]="place?.images[0] ? place.images[0] : 'assets/flag.png'">
             </ion-avatar>
@@ -60,6 +60,14 @@
               </p>
             </ion-label>
           </ion-item>
+
+          <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content
+              loadingSpinner="bubbles"
+              loadingText="Cargando...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+
         </ion-list>
       </ion-col>
 

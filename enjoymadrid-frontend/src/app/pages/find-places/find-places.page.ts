@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, ModalController, Platform } from '@ionic/angular';
+import { IonContent, IonInfiniteScroll, ModalController, Platform } from '@ionic/angular';
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { TouristicPointService } from 'src/app/services/touristic-point/touristic-point.service';
@@ -12,11 +12,14 @@ import { InfoPlacePage } from '../info-place/info-place.page';
 })
 export class FindPlacesPage implements OnInit {
 
-  // Get the content tag
+  // Get the content & ion-infinite tag
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild(IonContent) content: IonContent;
 
   // List of places to show
   places: TouristicPointModel[];
+  // Number of elements to show
+  lastIndex: number;
   // Total of places 
   totalResults: number;
   // Different categories 
@@ -36,9 +39,11 @@ export class FindPlacesPage implements OnInit {
   ngOnInit() {
 
     this.places = [];
+    this.lastIndex = 0;
     this.totalResults = 0;
     this.selectedIndex = -1;
     this.showScrollTopButton = false;
+    this.infiniteScroll.disabled = true;
 
     this.categories = [
       {
@@ -136,6 +141,17 @@ export class FindPlacesPage implements OnInit {
 
   }
 
+  loadData(event: any) {
+    if (this.lastIndex + 10 > this.places.length) {
+      this.lastIndex = this.places.length;
+      event.target.complete();
+      event.target.disabled = true;
+      return;
+    } 
+    this.lastIndex += 10;
+    event.target.complete();
+  }
+
   onScrolling(event: any) {
     if (event.detail.scrollTop > this.platform.height()) {
       this.showScrollTopButton = true;
@@ -164,7 +180,9 @@ export class FindPlacesPage implements OnInit {
     this.touristicPointService.getTouristicPointsByCategory(subcategory).subscribe(
       places => {
         this.places = places;
+        this.lastIndex = 10;
         this.totalResults = places.length;
+        this.infiniteScroll.disabled = false;
         this.content.scrollToPoint(0, document.getElementById('results').offsetTop, 500);
       },
       _ => this.sharedService.showToast('No se ha podido encontrar ningún sitio', 3000)

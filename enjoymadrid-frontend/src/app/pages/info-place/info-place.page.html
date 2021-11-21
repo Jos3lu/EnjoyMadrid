@@ -11,12 +11,19 @@
 
 <ion-content>
   <div id="margin-info">
-      <h1 [innerHTML]="place?.name"></h1>
+      <h1 class="ion-text-center" [innerHTML]="place?.name"></h1>
       <swiper [config]="optionsSlider">
         <ng-template *ngFor="let image of place?.images" swiperSlide>
           <img [src]="image ? image : 'assets/imageNotFound.png'">
         </ng-template>
       </swiper>
+
+      <div class="ion-text-center ion-margin-top">
+        <ion-button (click)="createRoute()" class="ion-text-center ion-text-wrap" fill="outline">
+          <ion-icon slot="start" name="navigate-circle-outline"></ion-icon>
+          Ir a la ubicación
+        </ion-button>
+      </div>
 
       <div *ngIf="place.address">
         <h3>Dirección</h3>
@@ -48,6 +55,20 @@
       <div *ngIf="place.horary">
         <h3>Horario</h3>
         <p [innerHTML]="place.horary"></p>
+      </div>
+
+      <div *ngIf="place.categories.length > 0">
+        <h3>Categorías</h3>
+        <ion-chip *ngFor="let category of place.categories">
+          <ion-label>{{category}}</ion-label>
+        </ion-chip>
+      </div>
+
+      <div *ngIf="place.subcategories.length > 0">
+        <h3>Subcategorías</h3>
+        <ion-chip *ngFor="let subcategory of place.subcategories">
+          <ion-label>{{subcategory}}</ion-label>
+        </ion-chip>
       </div>
 
       <div *ngIf="place.description">

@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   signIn(userSignIn: UserModel): Observable<any> {
-    return this.httpClient.post<any>(this.sharedService.API_URL + "signin", userSignIn, headerOptions).pipe(
+    return this.httpClient.post<any>(this.sharedService.getApiUrl() + "signin", userSignIn, headerOptions).pipe(
       tap(data => {
         this.tokenService.setToken(data.token);
         this.setUserAuth({ id: data.id, name: data.name, username: data.username, photo: data.photo });
@@ -48,11 +48,11 @@ export class AuthService {
   }
 
   signUp(userSignUp: UserModel): Observable<any> {
-    return this.httpClient.post<any>(this.sharedService.API_URL + 'signup', userSignUp, headerOptions);
+    return this.httpClient.post<any>(this.sharedService.getApiUrl() + 'signup', userSignUp, headerOptions);
   }
 
   signOut(): Observable<any> {
-    return this.httpClient.get<any>(this.sharedService.API_URL + 'signout').pipe(
+    return this.httpClient.get<any>(this.sharedService.getApiUrl() + 'signout').pipe(
       catchError(this.sharedService.handleError)
     );
   }

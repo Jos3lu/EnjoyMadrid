@@ -9,9 +9,31 @@ import { throwError } from 'rxjs';
 export class SharedService {
 
   // Common endpoint
-  API_URL = "http://localhost:8080/api/";
+  private API_URL = "http://localhost:8080/api/";
 
-  constructor() { }
+  // Communicate info-place with create-route page
+  private destinationEmpty: boolean = true;
+  private destination: any;
+
+  constructor() { 
+  }
+
+  isDestinationEmpty() {
+    return this.destinationEmpty;
+  }
+
+  setDestination(destination: any, destinationEmpty: boolean) {
+    this.destinationEmpty = destinationEmpty;
+    this.destination = destination;
+  }
+
+  getDestination() {
+    return this.destination;
+  }
+
+  getApiUrl() {
+    return this.API_URL;
+  }
 
   // Show alerts to user
   async showToast(message: string, timeout: number) {

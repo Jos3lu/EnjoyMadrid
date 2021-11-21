@@ -12,9 +12,15 @@ import { SelectPointPage } from '../select-point/select-point.page';
 })
 export class CreateRoutePage implements OnInit {
 
+  // Route Model
   route: RouteModel;
+  // Preferences of the user
   preferences: any[];
+  // Info of the origin point
+  originEmpty: boolean 
   origin: any;
+  // Info of the destination point
+  destinationEmpty: boolean;
   destination: any;
 
   constructor(
@@ -73,8 +79,25 @@ export class CreateRoutePage implements OnInit {
       }
     ];
 
-    this.origin = {latitude: 0, longitude: 0, location: ''};
-    this.destination = {latitude: 0, longitude: 0, location: ''};
+    this.originEmpty = true;
+    this.origin = {
+      latitude: 0, 
+      longitude: 0, 
+      location: ''
+    };
+
+    if (this.sharedService.isDestinationEmpty()) {
+      this.destinationEmpty = true;
+      this.destination = {
+        latitude: 0, 
+        longitude: 0, 
+        location: ''
+      };
+    } else {
+      this.destinationEmpty = false;
+      this.destination = this.sharedService.getDestination();
+      this.sharedService.setDestination({}, true);
+    }
 
   }
 
@@ -91,12 +114,15 @@ export class CreateRoutePage implements OnInit {
       component: SelectPointPage,
       cssClass: 'my-modal',
       componentProps: {
-        'isOrigin': true
+        'isOrigin': true,
+        'pointEmpty': this.originEmpty,
+        'point': this.origin
       }
     });
     modal.present();
 
     const location = await modal.onWillDismiss();
+    this.originEmpty = false;
     this.origin = location.data.point;
   }
 
@@ -105,12 +131,15 @@ export class CreateRoutePage implements OnInit {
       component: SelectPointPage,
       cssClass: 'my-modal',
       componentProps: {
-        'isOrigin': false
+        'isOrigin': false,
+        'pointEmpty': this.destinationEmpty,
+        'point': this.destination
       }
     });
     modal.present();
 
     const location = await modal.onWillDismiss();
+    this.destinationEmpty = false;
     this.destination = location.data.point;
   }
 

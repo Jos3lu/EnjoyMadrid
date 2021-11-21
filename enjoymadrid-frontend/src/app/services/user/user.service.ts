@@ -20,21 +20,21 @@ export class UserService {
   ) { }
 
   getUser(id: number): Observable<UserModel> {
-    return this.httpClient.get(this.sharedService.API_URL + 'users/' + id).pipe(
+    return this.httpClient.get(this.sharedService.getApiUrl() + 'users/' + id).pipe(
       catchError(this.sharedService.handleError)
     );
   }
 
   updateUser(id: number, user: UserModel): Observable<UserModel> {
-    return this.httpClient.put(this.sharedService.API_URL + 'users/' + id, user, headerOptions);
+    return this.httpClient.put(this.sharedService.getApiUrl() + 'users/' + id, user, headerOptions);
   }
 
   updateUserPictureProfile(id: number, imageForm: FormData): Observable<UserModel> {
-    return this.httpClient.put(this.sharedService.API_URL + 'users/' + id + '/picture', imageForm);
+    return this.httpClient.put(this.sharedService.getApiUrl() + 'users/' + id + '/picture', imageForm);
   }
 
   deleteUser(id: number): Observable<any> {
-    return this.httpClient.delete(this.sharedService.API_URL + 'users/' + id).pipe(
+    return this.httpClient.delete(this.sharedService.getApiUrl() + 'users/' + id).pipe(
       catchError(this.sharedService.handleError)
     )
   }

@@ -20,7 +20,7 @@ export class RouteService {
   ) { }
 
   createRoute(route: RouteModel): Observable<any> {
-    return this.httpClient.post(this.sharedService.API_URL + 'routes', route, headerOptions).pipe(
+    return this.httpClient.post(this.sharedService.getApiUrl() + 'routes', route, headerOptions).pipe(
       catchError(this.sharedService.handleError)
     );
   }

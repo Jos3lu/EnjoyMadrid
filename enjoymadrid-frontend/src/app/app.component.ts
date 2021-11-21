@@ -18,6 +18,7 @@ export class AppComponent {
   darkTheme: boolean;
   // #527c9e Color Logo
 
+  // Information of the logged user
   userLogged: UserModel;
   isUserLogged: boolean;
 
@@ -85,14 +86,6 @@ export class AppComponent {
     const prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)');
     this.darkTheme = prefersDarkTheme.matches;
     this.toggleTheme();
-    // Listen for changes to the prefers-color-scheme media query
-    prefersDarkTheme.addEventListener(
-      'change',
-      mediaQuery => {
-        this.darkTheme = mediaQuery.matches;
-        this.toggleTheme();
-      }
-    );
   }
 
   updateTheme() {

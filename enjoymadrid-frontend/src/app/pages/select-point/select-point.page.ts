@@ -13,12 +13,14 @@ import { Router } from '@angular/router';
 })
 export class SelectPointPage implements OnInit {
 
+  // Information passed from create-route page
   @Input() isOrigin: boolean;
+  @Input() pointEmpty: boolean;
+  @Input() point: any;
 
   provider = new OpenStreetMapProvider();
   map: L.Map;
   marker: L.Marker;
-  point: any;
 
   constructor(
     private geolocation: Geolocation,
@@ -61,6 +63,12 @@ export class SelectPointPage implements OnInit {
       zoom: 12,
       layers: [standard, satellite]
     });
+
+    if (!this.pointEmpty) {
+      this.marker = L.marker([this.point.latitude, this.point.longitude]);
+      this.marker.addTo(this.map);
+      this.map.setView([this.point.latitude, this.point.longitude], 18)
+    }
 
     this.map.addControl(searchControl);
     L.control.zoom({ position: 'topright' }).addTo(this.map);

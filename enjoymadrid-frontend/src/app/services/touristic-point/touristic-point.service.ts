@@ -16,7 +16,7 @@ export class TouristicPointService {
   ) { }
 
   getTouristicPointsByCategory(category: string): Observable<TouristicPointModel[]> {
-    return this.httpClient.get(this.sharedService.API_URL + 'tourist-points?category=' + category).pipe(
+    return this.httpClient.get(this.sharedService.getApiUrl() + 'tourist-points?category=' + category).pipe(
       catchError(this.sharedService.handleError)
     ) as Observable<TouristicPointModel[]>;
   }
