@@ -1,4 +1,4 @@
-package com.enjoymadrid.model.repositories;
+package com.enjoymadrid.models.repositories;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.enjoymadrid.model.TouristicPoint;
+import com.enjoymadrid.models.TouristicPoint;
 
 public interface TouristicPointRepository extends JpaRepository<TouristicPoint, Long>{
 			

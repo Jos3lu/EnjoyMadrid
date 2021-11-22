@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.enjoymadrid.model.Route;
+import com.enjoymadrid.models.Route;
 
 @Service
 public interface RouteService {

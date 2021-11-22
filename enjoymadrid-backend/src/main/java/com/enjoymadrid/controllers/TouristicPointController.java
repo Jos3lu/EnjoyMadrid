@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.enjoymadrid.model.TouristicPoint;
-import com.enjoymadrid.model.interfaces.TouristicPointInterfaces;
+import com.enjoymadrid.models.interfaces.TouristicPointInterfaces;
+import com.enjoymadrid.models.TouristicPoint;
 import com.enjoymadrid.services.TouristicPointService;
 import com.fasterxml.jackson.annotation.JsonView;
 

@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.enjoymadrid.model.Route;
-import com.enjoymadrid.model.User;
-import com.enjoymadrid.model.repositories.UserRepository;
+import com.enjoymadrid.models.repositories.UserRepository;
+import com.enjoymadrid.models.Route;
+import com.enjoymadrid.models.User;
 import com.enjoymadrid.services.RouteService;
 
 @Service

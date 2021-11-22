@@ -29,10 +29,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.enjoymadrid.model.TouristicPoint;
-import com.enjoymadrid.model.User;
-import com.enjoymadrid.model.repositories.TouristicPointRepository;
-import com.enjoymadrid.model.repositories.UserRepository;
+import com.enjoymadrid.models.repositories.UserRepository;
+import com.enjoymadrid.models.repositories.TouristicPointRepository;
+import com.enjoymadrid.models.TouristicPoint;
+import com.enjoymadrid.models.User;
 
 @Component
 @EnableScheduling

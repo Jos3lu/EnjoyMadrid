@@ -1,10 +1,10 @@
-package com.enjoymadrid.model.repositories;
+package com.enjoymadrid.models.repositories;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.enjoymadrid.model.User;
+import com.enjoymadrid.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 

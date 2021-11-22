@@ -1,4 +1,4 @@
-package com.enjoymadrid.model;
+package com.enjoymadrid.models;
 
 import java.time.LocalDate;
 
@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.enjoymadrid.model.interfaces.RouteInterfaces;
+import com.enjoymadrid.models.interfaces.RouteInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity

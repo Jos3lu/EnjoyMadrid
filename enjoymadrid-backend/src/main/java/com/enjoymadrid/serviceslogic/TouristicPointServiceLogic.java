@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.enjoymadrid.model.TouristicPoint;
-import com.enjoymadrid.model.repositories.TouristicPointRepository;
+import com.enjoymadrid.models.repositories.TouristicPointRepository;
+import com.enjoymadrid.models.TouristicPoint;
 import com.enjoymadrid.services.TouristicPointService;
 
 @Service

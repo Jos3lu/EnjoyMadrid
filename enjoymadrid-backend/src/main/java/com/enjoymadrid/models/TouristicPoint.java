@@ -1,4 +1,4 @@
-package com.enjoymadrid.model;
+package com.enjoymadrid.models;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
 
-import com.enjoymadrid.model.interfaces.TouristicPointInterfaces;
+import com.enjoymadrid.models.interfaces.TouristicPointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity

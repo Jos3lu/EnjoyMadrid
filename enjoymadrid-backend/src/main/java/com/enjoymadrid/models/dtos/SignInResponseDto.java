@@ -1,17 +1,17 @@
-package com.enjoymadrid.model.dtos;
+package com.enjoymadrid.models.dtos;
 
 public class SignInResponseDto {
 	
 	private String token;
+	private String refreshToken;
 	private Long id;
 	private String name;
 	private String username;
 	private byte[] photo;
-	
-	public SignInResponseDto() {}
-	
-	public SignInResponseDto(String token, Long id, String name, String username, byte[] photo) {
+		
+	public SignInResponseDto(String token, String refreshToken, Long id, String name, String username, byte[] photo) {
 		this.token = token;
+		this.refreshToken = refreshToken;
 		this.id = id;
 		this.name = name;
 		this.username = username;
@@ -26,6 +26,14 @@ public class SignInResponseDto {
 		this.token = token;
 	}
 	
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.enjoymadrid.model.TouristicPoint;
+import com.enjoymadrid.models.TouristicPoint;
 
 @Service
 public interface TouristicPointService {

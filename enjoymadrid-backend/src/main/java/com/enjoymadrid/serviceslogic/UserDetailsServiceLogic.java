@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enjoymadrid.model.User;
-import com.enjoymadrid.model.repositories.UserRepository;
+import com.enjoymadrid.models.repositories.UserRepository;
+import com.enjoymadrid.models.User;
 
 @Service
 public class UserDetailsServiceLogic implements UserDetailsService {
@@ -23,7 +23,7 @@ public class UserDetailsServiceLogic implements UserDetailsService {
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
+		User user = this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new LinkedList<>());
 	}	
 		

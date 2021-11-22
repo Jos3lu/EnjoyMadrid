@@ -20,16 +20,19 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtilityToken {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtilityToken.class);
-	private static final int JWT_EXPIRATION_TOKEN_MS = 12 * 60 * 60 * 1000; // 12 hours
+	private static final int JWT_EXPIRATION_TOKEN_MS = 1 * 60 * 60 * 1000; // 1 hour
 
 	@Value("${enjoymadrid.jwt.secret}")
 	private String jwtSecret;
 	
 	public String generateToken(Authentication auth) {
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		
+		return generateTokenFromUsername(userDetails.getUsername());
+	}
+	
+	public String generateTokenFromUsername(String username) {
 		return Jwts.builder()
-				.setSubject(userDetails.getUsername())
+				.setSubject(username)
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + JWT_EXPIRATION_TOKEN_MS))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -55,7 +58,7 @@ public class JwtUtilityToken {
 		} catch (IllegalArgumentException e) {
 			logger.error("JWT claims string is empty: {}", e.getMessage());
 		}
-		return true;
+		return false;
 	}
 	
 }

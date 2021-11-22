@@ -1,10 +1,11 @@
-package com.enjoymadrid.model.dtos;
+package com.enjoymadrid.models.dtos;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class UserUpdateDto {
-	
+public class UserCreateDto {
+
 	@NotBlank(message = "El nombre no puede estar vacío")
 	@Size(max = 50, message = "El nombre debe tener menos de 50 caracteres")
 	private String name;
@@ -13,8 +14,10 @@ public class UserUpdateDto {
 	@Size(max = 50, message = "El nombre de usuario debe tener menos de 50 caracteres")
 	private String username;
 	
+	@NotBlank(message = "La contraseña no puede estar vacía")
+	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", 
+		message = "La contraseña debe incluir al menos un número, una minúscula, una mayúscula y al menos 7 caracteres")
 	private String password;
-	private String oldPassword;
 
 	public String getName() {
 		return name;
@@ -39,13 +42,5 @@ public class UserUpdateDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public String getOldPassword() {
-		return this.oldPassword;
-	}
-	
-	public void setOldPassword(String oldPassword) {
-		this.oldPassword = oldPassword;
-	}
-	
+		
 }

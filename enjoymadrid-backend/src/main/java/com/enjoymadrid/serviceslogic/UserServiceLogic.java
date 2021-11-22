@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.enjoymadrid.model.User;
-import com.enjoymadrid.model.repositories.UserRepository;
+import com.enjoymadrid.models.repositories.UserRepository;
+import com.enjoymadrid.models.User;
 import com.enjoymadrid.services.UserService;
 
 @Service

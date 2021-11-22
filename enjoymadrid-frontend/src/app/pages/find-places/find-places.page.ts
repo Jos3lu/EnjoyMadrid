@@ -43,7 +43,6 @@ export class FindPlacesPage implements OnInit {
     this.totalResults = 0;
     this.selectedIndex = -1;
     this.showScrollTopButton = false;
-    this.infiniteScroll.disabled = true;
 
     this.categories = [
       {

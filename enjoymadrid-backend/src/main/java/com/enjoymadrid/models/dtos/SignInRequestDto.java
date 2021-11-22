@@ -1,4 +1,4 @@
-package com.enjoymadrid.model.dtos;
+package com.enjoymadrid.models.dtos;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;

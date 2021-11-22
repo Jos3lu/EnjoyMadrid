@@ -5,7 +5,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.enjoymadrid.model.User;
+import com.enjoymadrid.models.User;
 
 @Service
 public interface UserService {

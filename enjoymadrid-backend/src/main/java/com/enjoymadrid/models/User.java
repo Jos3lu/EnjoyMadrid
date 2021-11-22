@@ -1,4 +1,4 @@
-package com.enjoymadrid.model;
+package com.enjoymadrid.models;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.enjoymadrid.model.interfaces.UserInterfaces;
+import com.enjoymadrid.models.interfaces.UserInterfaces;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 

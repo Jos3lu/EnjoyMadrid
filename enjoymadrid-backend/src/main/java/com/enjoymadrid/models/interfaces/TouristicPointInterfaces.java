@@ -1,4 +1,4 @@
-package com.enjoymadrid.model.interfaces;
+package com.enjoymadrid.models.interfaces;
 
 public class TouristicPointInterfaces {
 	
