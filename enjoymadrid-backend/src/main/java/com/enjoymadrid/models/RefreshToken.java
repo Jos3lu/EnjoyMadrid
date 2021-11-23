@@ -53,8 +53,8 @@ public class RefreshToken {
 		return refreshToken;
 	}
 
-	public void setRefreshToken(String token) {
-		this.refreshToken = token;
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 
 	public Instant getExpiryDate() {

@@ -54,7 +54,7 @@ public class UserServiceLogic implements UserService {
 		// Check if current password matches the password inserted in the form as current password
 		if (oldPassword != null && !oldPassword.isBlank() 
 				&& !passwordEncoder.matches(oldPassword, pastUser.getPassword())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La contraseña actual no coincide con la que se ha ingresado");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La contraseña actual es incorrecta!");
 		}
 						
 		// If user changes password, encode and save it

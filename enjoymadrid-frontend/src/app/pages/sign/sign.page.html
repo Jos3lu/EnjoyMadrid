@@ -35,7 +35,8 @@
           <div [hidden]="passwordSignIn.valid || passwordSignIn.pristine" class="invalid-input">
             Contraseña no válida (al menos 7 caracteres, un número, una mayúscula y una minúscula)
           </div>
-          <div class="ion-text-end ion-margin-top">
+          <div class="ion-text-end ion-margin-top spinner">
+            <ion-spinner *ngIf="loadingSignIn" name="dots"></ion-spinner>
             <ion-button type="submit" [disabled]="!signInForm.form.valid">Iniciar sesión</ion-button>
           </div>
         </form>
@@ -73,6 +74,7 @@
             Debe contener al menos 7 caracteres, un número, una mayúscula y una minúscula
           </div>
           <div class="ion-text-end ion-margin-top">
+            <ion-spinner *ngIf="loadingSignUp" name="dots"></ion-spinner>
             <ion-button type="submit" [disabled]="!signUpForm.form.valid">Registrarse</ion-button>
           </div>
         </form>

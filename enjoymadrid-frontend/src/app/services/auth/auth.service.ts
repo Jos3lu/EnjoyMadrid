@@ -41,6 +41,7 @@ export class AuthService {
     return this.httpClient.post<any>(this.sharedService.getApiUrl() + "signin", userSignIn, headerOptions).pipe(
       tap(data => {
         this.tokenService.setToken(data.token);
+        this.tokenService.setRefreshToken(data.refreshToken);
         this.setUserAuth({ id: data.id, name: data.name, username: data.username, photo: data.photo });
       }),
       catchError(this.sharedService.handleError)
@@ -55,6 +56,10 @@ export class AuthService {
     return this.httpClient.get<any>(this.sharedService.getApiUrl() + 'signout').pipe(
       catchError(this.sharedService.handleError)
     );
+  }
+
+  refreshToken(token: string) {
+    return this.httpClient.post(this.sharedService.getApiUrl() + 'refreshtoken', { refreshToken: token }, headerOptions)
   }
 
 }

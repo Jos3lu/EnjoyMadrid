@@ -7,9 +7,11 @@ import { BehaviorSubject } from 'rxjs';
 export class TokenStorageService {
 
   private tokenJwt: BehaviorSubject<string>;
+  private refreshTokenJwt: BehaviorSubject<string>;
 
   constructor() {
     this.tokenJwt = new BehaviorSubject<string>(null);
+    this.refreshTokenJwt = new BehaviorSubject<string>(null);
    }
 
   setToken(token: string) {
@@ -18,6 +20,14 @@ export class TokenStorageService {
 
   getToken() {
     return this.tokenJwt.value;
+  }
+
+  setRefreshToken(refreshToken: string) {
+    this.refreshTokenJwt.next(refreshToken);
+  }
+
+  getRefreshToken() {
+    return this.refreshTokenJwt.value;
   }
 
 }

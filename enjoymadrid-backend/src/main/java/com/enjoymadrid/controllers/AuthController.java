@@ -66,7 +66,7 @@ public class AuthController {
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
-	@PostMapping("/refreshToken")
+	@PostMapping("/refreshtoken")
 	public ResponseEntity<RefreshTokenResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
 		String refreshToken = refreshTokenRequest.getRefreshToken();
 		
