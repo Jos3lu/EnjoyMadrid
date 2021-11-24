@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { UserModel } from './models/user.model';
 import { AuthService } from './services/auth/auth.service';
+import { EventBusService } from './services/event-bus/event-bus.service';
 import { SharedService } from './services/shared/shared.service';
 import { TokenStorageService } from './services/token/token-storage.service';
 import { UserService } from './services/user/user.service';
@@ -12,7 +14,7 @@ import { UserService } from './services/user/user.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   
   // Bound to the value of the dark mode toggle
   darkTheme: boolean;
@@ -22,16 +24,29 @@ export class AppComponent {
   userLogged: UserModel;
   isUserLogged: boolean;
 
+  // Subscription to logout when refresh token is expired
+  eventBusSub?: Subscription;
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private sharedService: SharedService,
     private tokenService: TokenStorageService,
     private route: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private eventBusService: EventBusService
   ) {
     this.selectDarkOrLightTheme();
     this.isUserLogged = false;
+    this.eventBusSub = this.eventBusService.on('logout', () => {
+      this.signOut();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.eventBusSub) {
+      this.eventBusSub.unsubscribe();
+    }
   }
 
   checkIfUserLogged() {
@@ -67,7 +82,7 @@ export class AppComponent {
                 this.signOut();
                 this.sharedService.showToast('Cuenta borrada con éxito', 3000);
               },
-              error => this.sharedService.showToast(error.error.message, 3000)
+              error => console.log(error)//this.sharedService.showToast(error.error.message, 3000)
             );
           }
         }, {

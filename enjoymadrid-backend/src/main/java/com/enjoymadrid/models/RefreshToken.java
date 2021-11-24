@@ -2,12 +2,16 @@ package com.enjoymadrid.models;
 
 import java.time.Instant;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class RefreshToken {
@@ -17,6 +21,7 @@ public class RefreshToken {
 	private Long id;
 	
 	@OneToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
 	@Column(nullable = false, unique = true)

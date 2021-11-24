@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserModel } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { EventBusService } from 'src/app/services/event-bus/event-bus.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -24,6 +25,7 @@ export class UpdateUserPage implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private sharedService: SharedService,
+    private eventBusService: EventBusService,
     private router: Router
   ) {
     this.showPasswordCurrent;
@@ -88,6 +90,9 @@ export class UpdateUserPage implements OnInit {
     this.sharedService.handleError(error);
     if (error.error.message) {
       this.sharedService.showToast(error.error.message, 3000);
+    }
+    if (error.status === 403) {
+      this.eventBusService.emit({ name: 'logout', value: null });
     }
   }
 }
