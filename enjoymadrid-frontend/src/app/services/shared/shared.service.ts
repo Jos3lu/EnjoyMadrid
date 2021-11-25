@@ -37,6 +37,7 @@ export class SharedService {
 
   // Show alerts to user
   async showToast(message: string, timeout: number) {
+    if (!message) return;
     const toast = await toastController.create({
       color: 'dark',
       duration: timeout,

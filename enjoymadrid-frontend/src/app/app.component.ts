@@ -15,7 +15,7 @@ import { UserService } from './services/user/user.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnDestroy {
-  
+
   // Bound to the value of the dark mode toggle
   darkTheme: boolean;
   // #527c9e Color Logo
@@ -82,7 +82,7 @@ export class AppComponent implements OnDestroy {
                 this.signOut();
                 this.sharedService.showToast('Cuenta borrada con éxito', 3000);
               },
-              error => console.log(error)//this.sharedService.showToast(error.error.message, 3000)
+              error => this.sharedService.showToast(error.error?.message, 3000)
             );
           }
         }, {
@@ -95,7 +95,7 @@ export class AppComponent implements OnDestroy {
       await toast.present();
     }
   }
-  
+
   selectDarkOrLightTheme() {
     // Get preference of user about color scheme
     const prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)');

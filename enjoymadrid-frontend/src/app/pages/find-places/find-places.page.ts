@@ -176,6 +176,7 @@ export class FindPlacesPage implements OnInit {
   }
 
   subcategorySelected(subcategory: string) {
+    subcategory = 'hola';
     this.touristicPointService.getTouristicPointsByCategory(subcategory).subscribe(
       places => {
         this.places = places;
@@ -184,7 +185,7 @@ export class FindPlacesPage implements OnInit {
         this.infiniteScroll.disabled = false;
         this.content.scrollToPoint(0, document.getElementById('results').offsetTop, 500);
       },
-      _ => this.sharedService.showToast('No se ha podido encontrar ningún sitio', 3000)
+      error => this.sharedService.showToast(error.error?.message, 3000)
     );
   }
 

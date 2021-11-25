@@ -21,7 +21,7 @@ public class TouristicPointServiceLogic implements TouristicPointService {
 	
 	@Override
 	public List<TouristicPoint> getTouristicPointsByCategory(String category) {
-		return this.touristicPointRepository.findByCategory(category).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Puntos no encontrados con la categoría: " + category));
+		return this.touristicPointRepository.findByCategory(category).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sitios no encontrados con la categoría: " + category));
 	}
 
 }

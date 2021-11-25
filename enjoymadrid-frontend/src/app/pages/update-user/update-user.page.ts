@@ -88,9 +88,7 @@ export class UpdateUserPage implements OnInit {
 
   onError(error: HttpErrorResponse) {
     this.sharedService.handleError(error);
-    if (error.error.message) {
-      this.sharedService.showToast(error.error.message, 3000);
-    }
+    this.sharedService.showToast(error.error?.message, 3000);
     if (error.status === 403) {
       this.eventBusService.emit({ name: 'logout', value: null });
     }
