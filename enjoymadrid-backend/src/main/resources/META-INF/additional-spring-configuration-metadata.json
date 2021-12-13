@@ -1,5 +1,3 @@
-{"properties": [{
-  "name": "enjoymadrid.jwt.secret",
-  "type": "java.lang.String",
-  "description": "Jwt secret"
-}]}
+version https://git-lfs.github.com/spec/v1
+oid sha256:357faa24cc85ea60d82c1b59f35a586bdab673d0ed384a86ef757e80cbf2a7f2
+size 117
