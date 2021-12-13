@@ -49,8 +49,6 @@ import com.enjoymadrid.models.User;
 @EnableScheduling
 public class LoadPointsComponent implements CommandLineRunner {
 
-	private CyclicBarrier waitToEnd;
-	private List<TouristicPoint> touristicPoints;
 	private static final Logger logger = LoggerFactory.getLogger(LoadPointsComponent.class);
 
 	private final AirQualityStationRepository airQualityStationRepository;
@@ -80,14 +78,15 @@ public class LoadPointsComponent implements CommandLineRunner {
 		loadDataTouristicPoints();
 	}
 
+	/**
+	 * Execute to add air quality stations of not already in DB
+	 * an then update the air quality data
+	 */
 	private void loadDataAirQualityStations() {
 
-		/*
-		 * Add stations if not already in DB and then update the air quality data
-		 */
 		Document document = null;
 		try {
-			File stationsCoord = new ClassPathResource("static/geo/estaciones_calidad_aire.geo").getFile();
+			File stationsCoord = new ClassPathResource("static/stations/estaciones_calidad_aire.geo").getFile();
 			document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stationsCoord);
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			logger.error(e.getMessage());
@@ -126,16 +125,17 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 	/**
 	 * This method is executed three times a day (12 a.m. / 8 a.m. / 4 p.m.),
-	 * updating the air quality data at each station. cron: Seconds, Minutes, Hour,
-	 * Day of the month, Month, Day of the week
+	 * updating the air quality data at each station. 
+	 * cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the week
 	 */
 	@Scheduled(cron = "0 0 0/8 * * *", zone = "Europe/Madrid")
 	private void scheduleAqiStations() {
 		/*
-		 * Execute the method updateIcaStations at a random minute Scheduled annotation
-		 * should end at minute 0. If pool tries to execute at minute 0, there might be
-		 * a race condition with the actual thread running this block. In variable
-		 * minuteExecuteUpdate we exclude the first 5 minutes for this reason.
+		 * Execute the method updateIcaStations at a random minute.
+		 * Scheduled annotation (above) should end at minute 0. 
+		 * If pool tries to execute at minute 0, there might be
+		 * a race condition with the actual thread running this block. 
+		 * In variable minuteExecuteUpdate we exclude the first 5 minutes for this reason.
 		 */
 		Integer minuteExecuteUpdate = 5 + new Random().nextInt(55);
 		ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
@@ -147,10 +147,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 		/*
 		 * Pages ->
-		 * https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_5~~TEMP_UNIT_c~~
-		 * WIND_UNIT_kmh~
-		 * https://website-api.airvisual.com/v1/stations/by/cityID/igp7hSLYmouA2JFhu?&
-		 * AQI=US&language=es
+		 * https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_5~~TEMP_UNIT_c~~WIND_UNIT_kmh~
+		 * https://website-api.airvisual.com/v1/stations/by/cityID/igp7hSLYmouA2JFhu?&AQI=US&language=es
 		 */
 
 		// Add stations to a list before add it to the DB
@@ -251,20 +249,23 @@ public class LoadPointsComponent implements CommandLineRunner {
 	/**
 	 * This method is executed all the mondays at 12:00 a.m. (and the first time the
 	 * server is activated), checking for new information and deleting old
-	 * information cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the
-	 * week
+	 * information cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the week
 	 */
 	@Scheduled(cron = "0 0 0 ? * 1", zone = "Europe/Madrid")
 	private void loadDataTouristicPoints() {
 		String[] dataOrigins = { "turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml",
 				"restaurantes_v1_es.xml" };
 
+		// Sync threads pool
+		CyclicBarrier waitToEnd = new CyclicBarrier(dataOrigins.length + 1);
+		// Points extracted from the Madrid city hall page
+		List<TouristicPoint> touristicPoints = Collections.synchronizedList(new LinkedList<>());
+		
+		// Each thread for type of tourism
 		ExecutorService ex = Executors.newFixedThreadPool(dataOrigins.length);
-		waitToEnd = new CyclicBarrier(dataOrigins.length + 1);
-		touristicPoints = Collections.synchronizedList(new LinkedList<>());
 
 		for (String origin : dataOrigins) {
-			ex.execute(() -> loadDataTouristicPoints(origin));
+			ex.execute(() -> loadDataTouristicPoints(origin, waitToEnd, touristicPoints));
 		}
 		ex.shutdown();
 
@@ -277,13 +278,20 @@ public class LoadPointsComponent implements CommandLineRunner {
 		}
 
 		// Delete points not found anymore on the Madrid city hall page
-		touristicPointRepository.findAll().stream().filter(point -> !touristicPoints.contains(point))
-				.forEach(point -> touristicPointRepository.delete(point));
+		List<TouristicPoint> touristicPointsDB = touristicPointRepository.findAll();
+		touristicPointsDB.removeAll(touristicPoints);
+		touristicPointsDB.forEach(point -> touristicPointRepository.delete(point));
+		
+		/*
+		 * touristicPointRepository.findAll().stream().filter(point -> !touristicPoints.contains(point))
+		 * 		.forEach(point -> touristicPointRepository.delete(point));
+		 */
+
 
 		logger.info("Touristic points updated in database");
 	}
 
-	private void loadDataTouristicPoints(String typeTourism) {
+	private void loadDataTouristicPoints(String typeTourism, CyclicBarrier waitToEnd, List<TouristicPoint> touristicPoints) {
 
 		Document document = null;
 		try {

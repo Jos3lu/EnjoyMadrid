@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import * as L from 'leaflet';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { ModalController } from '@ionic/angular';
@@ -64,10 +64,10 @@ export class SelectPointPage implements OnInit {
       layers: [standard, satellite]
     });
 
-    if (!this.pointEmpty) {
+    if (!this.pointEmpty) { 
       this.marker = L.marker([this.point.latitude, this.point.longitude]);
       this.marker.addTo(this.map);
-      this.map.setView([this.point.latitude, this.point.longitude], 18)
+      this.map.setView([this.point.latitude, this.point.longitude], 18);
     }
 
     this.map.addControl(searchControl);
@@ -97,6 +97,7 @@ export class SelectPointPage implements OnInit {
   }
 
   setMarker(latitude: number, longitude: number, location: string) {
+    this.pointEmpty = false;
     this.point = { latitude: latitude, longitude: longitude, location: location };
     if (this.marker) {
       this.map.removeLayer(this.marker);
@@ -107,7 +108,7 @@ export class SelectPointPage implements OnInit {
   }
 
   onSelect() {
-    if (!this.point) {
+    if (this.pointEmpty) {
       this.sharedService.showToast('Selecciona una localización', 3000);
       return;
     }

@@ -55,6 +55,7 @@
     white-space: normal;
 }
 
+// Style for invalid input in forms
 .invalid-input {
     font-size: small;
     margin-top: 0.5em;
@@ -74,7 +75,7 @@
 }
 
 // Custom modal
-.my-modal .modal-wrapper {
+.my-modal::part(content) {
     position: absolute;
     top: 0;
     left: 0;
