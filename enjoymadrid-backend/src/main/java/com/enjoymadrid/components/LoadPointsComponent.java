@@ -6,11 +6,15 @@ import java.net.URL;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -31,6 +35,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,10 +44,16 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.enjoymadrid.models.repositories.UserRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.enjoymadrid.models.repositories.AirQualityStationRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
+import com.enjoymadrid.models.repositories.TransportPointRepository;
 import com.enjoymadrid.models.AirQualityStation;
 import com.enjoymadrid.models.TouristicPoint;
+import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.User;
 
 @Component
@@ -51,12 +62,14 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(LoadPointsComponent.class);
 
+	private final TransportPointRepository transportPointRepository;
 	private final AirQualityStationRepository airQualityStationRepository;
 	private final TouristicPointRepository touristicPointRepository;
 	private final UserRepository userRepository;
 
-	public LoadPointsComponent(AirQualityStationRepository airQualityStationRepository,
+	public LoadPointsComponent(TransportPointRepository transportPointRepository, AirQualityStationRepository airQualityStationRepository,
 			TouristicPointRepository pointRepository, UserRepository userRepository) {
+		this.transportPointRepository = transportPointRepository;
 		this.airQualityStationRepository = airQualityStationRepository;
 		this.touristicPointRepository = pointRepository;
 		this.userRepository = userRepository;
@@ -74,8 +87,58 @@ public class LoadPointsComponent implements CommandLineRunner {
 		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
 		userRepository.save(user3);
 
+		loadDataSubwayPoints();
 		loadDataAirQualityStations();
 		loadDataTouristicPoints();
+	}
+	
+	private void loadDataSubwayPoints() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		// Store stops before save it in DataBase
+		Map<Integer, TransportPoint> subwayStops = new HashMap<>();
+		
+		// Transform json file to tree model
+		try {
+			File stopsCoord = new ClassPathResource("static/subway/estaciones_red_de_metro.geojson").getFile();
+			
+			JsonNode stops = objectMapper.readTree(stopsCoord).get("features");			
+			for (JsonNode stop: stops) {
+				Integer code = stop.get("properties").get("CODIGOESTACION").asInt();
+				String name = StringUtils.capitalize(stop.get("properties").get("DENOMINACION").asText().toLowerCase());
+				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
+				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
+				subwayStops.put(code, new TransportPoint(name, longitude, latitude));
+			}
+			
+			File stopsItinerary = new ClassPathResource("static/subway/paradas_por_itinerario_red_de_metro.geojson").getFile();
+			
+			stops = objectMapper.readTree(stopsItinerary).get("features");
+			for (JsonNode stop: stops) {
+				Integer codeStation = stop.get("properties").get("CODIGOESTACION").asInt();
+				String line = stop.get("properties").get("NUMEROLINEAUSUARIO").asText();
+				Integer direction = stop.get("properties").get("SENTIDO").asInt();
+				Integer order = stop.get("properties").get("NUMEROORDEN").asInt();
+				
+				
+				TransportPoint transportPoint = subwayStops.get(codeStation);
+				transportPoint.getLines().add(line + ";" + direction + ";" + order);
+			}
+			
+			for (TransportPoint transportPoint: subwayStops.values()) {
+				// Search if stop already exists in DB
+				Optional<TransportPoint> transportPointDB = transportPointRepository
+						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(transportPoint.getName(), transportPoint.getLongitude(), transportPoint.getLatitude());
+				if (transportPointDB.isEmpty()) {
+					transportPointRepository.save(transportPoint);
+				}
+					
+			}
+			
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			return;
+		}
 	}
 
 	/**
@@ -86,7 +149,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 		Document document = null;
 		try {
-			File stationsCoord = new ClassPathResource("static/stations/estaciones_calidad_aire.geo").getFile();
+			File stationsCoord = new ClassPathResource("static/qualityair/estaciones_calidad_aire.geo").getFile();
 			document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stationsCoord);
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			logger.error(e.getMessage());
@@ -152,21 +215,20 @@ public class LoadPointsComponent implements CommandLineRunner {
 		 */
 
 		// Add stations to a list before add it to the DB
-		List<AirQualityStation> airQualityStations = new LinkedList<>();
+		Map<String, Integer> airQualityStations = new HashMap<>();
 
 		// Web page https://www.iqair.com/es/
 		WebClient client = WebClient.create(
 				"https://website-api.airvisual.com/v1/stations/by/cityID/igp7hSLYmouA2JFhu?&AQI=US&language=es");
 
-		Object[] response = client.get().retrieve().bodyToMono(Object[].class).block();
-
-		for (Object object : response) {
-			Map<?, ?> airQualityStation = (Map<?, ?>) object;
-			String name = (String) airQualityStation.get("name");
-			Integer aqi = (Integer) airQualityStation.get("aqi");
-			airQualityStations.add(new AirQualityStation(name, aqi));
+		ArrayNode response = client.get().retrieve().bodyToMono(ArrayNode.class).block();
+				
+		for (JsonNode station : response) {
+			String name = station.get("name").asText();
+			Integer aqi = station.get("aqi").asInt();
+			airQualityStations.put(name, aqi);
 		}
-
+		
 		try {
 			// Web page https://www.eltiempo.es
 			org.jsoup.nodes.Document page = Jsoup
@@ -218,9 +280,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 				}
 
-				AirQualityStation airQualityStation = new AirQualityStation(name, aqi);
-				if (!airQualityStations.contains(airQualityStation)) {
-					airQualityStations.add(new AirQualityStation(name, aqi));
+				if (!airQualityStations.containsKey(name)) {
+					airQualityStations.put(name, aqi);
 				}
 			}
 
@@ -229,17 +290,17 @@ public class LoadPointsComponent implements CommandLineRunner {
 			return;
 		}
 
-		for (AirQualityStation airQualityStation : airQualityStations) {
+		for (Map.Entry<String, Integer> airQualityStation : airQualityStations.entrySet()) {
 			// Search station in DB
 			Optional<AirQualityStation> airQualityStationDB = airQualityStationRepository
-					.findByNameIgnoreCase(airQualityStation.getName());
+					.findByNameIgnoreCase(airQualityStation.getKey());
 			
 			// If not in DB skip it 
 			if (airQualityStationDB.isEmpty()) {
 				continue;
 			}
 			
-			airQualityStationDB.get().setIqa(airQualityStation.getIqa());
+			airQualityStationDB.get().setIqa(airQualityStation.getValue());
 			airQualityStationRepository.save(airQualityStationDB.get());
 		}
 
@@ -288,7 +349,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		 */
 
 
-		logger.info("Touristic points updated in database");
+		logger.info("Touristic points updated");
 	}
 
 	private void loadDataTouristicPoints(String typeTourism, CyclicBarrier waitToEnd, List<TouristicPoint> touristicPoints) {
@@ -400,7 +461,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		}
 
 	}
-
+	
 	private Double tryParseDouble(String parseString) {
 		try {
 			return Double.parseDouble(parseString);
