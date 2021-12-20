@@ -33,6 +33,9 @@ public class TransportPoint {
 	
 	@JsonView(TransportPointInterfaces.BasicData.class)
 	private Double latitude;
+	
+	@JsonView(TransportPointInterfaces.BasicData.class)
+	private String type;
 		
 	@ElementCollection
 	private Set<String> lines = new HashSet<>();
@@ -47,8 +50,9 @@ public class TransportPoint {
 	
 	public TransportPoint() {}
 
-	public TransportPoint(String name, Double longitude, Double latitude) {
+	public TransportPoint(String name, String type, Double longitude, Double latitude) {
 		this.name = name;
+		this.type = type;
 		this.longitude = longitude;
 		this.latitude = latitude;
 	}
@@ -67,6 +71,14 @@ public class TransportPoint {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Double getLongitude() {
@@ -112,8 +124,8 @@ public class TransportPoint {
 	@Override
 	public String toString() {
 		return "TransportPoint [id=" + id + ", name=" + name + ", longitude=" + longitude + ", latitude=" + latitude
-				+ ", lines=" + lines + ", touristicPoints=" + touristicPoints + ", transportPoints=" + transportPoints
-				+ "]";
+				+ ", type=" + type + ", lines=" + lines + ", touristicPoints=" + touristicPoints + ", transportPoints="
+				+ transportPoints + "]";
 	}
 	
 }

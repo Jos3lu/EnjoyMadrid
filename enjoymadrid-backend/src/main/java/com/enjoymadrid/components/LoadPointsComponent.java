@@ -67,8 +67,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private final TouristicPointRepository touristicPointRepository;
 	private final UserRepository userRepository;
 
-	public LoadPointsComponent(TransportPointRepository transportPointRepository, AirQualityStationRepository airQualityStationRepository,
-			TouristicPointRepository pointRepository, UserRepository userRepository) {
+	public LoadPointsComponent(TransportPointRepository transportPointRepository,
+			AirQualityStationRepository airQualityStationRepository, TouristicPointRepository pointRepository,
+			UserRepository userRepository) {
 		this.transportPointRepository = transportPointRepository;
 		this.airQualityStationRepository = airQualityStationRepository;
 		this.touristicPointRepository = pointRepository;
@@ -87,63 +88,14 @@ public class LoadPointsComponent implements CommandLineRunner {
 		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
 		userRepository.save(user3);
 
-		loadDataSubwayPoints();
 		loadDataAirQualityStations();
 		loadDataTouristicPoints();
-	}
-	
-	private void loadDataSubwayPoints() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		
-		// Store stops before save it in DataBase
-		Map<Integer, TransportPoint> subwayStops = new HashMap<>();
-		
-		// Transform json file to tree model
-		try {
-			File stopsCoord = new ClassPathResource("static/subway/estaciones_red_de_metro.geojson").getFile();
-			
-			JsonNode stops = objectMapper.readTree(stopsCoord).get("features");			
-			for (JsonNode stop: stops) {
-				Integer code = stop.get("properties").get("CODIGOESTACION").asInt();
-				String name = StringUtils.capitalize(stop.get("properties").get("DENOMINACION").asText().toLowerCase());
-				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
-				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
-				subwayStops.put(code, new TransportPoint(name, longitude, latitude));
-			}
-			
-			File stopsItinerary = new ClassPathResource("static/subway/paradas_por_itinerario_red_de_metro.geojson").getFile();
-			
-			stops = objectMapper.readTree(stopsItinerary).get("features");
-			for (JsonNode stop: stops) {
-				Integer codeStation = stop.get("properties").get("CODIGOESTACION").asInt();
-				String line = stop.get("properties").get("NUMEROLINEAUSUARIO").asText();
-				Integer direction = stop.get("properties").get("SENTIDO").asInt();
-				Integer order = stop.get("properties").get("NUMEROORDEN").asInt();
-				
-				
-				TransportPoint transportPoint = subwayStops.get(codeStation);
-				transportPoint.getLines().add(line + ";" + direction + ";" + order);
-			}
-			
-			for (TransportPoint transportPoint: subwayStops.values()) {
-				// Search if stop already exists in DB
-				Optional<TransportPoint> transportPointDB = transportPointRepository
-						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(transportPoint.getName(), transportPoint.getLongitude(), transportPoint.getLatitude());
-				if (transportPointDB.isEmpty()) {
-					transportPointRepository.save(transportPoint);
-				}
-					
-			}
-			
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-			return;
-		}
+		loadDataTransportPoints();
 	}
 
 	/**
-	 * Execute to add air quality stations of not already in DB
-	 * an then update the air quality data
+	 * Execute to add air quality stations if not already in DB an then update the
+	 * air quality data
 	 */
 	private void loadDataAirQualityStations() {
 
@@ -194,11 +146,10 @@ public class LoadPointsComponent implements CommandLineRunner {
 	@Scheduled(cron = "0 0 0/8 * * *", zone = "Europe/Madrid")
 	private void scheduleAqiStations() {
 		/*
-		 * Execute the method updateIcaStations at a random minute.
-		 * Scheduled annotation (above) should end at minute 0. 
-		 * If pool tries to execute at minute 0, there might be
-		 * a race condition with the actual thread running this block. 
-		 * In variable minuteExecuteUpdate we exclude the first 5 minutes for this reason.
+		 * Execute the method updateIcaStations at a random minute. Scheduled annotation
+		 * (above) should end at minute 0. If pool tries to execute at minute 0, there
+		 * might be a race condition with the actual thread running this block. In
+		 * variable minuteExecuteUpdate we exclude the first 5 minutes for this reason.
 		 */
 		Integer minuteExecuteUpdate = 5 + new Random().nextInt(55);
 		ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
@@ -222,13 +173,13 @@ public class LoadPointsComponent implements CommandLineRunner {
 				"https://website-api.airvisual.com/v1/stations/by/cityID/igp7hSLYmouA2JFhu?&AQI=US&language=es");
 
 		ArrayNode response = client.get().retrieve().bodyToMono(ArrayNode.class).block();
-				
+
 		for (JsonNode station : response) {
 			String name = station.get("name").asText();
 			Integer aqi = station.get("aqi").asInt();
 			airQualityStations.put(name, aqi);
 		}
-		
+
 		try {
 			// Web page https://www.eltiempo.es
 			org.jsoup.nodes.Document page = Jsoup
@@ -294,12 +245,12 @@ public class LoadPointsComponent implements CommandLineRunner {
 			// Search station in DB
 			Optional<AirQualityStation> airQualityStationDB = airQualityStationRepository
 					.findByNameIgnoreCase(airQualityStation.getKey());
-			
-			// If not in DB skip it 
+
+			// If not in DB skip it
 			if (airQualityStationDB.isEmpty()) {
 				continue;
 			}
-			
+
 			airQualityStationDB.get().setIqa(airQualityStation.getValue());
 			airQualityStationRepository.save(airQualityStationDB.get());
 		}
@@ -309,11 +260,12 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 	/**
 	 * This method is executed all the mondays at 12:00 a.m. (and the first time the
-	 * server is activated), checking for new information and deleting old
-	 * information cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the week
+	 * server is activated), checking for new information and deleting old information.
+	 * cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the week
 	 */
 	@Scheduled(cron = "0 0 0 ? * 1", zone = "Europe/Madrid")
 	private void loadDataTouristicPoints() {
+		// Data sources
 		String[] dataOrigins = { "turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml",
 				"restaurantes_v1_es.xml" };
 
@@ -321,7 +273,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		CyclicBarrier waitToEnd = new CyclicBarrier(dataOrigins.length + 1);
 		// Points extracted from the Madrid city hall page
 		List<TouristicPoint> touristicPoints = Collections.synchronizedList(new LinkedList<>());
-		
+
 		// Each thread for type of tourism
 		ExecutorService ex = Executors.newFixedThreadPool(dataOrigins.length);
 
@@ -342,17 +294,18 @@ public class LoadPointsComponent implements CommandLineRunner {
 		List<TouristicPoint> touristicPointsDB = touristicPointRepository.findAll();
 		touristicPointsDB.removeAll(touristicPoints);
 		touristicPointsDB.forEach(point -> touristicPointRepository.delete(point));
-		
-		/*
-		 * touristicPointRepository.findAll().stream().filter(point -> !touristicPoints.contains(point))
-		 * 		.forEach(point -> touristicPointRepository.delete(point));
-		 */
 
+		/*
+		 * touristicPointRepository.findAll().stream().filter(point ->
+		 * !touristicPoints.contains(point)) .forEach(point ->
+		 * touristicPointRepository.delete(point));
+		 */
 
 		logger.info("Touristic points updated");
 	}
 
-	private void loadDataTouristicPoints(String typeTourism, CyclicBarrier waitToEnd, List<TouristicPoint> touristicPoints) {
+	private void loadDataTouristicPoints(String typeTourism, CyclicBarrier waitToEnd,
+			List<TouristicPoint> touristicPoints) {
 
 		Document document = null;
 		try {
@@ -461,7 +414,95 @@ public class LoadPointsComponent implements CommandLineRunner {
 		}
 
 	}
-	
+
+	private void loadDataTransportPoints() {
+		// Data sources
+		String[][] publicTransportTypes = {
+				{"subway", "static/subway/estaciones_red_de_metro.geojson", "static/subway/paradas_por_itinerario_red_de_metro.geojson"}, 
+				{"bus", "static/bus/estaciones_red_de_autobuses_urbanos_de_madrid__EMT.geojson", "static/bus/paradas_por_itinerario_red_de_autobuses_urbanos_de_madrid__EMT.geojson"}, 
+				{"commuter", "static/commuter/estaciones_red_de_cercanias.geojson", "static/commuter/paradas_por_itinerario_red_de_cercanias.geojson"}
+		};
+		
+		// Thread for each type of transport
+		ExecutorService ex = Executors.newFixedThreadPool(publicTransportTypes.length);
+		
+		// Sync threads pool
+		CyclicBarrier waitToEnd = new CyclicBarrier(publicTransportTypes.length + 1);
+		
+		for (String[] publicTransport: publicTransportTypes) {
+			ex.execute(() -> loadDataPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2], waitToEnd));
+		}		
+		ex.shutdown();
+				
+		try {
+			waitToEnd.await();
+		} catch (InterruptedException | BrokenBarrierException e) {
+			logger.error(e.getMessage());
+			ex.shutdownNow();
+			return;
+		}
+		
+		// Add the neighbors
+
+		logger.info("Transport points updated");
+	}
+
+	private void loadDataPublicTransportPoints(String type, String stopsFile, String itineraryStopsFile, CyclicBarrier waitToEnd) {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		// Store stops before save it in DataBase
+		Map<String, TransportPoint> publicTransportStops = new HashMap<>();
+
+		// Transform json file to tree model
+		try {
+			File stopsCoord = new ClassPathResource(stopsFile).getFile();
+
+			JsonNode stops = objectMapper.readTree(stopsCoord).get("features");
+			for (JsonNode stop : stops) {
+				String name = stop.get("properties").get("DENOMINACION").asText();
+				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
+				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
+				publicTransportStops.putIfAbsent(name,
+						new TransportPoint(StringUtils.capitalize(name.toLowerCase()), type, longitude, latitude));
+			}
+
+			File stopsItinerary = new ClassPathResource(itineraryStopsFile)
+					.getFile();
+
+			stops = objectMapper.readTree(stopsItinerary).get("features");
+			for (JsonNode stop : stops) {
+				String name = stop.get("properties").get("DENOMINACION").asText();
+				String line = stop.get("properties").get("NUMEROLINEAUSUARIO").asText();
+				Integer direction = stop.get("properties").get("SENTIDO").asInt();
+				Integer order = stop.get("properties").get("NUMEROORDEN").asInt();
+
+				TransportPoint transportPoint = publicTransportStops.get(name);
+				transportPoint.getLines().add(line + " [" + direction + "] " + ": " + order);
+			}
+
+			for (TransportPoint transportPoint : publicTransportStops.values()) {
+				// Search if stop already exists in DB
+				Optional<TransportPoint> transportPointDB = transportPointRepository
+						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(transportPoint.getName(),
+								transportPoint.getLongitude(), transportPoint.getLatitude());
+				if (transportPointDB.isEmpty()) {
+					transportPointRepository.save(transportPoint);
+				}
+
+			}
+
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
+		
+		try {
+			waitToEnd.await();
+		} catch (InterruptedException | BrokenBarrierException e) {
+			logger.error(e.getMessage());
+		}
+		
+	}
+
 	private Double tryParseDouble(String parseString) {
 		try {
 			return Double.parseDouble(parseString);

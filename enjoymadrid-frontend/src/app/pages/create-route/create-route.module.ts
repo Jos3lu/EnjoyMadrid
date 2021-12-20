@@ -7,17 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { CreateRoutePageRoutingModule } from './create-route-routing.module';
 
 import { CreateRoutePage } from './create-route.page';
-import { SelectPointPageModule } from '../select-point/select-point.module';
 
 @NgModule({
-  declarations: [CreateRoutePage],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreateRoutePageRoutingModule,
-    SelectPointPageModule
+    CreateRoutePageRoutingModule
   ],
-  exports: [CreateRoutePage]
+  declarations: [CreateRoutePage]
 })
 export class CreateRoutePageModule {}

@@ -1,5 +1,5 @@
 <ion-content>
-  <div *ngIf="isOrigin" class="my-location">
+  <div [hidden]="!isOrigin" class="my-location">
     <ion-button (click)="searchCurrentLocation()" class="my-button-location" size="small">
       <ion-icon name="location-outline"></ion-icon>
     </ion-button>

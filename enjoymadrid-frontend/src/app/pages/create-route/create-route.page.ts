@@ -122,6 +122,7 @@ export class CreateRoutePage implements OnInit {
     modal.present();
 
     const location = await modal.onWillDismiss();
+    if (!location.data) return;
     this.originEmpty = false;
     this.origin = location.data.point;
   }
@@ -139,6 +140,7 @@ export class CreateRoutePage implements OnInit {
     modal.present();
 
     const location = await modal.onWillDismiss();
+    if (!location.data) return;
     this.destinationEmpty = false;
     this.destination = location.data.point;
   }

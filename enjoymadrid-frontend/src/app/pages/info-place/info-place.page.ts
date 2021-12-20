@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
@@ -36,6 +36,7 @@ export class InfoPlacePage implements OnInit {
   ngOnInit() {
   }
 
+  @HostListener('window:popstate', ['$event'])
   closeInfoPlace() {
     this.modalController.dismiss();
   }

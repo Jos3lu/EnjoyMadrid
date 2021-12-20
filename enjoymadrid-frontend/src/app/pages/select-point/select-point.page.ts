@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import * as L from 'leaflet';
@@ -18,7 +18,9 @@ export class SelectPointPage implements OnInit {
   @Input() pointEmpty: boolean;
   @Input() point: any;
 
+  // For the geo search
   provider = new OpenStreetMapProvider();
+  // Map & markers
   map: L.Map;
   marker: L.Marker;
 
@@ -79,12 +81,17 @@ export class SelectPointPage implements OnInit {
 
   }
 
+  @HostListener('window:popstate', ['$event'])
+  dismissModal() {
+    this.modalController.dismiss();
+  }
+
   searchPoint(result: any) {
     this.setMarker(result.location.y, result.location.x, result.location.label);
   }
 
   selectPoint(result: any) {
-    this.setMarker(result.latlng.lat, result.latlng.lng, 'Ubicación seleccionada');
+    this.setMarker(result.latlng.lat, result.latlng.lng, result.latlng.lat + ', ' + result.latlng.lng);
   }
 
   searchCurrentLocation() {
@@ -104,7 +111,7 @@ export class SelectPointPage implements OnInit {
     }
     this.marker = L.marker([latitude, longitude]);
     this.marker.addTo(this.map);
-    this.map.flyTo([latitude, longitude], 18);
+    this.map.setView([latitude, longitude], 18);
   }
 
   onSelect() {
@@ -116,7 +123,6 @@ export class SelectPointPage implements OnInit {
     this.modalController.dismiss({
       'point': this.point
     });
-    this.router.navigateByUrl('/create-route');
   }
 
 }

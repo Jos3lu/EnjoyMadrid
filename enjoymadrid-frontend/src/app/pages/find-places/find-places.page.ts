@@ -176,7 +176,6 @@ export class FindPlacesPage implements OnInit {
   }
 
   subcategorySelected(subcategory: string) {
-    subcategory = 'hola';
     this.touristicPointService.getTouristicPointsByCategory(subcategory).subscribe(
       places => {
         this.places = places;
