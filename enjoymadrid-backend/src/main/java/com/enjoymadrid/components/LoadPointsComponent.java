@@ -420,7 +420,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 		String[][] publicTransportTypes = {
 				{"subway", "static/subway/estaciones_red_de_metro.geojson", "static/subway/paradas_por_itinerario_red_de_metro.geojson"}, 
 				{"bus", "static/bus/estaciones_red_de_autobuses_urbanos_de_madrid__EMT.geojson", "static/bus/paradas_por_itinerario_red_de_autobuses_urbanos_de_madrid__EMT.geojson"}, 
-				{"commuter", "static/commuter/estaciones_red_de_cercanias.geojson", "static/commuter/paradas_por_itinerario_red_de_cercanias.geojson"}
+				{"commuter", "static/commuter/estaciones_red_de_cercanias.geojson", "static/commuter/paradas_por_itinerario_red_de_cercanias.geojson"},
+				{"bicycle", "static/bicycle/estaciones_bici_transporte_publico.geojson", ""}
 		};
 		
 		// Thread for each type of transport
@@ -459,27 +460,42 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 			JsonNode stops = objectMapper.readTree(stopsCoord).get("features");
 			for (JsonNode stop : stops) {
-				String name = stop.get("properties").get("DENOMINACION").asText();
+				String name = "";
+				if (!itineraryStopsFile.isEmpty()) { 
+					name = stop.get("properties").get("DENOMINACION").asText();
+				} else {
+					String[] street = stop.get("properties").get("Calle").asText().split(",");
+					if (street[2].isBlank()) street[2] = ""; 
+					String number = stop.get("properties").get("Nº").asText().replaceAll("S/N", "");
+					if (!number.isEmpty()) number = " nº " + number;  
+					
+					name = street[1] + street[2]  + " " + street[0] + number;
+					name = name.strip();
+				}
+				
 				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
 				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
 				publicTransportStops.putIfAbsent(name,
 						new TransportPoint(StringUtils.capitalize(name.toLowerCase()), type, longitude, latitude));
 			}
 
-			File stopsItinerary = new ClassPathResource(itineraryStopsFile)
-					.getFile();
+			if (!itineraryStopsFile.isEmpty()) {
+				File stopsItinerary = new ClassPathResource(itineraryStopsFile)
+						.getFile();
 
-			stops = objectMapper.readTree(stopsItinerary).get("features");
-			for (JsonNode stop : stops) {
-				String name = stop.get("properties").get("DENOMINACION").asText();
-				String line = stop.get("properties").get("NUMEROLINEAUSUARIO").asText();
-				Integer direction = stop.get("properties").get("SENTIDO").asInt();
-				Integer order = stop.get("properties").get("NUMEROORDEN").asInt();
+				stops = objectMapper.readTree(stopsItinerary).get("features");
+				for (JsonNode stop : stops) {
+					String name = stop.get("properties").get("DENOMINACION").asText();
+					String line = stop.get("properties").get("NUMEROLINEAUSUARIO").asText();
+					Integer direction = stop.get("properties").get("SENTIDO").asInt();
+					Integer order = stop.get("properties").get("NUMEROORDEN").asInt();
 
-				TransportPoint transportPoint = publicTransportStops.get(name);
-				transportPoint.getLines().add(line + " [" + direction + "] " + ": " + order);
+					
+					TransportPoint transportPoint = publicTransportStops.get(name);
+					transportPoint.getLines().add(line + " [" + direction + "] " + ": " + order);
+				}
 			}
-
+			
 			for (TransportPoint transportPoint : publicTransportStops.values()) {
 				// Search if stop already exists in DB
 				Optional<TransportPoint> transportPointDB = transportPointRepository
@@ -490,7 +506,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				}
 
 			}
-
+			
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
