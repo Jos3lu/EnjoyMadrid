@@ -1,177 +1,3438 @@
 {
-"type": "FeatureCollection",
-"name": "Bici%2BTransporte_p%C3%BAblico",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "OBJECTID": 1, "Estación": "001a", "Gis_X": 440503.99, "Gis_Y": 4474488.02, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "PUERTA DEL SOL, PLAZA, DE LA", "Nº": "1 B", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70257536922346, 40.4170159833592 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 2, "Estación": "001b", "Gis_X": 440513.65, "Gis_Y": 4474494.88, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "ALCALA, CALLE, DE", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70246215668931, 40.417078472402899 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 3, "Estación": "2", "Gis_X": 440244.27, "Gis_Y": 4474885.71, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "MIGUEL MOYA, CALLE, DE", "Nº": "1", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.70567386155353, 40.4205799653203 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 4, "Estación": "3", "Gis_X": 440122.41, "Gis_Y": 4475968.16, "Distrito": "07  CHAMBERÍ", "Barrio": "07-02 ARAPILES", "Calle": "CONDE DEL VALLE DE SUCHIL, PLAZA, DEL", "Nº": "2", "Anclajes": 18 }, "geometry": { "type": "Point", "coordinates": [ -3.70721218912638, 40.430322455536498 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 5, "Estación": "4", "Gis_X": 440505.83, "Gis_Y": 4475772.84, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "MANUELA MALASAÑA, CALLE, DE", "Nº": "3", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.70267394678505, 40.428590433790802 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 6, "Estación": "5", "Gis_X": 440556.33, "Gis_Y": 4475747.18, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "FUENCARRAL, CALLE, DE", "Nº": "106", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.70207624188195, 40.428362887227699 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 7, "Estación": "6", "Gis_X": 440863.7, "Gis_Y": 4475278.58, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "HORTALEZA, CALLE, DE", "Nº": "63", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.6984093002784, 40.424163408986701 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 8, "Estación": "7", "Gis_X": 440921.41, "Gis_Y": 4475394.98, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "HORTALEZA, CALLE, DE", "Nº": "75", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.69773986621916, 40.425216102435002 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 9, "Estación": "8", "Gis_X": 441129.99, "Gis_Y": 4475670.65, "Distrito": "07  CHAMBERÍ", "Barrio": "07-04 ALMAGRO", "Calle": "ALONSO MARTINEZ, PLAZA, DE", "Nº": "6", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69530673722773, 40.427714270766998 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 10, "Estación": "9", "Gis_X": 439922.95, "Gis_Y": 4474336.96, "Distrito": "01  CENTRO", "Barrio": "01-01 PALACIO", "Calle": "SAN MIGUEL, PLAZA, DE", "Nº": "9", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70940934184117, 40.415613402802499 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 11, "Estación": "10", "Gis_X": 441401.56, "Gis_Y": 4475411.92, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "MARQUES DE LA ENSENADA, CALLE, DEL", "Nº": "16", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.6920815872199, 40.425402673772602 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 12, "Estación": "11", "Gis_X": 440424.29, "Gis_Y": 4475602.67, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "SAN ANDRES, CALLE, DE", "Nº": "20", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.70361920434986, 40.427051619652197 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 13, "Estación": "12", "Gis_X": 440204.95, "Gis_Y": 4475768.21, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "SAN BERNARDO, CALLE, DE", "Nº": "87", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70622034838785, 40.428527145806598 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 14, "Estación": "13", "Gis_X": 439843.2, "Gis_Y": 4475642.13, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "CONDE DUQUE, CALLE, DEL", "Nº": "22", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.71047279028786, 40.4273652663557 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 15, "Estación": "14", "Gis_X": 439588.2, "Gis_Y": 4475493.01, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-02 ARGÜELLES", "Calle": "VENTURA RODRIGUEZ, CALLE, DE", "Nº": "2", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.71346454994098, 40.426003436951198 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 16, "Estación": "15", "Gis_X": 440116.14, "Gis_Y": 4475502.0, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "SAN VICENTE FERRER, CALLE, DE", "Nº": "62", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.70724217167396, 40.426122603084998 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 17, "Estación": "16", "Gis_X": 440092.02, "Gis_Y": 4475148.43, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "SAN BERNARDO, CALLE, DE", "Nº": "22", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.70749316396499, 40.422935729549899 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 18, "Estación": "17", "Gis_X": 440372.79, "Gis_Y": 4475171.91, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "CARLOS CAMBRONERO, PLAZA, DE", "Nº": "2", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.70418586761125, 40.423167423698501 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 19, "Estación": "18", "Gis_X": 440762.58, "Gis_Y": 4474919.42, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "VAZQUEZ DE MELLA, PLAZA, DE", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69956777322021, 40.4209207135792 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 20, "Estación": "19", "Gis_X": 441117.45, "Gis_Y": 4475025.58, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "PRIM, CALLE, DE", "Nº": "4", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69539479232654, 40.421902254703802 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 21, "Estación": "020a", "Gis_X": 441130.82, "Gis_Y": 4474725.39, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "ALCALA, CALLE, DE", "Nº": "49", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69520939791864, 40.419198929950099 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 22, "Estación": "020b", "Gis_X": 441144.37, "Gis_Y": 4474728.23, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "ALCALA, CALLE, DE", "Nº": "49", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69504995198477, 40.419225472487703 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 23, "Estación": "021a", "Gis_X": 440592.5, "Gis_Y": 4474794.19, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "RED DE SAN LUIS, PLAZA, DE LA", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70156078307737, 40.419780447713997 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 24, "Estación": "021b", "Gis_X": 440598.08, "Gis_Y": 4474805.83, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "RED DE SAN LUIS, PLAZA, DE LA", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7014961010601, 40.419885705400901 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 25, "Estación": "22", "Gis_X": 440173.84, "Gis_Y": 4474838.01, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "JACOMETREZO, CALLE, DE", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70649951673465, 40.4201451971933 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 26, "Estación": "23", "Gis_X": 440022.0, "Gis_Y": 4474846.84, "Distrito": "01  CENTRO", "Barrio": "01-01 PALACIO", "Calle": "SANTO DOMINGO, CUESTA, DE", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7082900469249, 40.420213808585203 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 27, "Estación": "24", "Gis_X": 439825.11, "Gis_Y": 4474592.23, "Distrito": "01  CENTRO", "Barrio": "01-01 PALACIO", "Calle": "CARLOS III, CALLE, DE", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71058663771063, 40.4179059342408 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 28, "Estación": "025a", "Gis_X": 440213.92, "Gis_Y": 4474526.47, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "CELENQUE, PLAZA, DEL", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70599780592729, 40.417341566233802 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 29, "Estación": "025b", "Gis_X": 440211.6, "Gis_Y": 4474517.36, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "CELENQUE, PLAZA, DEL", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70602429346026, 40.417259332124097 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 30, "Estación": "26", "Gis_X": 441190.49, "Gis_Y": 4475239.23, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "SALESAS, PLAZA, DE LAS", "Nº": "8", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69455363380589, 40.423832093404997 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 31, "Estación": "27", "Gis_X": 441093.12, "Gis_Y": 4474068.96, "Distrito": "01  CENTRO", "Barrio": "01-03 CORTES", "Calle": "JESUS, CALLE, DE", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69559293371073, 40.4132827862813 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 32, "Estación": "28", "Gis_X": 440822.29, "Gis_Y": 4474614.19, "Distrito": "01  CENTRO", "Barrio": "01-03 CORTES", "Calle": "ALCALA, CALLE, DE", "Nº": "25", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69883556347165, 40.418175290976997 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 33, "Estación": "29", "Gis_X": 441078.07, "Gis_Y": 4474397.78, "Distrito": "01  CENTRO", "Barrio": "01-03 CORTES", "Calle": "MARQUES DE CUBAS, CALLE, DEL", "Nº": "25", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69580077786188, 40.416243908839498 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 34, "Estación": "30", "Gis_X": 439745.27, "Gis_Y": 4474751.57, "Distrito": "01  CENTRO", "Barrio": "01-01 PALACIO", "Calle": "PAVIA, CALLE, DE", "Nº": "6", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.71154276125842, 40.419335570038001 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 35, "Estación": "31", "Gis_X": 440159.83, "Gis_Y": 4474416.23, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "MAYOR, CALLE, ", "Nº": "18", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.70662494789898, 40.416344578217803 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 36, "Estación": "32", "Gis_X": 440200.04, "Gis_Y": 4474250.13, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "PROVINCIA, PLAZA, DE LA", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70613540789148, 40.414851154407998 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 37, "Estación": "33", "Gis_X": 440445.12, "Gis_Y": 4474305.33, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "CARRETAS, CALLE, DE LAS", "Nº": "10", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7032521105311, 40.415366004099198 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 38, "Estación": "34", "Gis_X": 440422.87, "Gis_Y": 4474199.56, "Distrito": "01  CENTRO", "Barrio": "01-03 CORTES", "Calle": "JACINTO BENAVENTE, PLAZA, DE", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70350443619122, 40.414411579590798 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 39, "Estación": "35", "Gis_X": 439840.37, "Gis_Y": 4474178.41, "Distrito": "01  CENTRO", "Barrio": "01-01 PALACIO", "Calle": "CORDON, CALLE, DEL", "Nº": "4", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71036762342935, 40.414179136038101 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 40, "Estación": "36", "Gis_X": 439736.4, "Gis_Y": 4474479.61, "Distrito": "01  CENTRO", "Barrio": "01-01 PALACIO", "Calle": "RAMALES, PLAZA, DE", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7116215284901, 40.416884974671902 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 41, "Estación": "37", "Gis_X": 439518.74, "Gis_Y": 4473812.62, "Distrito": "01  CENTRO", "Barrio": "01-01 PALACIO", "Calle": "VISTILLAS, TRAVESIA, DE LAS", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71412346231288, 40.410860596145604 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 42, "Estación": "38", "Gis_X": 439746.45, "Gis_Y": 4473859.13, "Distrito": "01  CENTRO", "Barrio": "01-01 PALACIO", "Calle": "SAN FRANCISCO, CARRERA, DE", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71144428285711, 40.411296102223503 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 43, "Estación": "39", "Gis_X": 439953.45, "Gis_Y": 4473854.15, "Distrito": "01  CENTRO", "Barrio": "01-01 PALACIO", "Calle": "CEBADA, PLAZA, DE LA", "Nº": "16", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.70900427962189, 40.411266202093401 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 44, "Estación": "40", "Gis_X": 440316.95, "Gis_Y": 4474131.0, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "CONDE DE ROMANONES, CALLE, DEL", "Nº": "2", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7047463466681, 40.413786364113001 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 45, "Estación": "41", "Gis_X": 440798.75, "Gis_Y": 4473955.78, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "ATOCHA, CALLE, DE", "Nº": "54", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.69905171293298, 40.412242308334498 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 46, "Estación": "42", "Gis_X": 440869.12, "Gis_Y": 4473788.9, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "SANTA ISABEL, CALLE, DE", "Nº": "32", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69820685856041, 40.410743966498003 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 47, "Estación": "43", "Gis_X": 440500.49, "Gis_Y": 4473719.09, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "LAVAPIES, CALLE, DE", "Nº": "36", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70254467220451, 40.410088804929998 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 48, "Estación": "44", "Gis_X": 440384.08, "Gis_Y": 4473689.75, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "MESON DE PAREDES, CALLE, DEL", "Nº": "35", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.70391381337222, 40.409816162718002 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 49, "Estación": "45", "Gis_X": 439768.71, "Gis_Y": 4473377.04, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "PUERTA DE TOLEDO, GLORIETA, DE LA", "Nº": "1", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.71113629211987, 40.406954796109403 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 50, "Estación": "46", "Gis_X": 440107.18, "Gis_Y": 4473213.8, "Distrito": "02  ARGANZUELA", "Barrio": "02-02 ACACIAS", "Calle": "RIBERA DE CURTIDORES, CALLE, DE LA", "Nº": "28", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70713224672935, 40.4055086700549 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 51, "Estación": "47", "Gis_X": 440477.83, "Gis_Y": 4473112.57, "Distrito": "02  ARGANZUELA", "Barrio": "02-02 ACACIAS", "Calle": "EMBAJADORES, GLORIETA, DE", "Nº": "7 B", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70275496473138, 40.404623325591402 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 52, "Estación": "48", "Gis_X": 440534.16, "Gis_Y": 4473203.6, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "MIGUEL SERVET, CALLE, DE", "Nº": "25", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70209967904853, 40.405447399539497 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 53, "Estación": "49", "Gis_X": 440777.12, "Gis_Y": 4473268.54, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "ATOCHA, RONDA, DE", "Nº": "36", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69924263827143, 40.406049738900798 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 54, "Estación": "50", "Gis_X": 441290.12, "Gis_Y": 4473515.42, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "SANTA ISABEL, CALLE, DE", "Nº": "57", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69322007596616, 40.408310116766998 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 55, "Estación": "51", "Gis_X": 441257.93, "Gis_Y": 4473450.54, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "EMPERADOR CARLOS V, PLAZA, DEL", "Nº": "7", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.69359343321346, 40.407723370818097 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 56, "Estación": "52", "Gis_X": 440653.79, "Gis_Y": 4474209.56, "Distrito": "01  CENTRO", "Barrio": "01-03 CORTES", "Calle": "SANTA ANA, PLAZA, DE", "Nº": "9", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7007838051078, 40.414518167155499 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 57, "Estación": "53", "Gis_X": 440652.91, "Gis_Y": 4473517.12, "Distrito": "01  CENTRO", "Barrio": "01-02 EMBAJADORES", "Calle": "VALENCIA, CALLE, DE", "Nº": "4", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70072955805967, 40.408280233964099 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 58, "Estación": "54", "Gis_X": 440701.79, "Gis_Y": 4475552.93, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "BARCELO, CALLE, DE", "Nº": "7", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.70034340494452, 40.426623367881099 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 59, "Estación": "55", "Gis_X": 440564.99, "Gis_Y": 4475270.76, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "SAN ILDEFONSO, PLAZA, DE", "Nº": "8", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70192959768782, 40.424071671103903 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 60, "Estación": "56", "Gis_X": 440444.87, "Gis_Y": 4474651.45, "Distrito": "01  CENTRO", "Barrio": "01-06 SOL", "Calle": "CARMEN, PLAZA, DEL", "Nº": "1", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.70328747852323, 40.418484015829897 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 61, "Estación": "57", "Gis_X": 439646.29, "Gis_Y": 4475895.82, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "SANTA CRUZ DE MARCENADO, CALLE, DE", "Nº": "24", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.71281805865857, 40.4296363627424 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 62, "Estación": "58", "Gis_X": 440901.74, "Gis_Y": 4475066.83, "Distrito": "01  CENTRO", "Barrio": "01-04 JUSTICIA", "Calle": "AUGUSTO FIGUEROA, CALLE, DE", "Nº": "33", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.69794121496668, 40.422258558299298 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 63, "Estación": "59", "Gis_X": 440380.7, "Gis_Y": 4475428.58, "Distrito": "01  CENTRO", "Barrio": "01-05 UNIVERSIDAD", "Calle": "ESPIRITU SANTO, CALLE, DEL", "Nº": "30", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.70411670747627, 40.425480204555797 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 64, "Estación": "60", "Gis_X": 441725.74, "Gis_Y": 4474748.71, "Distrito": "03  RETIRO", "Barrio": "03-05 JERÓNIMOS", "Calle": "ALFONSO XII, CALLE, DE", "Nº": "S/N", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.68819944524192, 40.419450896218599 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 65, "Estación": "61", "Gis_X": 442829.74, "Gis_Y": 4474960.78, "Distrito": "03  RETIRO", "Barrio": "03-04 IBIZA", "Calle": "O'DONNELL, CALLE, DE", "Nº": "30", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67520600514062, 40.421437931846697 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 66, "Estación": "62", "Gis_X": 443214.66, "Gis_Y": 4474933.14, "Distrito": "03  RETIRO", "Barrio": "03-04 IBIZA", "Calle": "O'DONNELL, CALLE, DE", "Nº": "S/N", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.67066645799067, 40.421215293143199 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 67, "Estación": "63", "Gis_X": 443186.83, "Gis_Y": 4474566.06, "Distrito": "03  RETIRO", "Barrio": "03-04 IBIZA", "Calle": "IBIZA, CALLE, DE", "Nº": "62", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67096168256922, 40.417906525283101 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 68, "Estación": "65", "Gis_X": 441622.99, "Gis_Y": 4474443.62, "Distrito": "03  RETIRO", "Barrio": "03-05 JERÓNIMOS", "Calle": "ANTONIO MAURA, CALLE, DE", "Nº": "15", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68938250930457, 40.416695273941301 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 69, "Estación": "67", "Gis_X": 441299.54, "Gis_Y": 4473794.95, "Distrito": "01  CENTRO", "Barrio": "01-03 CORTES", "Calle": "ALMADEN, CALLE, DE", "Nº": "28", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69313486314442, 40.410828941909401 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 70, "Estación": "68", "Gis_X": 441468.37, "Gis_Y": 4474010.32, "Distrito": "03  RETIRO", "Barrio": "03-05 JERÓNIMOS", "Calle": "ESPALTER, CALLE, DE", "Nº": "1", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.69116499919988, 40.412781007065902 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 71, "Estación": "69", "Gis_X": 441660.99, "Gis_Y": 4473706.87, "Distrito": "03  RETIRO", "Barrio": "03-05 JERÓNIMOS", "Calle": "ALFONSO XII, CALLE, DE", "Nº": "54", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.688867040651, 40.410060887442903 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 72, "Estación": "70", "Gis_X": 442606.24, "Gis_Y": 4474266.0, "Distrito": "03  RETIRO", "Barrio": "03-05 JERÓNIMOS", "Calle": "MENENDEZ PELAYO, AVENIDA, DE", "Nº": "S/N", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.67777768411187, 40.415163572334599 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 73, "Estación": "71", "Gis_X": 442925.68, "Gis_Y": 4474357.02, "Distrito": "03  RETIRO", "Barrio": "03-06 NIÑO JESÚS", "Calle": "DOCE DE OCTUBRE, CALLE, DEL", "Nº": "28", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67402094629001, 40.41600550215 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 74, "Estación": "72", "Gis_X": 443329.41, "Gis_Y": 4474343.75, "Distrito": "03  RETIRO", "Barrio": "03-03 ESTRELLA", "Calle": "DOCTOR ESQUERDO, CALLE, DEL", "Nº": "99", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.66926135226019, 40.415913548158102 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 75, "Estación": "73", "Gis_X": 443339.45, "Gis_Y": 4473849.64, "Distrito": "03  RETIRO", "Barrio": "03-03 ESTRELLA", "Calle": "ASTROS, PLAZA, DE LOS", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.66909898831619, 40.411462998044698 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 76, "Estación": "74", "Gis_X": 442721.18, "Gis_Y": 4473787.57, "Distrito": "03  RETIRO", "Barrio": "03-06 NIÑO JESÚS", "Calle": "MENENDEZ PELAYO, AVENIDA, DE", "Nº": "73", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.67637990951079, 40.410861517156498 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 77, "Estación": "75", "Gis_X": 442546.37, "Gis_Y": 4473508.86, "Distrito": "03  RETIRO", "Barrio": "03-05 JERÓNIMOS", "Calle": "MENENDEZ PELAYO, AVENIDA, DE", "Nº": "S/N", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.67841490368285, 40.408338688071098 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 78, "Estación": "76", "Gis_X": 442822.13, "Gis_Y": 4473389.8, "Distrito": "03  RETIRO", "Barrio": "03-06 NIÑO JESÚS", "Calle": "JUAN DE URBIETA, CALLE, DE", "Nº": "48", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67515443080113, 40.407285113160697 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 79, "Estación": "77", "Gis_X": 443192.99, "Gis_Y": 4473281.48, "Distrito": "03  RETIRO", "Barrio": "03-01 PACÍFICO", "Calle": "CONDE DE CASAL, PLAZA, DEL", "Nº": "8", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67077431966567, 40.4063346915121 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 80, "Estación": "78", "Gis_X": 442865.33, "Gis_Y": 4472644.1, "Distrito": "03  RETIRO", "Barrio": "03-02 ADELFAS", "Calle": "CERRO DE LA PLATA, CALLE, DEL", "Nº": "2", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67457836297556, 40.400570369730197 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 81, "Estación": "79", "Gis_X": 442362.19, "Gis_Y": 4473145.0, "Distrito": "03  RETIRO", "Barrio": "03-01 PACÍFICO", "Calle": "MENENDEZ PELAYO, AVENIDA, DE", "Nº": "38", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68055245072879, 40.405048094083 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 82, "Estación": "080a", "Gis_X": 441526.99, "Gis_Y": 4473418.73, "Distrito": "02  ARGANZUELA", "Barrio": "02-07 ATOCHA", "Calle": "CIUDAD DE BARCELONA, AVENIDA, DE LA", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69041974260188, 40.4074557558015 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 83, "Estación": "080b", "Gis_X": 441504.2, "Gis_Y": 4473441.06, "Distrito": "02  ARGANZUELA", "Barrio": "02-07 ATOCHA", "Calle": "CIUDAD DE BARCELONA, AVENIDA, DE LA", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69069036700733, 40.407655315426901 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 84, "Estación": "81", "Gis_X": 441397.59, "Gis_Y": 4473655.07, "Distrito": "03  RETIRO", "Barrio": "03-05 JERÓNIMOS", "Calle": "PRADO, PASEO, DEL", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69196644031628, 40.409575736709101 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 85, "Estación": "82", "Gis_X": 443287.4, "Gis_Y": 4473518.82, "Distrito": "03  RETIRO", "Barrio": "03-03 ESTRELLA", "Calle": "LIRA, CALLE, DE LA", "Nº": "2", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.66968291328614, 40.4084792300347 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 86, "Estación": "83", "Gis_X": 442879.84, "Gis_Y": 4474052.49, "Distrito": "03  RETIRO", "Barrio": "03-06 NIÑO JESÚS", "Calle": "PIO BAROJA, CALLE, DE", "Nº": "8 B", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67453386381106, 40.413258974391603 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 87, "Estación": "84", "Gis_X": 443027.74, "Gis_Y": 4472953.58, "Distrito": "03  RETIRO", "Barrio": "03-02 ADELFAS", "Calle": "DOCTOR ESQUERDO, CALLE, DEL", "Nº": "191", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.67269233086699, 40.403369479763299 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 88, "Estación": "85", "Gis_X": 442428.74, "Gis_Y": 4474930.94, "Distrito": "03  RETIRO", "Barrio": "03-05 JERÓNIMOS", "Calle": "MENENDEZ PELAYO, AVENIDA, DE", "Nº": "S/N", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.67992990906592, 40.421141466571797 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 89, "Estación": "86", "Gis_X": 441289.74, "Gis_Y": 4474655.21, "Distrito": "01  CENTRO", "Barrio": "01-03 CORTES", "Calle": "PRADO, PASEO, DEL", "Nº": "S/N", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.69332979006905, 40.418577940808198 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 90, "Estación": "87", "Gis_X": 442126.12, "Gis_Y": 4475658.17, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "AYALA, CALLE, DE", "Nº": "44", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68356311363484, 40.427671759164603 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 91, "Estación": "88", "Gis_X": 442114.54, "Gis_Y": 4476065.29, "Distrito": "04  SALAMANCA", "Barrio": "04-06 CASTELLANA", "Calle": "VELAZQUEZ, CALLE, DE", "Nº": "75", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68373671164691, 40.4313385092129 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 92, "Estación": "89", "Gis_X": 442837.59, "Gis_Y": 4475607.32, "Distrito": "04  SALAMANCA", "Barrio": "04-02 GOYA", "Calle": "AYALA, CALLE, DE", "Nº": "102", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.6751716306756, 40.427262866735802 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 93, "Estación": "90", "Gis_X": 442109.77, "Gis_Y": 4475371.46, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "GOYA, CALLE, DE", "Nº": "18", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68372972995382, 40.425087782097201 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 94, "Estación": "91", "Gis_X": 442527.11, "Gis_Y": 4475481.86, "Distrito": "04  SALAMANCA", "Barrio": "04-02 GOYA", "Calle": "HERMOSILLA, CALLE, DE", "Nº": "73", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67882024338078, 40.426111261709302 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 95, "Estación": "92", "Gis_X": 441877.27, "Gis_Y": 4475499.36, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "CLAUDIO COELLO, CALLE, DE", "Nº": "45", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68648205854281, 40.426223760757601 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 96, "Estación": "93", "Gis_X": 441628.24, "Gis_Y": 4475442.98, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "GOYA, CALLE, DE", "Nº": "3", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68941240545, 40.425698418619199 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 97, "Estación": "94", "Gis_X": 441516.62, "Gis_Y": 4475185.23, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "RECOLETOS, PASEO, DE", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69070443431742, 40.423368628098402 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 98, "Estación": "95", "Gis_X": 441830.99, "Gis_Y": 4475104.5, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "CLAUDIO COELLO, CALLE, DE", "Nº": "19", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68699145862469, 40.422663412580398 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 99, "Estación": "96", "Gis_X": 442249.9, "Gis_Y": 4475033.34, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "ALCALA, CALLE, DE", "Nº": "111", "Anclajes": 27 }, "geometry": { "type": "Point", "coordinates": [ -3.68204719864642, 40.422051549120802 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 100, "Estación": "97", "Gis_X": 442411.09, "Gis_Y": 4475080.17, "Distrito": "04  SALAMANCA", "Barrio": "04-02 GOYA", "Calle": "MENENDEZ PELAYO, AVENIDA, DE", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68015147130582, 40.422484592581903 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 101, "Estación": "98", "Gis_X": 442814.95, "Gis_Y": 4475266.51, "Distrito": "04  SALAMANCA", "Barrio": "04-02 GOYA", "Calle": "FELIPE II, AVENIDA, DE", "Nº": "5", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67540784411934, 40.424191103464899 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 102, "Estación": "99", "Gis_X": 442939.07, "Gis_Y": 4475477.99, "Distrito": "04  SALAMANCA", "Barrio": "04-02 GOYA", "Calle": "ALCANTARA, CALLE, DE", "Nº": "2", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67396376386241, 40.4261047568774 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 103, "Estación": "100", "Gis_X": 442945.25, "Gis_Y": 4475331.37, "Distrito": "04  SALAMANCA", "Barrio": "04-02 GOYA", "Calle": "GOYA, CALLE, DE", "Nº": "99", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67387774985876, 40.424784344979798 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 104, "Estación": "101", "Gis_X": 443321.61, "Gis_Y": 4475144.0, "Distrito": "04  SALAMANCA", "Barrio": "04-02 GOYA", "Calle": "JORGE JUAN, CALLE, DE", "Nº": "131", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.66942463827545, 40.423122133695202 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 105, "Estación": "102", "Gis_X": 442076.63, "Gis_Y": 4474935.17, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "ALCALA, CALLE, DE", "Nº": "95", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68408061155832, 40.4211551358107 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 106, "Estación": "103", "Gis_X": 441876.35, "Gis_Y": 4475959.99, "Distrito": "04  SALAMANCA", "Barrio": "04-06 CASTELLANA", "Calle": "JOSE ORTEGA Y GASSET, CALLE, DE", "Nº": "4", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68653503933001, 40.4303732981693 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 107, "Estación": "104", "Gis_X": 441615.02, "Gis_Y": 4475561.57, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "CASTELLANA, PASEO, DE LA", "Nº": "4", "Anclajes": 21 }, "geometry": { "type": "Point", "coordinates": [ -3.6895791356958, 40.426765812595001 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 108, "Estación": "105", "Gis_X": 441793.81, "Gis_Y": 4475593.77, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "SERRANO, CALLE, DE", "Nº": "46", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68747451913128, 40.427068419633798 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 109, "Estación": "106", "Gis_X": 441757.91, "Gis_Y": 4475357.07, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "SERRANO, CALLE, DE", "Nº": "32", "Anclajes": 36 }, "geometry": { "type": "Point", "coordinates": [ -3.68787601454827, 40.4249335860926 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 110, "Estación": "107", "Gis_X": 441708.52, "Gis_Y": 4474986.87, "Distrito": "04  SALAMANCA", "Barrio": "04-01 RECOLETOS", "Calle": "SERRANO, CALLE, DE", "Nº": "8", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68842425113293, 40.421595164657198 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 111, "Estación": "108", "Gis_X": 443221.04, "Gis_Y": 4475624.34, "Distrito": "04  SALAMANCA", "Barrio": "04-02 GOYA", "Calle": "MARTIRES CONCEPCIONISTAS, CALLE, DE LOS", "Nº": "2", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67065301179623, 40.4274424526443 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 112, "Estación": "109", "Gis_X": 442301.08, "Gis_Y": 4475929.48, "Distrito": "04  SALAMANCA", "Barrio": "04-06 CASTELLANA", "Calle": "JOSE ORTEGA Y GASSET, CALLE, DE", "Nº": "32", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68152530038957, 40.430128020319501 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 113, "Estación": "110", "Gis_X": 439030.56, "Gis_Y": 4476470.16, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-01 CASA DE CAMPO", "Calle": "MORET, PASEO, DE", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7201316248966, 40.4347653714158 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 114, "Estación": "111a", "Gis_X": 439253.58, "Gis_Y": 4476336.11, "Distrito": "07  CHAMBERÍ", "Barrio": "07-01 GAZTAMBIDE", "Calle": "ARCIPRESTE DE HITA, CALLE, DEL", "Nº": "8", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7174895657775, 40.433574109804503 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 115, "Estación": "111b", "Gis_X": 439229.45, "Gis_Y": 4476381.59, "Distrito": "07  CHAMBERÍ", "Barrio": "07-01 GAZTAMBIDE", "Calle": "ARCIPRESTE DE HITA, CALLE, DEL", "Nº": "10", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71777838658206, 40.433982051280502 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 116, "Estación": "112", "Gis_X": 438626.49, "Gis_Y": 4476236.06, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-02 ARGÜELLES", "Calle": "MORET, PASEO, DE", "Nº": "11", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.72487268683593, 40.432626764103503 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 117, "Estación": "113", "Gis_X": 438974.77, "Gis_Y": 4475691.55, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-01 CASA DE CAMPO", "Calle": "PINTOR ROSALES, PASEO, DEL", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.72071455998842, 40.427747196316801 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 118, "Estación": "114", "Gis_X": 439255.09, "Gis_Y": 4475697.34, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-02 ARGÜELLES", "Calle": "QUINTANA, CALLE, DE", "Nº": "13", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71741069277088, 40.427819877237397 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 119, "Estación": "115", "Gis_X": 439290.91, "Gis_Y": 4475426.23, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-02 ARGÜELLES", "Calle": "MARQUES DE CERRALBO, PLAZA, DEL", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7169625457817, 40.425380203046302 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 120, "Estación": "116a", "Gis_X": 439726.02, "Gis_Y": 4475281.49, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-02 ARGÜELLES", "Calle": "ESPAÑA, PLAZA, DE", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71181990233295, 40.424107959294297 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 121, "Estación": "116b", "Gis_X": 439720.12, "Gis_Y": 4475291.71, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-02 ARGÜELLES", "Calle": "ESPAÑA, PLAZA, DE", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71189041670418, 40.424199598288702 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 122, "Estación": "117", "Gis_X": 439130.24, "Gis_Y": 4476040.78, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-02 ARGÜELLES", "Calle": "ALTAMIRANO, CALLE, DE", "Nº": "24", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71891533092521, 40.430904618313299 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 123, "Estación": "118", "Gis_X": 441714.74, "Gis_Y": 4472678.21, "Distrito": "02  ARGANZUELA", "Barrio": "02-06 PALOS DE MOGUER", "Calle": "JUAN MARTIN EL EMPECINADO, CALLE, DE", "Nº": "16", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68813934454606, 40.400797900345701 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 124, "Estación": "119", "Gis_X": 441847.83, "Gis_Y": 4472750.31, "Distrito": "02  ARGANZUELA", "Barrio": "02-07 ATOCHA", "Calle": "MENDEZ ALVARO, CALLE, DE", "Nº": "7", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68657768022643, 40.401456727132498 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 125, "Estación": "120", "Gis_X": 441167.61, "Gis_Y": 4472929.67, "Distrito": "02  ARGANZUELA", "Barrio": "02-06 PALOS DE MOGUER", "Calle": "PALOS DE LA FRONTERA, CALLE, DE", "Nº": "27", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.6946096466401, 40.403024703514099 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 126, "Estación": "121", "Gis_X": 440827.56, "Gis_Y": 4472800.36, "Distrito": "02  ARGANZUELA", "Barrio": "02-06 PALOS DE MOGUER", "Calle": "SANTA MARIA DE LA CABEZA, PASEO, DE", "Nº": "58", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69860469223902, 40.401835702851599 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 127, "Estación": "122", "Gis_X": 441050.49, "Gis_Y": 4475872.17, "Distrito": "07  CHAMBERÍ", "Barrio": "07-04 ALMAGRO", "Calle": "SANTA ENGRACIA, CALLE, DE", "Nº": "16", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69626258578116, 40.429524036032802 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 128, "Estación": "123", "Gis_X": 439592.01, "Gis_Y": 4476007.51, "Distrito": "07  CHAMBERÍ", "Barrio": "07-01 GAZTAMBIDE", "Calle": "GUZMAN EL BUENO, CALLE, DE", "Nº": "2", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71346855060538, 40.430638579122402 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 129, "Estación": "124", "Gis_X": 440792.44, "Gis_Y": 4476017.77, "Distrito": "07  CHAMBERÍ", "Barrio": "07-03 TRAFALGAR", "Calle": "MANUEL SILVELA, CALLE, DE", "Nº": "18", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69931814874615, 40.430817343036701 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 130, "Estación": "125", "Gis_X": 441176.41, "Gis_Y": 4476513.96, "Distrito": "07  CHAMBERÍ", "Barrio": "07-04 ALMAGRO", "Calle": "FERNANDEZ DE LA HOZ, CALLE, DE", "Nº": "29", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69483761693185, 40.435314526951601 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 131, "Estación": "126", "Gis_X": 440590.11, "Gis_Y": 4476435.63, "Distrito": "07  CHAMBERÍ", "Barrio": "07-03 TRAFALGAR", "Calle": "GENERAL ALVAREZ DE CASTRO, CALLE, DEL", "Nº": "4", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70174241582637, 40.434567203893501 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 132, "Estación": "127", "Gis_X": 440024.95, "Gis_Y": 4476366.96, "Distrito": "07  CHAMBERÍ", "Barrio": "07-02 ARAPILES", "Calle": "FERNANDO EL CATOLICO, CALLE, DE", "Nº": "19", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70839874603074, 40.4339080176347 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 133, "Estación": "128", "Gis_X": 439419.7, "Gis_Y": 4476941.66, "Distrito": "07  CHAMBERÍ", "Barrio": "07-01 GAZTAMBIDE", "Calle": "CEA BERMUDEZ, CALLE, DE", "Nº": "59", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71558892259304, 40.439041307183302 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 134, "Estación": "129", "Gis_X": 440885.62, "Gis_Y": 4476865.66, "Distrito": "07  CHAMBERÍ", "Barrio": "07-05 RÍOS ROSAS", "Calle": "JOSE ABASCAL, CALLE, DE", "Nº": "33", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69829859235442, 40.438462191664101 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 135, "Estación": "130", "Gis_X": 440607.62, "Gis_Y": 4477193.27, "Distrito": "07  CHAMBERÍ", "Barrio": "07-05 RÍOS ROSAS", "Calle": "SANTA ENGRACIA, CALLE, DE", "Nº": "124", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70160683614512, 40.4413936495407 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 136, "Estación": "131", "Gis_X": 440402.99, "Gis_Y": 4477234.21, "Distrito": "07  CHAMBERÍ", "Barrio": "07-05 RÍOS ROSAS", "Calle": "BRAVO MURILLO, CALLE, DE", "Nº": "44", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70402335894884, 40.441747810812799 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 137, "Estación": "132", "Gis_X": 440443.74, "Gis_Y": 4477749.07, "Distrito": "07  CHAMBERÍ", "Barrio": "07-05 RÍOS ROSAS", "Calle": "SANTA ENGRACIA, CALLE, DE", "Nº": "168", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70359119845156, 40.446388837537398 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 138, "Estación": "133", "Gis_X": 440746.49, "Gis_Y": 4477833.09, "Distrito": "06  TETUÁN", "Barrio": "06-02 CUATRO CAMINOS", "Calle": "DULCINEA, CALLE, DE", "Nº": "3", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.7000292180424, 40.447167369097201 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 139, "Estación": "134", "Gis_X": 441127.06, "Gis_Y": 4477482.01, "Distrito": "07  CHAMBERÍ", "Barrio": "07-05 RÍOS ROSAS", "Calle": "MARIA DE GUZMAN, CALLE, DE", "Nº": "58", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69550917030676, 40.4440317127981 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 140, "Estación": "135", "Gis_X": 441346.99, "Gis_Y": 4477197.47, "Distrito": "07  CHAMBERÍ", "Barrio": "07-05 RÍOS ROSAS", "Calle": "SAN JUAN DE LA CRUZ, PLAZA, DE", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69288970367161, 40.4414839829535 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 141, "Estación": "136", "Gis_X": 441523.91, "Gis_Y": 4477602.08, "Distrito": "05  CHAMARTÍN", "Barrio": "05-01 EL VISO", "Calle": "CASTELLANA, PASEO, DE LA", "Nº": "104", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69084099815563, 40.445141378100402 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 142, "Estación": "137", "Gis_X": 441994.74, "Gis_Y": 4477637.76, "Distrito": "05  CHAMARTÍN", "Barrio": "05-01 EL VISO", "Calle": "REPUBLICA ARGENTINA, PLAZA, DE LA", "Nº": "6", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68529263332301, 40.445495793954599 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 143, "Estación": "138", "Gis_X": 441461.57, "Gis_Y": 4477663.29, "Distrito": "07  CHAMBERÍ", "Barrio": "07-05 RÍOS ROSAS", "Calle": "CASTELLANA, PASEO, DE LA", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69158170263649, 40.445688400049903 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 144, "Estación": "139", "Gis_X": 441549.71, "Gis_Y": 4476960.47, "Distrito": "05  CHAMARTÍN", "Barrio": "05-01 EL VISO", "Calle": "JOSE GUTIERREZ ABASCAL, CALLE, DE", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69047771894979, 40.439363245146403 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 145, "Estación": "140", "Gis_X": 442190.99, "Gis_Y": 4476871.67, "Distrito": "05  CHAMARTÍN", "Barrio": "05-01 EL VISO", "Calle": "VELAZQUEZ, CALLE, DE", "Nº": "134", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68290885014007, 40.438608126408901 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 146, "Estación": "141", "Gis_X": 441647.02, "Gis_Y": 4476522.58, "Distrito": "07  CHAMBERÍ", "Barrio": "07-04 ALMAGRO", "Calle": "CASTELLANA, PASEO, DE LA", "Nº": "43", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68929018958734, 40.4354253419366 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 147, "Estación": "142", "Gis_X": 441751.4, "Gis_Y": 4476310.95, "Distrito": "04  SALAMANCA", "Barrio": "04-06 CASTELLANA", "Calle": "CASTELLANA, PASEO, DE LA", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68804020024797, 40.433526187679099 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 148, "Estación": "143", "Gis_X": 442583.95, "Gis_Y": 4476425.49, "Distrito": "04  SALAMANCA", "Barrio": "04-05 LISTA", "Calle": "DIEGO DE LEON, CALLE, DE", "Nº": "54", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67823549944965, 40.434615921798702 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 149, "Estación": "144", "Gis_X": 442816.49, "Gis_Y": 4476169.85, "Distrito": "04  SALAMANCA", "Barrio": "04-05 LISTA", "Calle": "JUAN BRAVO, CALLE, DE", "Nº": "50", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67547099026571, 40.432328998025 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 150, "Estación": "145", "Gis_X": 443160.24, "Gis_Y": 4475882.51, "Distrito": "04  SALAMANCA", "Barrio": "04-05 LISTA", "Calle": "JOSE ORTEGA Y GASSET, CALLE, DE", "Nº": "87", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.6713928255436, 40.429764040774799 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 151, "Estación": "146", "Gis_X": 442544.41, "Gis_Y": 4477493.81, "Distrito": "05  CHAMARTÍN", "Barrio": "05-01 EL VISO", "Calle": "MARIA FRANCISCA, CALLE, DE", "Nº": "1", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67879831085482, 40.444237186390303 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 152, "Estación": "147", "Gis_X": 442481.52, "Gis_Y": 4477949.2, "Distrito": "05  CHAMARTÍN", "Barrio": "05-01 EL VISO", "Calle": "DOCTOR ARCE, AVENIDA, DEL", "Nº": "45", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67958112034393, 40.4483352282261 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 153, "Estación": "148", "Gis_X": 442304.04, "Gis_Y": 4478248.9, "Distrito": "05  CHAMARTÍN", "Barrio": "05-01 EL VISO", "Calle": "SERRANO, CALLE, DE", "Nº": "210", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68170116901376, 40.451022780829099 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 154, "Estación": "149", "Gis_X": 441781.79, "Gis_Y": 4478122.21, "Distrito": "05  CHAMARTÍN", "Barrio": "05-01 EL VISO", "Calle": "LA HABANA, PASEO, DE", "Nº": "42", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68784801288725, 40.449845074542701 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 155, "Estación": "150", "Gis_X": 441555.41, "Gis_Y": 4478055.37, "Distrito": "05  CHAMARTÍN", "Barrio": "05-01 EL VISO", "Calle": "CASTELLANA, PASEO, DE LA", "Nº": "124", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69051132137103, 40.449227056242997 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 156, "Estación": "151", "Gis_X": 441156.49, "Gis_Y": 4478017.93, "Distrito": "06  TETUÁN", "Barrio": "06-02 CUATRO CAMINOS", "Calle": "ORENSE, CALLE, DE", "Nº": "10", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.6952118518941, 40.448861627635303 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 157, "Estación": "152", "Gis_X": 440842.91, "Gis_Y": 4478448.3, "Distrito": "06  TETUÁN", "Barrio": "06-02 CUATRO CAMINOS", "Calle": "GENERAL PERON, AVENIDA, DEL", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69894963768605, 40.452716344070403 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 158, "Estación": "153", "Gis_X": 441339.08, "Gis_Y": 4478402.55, "Distrito": "06  TETUÁN", "Barrio": "06-02 CUATRO CAMINOS", "Calle": "GENERAL PERON, AVENIDA, DEL", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69309434792029, 40.452339381456902 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 159, "Estación": "154", "Gis_X": 441205.93, "Gis_Y": 4478674.08, "Distrito": "06  TETUÁN", "Barrio": "06-02 CUATRO CAMINOS", "Calle": "ORENSE, CALLE, DE", "Nº": "36", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69468966704887, 40.454776044515 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 160, "Estación": "155", "Gis_X": 440682.37, "Gis_Y": 4478957.96, "Distrito": "06  TETUÁN", "Barrio": "06-02 CUATRO CAMINOS", "Calle": "GENERAL YAGÜE, CALLE, DEL", "Nº": "55", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70089045025598, 40.457296155610599 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 161, "Estación": "156", "Gis_X": 441495.29, "Gis_Y": 4479167.41, "Distrito": "06  TETUÁN", "Barrio": "06-03 CASTILLEJOS", "Calle": "SOR ANGELA DE LA CRUZ, CALLE, DE", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69132279875931, 40.459240623885997 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 162, "Estación": "157", "Gis_X": 441664.24, "Gis_Y": 4479170.69, "Distrito": "05  CHAMARTÍN", "Barrio": "05-05 NUEVA ESPAÑA", "Calle": "CASTELLANA, PASEO, DE LA", "Nº": "S/N", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68933057136067, 40.4592820524514 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 163, "Estación": "158", "Gis_X": 442055.86, "Gis_Y": 4479094.15, "Distrito": "05  CHAMARTÍN", "Barrio": "05-04 HISPANOAMÉRICA", "Calle": "ALBERTO ALCOCER, AVENIDA, DE", "Nº": "22 A", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.68470496156798, 40.458619949871903 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 164, "Estación": "159", "Gis_X": 442134.37, "Gis_Y": 4478609.0, "Distrito": "05  CHAMARTÍN", "Barrio": "05-04 HISPANOAMÉRICA", "Calle": "LA HABANA, PASEO, DE", "Nº": "63", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.683734794744, 40.454254948128899 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 165, "Estación": "160", "Gis_X": 442746.87, "Gis_Y": 4478929.96, "Distrito": "05  CHAMARTÍN", "Barrio": "05-04 HISPANOAMÉRICA", "Calle": "COLOMBIA, CALLE, DE", "Nº": "7", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.67654068571672, 40.457188739290302 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 166, "Estación": "161", "Gis_X": 438863.47, "Gis_Y": 4475060.31, "Distrito": "09  MONCLOA-ARAVACA", "Barrio": "09-01 CASA DE CAMPO", "Calle": "FLORIDA, PASEO, DE LA", "Nº": "6", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.72196584484488, 40.422052512684402 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 167, "Estación": "162", "Gis_X": 439797.93, "Gis_Y": 4472995.25, "Distrito": "02  ARGANZUELA", "Barrio": "02-02 ACACIAS", "Calle": "OLMOS, PASEO, DE LOS", "Nº": "28", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.71075582093606, 40.403517544785799 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 168, "Estación": "163", "Gis_X": 440164.49, "Gis_Y": 4473005.34, "Distrito": "02  ARGANZUELA", "Barrio": "02-02 ACACIAS", "Calle": "ESPERANZA, PASEO, DE LA", "Nº": "2A", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.70643728788656, 40.4036348732606 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 169, "Estación": "164", "Gis_X": 441173.62, "Gis_Y": 4472278.84, "Distrito": "02  ARGANZUELA", "Barrio": "02-05 DELICIAS", "Calle": "DELICIAS, PASEO, DE LAS", "Nº": "92", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69447865755974, 40.397162084215701 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 170, "Estación": "165", "Gis_X": 440888.71, "Gis_Y": 4471816.12, "Distrito": "02  ARGANZUELA", "Barrio": "02-03 CHOPERA", "Calle": "CHOPERA, PASEO, DE LA", "Nº": "47", "Anclajes": 24 }, "geometry": { "type": "Point", "coordinates": [ -3.69779270721104, 40.392973458974197 ] } }
-]
+  "name": "Bici_Transporte_publico",
+  "data": [
+    {
+      "id": 1,
+      "name": "Puerta del Sol A",
+      "number": "1a",
+      "address": "Puerta del Sol nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7018341,
+          40.4172137
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Puerta del Sol B",
+      "number": "1b",
+      "address": "Puerta del Sol nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.701602938060457,
+          40.41731271011562
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": "Miguel Moya",
+      "number": "2",
+      "address": "Calle Miguel Moya nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7058415,
+          40.4205886
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "name": "Plaza Conde Suchil",
+      "number": "3",
+      "address": "Plaza del Conde del Valle de Súchil nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7069171,
+          40.4302937
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "Malasaña",
+      "number": "4",
+      "address": "Calle Manuela Malasaña nº 5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7025875,
+          40.4285524
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "Fuencarral",
+      "number": "5",
+      "address": "Calle Fuencarral nº 108",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.70205,
+          40.42852
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "name": "Colegio Arquitectos",
+      "number": "6",
+      "address": "Calle Hortaleza nº 63",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.698447,
+          40.424148
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "name": "Hortaleza",
+      "number": "7",
+      "address": "Calle Hortaleza nº 75",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6977715,
+          40.4251906
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "name": "Alonso Martínez",
+      "number": "8",
+      "address": "Plaza de Alonso Martínez nº 5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6954403,
+          40.4278682
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "name": "Plaza de San Miguel",
+      "number": "9",
+      "address": "Plaza de San Miguel nº 9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7095084,
+          40.4156057
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "name": "Marqués de la Ensenada",
+      "number": "10",
+      "address": "Calle Marqués de la Ensenada nº 16",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.69214,
+          40.42533
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "name": "San Andrés",
+      "number": "11",
+      "address": "Calle San Andrés nº 18",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7035918,
+          40.4269483
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "name": "San Hermenegildo",
+      "number": "12",
+      "address": "Calle San Bernardo nº 85",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7061931,
+          40.4284246
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "name": "Conde Duque",
+      "number": "13",
+      "address": "Calle Conde Duque nº 22",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7104417,
+          40.4273264
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "name": "Ventura Rodríguez",
+      "number": "14",
+      "address": "Calle Duque de Liria",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.713479,
+          40.4260957
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "name": "San Vicente Ferrer",
+      "number": "15",
+      "address": "Calle San Vicente Ferrer nº 64",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7074453,
+          40.4262383
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "name": "San Bernardo",
+      "number": "16",
+      "address": "Calle San Bernardo nº 22",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7075065,
+          40.4230721
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "name": "Carlos Cambronero",
+      "number": "17",
+      "address": "Plaza de Carlos Cambronero nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7038312,
+          40.4232649
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "name": "Plaza de Pedro Zerolo",
+      "number": "18",
+      "address": "Plaza de Pedro Zerolo nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6996502,
+          40.4207773
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "name": "Prim",
+      "number": "19",
+      "address": "Calle Prim nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6954983,
+          40.4218616
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "name": "Banco de España A",
+      "number": "20a",
+      "address": "Calle Alcalá nº 49",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6954615,
+          40.4192342
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "name": "Jacometrezo",
+      "number": "22",
+      "address": "Calle Jacometrezo nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7065376,
+          40.4200783
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "name": "Santo Domingo",
+      "number": "23",
+      "address": "Plaza de Santo Domingo nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7081246,
+          40.4202834
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "name": "Palacio de Oriente",
+      "number": "24",
+      "address": "Calle Carlos III nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.710692,
+          40.417908
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "name": "Plaza de Celenque A",
+      "number": "25a",
+      "address": "Plaza de Celenque nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7057791,
+          40.4173703
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "name": "Plaza de Celenque B",
+      "number": "25b",
+      "address": "Plaza de Celenque nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7063837,
+          40.4172781
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "name": "Plaza de las Salesas",
+      "number": "26",
+      "address": "Plaza de las Salesas 7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.694475,
+          40.423855
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "name": "Huertas",
+      "number": "27",
+      "address": "Calle Jesús nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6956178,
+          40.4132798
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "name": "Sevilla",
+      "number": "28",
+      "address": "Calle Alcalá nº 27",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6984368,
+          40.4181518
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "name": "Marqués de Cubas",
+      "number": "29",
+      "address": "Calle del Marqués de Cubas nº 25",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6957355,
+          40.4162619
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "name": "San Quintín",
+      "number": "30",
+      "address": "Calle Pavía nº 6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.711504,
+          40.4192095
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "name": "Calle Mayor",
+      "number": "31",
+      "address": "Calle Mayor nº 20",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7068969,
+          40.4163638
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "name": "Plaza de la Provincia",
+      "number": "32",
+      "address": "Plaza de la Provincia nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7061032,
+          40.4150099
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "name": "Carretas",
+      "number": "33",
+      "address": "Calle Carretas nº 8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7030833,
+          40.4165039
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "name": "Jacinto Benavente",
+      "number": "34",
+      "address": "Plaza de Jacinto Benavente",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7036825,
+          40.4146755
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "name": "Plaza del Cordón",
+      "number": "35",
+      "address": "Plaza del Cordón",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7103285,
+          40.4141931
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "name": "Plaza Ramales",
+      "number": "36",
+      "address": "Plaza de Ramales",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.71183,
+          40.4168
+        ]
+      }
+    },
+    {
+      "id": 41,
+      "name": "Plaza de San Francisco",
+      "number": "37",
+      "address": "Plaza de San Francisco nº 5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.714113,
+          40.4108
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "name": "Plaza de los Carros",
+      "number": "38",
+      "address": "Carrera de San Francisco nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7114762,
+          40.4114041
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "name": "Plaza de la Cebada",
+      "number": "39",
+      "address": "Plaza de la Cebada nº 16 ",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7088337,
+          40.4112744
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "name": "Conde de Romanones",
+      "number": "40",
+      "address": "Plaza del Conde de Romanones nº 9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7049407,
+          40.4138846
+        ]
+      }
+    },
+    {
+      "id": 45,
+      "name": "Antón Martín",
+      "number": "41",
+      "address": "Calle Atocha nº 54",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6991147,
+          40.4122047
+        ]
+      }
+    },
+    {
+      "id": 46,
+      "name": "Santa Isabel",
+      "number": "42",
+      "address": "Calle Atocha nº 95",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6982318,
+          40.4107085
+        ]
+      }
+    },
+    {
+      "id": 47,
+      "name": "Jesús y María",
+      "number": "43",
+      "address": "Calle Lavapiés nº 34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7025024,
+          40.4101564
+        ]
+      }
+    },
+    {
+      "id": 48,
+      "name": "Plaza de Nelson Mandela",
+      "number": "44",
+      "address": "Calle Mesón de Paredes nº 35",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7040666,
+          40.4097617
+        ]
+      }
+    },
+    {
+      "id": 49,
+      "name": "Puerta de Toledo",
+      "number": "45",
+      "address": "Glorieta de la Puerta de Toledo nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7110513,
+          40.4070358
+        ]
+      }
+    },
+    {
+      "id": 50,
+      "name": "Ribera de Curtidores",
+      "number": "46",
+      "address": "Calle Ribera de Curtidores nº 28",,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7071259,
+          40.4053153
+        ]
+      }
+    },
+    {
+      "id": 51,
+      "name": "Embajadores 1",
+      "number": "47",
+      "address": "Glorieta de Embajadores nº 6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7028265,
+          40.4047851
+        ]
+      }
+    },
+    {
+      "id": 52,
+      "name": "Embajadores 2",
+      "number": "48",
+      "address": "Glorieta de Embajadores nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7022591,
+          40.4056107
+        ]
+      }
+    },
+    {
+      "id": 53,
+      "name": "Casa Encendida",
+      "number": "49",
+      "address": "Ronda de Atocha nº 34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6992759,
+          40.4060941
+        ]
+      }
+    },
+    {
+      "id": 54,
+      "name": "Museo Reina Sofía",
+      "number": "50",
+      "address": "Calle Santa Isabel nº 57",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6933463,
+          40.4083684
+        ]
+      }
+    },
+    {
+      "id": 55,
+      "name": "Ronda de Atocha",
+      "number": "51",
+      "address": "Ronda de Atocha nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6935205,
+          40.4075606
+        ]
+      }
+    },
+    {
+      "id": 56,
+      "name": "Plaza de Santa Ana",
+      "number": "52",
+      "address": "Plaza de Santa Ana nº 10",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7007164,
+          40.4144226
+        ]
+      }
+    },
+    {
+      "id": 57,
+      "name": "Plaza de Lavapiés",
+      "number": "53",
+      "address": "Calle Valencia nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7007111,
+          40.4083061
+        ]
+      }
+    },
+    {
+      "id": 58,
+      "name": "Barceló",
+      "number": "54",
+      "address": "Calle Barceló nº 7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.700423,
+          40.4266828
+        ]
+      }
+    },
+    {
+      "id": 59,
+      "name": "Plaza de San Ildefonso",
+      "number": "55",
+      "address": "Plaza de San Ildefonso",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7020842,
+          40.4239757
+        ]
+      }
+    },
+    {
+      "id": 60,
+      "name": "Plaza del Carmen ",
+      "number": "56",
+      "address": "Plaza del Carmen nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7032414,
+          40.4184192
+        ]
+      }
+    },
+    {
+      "id": 61,
+      "name": "Santa Cruz del Marcenado",
+      "number": "57",
+      "address": "Calle Santa Cruz del Marcenado nº 24",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7126299,
+          40.4295658
+        ]
+      }
+    },
+    {
+      "id": 62,
+      "name": "Augusto Figueroa",
+      "number": "58",
+      "address": "Calle Augusto Figueroa nº 33",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.697895,
+          40.4222862
+        ]
+      }
+    },
+    {
+      "id": 63,
+      "name": "Plaza de Juan Pujol",
+      "number": "59",
+      "address": "Calle Espíritu Santo nº 30",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7043418,
+          40.4255495
+        ]
+      }
+    },
+    {
+      "id": 64,
+      "name": "Plaza de la Independencia",
+      "number": "60",
+      "address": "Plaza de la Independencia nº 6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.688398,
+          40.419752
+        ]
+      }
+    },
+    {
+      "id": 65,
+      "name": "Narváez",
+      "number": "61",
+      "address": "Calle O'Donnell nº 28",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6752045,
+          40.4213983
+        ]
+      }
+    },
+    {
+      "id": 66,
+      "name": "O'Donnell",
+      "number": "62",
+      "address": "Calle O'Donnell nº 50",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6724968,
+          40.4213148
+        ]
+      }
+    },
+    {
+      "id": 67,
+      "name": "Ibiza",
+      "number": "63",
+      "address": "Calle Ibiza nº 62",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6708959,
+          40.4179237
+        ]
+      }
+    },
+    {
+      "id": 69,
+      "name": "Antonio Maura",
+      "number": "65",
+      "address": "Calle Antonio Maura nº 15",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6894193,
+          40.4166834
+        ]
+      }
+    },
+    {
+      "id": 71,
+      "name": "Almadén",
+      "number": "67",
+      "address": "Calle Almadén nº 28",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.693225,
+          40.4108472
+        ]
+      }
+    },
+    {
+      "id": 72,
+      "name": "Espalter",
+      "number": "68",
+      "address": "Calle Espalter nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6912023,
+          40.4128372
+        ]
+      }
+    },
+    {
+      "id": 73,
+      "name": "Puerta del Ángel Caído",
+      "number": "69",
+      "address": "Avenida de Alfonso XII nº 54",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.688822,
+          40.409808
+        ]
+      }
+    },
+    {
+      "id": 74,
+      "name": "Puerta del Doce de Octubre",
+      "number": "70",
+      "address": "Avenida de Menéndez Pelayo nº 63",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6779232,
+          40.4153053
+        ]
+      }
+    },
+    {
+      "id": 75,
+      "name": "Doce de Octubre",
+      "number": "71",
+      "address": "Calle Doce de Octubre nº 28",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6738865,
+          40.4159569
+        ]
+      }
+    },
+    {
+      "id": 76,
+      "name": "Sainz de Baranda",
+      "number": "72",
+      "address": "Calle Doctor Esquerdo nº 99",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6691838,
+          40.4157413
+        ]
+      }
+    },
+    {
+      "id": 77,
+      "name": "Plaza de los Astros",
+      "number": "73",
+      "address": "Avenida de Nazaret nº 7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6689089,
+          40.4114475
+        ]
+      }
+    },
+    {
+      "id": 78,
+      "name": "Puerta del Pacífico ",
+      "number": "74",
+      "address": "Avenida de Menéndez Pelayo nº 73",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6766813,
+          40.4117627
+        ]
+      }
+    },
+    {
+      "id": 79,
+      "name": "Menéndez Pelayo",
+      "number": "75",
+      "address": "Avenida de Menéndez Pelayo con calle Poeta Esteban Villegas",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6784838,
+          40.4082805
+        ]
+      }
+    },
+    {
+      "id": 80,
+      "name": "Puerta de Mariano de Cavia",
+      "number": "76",
+      "address": "Avenida del Mediterráneo nº 19",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6751352,
+          40.4071304
+        ]
+      }
+    },
+    {
+      "id": 81,
+      "name": "Conde de Casal",
+      "number": "77",
+      "address": "Plaza del Conde de Casal nº 8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.670422,
+          40.40635
+        ]
+      }
+    },
+    {
+      "id": 82,
+      "name": "Pedro Bosch",
+      "number": "78",
+      "address": "Calle Cerro de la Plata nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6744,
+          40.400789
+        ]
+      }
+    },
+    {
+      "id": 83,
+      "name": "Puerta de Granada",
+      "number": "79",
+      "address": "Avenida de Menéndez Pelayo nº 38",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6803874,
+          40.4051451
+        ]
+      }
+    },
+    {
+      "id": 84,
+      "name": "Atocha A",
+      "number": "80a",
+      "address": "Paseo de la Infanta Isabel nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6902255,
+          40.4075685
+        ]
+      }
+    },
+    {
+      "id": 85,
+      "name": "Atocha B",
+      "number": "80b",
+      "address": "Paseo de la Infanta Isabel nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6901234,
+          40.4074902
+        ]
+      }
+    },
+    {
+      "id": 86,
+      "name": "Cuesta de Moyano",
+      "number": "81",
+      "address": "Cuesta de Claudio Moyano",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.691987,
+          40.409297
+        ]
+      }
+    },
+    {
+      "id": 87,
+      "name": "Niño Jesús",
+      "number": "82",
+      "address": "Calle Doctor Esquerdo nº 161",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6697526,
+          40.4084556
+        ]
+      }
+    },
+    {
+      "id": 88,
+      "name": "Pío Baroja",
+      "number": "83",
+      "address": "Calle Pío Baroja nº 10",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6745323,
+          40.4132995
+        ]
+      }
+    },
+    {
+      "id": 89,
+      "name": "Valderribas",
+      "number": "84",
+      "address": "Calle Doctor Esquerdo nº 191",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6726019,
+          40.4032501
+        ]
+      }
+    },
+    {
+      "id": 90,
+      "name": "Puerta de Madrid",
+      "number": "85",
+      "address": "Avenida de Menéndez Pelayo esquina calle O'Donnell",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.680008,
+          40.421501
+        ]
+      }
+    },
+    {
+      "id": 91,
+      "name": "Cibeles",
+      "number": "86",
+      "address": "Plaza Cibeles",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6933498,
+          40.4186516
+        ]
+      }
+    },
+    {
+      "id": 92,
+      "name": "Ayala",
+      "number": "87",
+      "address": "Calle Ayala nº 44",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6832566,
+          40.427736
+        ]
+      }
+    },
+    {
+      "id": 93,
+      "name": "Embajada de Italia",
+      "number": "88",
+      "address": "Calle Velázquez nº 75",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6838303,
+          40.4313576
+        ]
+      }
+    },
+    {
+      "id": 94,
+      "name": "Conde Peñalver",
+      "number": "89",
+      "address": "Calle Ayala nº 102",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6752024,
+          40.4272582
+        ]
+      }
+    },
+    {
+      "id": 95,
+      "name": "General Pardiñas",
+      "number": "90",
+      "address": "Calle Goya nº 18",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6837876,
+          40.4250361
+        ]
+      }
+    },
+    {
+      "id": 96,
+      "name": "Príncipe de Vergara",
+      "number": "91",
+      "address": "Calle Hermosilla nº 70",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6787441,
+          40.426134
+        ]
+      }
+    },
+    {
+      "id": 97,
+      "name": "Claudio Coello",
+      "number": "92",
+      "address": "Calle Claudio Coello nº 45",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6865463,
+          40.4262945
+        ]
+      }
+    },
+    {
+      "id": 98,
+      "name": "Plaza de Colón",
+      "number": "93",
+      "address": "Calle Goya nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6893698,
+          40.4257046
+        ]
+      }
+    },
+    {
+      "id": 99,
+      "name": "Biblioteca Nacional",
+      "number": "94",
+      "address": "Paseo de Recoletos nº 20",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.690756,
+          40.4232153
+        ]
+      }
+    },
+    {
+      "id": 100,
+      "name": "Villanueva",
+      "number": "95",
+      "address": "Calle Claudio Coello nº 109",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6870548,
+          40.4226584
+        ]
+      }
+    },
+    {
+      "id": 101,
+      "name": "Castelló",
+      "number": "96",
+      "address": "Calle Alcalá nº 111",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6821793,
+          40.422064
+        ]
+      }
+    },
+    {
+      "id": 102,
+      "name": "Alcalá",
+      "number": "97",
+      "address": "Avenida de Menéndez Pelayo nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6805189,
+          40.4222969
+        ]
+      }
+    },
+    {
+      "id": 103,
+      "name": "Plaza de Felipe II",
+      "number": "98",
+      "address": "Plaza de Felipe II",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6758383,
+          40.4239447
+        ]
+      }
+    },
+    {
+      "id": 104,
+      "name": "Alcántara",
+      "number": "99",
+      "address": "Calle Alcántara nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6738714,
+          40.4261851
+        ]
+      }
+    },
+    {
+      "id": 105,
+      "name": "Palacio de Deportes",
+      "number": "100",
+      "address": "Calle Goya nº 99",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.67384,
+          40.42478
+        ]
+      }
+    },
+    {
+      "id": 106,
+      "name": "Jorge Juan",
+      "number": "101",
+      "address": "Calle Jorge Juan nº 131",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6691524,
+          40.4231526
+        ]
+      }
+    },
+    {
+      "id": 107,
+      "name": "Velázquez",
+      "number": "102",
+      "address": "Calle Alcalá nº 95",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6840229,
+          40.4211802
+        ]
+      }
+    },
+    {
+      "id": 108,
+      "name": "Ortega y Gasset",
+      "number": "103",
+      "address": "Calle José Ortega y Gasset nº 4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68653,
+          40.43037
+        ]
+      }
+    },
+    {
+      "id": 109,
+      "name": "Castellana",
+      "number": "104",
+      "address": "Paseo de la Castellana nº 4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68958,
+          40.42677
+        ]
+      }
+    },
+    {
+      "id": 110,
+      "name": "Serrano",
+      "number": "105",
+      "address": "Calle Serrano nº 54",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68745,
+          40.42699
+        ]
+      }
+    },
+    {
+      "id": 111,
+      "name": "Colón A",
+      "number": "106a",
+      "address": "Calle Serrano nº 34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6877227,
+          40.4251002
+        ]
+      }
+    },
+    {
+      "id": 112,
+      "name": "Colón B",
+      "number": "106b",
+      "address": "Calle Serrano nº 34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.687745,
+          40.424963
+        ]
+      }
+    },
+    {
+      "id": 113,
+      "name": "Columela",
+      "number": "107",
+      "address": "Calle Serrano nº 8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6884369,
+          40.4215246
+        ]
+      }
+    },
+    {
+      "id": 114,
+      "name": "Mártires Concepcionistas",
+      "number": "108",
+      "address": "Calle Mártires Concepcionistas nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6706024,
+          40.4273005
+        ]
+      }
+    },
+    {
+      "id": 115,
+      "name": "Marqués de Salamanca",
+      "number": "109",
+      "address": "Calle José Ortega y Gasset nº 30",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6816402,
+          40.4300481
+        ]
+      }
+    },
+    {
+      "id": 116,
+      "name": "Moncloa",
+      "number": "110",
+      "address": "Paseo de Moret nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7200845,
+          40.4347895
+        ]
+      }
+    },
+    {
+      "id": 117,
+      "name": "Arcipreste de Hita A",
+      "number": "111a",
+      "address": "Calle Arcipreste de Hita nº 12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7175435,
+          40.4337322
+        ]
+      }
+    },
+    {
+      "id": 118,
+      "name": "Arcipreste de Hita B",
+      "number": "111b",
+      "address": "Calle Arcipreste de Hita nº 12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7179687,
+          40.4341006
+        ]
+      }
+    },
+    {
+      "id": 119,
+      "name": "Paseo de Moret",
+      "number": "112",
+      "address": "Paseo de Moret nº 11",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7246532,
+          40.4325991
+        ]
+      }
+    },
+    {
+      "id": 120,
+      "name": "Pintor Rosales",
+      "number": "113",
+      "address": "Paseo del Pintor Rosales frente al nº 38",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7205129,
+          40.427657
+        ]
+      }
+    },
+    {
+      "id": 121,
+      "name": "Quintana",
+      "number": "114",
+      "address": "Calle Quintana nº 11",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7174158,
+          40.4277456
+        ]
+      }
+    },
+    {
+      "id": 122,
+      "name": "Ferraz",
+      "number": "115",
+      "address": "Calle Evaristo San Miguel nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7170448,
+          40.4253944
+        ]
+      }
+    },
+    {
+      "id": 123,
+      "name": "Plaza de España A",
+      "number": "116a",
+      "address": "Calle Princesa nº 5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.711603,
+          40.42402
+        ]
+      }
+    },
+    {
+      "id": 124,
+      "name": "Plaza de España B",
+      "number": "116b",
+      "address": "Calle Princesa nº 5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.711703,
+          40.42412
+        ]
+      }
+    },
+    {
+      "id": 125,
+      "name": "Altamirano",
+      "number": "117",
+      "address": "Calle Altamirano nº 24",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7188898,
+          40.4309797
+        ]
+      }
+    },
+    {
+      "id": 126,
+      "name": "Juan Martín",
+      "number": "118",
+      "address": "Calle Juan Martín el Empecinado nº 16",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6882407,
+          40.400781
+        ]
+      }
+    },
+    {
+      "id": 127,
+      "name": "Méndez Álvaro",
+      "number": "119",
+      "address": "Calle Méndez Álvaro nº 11",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6863218,
+          40.4013216
+        ]
+      }
+    },
+    {
+      "id": 128,
+      "name": "Palos de la Frontera",
+      "number": "120",
+      "address": "Calle Palos de la Frontera nº 27",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6944768,
+          40.4032208
+        ]
+      }
+    },
+    {
+      "id": 129,
+      "name": "Santa María de la Cabeza",
+      "number": "121",
+      "address": "Paseo de Santa María de la Cabeza nº 58",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6987665,
+          40.4017926
+        ]
+      }
+    },
+    {
+      "id": 130,
+      "name": "Santa Engracia 14",
+      "number": "122",
+      "address": "Calle Santa Engracia nº 14",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6967169,
+          40.4291992
+        ]
+      }
+    },
+    {
+      "id": 131,
+      "name": "Guzmán el Bueno",
+      "number": "123",
+      "address": "Calle Guzmán el Bueno nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7133412,
+          40.4306458
+        ]
+      }
+    },
+    {
+      "id": 169,
+      "name": "Manuel Silvela",
+      "number": "124",
+      "address": "Calle Manuel Silvela nº 20",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6993465,
+          40.4309524
+        ]
+      }
+    },
+    {
+      "id": 164,
+      "name": "General Martínez Campos ",
+      "number": "125",
+      "address": "Calle Fernández de la Hoz nº 29",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6948626,
+          40.435285
+        ]
+      }
+    },
+    {
+      "id": 163,
+      "name": "General Álvarez de Castro",
+      "number": "126",
+      "address": "Calle del General Álvarez de Castro nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7015686,
+          40.4344731
+        ]
+      }
+    },
+    {
+      "id": 168,
+      "name": "Fernando el Católico",
+      "number": "127",
+      "address": "Calle Fernando el Católico nº 19",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.708439,
+          40.4338516
+        ]
+      }
+    },
+    {
+      "id": 160,
+      "name": "Cea Bermúdez",
+      "number": "128",
+      "address": "Calle Cea Bermúdez nº 59",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7154329,
+          40.438994
+        ]
+      }
+    },
+    {
+      "id": 161,
+      "name": "José Abascal",
+      "number": "129",
+      "address": "Calle José Abascal nº 33",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6982353,
+          40.4383865
+        ]
+      }
+    },
+    {
+      "id": 157,
+      "name": "Santa Engracia 127",
+      "number": "130",
+      "address": "Calle Santa Engracia nº 127",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.70164,
+          40.44156
+        ]
+      }
+    },
+    {
+      "id": 156,
+      "name": "Bravo Murillo 44",
+      "number": "131",
+      "address": "Calle Bravo Murillo nº 44",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7040344,
+          40.4418402
+        ]
+      }
+    },
+    {
+      "id": 149,
+      "name": "Glorieta de los Cuatro Caminos",
+      "number": "132",
+      "address": "Calle Santa Engracia nº 168",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7036675,
+          40.4463667
+        ]
+      }
+    },
+    {
+      "id": 150,
+      "name": "Raimundo Fernández",
+      "number": "133",
+      "address": "Calle Raimundo Fernández Villaverde nº 33",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7001669,
+          40.447125
+        ]
+      }
+    },
+    {
+      "id": 153,
+      "name": "Agustín de Betancourt",
+      "number": "134",
+      "address": "Calle María de Guzmán nº 58",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6956047,
+          40.4440297
+        ]
+      }
+    },
+    {
+      "id": 158,
+      "name": "Plaza de San Juan de la Cruz",
+      "number": "135",
+      "address": "Plaza de San Juan de la Cruz nº 11",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6927821,
+          40.4415974
+        ]
+      }
+    },
+    {
+      "id": 151,
+      "name": "Castellana 106",
+      "number": "136",
+      "address": "Paseo de la Castellana nº 106",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.690861,
+          40.4453307
+        ]
+      }
+    },
+    {
+      "id": 152,
+      "name": "Plaza de la República Argentina",
+      "number": "137",
+      "address": "Plaza de la República Argentina nº 6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6853312,
+          40.445411
+        ]
+      }
+    },
+    {
+      "id": 154,
+      "name": "Paseo de la Castellana con Raimundo Fernández",
+      "number": "138",
+      "address": "Paseo de la Castellana esquina calle Raimundo Fernández Villaverde",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6917932,
+          40.4457414
+        ]
+      }
+    },
+    {
+      "id": 159,
+      "name": "José Gutiérrez Abascal ",
+      "number": "139",
+      "address": "Calle José Gutiérrez Abascal nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6907784,
+          40.4396792
+        ]
+      }
+    },
+    {
+      "id": 162,
+      "name": "Velázquez 130",
+      "number": "140",
+      "address": "Calle Velázquez nº 130",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6831578,
+          40.4385127
+        ]
+      }
+    },
+    {
+      "id": 165,
+      "name": "Paseo de la Castellana - Glorieta de Emilio Castelar",
+      "number": "141",
+      "address": "Paseo de la Castellana nº 43",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6892368,
+          40.4355143
+        ]
+      }
+    },
+    {
+      "id": 167,
+      "name": "Castellana 42",
+      "number": "142",
+      "address": "Paseo de la Castellana nº 42",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6879154,
+          40.4334087
+        ]
+      }
+    },
+    {
+      "id": 166,
+      "name": "Diego de León 52",
+      "number": "143",
+      "address": "Calle Diego de León nº 52",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.678492,
+          40.4345973
+        ]
+      }
+    },
+    {
+      "id": 170,
+      "name": "Juan Bravo 50",
+      "number": "144",
+      "address": "Calle Juan Bravo nº 50",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6758555,
+          40.4323655
+        ]
+      }
+    },
+    {
+      "id": 171,
+      "name": "Ortega y Gasset 87",
+      "number": "145",
+      "address": "Calle Ortega y Gasset nº 87",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6712823,
+          40.429887
+        ]
+      }
+    },
+    {
+      "id": 155,
+      "name": "María Francisca 1",
+      "number": "146",
+      "address": "Calle María Francisca nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6787169,
+          40.4442258
+        ]
+      }
+    },
+    {
+      "id": 148,
+      "name": "Doctor Arce 45",
+      "number": "147",
+      "address": "Avenida del Doctor Arce nº 45",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6797296,
+          40.4483269
+        ]
+      }
+    },
+    {
+      "id": 144,
+      "name": "Serrano 210",
+      "number": "148",
+      "address": "Calle Serrano nº 210",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6817962,
+          40.4510188
+        ]
+      }
+    },
+    {
+      "id": 146,
+      "name": "Paseo de la Habana 42",
+      "number": "149",
+      "address": "Paseo de la Habana nº 42",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6881689,
+          40.4498613
+        ]
+      }
+    },
+    {
+      "id": 147,
+      "name": "Castellana frente a Hermanos Pinzón",
+      "number": "150",
+      "address": "Paseo de la Castellana nº 122",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6905604,
+          40.4488924
+        ]
+      }
+    },
+    {
+      "id": 145,
+      "name": "Orense 12",
+      "number": "151",
+      "address": "Calle Orense nº 12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6952943,
+          40.4489101
+        ]
+      }
+    },
+    {
+      "id": 142,
+      "name": "General Perón 1",
+      "number": "152",
+      "address": "Avenida del General Perón frente al nº 4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6990077,
+          40.4527164
+        ]
+      }
+    },
+    {
+      "id": 143,
+      "name": "General Perón con Poeta Joan Maragall",
+      "number": "153",
+      "address": "Avenida del General Perón frente al nº 36",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.693085,
+          40.4522454
+        ]
+      }
+    },
+    {
+      "id": 141,
+      "name": "Orense 36",
+      "number": "154",
+      "address": "Calle Orense nº 36",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6946218,
+          40.4548456
+        ]
+      }
+    },
+    {
+      "id": 139,
+      "name": "San Germán 57",
+      "number": "155",
+      "address": "Calle San Germán nº 57",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7009675,
+          40.4572824
+        ]
+      }
+    },
+    {
+      "id": 140,
+      "name": "Sor Ángela de la Cruz",
+      "number": "156",
+      "address": "Calle Sor Ángela de la Cruz nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.691533,
+          40.4592351
+        ]
+      }
+    },
+    {
+      "id": 137,
+      "name": "Castellana 164",
+      "number": "157",
+      "address": "Paseo de la Castellana nº 164",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6894151,
+          40.4591366
+        ]
+      }
+    },
+    {
+      "id": 138,
+      "name": "Alberto Alcocer",
+      "number": "158",
+      "address": "Avenida de Alberto Alcocer nº 22",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.684715,
+          40.4585318
+        ]
+      }
+    },
+    {
+      "id": 173,
+      "name": "Paseo de la Habana 63",
+      "number": "159",
+      "address": "Paseo de la Habana nº 63",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6835926,
+          40.4543852
+        ]
+      }
+    },
+    {
+      "id": 172,
+      "name": "Colombia",
+      "number": "160",
+      "address": "Calle Colombia nº 7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6763439,
+          40.4572466
+        ]
+      }
+    },
+    {
+      "id": 132,
+      "name": "Paseo de la Florida",
+      "number": "161",
+      "address": "Paseo de la Florida nº 8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7224983,
+          40.4219665
+        ]
+      }
+    },
+    {
+      "id": 133,
+      "name": "Metro Pirámides",
+      "number": "162",
+      "address": "Paseo de los Olmos nº 28",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7108108,
+          40.4034076
+        ]
+      }
+    },
+    {
+      "id": 134,
+      "name": "Paseo de la Esperanza",
+      "number": "163",
+      "address": "Paseo de la Esperanza nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7064516,
+          40.4035988
+        ]
+      }
+    },
+    {
+      "id": 136,
+      "name": "Paseo de las Delicias",
+      "number": "164",
+      "address": "Paseo de las Delicias nº 92",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6945025,
+          40.3972616
+        ]
+      }
+    },
+    {
+      "id": 135,
+      "name": "Entrada Matadero",
+      "number": "165",
+      "address": "Paseo de la Chopera nº 14",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6975708,
+          40.3928821
+        ]
+      }
+    },
+    {
+      "id": 174,
+      "name": "Segovia 26",
+      "number": "166",
+      "address": "Calle Segovia nº 26",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7135833,
+          40.4138333
+        ]
+      }
+    },
+    {
+      "id": 175,
+      "name": "Segovia 45",
+      "number": "167",
+      "address": "Calle Segovia nº 45",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.717487,
+          40.413736
+        ]
+      }
+    },
+    {
+      "id": 176,
+      "name": "Batalla del Salado",
+      "number": "168",
+      "address": "Paseo Santa María de la Cabeza nº 29",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6959166,
+          40.4044722
+        ]
+      }
+    },
+    {
+      "id": 177,
+      "name": "Pirámides",
+      "number": "169",
+      "address": "Calle Toledo nº 181",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7138055,
+          40.4016111
+        ]
+      }
+    },
+    {
+      "id": 178,
+      "name": "Paseo de la Esperanza",
+      "number": "170",
+      "address": "Paseo de la Esperanza nº 21",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7043611,
+          40.401
+        ]
+      }
+    },
+    {
+      "id": 179,
+      "name": "Embajadores-Cáceres",
+      "number": "171",
+      "address": "Calle Embajadores nº 101",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6983888,
+          40.39975
+        ]
+      }
+    },
+    {
+      "id": 180,
+      "name": "Delicias",
+      "number": "172",
+      "address": "Calle Bustamante nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6935833,
+          40.4008888
+        ]
+      }
+    },
+    {
+      "id": 181,
+      "name": "Puente Praga",
+      "number": "173",
+      "address": "Paseo de la Esperanza nº 59",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7023918,
+          40.3981798
+        ]
+      }
+    },
+    {
+      "id": 182,
+      "name": "Madrid Río-Yeserías",
+      "number": "174",
+      "address": "Paseo de Yeserías nº 45",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7065277,
+          40.3974444
+        ]
+      }
+    },
+    {
+      "id": 183,
+      "name": "Jaime el Conquistador",
+      "number": "175",
+      "address": "Calle Jaime el Conquistador nº 30",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6983055,
+          40.3962222
+        ]
+      }
+    },
+    {
+      "id": 184,
+      "name": "Beata",
+      "number": "176",
+      "address": "Calle Alicante nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6937222,
+          40.39425
+        ]
+      }
+    },
+    {
+      "id": 185,
+      "name": "Legazpi",
+      "number": "177",
+      "address": "Calle Bolívar nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6941944,
+          40.3914722
+        ]
+      }
+    },
+    {
+      "id": 186,
+      "name": "Junta Municipal Retiro",
+      "number": "178",
+      "address": "Calle León Gil de Palacio nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6788343,
+          40.4029202
+        ]
+      }
+    },
+    {
+      "id": 187,
+      "name": "Puente de Vallecas",
+      "number": "179",
+      "address": "Avenida de la Albufera nº 6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.66925,
+          40.3979722
+        ]
+      }
+    },
+    {
+      "id": 188,
+      "name": "Méndez Álvaro",
+      "number": "180",
+      "address": "Calle Retama nº 5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6758888,
+          40.3941388
+        ]
+      }
+    },
+    {
+      "id": 189,
+      "name": "Retiro-Ibiza",
+      "number": "181",
+      "address": "Calle Ibiza nº 18",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6766111,
+          40.41825
+        ]
+      }
+    },
+    {
+      "id": 190,
+      "name": "Parque Roma",
+      "number": "182",
+      "address": "Calle Alcalde Sáinz de Baranda frente al nº 107",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6657777,
+          40.4186666
+        ]
+      }
+    },
+    {
+      "id": 191,
+      "name": "Doctor Esquerdo-Hermosilla",
+      "number": "183",
+      "address": "Calle Hermosilla nº 135",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.669339,
+          40.425635
+        ]
+      }
+    },
+    {
+      "id": 192,
+      "name": "Marqués de Zafra",
+      "number": "184",
+      "address": "Paseo Marqués de Zafra nº 24",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6653055,
+          40.426
+        ]
+      }
+    },
+    {
+      "id": 193,
+      "name": "Quinta Fuente del Berro",
+      "number": "185",
+      "address": "Calle Sancho Dávila esquina Paseo Marqués de Zafra",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6615277,
+          40.4250833
+        ]
+      }
+    },
+    {
+      "id": 194,
+      "name": "General Pardiñas",
+      "number": "186",
+      "address": "Calle General Pardiñas nº 56",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6782777,
+          40.4290555
+        ]
+      }
+    },
+    {
+      "id": 195,
+      "name": "Alcalá-Ventas",
+      "number": "187",
+      "address": "Calle Alejandro González nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6638888,
+          40.4301666
+        ]
+      }
+    },
+    {
+      "id": 196,
+      "name": "Puente de Ventas",
+      "number": "188",
+      "address": "Avenida de Daroca nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6590555,
+          40.4311944
+        ]
+      }
+    },
+    {
+      "id": 197,
+      "name": "Avenida Donostiarra",
+      "number": "189",
+      "address": "Calle Virgen de la Alegría nº 18",
+      "reservations_count": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6554918,
+          40.4351256
+        ]
+      }
+    },
+    {
+      "id": 198,
+      "name": "Velázquez-Diego de León",
+      "number": "190",
+      "address": "Calle Velázquez nº 91",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6835833,
+          40.4343333
+        ]
+      }
+    },
+    {
+      "id": 199,
+      "name": "Diego de león",
+      "number": "191",
+      "address": "Calle Alonso Heredia nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.674,
+          40.4346388
+        ]
+      }
+    },
+    {
+      "id": 200,
+      "name": "Avenida de los Toreros",
+      "number": "192",
+      "address": "Avenida de los Toreros nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6714166,
+          40.4318611
+        ]
+      }
+    },
+    {
+      "id": 201,
+      "name": "Ventas",
+      "number": "193",
+      "address": "Avenida de los Toreros nº 49",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6655555,
+          40.4324722
+        ]
+      }
+    },
+    {
+      "id": 202,
+      "name": "Avenida de América 2",
+      "number": "194",
+      "address": "Calle Francisco Silvela nº 86",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6772222,
+          40.43725
+        ]
+      }
+    },
+    {
+      "id": 203,
+      "name": "Avenida de América 1",
+      "number": "195",
+      "address": "Calle Padre Indalecio Hernández nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6754444,
+          40.4392222
+        ]
+      }
+    },
+    {
+      "id": 204,
+      "name": "Prosperidad",
+      "number": "196",
+      "address": "Calle Suero de Quiñones nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6751388,
+          40.4441388
+        ]
+      }
+    },
+    {
+      "id": 205,
+      "name": "Parque Berlín",
+      "number": "197",
+      "address": "Avenida de Concha Espina nº 34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6780555,
+          40.4515833
+        ]
+      }
+    },
+    {
+      "id": 206,
+      "name": "Rubén Darío",
+      "number": "198",
+      "address": "Glorieta Rubén Darío 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6915555,
+          40.4331111
+        ]
+      }
+    },
+    {
+      "id": 207,
+      "name": "Fernando el Católico",
+      "number": "199",
+      "address": "Calle Fernando el Católico nº 61",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7149166,
+          40.4343611
+        ]
+      }
+    },
+    {
+      "id": 208,
+      "name": "Quevedo",
+      "number": "200",
+      "address": "Glorieta de Quevedo nº 5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7046666,
+          40.4336944
+        ]
+      }
+    },
+    {
+      "id": 209,
+      "name": "Canal",
+      "number": "201",
+      "address": "Calle José Abascal frente al nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7038333,
+          40.4386944
+        ]
+      }
+    },
+    {
+      "id": 210,
+      "name": "Parque Santander",
+      "number": "202",
+      "address": "Calle Santander esquina con Avenida de Filipinas",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7080833,
+          40.4411388
+        ]
+      }
+    },
+    {
+      "id": 211,
+      "name": "San Francisco de Sales",
+      "number": "203",
+      "address": "Calle General Ampudia nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7144722,
+          40.44175
+        ]
+      }
+    },
+    {
+      "id": 212,
+      "name": "Cuatro Caminos 2",
+      "number": "204",
+      "address": "Calle Doctor Santero nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7041666,
+          40.4476666
+        ]
+      }
+    },
+    {
+      "id": 213,
+      "name": "Estrecho",
+      "number": "205",
+      "address": "Calle Navarra nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7032777,
+          40.4535
+        ]
+      }
+    },
+    {
+      "id": 214,
+      "name": "Metro Tetuán",
+      "number": "206",
+      "address": "Calle Marqués de Viana nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6989925,
+          40.4607502
+        ]
+      }
+    },
+    {
+      "id": 215,
+      "name": "Remonta",
+      "number": "207",
+      "address": "Calle Azucenas nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6973333,
+          40.4630277
+        ]
+      }
+    },
+    {
+      "id": 216,
+      "name": "Plaza de Castilla",
+      "number": "208",
+      "address": "Paseo de la Castellana nº 216",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6886388,
+          40.4663611
+        ]
+      }
+    },
+    {
+      "id": 217,
+      "name": "Plaza de Castilla 2",
+      "number": "209",
+      "address": "Paseo Castellana (Fundación Canal)",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6887722,
+          40.4656779
+        ]
+      }
+    },
+    {
+      "id": 218,
+      "name": "Tres Cruces",
+      "number": "210",
+      "address": "Calle Tres Cruces nº 7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7026735,
+          40.419674
+        ]
+      }
+    },
+    {
+      "id": 219,
+      "name": "Desengaño",
+      "number": "211",
+      "address": "Calle Desengaño nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.70239,
+          40.42059
+        ]
+      }
+    },
+    {
+      "id": 220,
+      "name": "Marqués de Vadillo",
+      "number": "212",
+      "address": "Glorieta Marqués de Vadillo nº 9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.716591,
+          40.398247
+        ]
+      }
+    },
+    {
+      "id": 221,
+      "name": "Glorieta de Cádiz",
+      "number": "213",
+      "address": "Calle Antonio López nº 129",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.70017,
+          40.38895
+        ]
+      }
+    },
+    {
+      "id": 222,
+      "name": "Condesa de Venadito",
+      "number": "214",
+      "address": "Calle Condesa de Venadito nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.65741,
+          40.44315
+        ]
+      }
+    },
+    {
+      "id": 223,
+      "name": "Gutierre de Cetina",
+      "number": "215",
+      "address": "Calle Gutierre de Cetina nº 77",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.640994,
+          40.429706
+        ]
+      }
+    },
+    {
+      "id": 224,
+      "name": "Puerta del Ángel",
+      "number": "216",
+      "address": "Plaza Puerta del Ángel nº 4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.728318,
+          40.413764
+        ]
+      }
+    },
+    {
+      "id": 225,
+      "name": "Pedro Rico",
+      "number": "217",
+      "address": "Calle Pedro Rico nº 4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.688463,
+          40.481086
+        ]
+      }
+    },
+    {
+      "id": 226,
+      "name": "Camino Vinateros",
+      "number": "218",
+      "address": "Calle Camino de los Vinateros nº 28",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.65779,
+          40.41053
+        ]
+      }
+    },
+    {
+      "id": 227,
+      "name": "Marroquina",
+      "number": "219",
+      "address": "Calle Camino de los Vinateros nº 108",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.646697,
+          40.408264
+        ]
+      }
+    },
+    {
+      "id": 228,
+      "name": "Plaza del Encuentro",
+      "number": "220",
+      "address": "Calle Arroyo de las Pilillas nº 6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.65122,
+          40.40617
+        ]
+      }
+    },
+    {
+      "id": 229,
+      "name": "Pavones",
+      "number": "221",
+      "address": "Calle Hacienda de Pavones nº 342",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.634587,
+          40.400368
+        ]
+      }
+    },
+    {
+      "id": 230,
+      "name": "Antonio López",
+      "number": "222",
+      "address": "Calle Eugenio Caxes frente al nº 12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7026789,
+          40.3917871
+        ]
+      }
+    },
+    {
+      "id": 231,
+      "name": "Ermita Santo",
+      "number": "223",
+      "address": "Paseo de la Ermita del Santo nº 48",,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7244893989507686,
+          40.406837862773465
+        ]
+      }
+    },
+    {
+      "id": 232,
+      "name": "Caramuel",
+      "number": "224",
+      "address": "Calle Caramuel nº 51",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.728533714316331,
+          40.40913630273305
+        ]
+      }
+    },
+    {
+      "id": 233,
+      "name": "Doctor Lozano",
+      "number": "225",
+      "address": "Calle Sierra Toledana nº 33",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.660188083470652,
+          40.40248333540473
+        ]
+      }
+    },
+    {
+      "id": 234,
+      "name": "Sierra Toledana",
+      "number": "226",
+      "address": "Camino de Valderribas nº 94",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6607768678037744,
+          40.39901531507069
+        ]
+      }
+    },
+    {
+      "id": 236,
+      "name": "Concordia",
+      "number": "227",
+      "address": "Calle Arroyo del Olivar nº 6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6659362429356372,
+          40.39382977920336
+        ]
+      }
+    },
+    {
+      "id": 235,
+      "name": "San Delfín",
+      "number": "228",
+      "address": "Calle San Delfín nº 9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7080429728445563,
+          40.39440607959559
+        ]
+      }
+    },
+    {
+      "id": 237,
+      "name": "C.D. Concepción",
+      "number": "229",
+      "address": "Calle Jose del Hierro nº 5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.64835857929032,
+          40.43715089959262
+        ]
+      }
+    },
+    {
+      "id": 238,
+      "name": "Carlota O’Neill",
+      "number": "230",
+      "address": "Calle Carlota O'Neill nº 32",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.648958444298144,
+          40.44370542379883
+        ]
+      }
+    },
+    {
+      "id": 239,
+      "name": "Derechos Humanos",
+      "number": "231",
+      "address": "Calle Derechos Humanos nº 12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6557656204708775,
+          40.43965673033275
+        ]
+      }
+    },
+    {
+      "id": 240,
+      "name": "José María Pereda",
+      "number": "232",
+      "address": "Calle José María de Pereda nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6485306152875148,
+          40.43272086245887
+        ]
+      }
+    },
+    {
+      "id": 241,
+      "name": "Marqués de Corbera 12",
+      "number": "233",
+      "address": "Avenida Marqués de Corbera nº 12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6555552857442697,
+          40.422962108947424
+        ]
+      }
+    },
+    {
+      "id": 242,
+      "name": "Marqués de Corbera 52",
+      "number": "234",
+      "address": "Avenida Marqués de Corbera nº 52",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.651034981803642,
+          40.426207143200884
+        ]
+      }
+    },
+    {
+      "id": 243,
+      "name": "Embajadores 191",
+      "number": "235",
+      "address": "Calle Sodio nº 1B",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6903589643353483,
+          40.389258643579105
+        ]
+      }
+    },
+    {
+      "id": 244,
+      "name": "Paseo Imperial",
+      "number": "236",
+      "address": "Paseo Imperial nº 20",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7172213778842007,
+          40.40765396169372
+        ]
+      }
+    },
+    {
+      "id": 245,
+      "name": "Pablo Iglesias",
+      "number": "237",
+      "address": "Calle Francisco Balseiro nº 1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.710525,
+          40.451333
+        ]
+      }
+    },
+    {
+      "id": 246,
+      "name": "San Germán 5",
+      "number": "238",
+      "address": "Calle San Germán nº 5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.6929376751795306,
+          40.45619382579544
+        ]
+      }
+    },
+    {
+      "id": 247,
+      "name": "Francos Rodríguez",
+      "number": "239",
+      "address": "Calle Francos Rodríguez nº 62",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.708002730875242,
+          40.45673408797698
+        ]
+      }
+    },
+    {
+      "id": 248,
+      "name": "Avenida Brasilia",
+      "number": "240",
+      "address": "Avenida de Brasilia frente al nº 9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.66096,
+          40.43666
+        ]
+      }
+    },
+    {
+      "id": 249,
+      "name": "Camilo José Cela",
+      "number": "241",
+      "address": "Avenida de Camilo José Cela nº 23",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.66779,
+          40.4378
+        ]
+      }
+    },
+    {
+      "id": 250,
+      "name": "Avenida Bruselas",
+      "number": "242",
+      "address": "Avenida Bruselas nº 56",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.66301,
+          40.43865
+        ]
+      }
+    },
+    {
+      "id": 251,
+      "name": "Cartagena",
+      "number": "243",
+      "address": "Calle Cartagena nº 34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.67012,
+          40.43503
+        ]
+      }
+    },
+    {
+      "id": 252,
+      "name": "Hospital Clínico",
+      "number": "244",
+      "address": "Calle Isaac Peral nº 44",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.71757,
+          40.44003
+        ]
+      }
+    },
+    {
+      "id": 253,
+      "name": "Galileo",
+      "number": "245",
+      "address": "Calle Galileo nº 63",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.71019,
+          40.4364
+        ]
+      }
+    },
+    {
+      "id": 254,
+      "name": "Santa Engracia 87",
+      "number": "246",
+      "address": "Calle Santa Engracia nº 87",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.69928,
+          40.43604
+        ]
+      }
+    },
+    {
+      "id": 270,
+      "name": "Zurbano",
+      "number": "247",
+      "address": "Calle Zurbano nº 90",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.69281,
+          40.43837
+        ]
+      }
+    },
+    {
+      "id": 256,
+      "name": "Torre Cepsa",
+      "number": "248",
+      "address": "Calle Sinesio Delgado nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68797,
+          40.47435
+        ]
+      }
+    },
+    {
+      "id": 257,
+      "name": "Manuel Caldeiro",
+      "number": "249",
+      "address": "Paseo de la Castellana nº 298",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68532,
+          40.47938
+        ]
+      }
+    },
+    {
+      "id": 258,
+      "name": "Serrano 113",
+      "number": "250",
+      "address": "Calle Serrano nº 113B",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68609,
+          40.44106
+        ]
+      }
+    },
+    {
+      "id": 259,
+      "name": "Corazón de María",
+      "number": "251",
+      "address": "Calle Santa Hortensia nº 31",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.66683,
+          40.44421
+        ]
+      }
+    },
+    {
+      "id": 260,
+      "name": "Chamartín",
+      "number": "252",
+      "address": "Calle Rodríguez Jaén nº 40",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68391,
+          40.4716
+        ]
+      }
+    },
+    {
+      "id": 261,
+      "name": "Doctor Fleming",
+      "number": "253",
+      "address": "Calle Doctor Fleming nº 7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68844,
+          40.45546
+        ]
+      }
+    },
+    {
+      "id": 262,
+      "name": "Pío XII",
+      "number": "254",
+      "address": "Avenida Pío XII nº 3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.67712,
+          40.46041
+        ]
+      }
+    },
+    {
+      "id": 263,
+      "name": "López Pozas",
+      "number": "255",
+      "address": "Calle General López Pozas nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68514,
+          40.46361
+        ]
+      }
+    },
+    {
+      "id": 264,
+      "name": "Reina Victoria",
+      "number": "256",
+      "address": "Calle Beatriz de Bobadilla frente al nº 2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.71383,
+          40.44635
+        ]
+      }
+    },
+    {
+      "id": 265,
+      "name": "INEF",
+      "number": "257",
+      "address": "Avenida Juan de Herrera frente a la calle Paul Guinard",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.72997,
+          40.43896
+        ]
+      }
+    },
+    {
+      "id": 266,
+      "name": "Ciudad Universitaria 1",
+      "number": "258",
+      "address": "Avenida de la Complutense (Metro Ciudad Universitaria)",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.72699,
+          40.44375
+        ]
+      }
+    },
+    {
+      "id": 267,
+      "name": "Ciudad Universitaria 2",
+      "number": "259",
+      "address": "Avenida de la Complutense (Metro Ciudad Universitaria)",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.72693,
+          40.44342
+        ]
+      }
+    },
+    {
+      "id": 268,
+      "name": "Facultad Biología",
+      "number": "260",
+      "address": "Calle José Antonio Novais frente al nº 12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7272945,
+          40.4483322
+        ]
+      }
+    },
+    {
+      "id": 269,
+      "name": "Facultad Derecho",
+      "number": "261",
+      "address": "Avenida Complutense nº 23",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.72937,
+          40.45109
+        ]
+      }
+    }
+  ]
 }
