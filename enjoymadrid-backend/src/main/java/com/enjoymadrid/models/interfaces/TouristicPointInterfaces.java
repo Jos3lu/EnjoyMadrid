@@ -4,6 +4,6 @@ public class TouristicPointInterfaces {
 	
 	private TouristicPointInterfaces() {}
 	
-	public static interface BasicData {}
+	public static interface BasicData extends PointInterfaces.BasicData {}
 	
 }

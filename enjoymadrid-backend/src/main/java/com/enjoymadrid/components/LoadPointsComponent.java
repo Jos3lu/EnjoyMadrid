@@ -7,14 +7,11 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -47,11 +44,12 @@ import com.enjoymadrid.models.repositories.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.enjoymadrid.models.repositories.AirQualityStationRepository;
+import com.enjoymadrid.models.repositories.AirQualityPointRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
-import com.enjoymadrid.models.AirQualityStation;
+import com.enjoymadrid.models.AirQualityPoint;
+import com.enjoymadrid.models.BycicleTransportPoint;
+import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.TouristicPoint;
 import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.User;
@@ -63,16 +61,16 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(LoadPointsComponent.class);
 
 	private final TransportPointRepository transportPointRepository;
-	private final AirQualityStationRepository airQualityStationRepository;
+	private final AirQualityPointRepository airQualityStationRepository;
 	private final TouristicPointRepository touristicPointRepository;
 	private final UserRepository userRepository;
 
 	public LoadPointsComponent(TransportPointRepository transportPointRepository,
-			AirQualityStationRepository airQualityStationRepository, TouristicPointRepository pointRepository,
+			AirQualityPointRepository airQualityStationRepository, TouristicPointRepository touristicPointRepository,
 			UserRepository userRepository) {
 		this.transportPointRepository = transportPointRepository;
 		this.airQualityStationRepository = airQualityStationRepository;
-		this.touristicPointRepository = pointRepository;
+		this.touristicPointRepository = touristicPointRepository;
 		this.userRepository = userRepository;
 	}
 
@@ -88,8 +86,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
 		userRepository.save(user3);
 
-		//loadDataAirQualityStations();
-		//loadDataTouristicPoints();
+		loadDataAirQualityPoints();
+		loadDataTouristicPoints();
 		loadDataTransportPoints();
 	}
 
@@ -97,7 +95,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 	 * Execute to add air quality stations if not already in DB an then update the
 	 * air quality data
 	 */
-	private void loadDataAirQualityStations() {
+	private void loadDataAirQualityPoints() {
 
 		Document document = null;
 		try {
@@ -123,18 +121,18 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Double latitude = tryParseDouble(element.getElementsByTagName("geo:lat").item(0).getTextContent());
 
 				// Search if station already exists in DB
-				Optional<AirQualityStation> airQualityStationDB = airQualityStationRepository
+				Optional<AirQualityPoint> airQualityPointDB = airQualityStationRepository
 						.findByLongitudeAndLatitude(longitude, latitude);
 
-				if (airQualityStationDB.isEmpty()) {
-					airQualityStationRepository.save(new AirQualityStation(name, longitude, latitude));
+				if (airQualityPointDB.isEmpty()) {
+					airQualityStationRepository.save(new AirQualityPoint(name, longitude, latitude));
 				}
 
 			}
 		}
 
 		// Update the air quality data
-		updateAqiStations();
+		updateAqiPoints();
 
 	}
 
@@ -154,10 +152,10 @@ public class LoadPointsComponent implements CommandLineRunner {
 		Integer minuteExecuteUpdate = 5 + new Random().nextInt(55);
 		ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
 
-		ex.schedule(() -> updateAqiStations(), minuteExecuteUpdate, TimeUnit.MINUTES);
+		ex.schedule(() -> updateAqiPoints(), minuteExecuteUpdate, TimeUnit.MINUTES);
 	}
 
-	private void updateAqiStations() {
+	private void updateAqiPoints() {
 
 		/*
 		 * Pages ->
@@ -166,7 +164,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		 */
 
 		// Add stations to a list before add it to the DB
-		Map<String, Integer> airQualityStations = new HashMap<>();
+		Map<String, Integer> airQualityPoints = new HashMap<>();
 
 		// Web page https://www.iqair.com/es/
 		WebClient client = WebClient.create(
@@ -177,7 +175,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		for (JsonNode station : response) {
 			String name = station.get("name").asText();
 			Integer aqi = station.get("aqi").asInt();
-			airQualityStations.put(name, aqi);
+			airQualityPoints.put(name, aqi);
 		}
 
 		try {
@@ -231,8 +229,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 				}
 
-				if (!airQualityStations.containsKey(name)) {
-					airQualityStations.put(name, aqi);
+				if (!airQualityPoints.containsKey(name)) {
+					airQualityPoints.put(name, aqi);
 				}
 			}
 
@@ -241,18 +239,18 @@ public class LoadPointsComponent implements CommandLineRunner {
 			return;
 		}
 
-		for (Map.Entry<String, Integer> airQualityStation : airQualityStations.entrySet()) {
+		for (Map.Entry<String, Integer> airQualityStation : airQualityPoints.entrySet()) {
 			// Search station in DB
-			Optional<AirQualityStation> airQualityStationDB = airQualityStationRepository
+			Optional<AirQualityPoint> airQualityPointDB = airQualityStationRepository
 					.findByNameIgnoreCase(airQualityStation.getKey());
 
 			// If not in DB skip it
-			if (airQualityStationDB.isEmpty()) {
+			if (airQualityPointDB.isEmpty()) {
 				continue;
 			}
 
-			airQualityStationDB.get().setIqa(airQualityStation.getValue());
-			airQualityStationRepository.save(airQualityStationDB.get());
+			airQualityPointDB.get().setAqi(airQualityStation.getValue());
+			airQualityStationRepository.save(airQualityPointDB.get());
 		}
 
 		logger.info("Air quality stations updated");
@@ -333,7 +331,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Double latitude = tryParseDouble(element.getElementsByTagName("latitude").item(0).getTextContent());
 
 				// To delete the points that are removed from the page of Madrid
-				touristicPoints.add(new TouristicPoint(longitude, latitude, name));
+				touristicPoints.add(new TouristicPoint(name, longitude, latitude));
 
 				// If point is already in database and has been updated or is not in the
 				// database we update/add the point in the DB
@@ -395,7 +393,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 					}
 				}
 
-				TouristicPoint point = new TouristicPoint(longitude, latitude, name, address, zipcode, phone,
+				TouristicPoint point = new TouristicPoint(name, longitude, latitude, address, zipcode, phone,
 						description, email, paymentServices, horary, type, categories, subcategories, images);
 
 				if (pointDB.isPresent()) {
@@ -415,16 +413,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 	}
 
-	private void loadDataTransportPoints() {
-		/*
-		WebClient client = WebClient.create(
-				"https://openapi.emtmadrid.es/v1/transport/bicimad/stations/");
-
-		ObjectNode response = client.get().retrieve().bodyToMono(ObjectNode.class).block();
-		
-		System.out.println(response.toString());
-		*/
-		
+	private void loadDataTransportPoints() {		
 		// Data sources
 		String[][] publicTransportTypes = {
 				{"subway", "static/subway/estaciones_red_de_metro.geojson", "static/subway/paradas_por_itinerario_red_de_metro.geojson"}, 
@@ -433,7 +422,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		};
 		
 		// Thread for each type of transport
-		ExecutorService ex = Executors.newFixedThreadPool(publicTransportTypes.length);
+		ExecutorService ex = Executors.newFixedThreadPool(publicTransportTypes.length + 1);
 		
 		// Sync threads pool
 		CyclicBarrier waitToEnd = new CyclicBarrier(publicTransportTypes.length + 2);
@@ -441,7 +430,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		for (String[] publicTransport: publicTransportTypes) {
 			ex.execute(() -> loadDataPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2], waitToEnd));
 		}	
-		ex.execute(() -> loadtDataBiciMADPoints("bicycle", "static/bicycle/estaciones_bici_transporte_publico.geojson", waitToEnd));
+		ex.execute(() -> loadDataBiciMADPoints("bicycle", "static/bicycle/estaciones_bici_transporte_publico.geojson", waitToEnd));
 		ex.shutdown();
 				
 		try {
@@ -458,15 +447,11 @@ public class LoadPointsComponent implements CommandLineRunner {
 		logger.info("Transport points updated");
 	}
 	
-	private void loadtDataBiciMADPoints(String type, String stopsFile, CyclicBarrier waitToEnd) {
-		
-	}
-
 	private void loadDataPublicTransportPoints(String type, String stopsFile, String itineraryStopsFile, CyclicBarrier waitToEnd) {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		// Store stops before save it in DataBase
-		Map<String, TransportPoint> publicTransportStops = new HashMap<>();
+		Map<String, PublicTransportPoint> publicTransportStops = new HashMap<>();
 
 		// Transform json file to tree model
 		try {
@@ -478,7 +463,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
 				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
 				publicTransportStops.putIfAbsent(name,
-						new TransportPoint(StringUtils.capitalize(name.toLowerCase()), type, longitude, latitude));
+						new PublicTransportPoint(StringUtils.capitalize(name.toLowerCase()), longitude, latitude, type));
 			}
 
 			File stopsItinerary = new ClassPathResource(itineraryStopsFile)
@@ -491,8 +476,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Integer direction = stop.get("properties").get("SENTIDO").asInt();
 				Integer order = stop.get("properties").get("NUMEROORDEN").asInt();
 					
-				TransportPoint transportPoint = publicTransportStops.get(name);
-				transportPoint.getLines().add(line + " [" + direction + "] " + ": " + order);
+				PublicTransportPoint publicTransportPoint = publicTransportStops.get(name);
+				publicTransportPoint.getLines().add(line + " [" + direction + "] " + ": " + order);
 			}
 			
 			for (TransportPoint transportPoint : publicTransportStops.values()) {
@@ -517,6 +502,56 @@ public class LoadPointsComponent implements CommandLineRunner {
 		}
 		
 	}
+	
+	private void loadDataBiciMADPoints(String type, String stopsFile, CyclicBarrier waitToEnd) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		// Transform json file to tree model
+		try {
+			File stopsCoord = new ClassPathResource(stopsFile).getFile();
+			
+			JsonNode stops = objectMapper.readTree(stopsCoord).get("data");
+			for (JsonNode stop: stops) {
+				String name = stop.get("name").asText();
+				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
+				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
+				
+				// Search if stop already exists in DB
+				Optional<TransportPoint> transportPointDB = transportPointRepository
+						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(name,
+								longitude, latitude);
+				if (transportPointDB.isEmpty()) {
+					transportPointRepository.save(new BycicleTransportPoint(name,longitude, latitude, type));
+				}
+			}
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		} 
+		
+		try {
+			waitToEnd.await();
+		} catch (InterruptedException | BrokenBarrierException e) {
+			logger.error(e.getMessage());
+		}
+		
+	}
+	/*
+	private void updateBiciMADStations() {
+		// Web page EMT api
+		WebClient client = WebClient.create(
+				"https://openapi.emtmadrid.es/v1/transport/bicimad/stations/");
+
+		ObjectNode response = client.get().retrieve().bodyToMono(ObjectNode.class).block();
+		
+		for (JsonNode station : response) {
+			System.out.println();
+			//String name = station.get("name").asText();
+			//Integer aqi = station.get("aqi").asInt();
+			//airQualityStations.put(name, aqi);
+		}
+		
+	}
+	*/
 
 	private Double tryParseDouble(String parseString) {
 		try {

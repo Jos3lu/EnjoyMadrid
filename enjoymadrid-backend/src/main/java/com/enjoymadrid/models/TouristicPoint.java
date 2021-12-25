@@ -2,91 +2,67 @@ package com.enjoymadrid.models;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.validation.constraints.NotEmpty;
 
 import com.enjoymadrid.models.interfaces.TouristicPointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
-public class TouristicPoint {
+public class TouristicPoint extends Point {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonView(TouristicPointInterfaces.BasicData.class)
-	private Long id;
-	
-	@JsonView(TouristicPointInterfaces.BasicData.class)
-	private Double longitude;
-	
-	@JsonView(TouristicPointInterfaces.BasicData.class)
-	private Double latitude;
-	
-	@JsonView(TouristicPointInterfaces.BasicData.class)
-	@NotEmpty(message = "El nombre no puede estar vacío")
-	private String name;
-	
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String address;
-	
+
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private Integer zipcode;
-	
+
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String phone;
-		
+
 	@Lob
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String description;
-	
+
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String email;
-	
+
 	@Lob
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String paymentServices;
-	
+
 	@Lob
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String horary;
-	
+
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String type;
-	
+
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> categories = new LinkedList<>();
-		
+
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> subcategories = new LinkedList<>();
-			
+
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> images = new LinkedList<>();
-	
-	public TouristicPoint() {}
-	
-	public TouristicPoint(Double longitude, Double latitude, @NotEmpty(message = "El nombre no puede estar vacío") String name) {
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.name = name;
+
+	public TouristicPoint() {
 	}
-			
-	public TouristicPoint(Double longitude, Double latitude,
-			@NotEmpty(message = "El nombre no puede estar vacío") String name, String address, Integer zipcode,
-			String phone, String description, String email, String paymentServices, String horary,
-			String type, List<String> categories, List<String> subcategories, List<String> images) {
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.name = name;
+
+	public TouristicPoint(String name, Double longitude, Double latitude) {
+		super(name, longitude, latitude);
+	}
+
+	public TouristicPoint(String name, Double longitude, Double latitude, String address, Integer zipcode, String phone,
+			String description, String email, String paymentServices, String horary, String type,
+			List<String> categories, List<String> subcategories, List<String> images) {
+		super(name, longitude, latitude);
 		this.address = address;
 		this.zipcode = zipcode;
 		this.phone = phone;
@@ -98,38 +74,6 @@ public class TouristicPoint {
 		this.categories = categories;
 		this.subcategories = subcategories;
 		this.images = images;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
-	}
-
-	public Double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getAddress() {
@@ -220,22 +164,4 @@ public class TouristicPoint {
 		this.images = images;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(latitude, longitude, name);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TouristicPoint other = (TouristicPoint) obj;
-		return Objects.equals(latitude, other.latitude) && Objects.equals(longitude, other.longitude)
-				&& Objects.equals(name, other.name);
-	}
-	
 }
