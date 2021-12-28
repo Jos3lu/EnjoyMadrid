@@ -133,7 +133,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		}
 
 		// Update the air quality data
-		updateAqiPoints();
+		new Thread(() -> updateAqiPoints()).start();
 
 	}
 
@@ -523,15 +523,15 @@ public class LoadPointsComponent implements CommandLineRunner {
 			// In file get name and coordinates for each stop
 			for (JsonNode stop: stops) {
 				String name = stop.get("name").asText();
-				String number = stop.get("number").asText();
+				String stationNumber = stop.get("number").asText();
 				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
 				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
 				
 				// Search if stop already exists in DB
 				Boolean transportPointDB = transportPointRepository
-						.existsByStationNumber(number);
+						.existsByStationNumber(stationNumber);
 				if (!transportPointDB) {
-					transportPointRepository.save(new BycicleTransportPoint(number, name, longitude, latitude, type));
+					transportPointRepository.save(new BycicleTransportPoint(stationNumber, name, longitude, latitude, type));
 				}
 			}
 		} catch (IOException e) {
@@ -563,13 +563,32 @@ public class LoadPointsComponent implements CommandLineRunner {
 		ObjectNode response = client.get().retrieve().bodyToMono(ObjectNode.class).block();
 		
 		JsonNode stations = response.get("data");
+		
 		for (JsonNode station : stations) {
+			String stationNumber = station.get("number").asText();
+			
+			Optional<BycicleTransportPoint> bycicleTransportPointDBOpt = transportPointRepository.findByStationNumber(stationNumber);
+			
+			if (bycicleTransportPointDBOpt.isEmpty()) {
+				continue;
+			}
+			
 			Integer activate = station.get("activate").asInt();
 			Integer no_available = station.get("no_available").asInt();
 			Integer total_bases = station.get("total_bases").asInt();
 			Integer dock_bikes = station.get("dock_bikes").asInt();
 			Integer free_bases = station.get("free_bases").asInt();
 			Integer reservations_count = station.get("reservations_count").asInt();
+			
+			BycicleTransportPoint bycicleTransportPointDB = bycicleTransportPointDBOpt.get();
+			bycicleTransportPointDB.setActivate(activate == 1 ? true : false);
+			bycicleTransportPointDB.setNo_available(no_available == 1 ? true : false);
+			bycicleTransportPointDB.setTotalBases(total_bases);
+			bycicleTransportPointDB.setDockBases(dock_bikes);
+			bycicleTransportPointDB.setFreeBases(free_bases);
+			bycicleTransportPointDB.setReservations(reservations_count);
+			
+			transportPointRepository.save(bycicleTransportPointDB);
 		}
 		
 	}
