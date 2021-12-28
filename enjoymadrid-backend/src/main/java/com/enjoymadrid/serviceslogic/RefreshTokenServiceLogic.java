@@ -15,7 +15,7 @@ import com.enjoymadrid.services.RefreshTokenService;
 @Service
 public class RefreshTokenServiceLogic implements RefreshTokenService {
 
-	private static final int JWT_REFRESH_EXPIRATION_MS = 120000; //12 * 60 * 60 * 1000; // 12 hour
+	private static final int JWT_REFRESH_EXPIRATION_MS = 12 * 60 * 60 * 1000; // 12 hour
 
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final UserRepository userRepository;

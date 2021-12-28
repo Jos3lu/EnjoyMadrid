@@ -7,7 +7,9 @@ public class AirQualityPoint extends Point {
 
 	private Integer aqi;
 
-	public AirQualityPoint() {}
+	public AirQualityPoint() {
+		super();
+	}
 	
 	public AirQualityPoint(String name, Double longitude, Double latitude) {
 		super(name, longitude, latitude);

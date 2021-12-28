@@ -20,7 +20,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtilityToken {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtilityToken.class);
-	private static final int JWT_EXPIRATION_TOKEN_MS = 60000; //1 * 60 * 60 * 1000; // 1 hour
+	private static final int JWT_EXPIRATION_TOKEN_MS = 1 * 60 * 60 * 1000; // 1 hour
 
 	@Value("${enjoymadrid.jwt.secret}")
 	private String jwtSecret;

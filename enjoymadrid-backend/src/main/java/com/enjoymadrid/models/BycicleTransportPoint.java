@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 
 @Entity
 public class BycicleTransportPoint extends TransportPoint {
+	
+	private String stationNumber;
 
 	private Integer totalBases;
 	
@@ -15,12 +17,23 @@ public class BycicleTransportPoint extends TransportPoint {
 	
 	private Boolean no_available;
 	
+	private Integer reservations;
+	
 	public BycicleTransportPoint() {
 		super();
 	}
 	
-	public BycicleTransportPoint(String name, Double longitude, Double latitude, String type) {
+	public BycicleTransportPoint(String stationNumber, String name, Double longitude, Double latitude, String type) {
 		super(name, longitude, latitude, type);
+		this.stationNumber = stationNumber;
+	}
+	
+	public String getStationNumber() {
+		return stationNumber;
+	}
+	
+	public void setStationNumber(String stationNumber) {
+		this.stationNumber = stationNumber;
 	}
 
 	public Integer getTotalBases() {
@@ -61,6 +74,14 @@ public class BycicleTransportPoint extends TransportPoint {
 
 	public void setNo_available(Boolean no_available) {
 		this.no_available = no_available;
+	}
+
+	public Integer getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(Integer reservations) {
+		this.reservations = reservations;
 	}
 	
 }

@@ -44,6 +44,7 @@ import com.enjoymadrid.models.repositories.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.enjoymadrid.models.repositories.AirQualityPointRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
@@ -92,7 +93,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 	}
 
 	/**
-	 * Execute to add air quality stations if not already in DB an then update the
+	 * Add air quality stations if not already in DB an then update the
 	 * air quality data
 	 */
 	private void loadDataAirQualityPoints() {
@@ -121,10 +122,10 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Double latitude = tryParseDouble(element.getElementsByTagName("geo:lat").item(0).getTextContent());
 
 				// Search if station already exists in DB
-				Optional<AirQualityPoint> airQualityPointDB = airQualityStationRepository
-						.findByLongitudeAndLatitude(longitude, latitude);
+				Boolean airQualityPointDB = airQualityStationRepository
+						.existsByLongitudeAndLatitude(longitude, latitude);
 
-				if (airQualityPointDB.isEmpty()) {
+				if (!airQualityPointDB) {
 					airQualityStationRepository.save(new AirQualityPoint(name, longitude, latitude));
 				}
 
@@ -155,6 +156,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 		ex.schedule(() -> updateAqiPoints(), minuteExecuteUpdate, TimeUnit.MINUTES);
 	}
 
+	/**
+	 * Update Aqi levels of each air quality station
+	 */
 	private void updateAqiPoints() {
 
 		/*
@@ -257,8 +261,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 	}
 
 	/**
-	 * This method is executed all the mondays at 12:00 a.m. (and the first time the
-	 * server is activated), checking for new information and deleting old information.
+	 * This method is executed all the Mondays at 12:00 a.m. (and the first time the
+	 * server is activated), checking for new information and deleting old information in tourist points.
 	 * cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the week
 	 */
 	@Scheduled(cron = "0 0 0 ? * 1", zone = "Europe/Madrid")
@@ -413,6 +417,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 	}
 
+	/**
+	 * Load the information of all the transport points to DB if not already
+	 */
 	private void loadDataTransportPoints() {		
 		// Data sources
 		String[][] publicTransportTypes = {
@@ -458,6 +465,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 			File stopsCoord = new ClassPathResource(stopsFile).getFile();
 
 			JsonNode stops = objectMapper.readTree(stopsCoord).get("features");
+			// For each node get the name and coordinates, and save in HashMap
 			for (JsonNode stop : stops) {
 				String name = stop.get("properties").get("DENOMINACION").asText();
 				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
@@ -470,6 +478,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 					.getFile();
 
 			stops = objectMapper.readTree(stopsItinerary).get("features");
+			// In the file get line information for each node
 			for (JsonNode stop : stops) {
 				String name = stop.get("properties").get("DENOMINACION").asText();
 				String line = stop.get("properties").get("NUMEROLINEAUSUARIO").asText();
@@ -482,10 +491,10 @@ public class LoadPointsComponent implements CommandLineRunner {
 			
 			for (TransportPoint transportPoint : publicTransportStops.values()) {
 				// Search if stop already exists in DB
-				Optional<TransportPoint> transportPointDB = transportPointRepository
-						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(transportPoint.getName(),
+				Boolean transportPointDB = transportPointRepository
+						.existsByNameIgnoreCaseAndLongitudeAndLatitude(transportPoint.getName(),
 								transportPoint.getLongitude(), transportPoint.getLatitude());
-				if (transportPointDB.isEmpty()) {
+				if (!transportPointDB) {
 					transportPointRepository.save(transportPoint);
 				}
 
@@ -511,22 +520,26 @@ public class LoadPointsComponent implements CommandLineRunner {
 			File stopsCoord = new ClassPathResource(stopsFile).getFile();
 			
 			JsonNode stops = objectMapper.readTree(stopsCoord).get("data");
+			// In file get name and coordinates for each stop
 			for (JsonNode stop: stops) {
 				String name = stop.get("name").asText();
+				String number = stop.get("number").asText();
 				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
 				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
 				
 				// Search if stop already exists in DB
-				Optional<TransportPoint> transportPointDB = transportPointRepository
-						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(name,
-								longitude, latitude);
-				if (transportPointDB.isEmpty()) {
-					transportPointRepository.save(new BycicleTransportPoint(name,longitude, latitude, type));
+				Boolean transportPointDB = transportPointRepository
+						.existsByStationNumber(number);
+				if (!transportPointDB) {
+					transportPointRepository.save(new BycicleTransportPoint(number, name, longitude, latitude, type));
 				}
 			}
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		} 
+		
+		// Add availability of each Bike station
+		updateBiciMADStations();
 		
 		try {
 			waitToEnd.await();
@@ -535,7 +548,13 @@ public class LoadPointsComponent implements CommandLineRunner {
 		}
 		
 	}
-	/*
+	
+	/**
+	 * This method is executed all the days every 30 minutes (and the first time the
+	 * server is activated), checking for new information and deleting old information.
+	 * cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the week
+	 */
+	@Scheduled(cron = "0 0/30 * * * ?", zone = "Europe/Madrid")
 	private void updateBiciMADStations() {
 		// Web page EMT api
 		WebClient client = WebClient.create(
@@ -543,15 +562,18 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 		ObjectNode response = client.get().retrieve().bodyToMono(ObjectNode.class).block();
 		
-		for (JsonNode station : response) {
-			System.out.println();
-			//String name = station.get("name").asText();
-			//Integer aqi = station.get("aqi").asInt();
-			//airQualityStations.put(name, aqi);
+		JsonNode stations = response.get("data");
+		for (JsonNode station : stations) {
+			Integer activate = station.get("activate").asInt();
+			Integer no_available = station.get("no_available").asInt();
+			Integer total_bases = station.get("total_bases").asInt();
+			Integer dock_bikes = station.get("dock_bikes").asInt();
+			Integer free_bases = station.get("free_bases").asInt();
+			Integer reservations_count = station.get("reservations_count").asInt();
 		}
 		
 	}
-	*/
+	
 
 	private Double tryParseDouble(String parseString) {
 		try {

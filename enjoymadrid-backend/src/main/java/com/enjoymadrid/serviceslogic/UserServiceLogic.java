@@ -46,26 +46,21 @@ public class UserServiceLogic implements UserService {
 	@Override
 	public User updateUser(Long userId, User updatedUser, String oldPassword) {
 		User pastUser = getUser(userId);
-		
-		updatedUser.setId(pastUser.getId());
-		updatedUser.setPhoto(pastUser.getPhoto());
-		updatedUser.setRoutes(pastUser.getRoutes());
-		
+				
 		// Check if current password matches the password inserted in the form as current password
 		if (oldPassword != null && !oldPassword.isBlank() 
 				&& !passwordEncoder.matches(oldPassword, pastUser.getPassword())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La contraseña actual es incorrecta!");
 		}
+		
+		pastUser.setName(updatedUser.getName());
 						
 		// If user changes password, encode and save it
 		if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
-			updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-		} else {
-			updatedUser.setPassword(pastUser.getPassword());
-		}
+			pastUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+		} 
 				
-		
-		return this.userRepository.save(updatedUser);
+		return this.userRepository.save(pastUser);
 	}
 	
 	@Override

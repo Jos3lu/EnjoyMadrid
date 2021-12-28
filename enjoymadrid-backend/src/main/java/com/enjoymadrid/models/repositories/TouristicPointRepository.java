@@ -10,7 +10,7 @@ import com.enjoymadrid.models.TouristicPoint;
 
 public interface TouristicPointRepository extends PointRepository<TouristicPoint>{
 			
-	@Query("From TouristicPoint p where :category member p.categories")
+	@Query("Select P From TouristicPoint P where :category member P.categories")
 	Optional<List<TouristicPoint>> findByCategory(@Param("category") String category);
 	
 }

@@ -53,6 +53,7 @@ public class TouristicPoint extends Point {
 	private List<String> images = new LinkedList<>();
 
 	public TouristicPoint() {
+		super();
 	}
 
 	public TouristicPoint(String name, Double longitude, Double latitude) {
