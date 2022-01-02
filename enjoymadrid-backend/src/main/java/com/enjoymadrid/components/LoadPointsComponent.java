@@ -148,9 +148,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 		 * Execute the method updateIcaStations at a random minute. Scheduled annotation
 		 * (above) should end at minute 0. If pool tries to execute at minute 0, there
 		 * might be a race condition with the actual thread running this block. In
-		 * variable minuteExecuteUpdate we exclude the first 5 minutes for this reason.
+		 * variable minuteExecuteUpdate we exclude the first minute for this reason.
 		 */
-		Integer minuteExecuteUpdate = 5 + new Random().nextInt(55);
+		Integer minuteExecuteUpdate = 1 + new Random().nextInt(59);
 		ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
 
 		ex.schedule(() -> updateAqiPoints(), minuteExecuteUpdate, TimeUnit.MINUTES);
@@ -163,7 +163,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 		/*
 		 * Pages ->
+		 * 1.
 		 * https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_5~~TEMP_UNIT_c~~WIND_UNIT_kmh~
+		 * 2.
 		 * https://website-api.airvisual.com/v1/stations/by/cityID/igp7hSLYmouA2JFhu?AQI=US&language=es
 		 */
 
@@ -447,10 +449,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 			ex.shutdownNow();
 			return;
 		}
-		
-		// Add the neighbors
-
-		
+				
 		logger.info("Transport points updated");
 	}
 	
@@ -593,7 +592,6 @@ public class LoadPointsComponent implements CommandLineRunner {
 		
 	}
 	
-
 	private Double tryParseDouble(String parseString) {
 		try {
 			return Double.parseDouble(parseString);
