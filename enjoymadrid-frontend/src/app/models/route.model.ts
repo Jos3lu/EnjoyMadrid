@@ -7,5 +7,6 @@ export interface RouteModel {
     destination?: string;
     totalDist?: number;
     totalTime?: number;
-    date?: Date;
+    date?: Date; 
+    transports?: string[];
 }

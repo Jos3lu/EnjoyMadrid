@@ -16,6 +16,8 @@ export class CreateRoutePage implements OnInit {
   route: RouteModel;
   // Preferences of the user
   preferences: any[];
+  // Modes of transport that will be used in the route
+  transports: any[];
   // Info of the origin point
   originEmpty: boolean 
   origin: any;
@@ -77,6 +79,13 @@ export class CreateRoutePage implements OnInit {
         name: 'Restauración',
         value: 0
       }
+    ];
+
+    this.transports =[
+      { mode: 'Metro', isChecked: true },
+      { mode: 'Bus', isChecked: true },
+      { mode: 'Cercanías', isChecked: true },
+      { mode: 'BiciMAD', isChecked: true }
     ];
 
     this.originEmpty = true;
@@ -147,12 +156,16 @@ export class CreateRoutePage implements OnInit {
 
   async onCreateRoute() {
 
-    let mapPreferences = this.preferences.reduce((map, preference) => {
+    this.route.preferences = this.preferences.reduce((map, preference) => {
       map.set(preference.name, preference.value);
       return map;
     }, new Map<string, number>());
 
-    this.route.preferences = mapPreferences;
+    this.route.transports = this.transports.reduce((list, transport) => {
+      if (transport.isChecked) list.push(transport.mode);
+      return list;
+    }, []);
+    
     this.route.origin = this.origin.latitude + ',' + this.origin.longitude;
     this.route.destination = this.destination.latitude + ',' + this.destination.longitude;
 

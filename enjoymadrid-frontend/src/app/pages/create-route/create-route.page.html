@@ -22,8 +22,8 @@
           </div>
           <ion-list lines="none">
             <ion-list-header>Preferencias</ion-list-header>
-            <ion-item-group *ngFor="let preference of preferences; let i = index">
-              <ion-item>
+            <ion-item-group>
+              <ion-item *ngFor="let preference of preferences; let i = index">
                 <ion-label class="ion-text-wrap">{{preference.name}}</ion-label>
                 <div slot="start">
                   <ion-icon class="color-star" name="star" *ngFor="let n of [1,2,3,4,5]"
@@ -42,7 +42,7 @@
                 <ion-label class="ion-text-wrap" slot="end">2 km</ion-label>
               </ion-range>
             </ion-item>
-          </ion-list>
+          </ion-list> 
           <ion-list>
             <ion-list-header>Origen y Destino</ion-list-header>
             <ion-item>
@@ -55,6 +55,15 @@
               <ion-input type="text" [(ngModel)]="destination.location" placeholder="Elige un punto de destino" (ionFocus)="selectDestination()"
                 name="destination" required></ion-input>
             </ion-item>
+          </ion-list>
+          <ion-list lines="none">
+            <ion-list-header>Transportes a elegir</ion-list-header>
+            <ion-item-group>
+              <ion-item *ngFor="let transport of transports">
+                <ion-label>{{transport.mode}}</ion-label>
+                <ion-checkbox name="{{transport.mode}" slot="start" [(ngModel)]="transport.isChecked"></ion-checkbox>
+              </ion-item>
+            </ion-item-group>
           </ion-list>
 
           <div class="ion-text-end ion-margin-top">

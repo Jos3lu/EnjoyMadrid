@@ -6,17 +6,11 @@ import javax.persistence.Entity;
 public class BycicleTransportPoint extends TransportPoint {
 	
 	private String stationNumber;
-
 	private Integer totalBases;
-	
 	private Integer dockBases;
-	
 	private Integer freeBases;
-	
 	private Boolean activate;
-	
 	private Boolean no_available;
-	
 	private Integer reservations;
 	
 	public BycicleTransportPoint() {

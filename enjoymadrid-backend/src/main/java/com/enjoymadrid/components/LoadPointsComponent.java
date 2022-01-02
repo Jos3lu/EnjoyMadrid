@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -86,6 +87,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
 		userRepository.save(user3);
+
 
 		loadDataAirQualityPoints();
 		loadDataTouristicPoints();
@@ -425,9 +427,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private void loadDataTransportPoints() {		
 		// Data sources
 		String[][] publicTransportTypes = {
-				{"subway", "static/subway/estaciones_red_de_metro.geojson", "static/subway/paradas_por_itinerario_red_de_metro.geojson"}, 
-				{"bus", "static/bus/estaciones_red_de_autobuses_urbanos_de_madrid__EMT.geojson", "static/bus/paradas_por_itinerario_red_de_autobuses_urbanos_de_madrid__EMT.geojson"}, 
-				{"commuter", "static/commuter/estaciones_red_de_cercanias.geojson", "static/commuter/paradas_por_itinerario_red_de_cercanias.geojson"}
+				{"Metro", "static/subway/estaciones_red_de_metro.geojson", "static/subway/paradas_por_itinerario_red_de_metro.geojson"}, 
+				{"Bus", "static/bus/estaciones_red_de_autobuses_urbanos_de_madrid__EMT.geojson", "static/bus/paradas_por_itinerario_red_de_autobuses_urbanos_de_madrid__EMT.geojson"}, 
+				{"Cercanías", "static/commuter/estaciones_red_de_cercanias.geojson", "static/commuter/paradas_por_itinerario_red_de_cercanias.geojson"}
 		};
 		
 		// Thread for each type of transport
@@ -439,7 +441,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		for (String[] publicTransport: publicTransportTypes) {
 			ex.execute(() -> loadDataPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2], waitToEnd));
 		}	
-		ex.execute(() -> loadDataBiciMADPoints("bicycle", "static/bicycle/estaciones_bici_transporte_publico.geojson", waitToEnd));
+		ex.execute(() -> loadDataBiciMADPoints("BiciMAD", "static/bicycle/estaciones_bici_transporte_publico.geojson", waitToEnd));
 		ex.shutdown();
 				
 		try {
