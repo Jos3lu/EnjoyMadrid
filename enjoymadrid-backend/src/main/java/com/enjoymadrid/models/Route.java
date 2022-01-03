@@ -33,15 +33,15 @@ public class Route {
 	private String name;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotEmpty(message = "Origin cannot be empty")
+	@NotBlank(message = "Origin cannot be empty")
 	private String origin;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotEmpty(message = "Destination cannot be empty")
+	@NotBlank(message = "Destination cannot be empty")
 	private String destination;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotEmpty(message = "Origin cannot be empty")
+	@NotNull(message = "Origin cannot be empty")
 	private Integer maxDistance;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
@@ -74,9 +74,9 @@ public class Route {
 	public Route() {}
 	
 	public Route(@NotBlank(message = "Name cannot be empty") String name,
-			@NotEmpty(message = "Origin cannot be empty") String origin,
-			@NotEmpty(message = "Destination cannot be empty") String destination,
-			@NotEmpty(message = "Origin cannot be empty") Integer maxDistance,
+			@NotBlank(message = "Origin cannot be empty") String origin,
+			@NotBlank(message = "Destination cannot be empty") String destination,
+			@NotNull(message = "Origin cannot be empty") Integer maxDistance,
 			@NotNull(message = "Mode of transports cannot be empty") List<String> transports,
 			@NotNull(message = "Date cannot be empty") LocalDate date, 
 			@NotNull(message = "Preferences cannot be empty") Map<String, Integer> preferences) {

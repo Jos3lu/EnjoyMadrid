@@ -1,8 +1,8 @@
 export interface RouteModel {
     id?: number;
     name: string;
-    preferences?: Map<string, number>;
-    maxDist?: number;
+    preferences?: {[key: string]: number};
+    maxDistance?: number;
     origin?: string;
     destination?: string;
     totalDist?: number;

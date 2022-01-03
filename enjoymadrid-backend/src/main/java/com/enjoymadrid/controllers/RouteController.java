@@ -43,6 +43,8 @@ public class RouteController {
 	//@JsonView(RouteInterfaces.PointsData.class)
 	public ResponseEntity<List<TouristicPoint>> createRoute(@Valid @RequestBody RouteDto routeDto) {
 		LocalDate date = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate();
+		Route route = new Route(routeDto.getName(), routeDto.getOrigin(), routeDto.getDestination(),
+				routeDto.getMaxDistance(), routeDto.getTransports(), date, routeDto.getPreferences());
 		return ResponseEntity.ok().build();
 	}
 	

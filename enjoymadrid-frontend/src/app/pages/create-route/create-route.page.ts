@@ -39,7 +39,7 @@ export class CreateRoutePage implements OnInit {
 
     this.route = { 
       name: '', 
-      maxDist: 1000 
+      maxDistance: 1000 
     };
 
     this.preferences = [
@@ -157,9 +157,10 @@ export class CreateRoutePage implements OnInit {
   async onCreateRoute() {
 
     this.route.preferences = this.preferences.reduce((map, preference) => {
-      map.set(preference.name, preference.value);
+      map[preference.name] = preference.value;
       return map;
-    }, new Map<string, number>());
+    }, {});
+    
 
     this.route.transports = this.transports.reduce((list, transport) => {
       if (transport.isChecked) list.push(transport.mode);
@@ -169,14 +170,12 @@ export class CreateRoutePage implements OnInit {
     this.route.origin = this.origin.latitude + ',' + this.origin.longitude;
     this.route.destination = this.destination.latitude + ',' + this.destination.longitude;
 
-    
-/*
     this.routeService.createRoute(this.route).subscribe(
       (points: any) => {
         console.log(points);
       }
     );
-*/
+
   }
 
 }
