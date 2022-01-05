@@ -11,4 +11,6 @@ public interface RouteService {
 
 	public List<Route> getUserRoutes(Long userId);
 	
+	public Route createRoute(Route route);
+	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enjoymadrid.models.dtos.RouteDto;
+import com.enjoymadrid.models.interfaces.RouteInterfaces;
 import com.enjoymadrid.models.interfaces.UserInterfaces;
 import com.enjoymadrid.models.Route;
-import com.enjoymadrid.models.TouristicPoint;
 import com.enjoymadrid.services.RouteService;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -40,12 +41,13 @@ public class RouteController {
 	}
 	
 	@PostMapping("/routes")
-	//@JsonView(RouteInterfaces.PointsData.class)
-	public ResponseEntity<List<TouristicPoint>> createRoute(@Valid @RequestBody RouteDto routeDto) {
+	@JsonView(RouteInterfaces.BasicData.class)
+	public ResponseEntity<Route> createRoute(@Valid @RequestBody RouteDto routeDto) {
 		LocalDate date = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate();
 		Route route = new Route(routeDto.getName(), routeDto.getOrigin(), routeDto.getDestination(),
 				routeDto.getMaxDistance(), routeDto.getTransports(), date, routeDto.getPreferences());
-		return ResponseEntity.ok().build();
+		route = this.routeService.createRoute(route);
+		return new ResponseEntity<>(route, HttpStatus.CREATED);
 	}
 	
 }

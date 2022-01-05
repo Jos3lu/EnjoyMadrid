@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.enjoymadrid.models.interfaces.RouteInterfaces;
@@ -41,7 +40,7 @@ public class Route {
 	private String destination;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotNull(message = "Origin cannot be empty")
+	@NotNull(message = "Max distance cannot be empty")
 	private Integer maxDistance;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
@@ -76,7 +75,7 @@ public class Route {
 	public Route(@NotBlank(message = "Name cannot be empty") String name,
 			@NotBlank(message = "Origin cannot be empty") String origin,
 			@NotBlank(message = "Destination cannot be empty") String destination,
-			@NotNull(message = "Origin cannot be empty") Integer maxDistance,
+			@NotNull(message = "Max distance cannot be empty") Integer maxDistance,
 			@NotNull(message = "Mode of transports cannot be empty") List<String> transports,
 			@NotNull(message = "Date cannot be empty") LocalDate date, 
 			@NotNull(message = "Preferences cannot be empty") Map<String, Integer> preferences) {

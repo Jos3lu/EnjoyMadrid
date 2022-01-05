@@ -167,8 +167,8 @@ export class CreateRoutePage implements OnInit {
       return list;
     }, []);
     
-    this.route.origin = this.origin.latitude + ',' + this.origin.longitude;
-    this.route.destination = this.destination.latitude + ',' + this.destination.longitude;
+    this.route.origin = this.origin.location + ': ' + this.origin.latitude + ',' + this.origin.longitude;
+    this.route.destination = this.destination.location + ': ' + this.destination.latitude + ',' + this.destination.longitude;
 
     this.routeService.createRoute(this.route).subscribe(
       (points: any) => {
