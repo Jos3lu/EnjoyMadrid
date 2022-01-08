@@ -1,8 +1,10 @@
 package com.enjoymadrid.models;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("AirQuality")
 public class AirQualityPoint extends Point {
 
 	private Integer aqi;

@@ -2,6 +2,7 @@ package com.enjoymadrid.models;
 
 import java.util.Objects;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,8 +16,9 @@ import com.enjoymadrid.models.interfaces.PointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Point {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "POINT_TYPE")
+public class Point {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

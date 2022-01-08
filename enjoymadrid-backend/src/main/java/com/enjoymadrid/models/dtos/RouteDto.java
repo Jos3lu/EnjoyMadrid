@@ -6,19 +6,21 @@ import java.util.Map;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.enjoymadrid.models.Point;
+
 public class RouteDto {
 		
 	@NotBlank(message = "Name cannot be empty")
 	private String name;
 	
-	@NotBlank(message = "Origin cannot be empty")
-	private String origin;
+	@NotNull(message = "Origin cannot be empty")
+	private Point origin;
 	
-	@NotBlank(message = "Destination cannot be empty")
-	private String destination;
+	@NotNull(message = "Destination cannot be empty")
+	private Point destination;
 	
 	@NotNull(message = "Origin cannot be empty")
-	private Integer maxDistance;
+	private Double maxDistance;
 	
 	@NotNull(message = "Mode of transports cannot be empty")
 	private List<String> transports;
@@ -34,27 +36,27 @@ public class RouteDto {
 		this.name = name;
 	}
 
-	public String getOrigin() {
+	public Point getOrigin() {
 		return origin;
 	}
 
-	public void setOrigin(String origin) {
+	public void setOrigin(Point origin) {
 		this.origin = origin;
 	}
 
-	public String getDestination() {
+	public Point getDestination() {
 		return destination;
 	}
 
-	public void setDestination(String destination) {
+	public void setDestination(Point destination) {
 		this.destination = destination;
 	}
 
-	public Integer getMaxDistance() {
+	public Double getMaxDistance() {
 		return maxDistance;
 	}
 
-	public void setMaxDistance(Integer maxDistance) {
+	public void setMaxDistance(Double maxDistance) {
 		this.maxDistance = maxDistance;
 	}
 

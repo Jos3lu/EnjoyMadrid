@@ -6,12 +6,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -32,21 +34,30 @@ public class Route {
 	private String name;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotBlank(message = "Origin cannot be empty")
-	private String origin;
+	@NotNull(message = "Origin cannot be empty")
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Point origin;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotBlank(message = "Destination cannot be empty")
-	private String destination;
+	@NotNull(message = "Destination cannot be empty")
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Point destination;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@NotNull(message = "Max distance cannot be empty")
-	private Integer maxDistance;
+	private Double maxDistance;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@ElementCollection
 	@NotNull(message = "Mode of transports cannot be empty")
 	private List<String> transports = new LinkedList<>();
+	
+	@JsonView(RouteInterfaces.BasicData.class)
+	@ElementCollection
+	@MapKeyColumn(name = "PREFERENCES")
+	@Column(name = "PREFRENCES_VALUE")
+	@NotNull(message = "Preferences cannot be empty")
+	private Map<String, Integer> preferences = new HashMap<>();
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@NotNull(message = "Date cannot be empty")
@@ -57,14 +68,7 @@ public class Route {
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	private Double distance;
-	
-	@JsonView(RouteInterfaces.BasicData.class)
-	@ElementCollection
-	@MapKeyColumn(name = "PREFERENCES")
-	@Column(name = "PREFRENCES_VALUE")
-	@NotNull(message = "Preferences cannot be empty")
-	private Map<String, Integer> preferences = new HashMap<>();
-	
+		
 	//@ManyToMany
 	//@JoinTable(name="ROUTE_POINT", joinColumns=@JoinColumn(name="ROUTE_ID"), inverseJoinColumns=@JoinColumn(name="POINT_ID"))
 	//@JsonView(RouteInterfaces.PointsData.class)
@@ -73,9 +77,9 @@ public class Route {
 	public Route() {}
 	
 	public Route(@NotBlank(message = "Name cannot be empty") String name,
-			@NotBlank(message = "Origin cannot be empty") String origin,
-			@NotBlank(message = "Destination cannot be empty") String destination,
-			@NotNull(message = "Max distance cannot be empty") Integer maxDistance,
+			@NotNull(message = "Origin cannot be empty") Point origin,
+			@NotNull(message = "Destination cannot be empty") Point destination,
+			@NotNull(message = "Max distance cannot be empty") Double maxDistance,
 			@NotNull(message = "Mode of transports cannot be empty") List<String> transports,
 			@NotNull(message = "Date cannot be empty") LocalDate date, 
 			@NotNull(message = "Preferences cannot be empty") Map<String, Integer> preferences) {
@@ -104,27 +108,27 @@ public class Route {
 		this.name = name;
 	}
 
-	public String getOrigin() {
+	public Point getOrigin() {
 		return origin;
 	}
 
-	public void setOrigin(String origin) {
+	public void setOrigin(Point origin) {
 		this.origin = origin;
 	}
 
-	public String getDestination() {
+	public Point getDestination() {
 		return destination;
 	}
 
-	public void setDestination(String destination) {
+	public void setDestination(Point destination) {
 		this.destination = destination;
 	}
 
-	public Integer getMaxDistance() {
+	public Double getMaxDistance() {
 		return maxDistance;
 	}
 
-	public void setMaxDistance(Integer maxDistance) {
+	public void setMaxDistance(Double maxDistance) {
 		this.maxDistance = maxDistance;
 	}
 

@@ -1,5 +1,6 @@
 package com.enjoymadrid.models;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorValue("Transport")
 public abstract class TransportPoint extends Point {
 		
 	@JsonView(TransportPointInterfaces.BasicData.class)

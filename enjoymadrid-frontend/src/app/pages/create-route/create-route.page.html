@@ -36,7 +36,7 @@
           <ion-list lines="none">
             <ion-list-header>Distancia máxima andando hasta el siguiente modo de transporte</ion-list-header>
             <ion-item>
-              <ion-range color="secondary" step="100" name="points" [(ngModel)]="route.maxDistance" min="300" max="2000"
+              <ion-range color="secondary" step="100" name="points" [(ngModel)]="maxDistance" min="300" max="2000"
                 pin>
                 <ion-label class="ion-text-wrap" slot="start">0.3 km</ion-label>
                 <ion-label class="ion-text-wrap" slot="end">2 km</ion-label>
@@ -47,12 +47,12 @@
             <ion-list-header>Origen y Destino</ion-list-header>
             <ion-item>
               <ion-label position="stacked">Localización de origen</ion-label>
-              <ion-input type="text" [(ngModel)]="origin.location" placeholder="Elige un punto de origen" (ionFocus)="selectOrigin()" name="origin"
+              <ion-input type="text" [(ngModel)]="route.origin.name" placeholder="Elige un punto de origen" (ionFocus)="selectOrigin()" name="origin"
                 required></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="stacked">Localización de destino</ion-label>
-              <ion-input type="text" [(ngModel)]="destination.location" placeholder="Elige un punto de destino" (ionFocus)="selectDestination()"
+              <ion-input type="text" [(ngModel)]="route.destination.name" placeholder="Elige un punto de destino" (ionFocus)="selectDestination()"
                 name="destination" required></ion-input>
             </ion-item>
           </ion-list>

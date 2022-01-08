@@ -1,8 +1,6 @@
-export interface TouristicPointModel {
-    id?: number;
-    longitude?: number;
-    latitude?: number;
-    name?: string;
+import { PointModel } from "./point-model";
+
+export interface TouristicPointModel extends PointModel {
     address?: string;
     zipcode?: number;
     phone?: string;

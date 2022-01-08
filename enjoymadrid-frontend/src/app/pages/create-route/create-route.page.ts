@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { PointModel } from 'src/app/models/point-model';
 import { RouteModel } from 'src/app/models/route.model';
 import { RouteService } from 'src/app/services/route/route.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
@@ -18,12 +19,12 @@ export class CreateRoutePage implements OnInit {
   preferences: any[];
   // Modes of transport that will be used in the route
   transports: any[];
-  // Info of the origin point
+  // Max distance to walk 
+  maxDistance: number;
+  // Origin point is empty
   originEmpty: boolean 
-  origin: any;
-  // Info of the destination point
+  // Destination point is empty
   destinationEmpty: boolean;
-  destination: any;
 
   constructor(
     private sharedService: SharedService,
@@ -38,47 +39,21 @@ export class CreateRoutePage implements OnInit {
   initRoute() {
 
     this.route = { 
-      name: '', 
-      maxDistance: 1000 
+      name: ''
     };
 
+    this.maxDistance = 1000;
+
     this.preferences = [
-      {
-        name: 'Cultura y arte', 
-        value: 0
-      }, 
-      {
-        name: 'Parques y jardines',
-        value: 0
-      }, 
-      {
-        name: 'Escuelas de cocina y catas de vinos y aceites',
-        value: 0
-      },
-      {
-        name: 'Empresas de guías Turísticas',
-        value: 0
-      },
-      {
-        name: 'Edificios y monumentos',
-        value : 0
-      },
-      {
-        name: 'Centros de ocio',
-        value: 0
-      },
-      {
-        name: 'Deporte',
-        value: 0
-      },
-      {
-        name: 'Tiendas',
-        value: 0
-      },
-      {
-        name: 'Restauración',
-        value: 0
-      }
+      { name: 'Cultura y arte', value: 0 }, 
+      { name: 'Parques y jardines', value: 0 }, 
+      { name: 'Escuelas de cocina y catas de vinos y aceites', value: 0 },
+      { name: 'Empresas de guías Turísticas', value: 0 },
+      { name: 'Edificios y monumentos', value : 0 },
+      { name: 'Centros de ocio', value: 0 },
+      { name: 'Deporte', value: 0 },
+      { name: 'Tiendas', value: 0 },
+      { name: 'Restauración', value: 0 }
     ];
 
     this.transports =[
@@ -89,22 +64,22 @@ export class CreateRoutePage implements OnInit {
     ];
 
     this.originEmpty = true;
-    this.origin = {
+    this.route.origin = {
       latitude: 0, 
       longitude: 0, 
-      location: ''
+      name: ''
     };
 
     if (this.sharedService.isDestinationEmpty()) {
       this.destinationEmpty = true;
-      this.destination = {
+      this.route.destination = {
         latitude: 0, 
         longitude: 0, 
-        location: ''
+        name: ''
       };
     } else {
       this.destinationEmpty = false;
-      this.destination = this.sharedService.getDestination();
+      this.route.destination = this.sharedService.getDestination();
       this.sharedService.setDestination({}, true);
     }
 
@@ -125,7 +100,7 @@ export class CreateRoutePage implements OnInit {
       componentProps: {
         'isOrigin': true,
         'pointEmpty': this.originEmpty,
-        'point': this.origin
+        'point': this.route.origin
       }
     });
     modal.present();
@@ -133,7 +108,7 @@ export class CreateRoutePage implements OnInit {
     const location = await modal.onWillDismiss();
     if (!location.data) return;
     this.originEmpty = false;
-    this.origin = location.data.point;
+    this.route.origin = location.data.point;
   }
 
   async selectDestination() {
@@ -143,7 +118,7 @@ export class CreateRoutePage implements OnInit {
       componentProps: {
         'isOrigin': false,
         'pointEmpty': this.destinationEmpty,
-        'point': this.destination
+        'point': this.route.destination
       }
     });
     modal.present();
@@ -151,24 +126,25 @@ export class CreateRoutePage implements OnInit {
     const location = await modal.onWillDismiss();
     if (!location.data) return;
     this.destinationEmpty = false;
-    this.destination = location.data.point;
+    this.route.destination = location.data.point;
   }
 
   async onCreateRoute() {
 
+    // Transform preferences from Star rating to Map
     this.route.preferences = this.preferences.reduce((map, preference) => {
       map[preference.name] = preference.value;
       return map;
     }, {});
     
-
+    // Transform transports from checkbox to list
     this.route.transports = this.transports.reduce((list, transport) => {
       if (transport.isChecked) list.push(transport.mode);
       return list;
     }, []);
     
-    this.route.origin = this.origin.location + ': ' + this.origin.latitude + ',' + this.origin.longitude;
-    this.route.destination = this.destination.location + ': ' + this.destination.latitude + ',' + this.destination.longitude;
+    // Meters -> Kilometers
+    this.route.maxDistance = this.maxDistance / 1000;
 
     this.routeService.createRoute(this.route).subscribe(
       (points: any) => {

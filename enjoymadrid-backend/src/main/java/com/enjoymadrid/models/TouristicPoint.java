@@ -3,6 +3,7 @@ package com.enjoymadrid.models;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -11,6 +12,7 @@ import com.enjoymadrid.models.interfaces.TouristicPointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
+@DiscriminatorValue("Touristic")
 public class TouristicPoint extends Point {
 
 	@JsonView(TouristicPointInterfaces.BasicData.class)

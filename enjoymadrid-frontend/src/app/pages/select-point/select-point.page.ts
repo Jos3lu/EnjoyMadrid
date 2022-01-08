@@ -5,6 +5,7 @@ import * as L from 'leaflet';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { PointModel } from 'src/app/models/point-model';
 
 @Component({
   selector: 'app-select-point',
@@ -16,7 +17,7 @@ export class SelectPointPage implements OnInit {
   // Information passed from create-route page
   @Input() isOrigin: boolean;
   @Input() pointEmpty: boolean;
-  @Input() point: any;
+  @Input() point: PointModel;
 
   // For the geo search
   provider = new OpenStreetMapProvider();
@@ -27,8 +28,7 @@ export class SelectPointPage implements OnInit {
   constructor(
     private geolocation: Geolocation,
     private sharedService: SharedService,
-    private modalController: ModalController,
-    private router: Router
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -103,9 +103,9 @@ export class SelectPointPage implements OnInit {
     });
   }
 
-  setMarker(latitude: number, longitude: number, location: string) {
+  setMarker(latitude: number, longitude: number, name: string) {
     this.pointEmpty = false;
-    this.point = { latitude: latitude, longitude: longitude, location: location };
+    this.point = { latitude: latitude, longitude: longitude, name: name };
     if (this.marker) {
       this.map.removeLayer(this.marker);
     }
