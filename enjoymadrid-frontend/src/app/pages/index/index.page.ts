@@ -10,6 +10,8 @@ export class IndexPage implements OnInit {
 
   public id: string;
 
+  // Momento de obtener las rutas comprobar que el token del usuario no ha caducado
+
   constructor(private activatedRoute: ActivatedRoute) { 
   }
 

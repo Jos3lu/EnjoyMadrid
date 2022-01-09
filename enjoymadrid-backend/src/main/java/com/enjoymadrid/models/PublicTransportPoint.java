@@ -3,10 +3,12 @@ package com.enjoymadrid.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("PublicTransport")
 public class PublicTransportPoint extends TransportPoint {
 
 	@ElementCollection

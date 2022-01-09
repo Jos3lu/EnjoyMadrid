@@ -10,9 +10,9 @@ import com.enjoymadrid.models.interfaces.TransportPointInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorValue("Transport")
-public abstract class TransportPoint extends Point {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class TransportPoint extends Point {
 		
 	@JsonView(TransportPointInterfaces.BasicData.class)
 	@NotEmpty(message = "Type cannot be empty")

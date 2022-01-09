@@ -1,8 +1,10 @@
 package com.enjoymadrid.models;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("BycicleTransport")
 public class BycicleTransportPoint extends TransportPoint {
 	
 	private String stationNumber;

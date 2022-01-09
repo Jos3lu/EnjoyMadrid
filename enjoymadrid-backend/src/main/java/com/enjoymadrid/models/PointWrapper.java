@@ -8,13 +8,16 @@ public class PointWrapper<N> implements Comparable<PointWrapper<N>>{
 	private final double minRemainingCostToTarget;
 	private double costSum;
 	
-	public PointWrapper(N node, PointWrapper<N> previous, double totalCostFromStart, double minRemainingCostToTarget,
-			double costSum) {
+	public PointWrapper(N node, PointWrapper<N> previous, double totalCostFromStart, double minRemainingCostToTarget) {
 		this.node = node;
 		this.previous = previous;
 		this.totalCostFromStart = totalCostFromStart;
 		this.minRemainingCostToTarget = minRemainingCostToTarget;
-		this.costSum = costSum;
+		calculateCostSum();
+	}
+	
+	private void calculateCostSum() {
+		this.costSum = this.totalCostFromStart + this.minRemainingCostToTarget;
 	}
 	
 	public PointWrapper<N> getPrevious() {
@@ -31,6 +34,7 @@ public class PointWrapper<N> implements Comparable<PointWrapper<N>>{
 
 	public void setTotalCostFromStart(double totalCostFromStart) {
 		this.totalCostFromStart = totalCostFromStart;
+		calculateCostSum();
 	}
 
 	public double getCostSum() {
@@ -51,7 +55,6 @@ public class PointWrapper<N> implements Comparable<PointWrapper<N>>{
 
 	@Override
 	public int compareTo(PointWrapper<N> o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	

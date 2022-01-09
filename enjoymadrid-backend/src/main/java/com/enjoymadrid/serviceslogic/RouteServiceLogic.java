@@ -56,24 +56,32 @@ public class RouteServiceLogic implements RouteService {
 		List<String> transports = route.getTransports();
 		Map<String, Integer> preferences = route.getPreferences();
 		
-		List<?> routePoints = findBestRoute(origin, destination, maxDistance, transports, preferences);
+		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transports, preferences);
 		
-		List<AirQualityPoint> airQualityPoints = airQualityPointRepository.findAll();
-		List<TouristicPoint> touristicPoints = touristicPointRepository.findAll();
-		List<TransportPoint> transportPoints = transportPointRepository.findAll();
-		
-		// Use filter of stream to discard points
-		
+		System.out.println("Ruta calculada");
+
 		return new Route();
 	}
 	
-	private <N> List<N> findBestRoute(Point origin, Point destination, Double maxDistance, List<String> transports, Map<String, Integer> preferences) {
+	private List<TransportPoint> findBestRoute(Point origin, Point destination, Double maxDistance, List<String> transports, Map<String, Integer> preferences) {
 		
-		Map<N, PointWrapper<N>> nodes = new HashMap<>();
-		TreeSet<PointWrapper<N>> openList = new TreeSet<>();
-		Set<N> BestPointsFound = new HashSet<>();
+		Map<TransportPoint, PointWrapper<TransportPoint>> nodes = new HashMap<>();
+		TreeSet<PointWrapper<TransportPoint>> openList = new TreeSet<>();
+		Set<TransportPoint> BestPointsFound = new HashSet<>();
+		
+		
+		
+		// Use filter of stream to discard points
+		
+		//List<AirQualityPoint> airQualityPoints = airQualityPointRepository.findAll();
+		//List<TouristicPoint> touristicPoints = touristicPointRepository.findAll();
+		//List<TransportPoint> transportPoints = transportPointRepository.findAll();
 		
 		return new ArrayList<>();
+	}
+	
+	private double calculateDistance(Point origin, Point destination) {
+		return haversine(origin.getLatitude(), origin.getLongitude(), destination.getLatitude(), destination.getLongitude());
 	}
 	
 	/**

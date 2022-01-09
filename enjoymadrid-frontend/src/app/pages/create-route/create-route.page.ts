@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { PointModel } from 'src/app/models/point-model';
 import { RouteModel } from 'src/app/models/route.model';
 import { RouteService } from 'src/app/services/route/route.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
@@ -39,8 +38,23 @@ export class CreateRoutePage implements OnInit {
   initRoute() {
 
     this.route = { 
-      name: ''
+      name: '',
+      preferences: {},
+      maxDistance: 1,
+      origin: {name: '', latitude: 0, longitude: 0},
+      destination: {name: '', latitude: 0, longitude: 0},
+      transports: []
     };
+
+    this.originEmpty = true;
+
+    if (this.sharedService.isDestinationEmpty()) {
+      this.destinationEmpty = true;
+    } else {
+      this.destinationEmpty = false;
+      this.route.destination = this.sharedService.getDestination();
+      this.sharedService.setDestination(undefined, true);
+    }
 
     this.maxDistance = 1000;
 
@@ -62,26 +76,6 @@ export class CreateRoutePage implements OnInit {
       { mode: 'Cercanías', isChecked: true },
       { mode: 'BiciMAD', isChecked: true }
     ];
-
-    this.originEmpty = true;
-    this.route.origin = {
-      latitude: 0, 
-      longitude: 0, 
-      name: ''
-    };
-
-    if (this.sharedService.isDestinationEmpty()) {
-      this.destinationEmpty = true;
-      this.route.destination = {
-        latitude: 0, 
-        longitude: 0, 
-        name: ''
-      };
-    } else {
-      this.destinationEmpty = false;
-      this.route.destination = this.sharedService.getDestination();
-      this.sharedService.setDestination({}, true);
-    }
 
   }
 
