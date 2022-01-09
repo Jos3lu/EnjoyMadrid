@@ -36,12 +36,12 @@ public class Route {
 	@JsonView(RouteInterfaces.BasicData.class)
 	@NotNull(message = "Origin cannot be empty")
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Point origin;
+	private TransportPoint origin;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@NotNull(message = "Destination cannot be empty")
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Point destination;
+	private TransportPoint destination;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@NotNull(message = "Max distance cannot be empty")
@@ -77,8 +77,8 @@ public class Route {
 	public Route() {}
 	
 	public Route(@NotBlank(message = "Name cannot be empty") String name,
-			@NotNull(message = "Origin cannot be empty") Point origin,
-			@NotNull(message = "Destination cannot be empty") Point destination,
+			@NotNull(message = "Origin cannot be empty") TransportPoint origin,
+			@NotNull(message = "Destination cannot be empty") TransportPoint destination,
 			@NotNull(message = "Max distance cannot be empty") Double maxDistance,
 			@NotNull(message = "Mode of transports cannot be empty") List<String> transports,
 			@NotNull(message = "Date cannot be empty") LocalDate date, 
@@ -108,19 +108,19 @@ public class Route {
 		this.name = name;
 	}
 
-	public Point getOrigin() {
+	public TransportPoint getOrigin() {
 		return origin;
 	}
 
-	public void setOrigin(Point origin) {
+	public void setOrigin(TransportPoint origin) {
 		this.origin = origin;
 	}
 
-	public Point getDestination() {
+	public TransportPoint getDestination() {
 		return destination;
 	}
 
-	public void setDestination(Point destination) {
+	public void setDestination(TransportPoint destination) {
 		this.destination = destination;
 	}
 

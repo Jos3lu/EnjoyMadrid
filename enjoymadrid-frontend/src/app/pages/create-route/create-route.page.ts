@@ -41,8 +41,8 @@ export class CreateRoutePage implements OnInit {
       name: '',
       preferences: {},
       maxDistance: 1,
-      origin: {name: '', latitude: 0, longitude: 0},
-      destination: {name: '', latitude: 0, longitude: 0},
+      origin: { name: '', latitude: 0, longitude: 0 },
+      destination: { name: '', latitude: 0, longitude: 0 },
       transports: []
     };
 

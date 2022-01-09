@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -50,38 +51,95 @@ public class RouteServiceLogic implements RouteService {
 	@Override
 	public Route createRoute(Route route) {
 		
-		Point origin = route.getOrigin();
-		Point destination = route.getDestination();		
+		// Parameters to create route
+		TransportPoint origin = route.getOrigin();
+		TransportPoint destination = route.getDestination();		
 		Double maxDistance = route.getMaxDistance();
-		List<String> transports = route.getTransports();
 		Map<String, Integer> preferences = route.getPreferences();
 		
-		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transports, preferences);
+		// Get all the transport points selected by user
+		List<String> transports = route.getTransports();
+		List<TransportPoint> transportPoints = transportPointRepository.findByTypeIn(transports);
 		
-		System.out.println("Ruta calculada");
+		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transportPoints, preferences);
+		
+		routePoints.forEach(point -> System.out.println(point.toString()));
 
 		return new Route();
 	}
 	
-	private List<TransportPoint> findBestRoute(Point origin, Point destination, Double maxDistance, List<String> transports, Map<String, Integer> preferences) {
+	private <N> List<N> findBestRoute(N origin, N destination, Double maxDistance, List<N> transportPoints, Map<String, Integer> preferences) {
 		
-		Map<TransportPoint, PointWrapper<TransportPoint>> nodes = new HashMap<>();
-		TreeSet<PointWrapper<TransportPoint>> openList = new TreeSet<>();
-		Set<TransportPoint> BestPointsFound = new HashSet<>();
+		// Map that delivers the wrapper for a point
+		Map<N, PointWrapper<N>> points = new HashMap<>();
+		// Iterate over the points ordered by best cost
+		TreeSet<PointWrapper<N>> openList = new TreeSet<>();
+		// Check if a point has already been processed
+		Set<N> bestPointsFound = new HashSet<>();
 		
+		// Add origin point
+		PointWrapper<N> originWrapper = new PointWrapper<>(origin, null, 0.0, calculateDistance(origin, destination));
+		points.put(origin, originWrapper);
+		openList.add(originWrapper);
 		
+		while (!openList.isEmpty()) {
+			PointWrapper<N> pointWrapper = openList.pollFirst();
+			N point = pointWrapper.getNode();
+			bestPointsFound.add(point);
+			
+			// Point destination reached, return list of points
+			if (calculateDistance(point, destination) <= maxDistance) {
+				List<N> route = new ArrayList<>();
+				while (pointWrapper != null) {
+					route.add(0, pointWrapper.getNode());
+					pointWrapper = pointWrapper.getPrevious();
+				}
+				return route;
+			}
+			
+			// Iterate over neighbors
+			Set<N> neighbors = transportPoints.parallelStream().filter(neighbor -> (calculateDistance(point, neighbor) <= maxDistance)).collect(Collectors.toSet());
+			for (N neighbor: neighbors) {
+				// Continue with next neighbor if already in best points
+				if (bestPointsFound.contains(neighbor)) {
+					continue;
+				}
+				
+				// Calculate cost from start to neighbor via current node
+				double cost = calculateDistance(point, neighbor);
+				double totalCostFromStart = pointWrapper.getTotalCostFromStart() + cost;
+				
+				// Neighbor not discovered yet
+				PointWrapper<N> neighborWrapper = points.get(neighbor);
+				if (neighborWrapper == null) {
+					neighborWrapper = new PointWrapper<N>(neighbor, pointWrapper, totalCostFromStart, calculateDistance(neighbor, destination));
+					points.put(neighbor, neighborWrapper);
+					openList.add(neighborWrapper);
+				} 
+				// Neighbor discovered, but total cost via current node is lower -> Update costs & previous point
+				else if (totalCostFromStart < neighborWrapper.getTotalCostFromStart()) {
+					openList.remove(neighborWrapper);
+					neighborWrapper.setTotalCostFromStart(totalCostFromStart);
+					neighborWrapper.setPrevious(pointWrapper);
+					openList.add(neighborWrapper);
+				}
+				
+			}
+			
+		}
 		
 		// Use filter of stream to discard points
 		
 		//List<AirQualityPoint> airQualityPoints = airQualityPointRepository.findAll();
 		//List<TouristicPoint> touristicPoints = touristicPointRepository.findAll();
-		//List<TransportPoint> transportPoints = transportPointRepository.findAll();
 		
-		return new ArrayList<>();
+		return null;
 	}
 	
-	private double calculateDistance(Point origin, Point destination) {
-		return haversine(origin.getLatitude(), origin.getLongitude(), destination.getLatitude(), destination.getLongitude());
+	private <N> double calculateDistance(N origin, N destination) {
+		Point source = (Point) origin;
+		Point target = (Point) destination;
+		return haversine(source.getLatitude(), source.getLongitude(), target.getLatitude(), target.getLongitude());
 	}
 	
 	/**
@@ -107,7 +165,7 @@ public class RouteServiceLogic implements RouteService {
 				+ Math.pow(Math.sin(distLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
 		double c = 2 * Math.asin(Math.sqrt(h)); //2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h)); 
 		
-		return R * c * 1000;
+		return R * c;
 	}
 
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.enjoymadrid.models.Point;
+import com.enjoymadrid.models.TransportPoint;
 
 public class RouteDto {
 		
@@ -14,10 +14,10 @@ public class RouteDto {
 	private String name;
 	
 	@NotNull(message = "Origin cannot be empty")
-	private Point origin;
+	private TransportPoint origin;
 	
 	@NotNull(message = "Destination cannot be empty")
-	private Point destination;
+	private TransportPoint destination;
 	
 	@NotNull(message = "Origin cannot be empty")
 	private Double maxDistance;
@@ -36,19 +36,19 @@ public class RouteDto {
 		this.name = name;
 	}
 
-	public Point getOrigin() {
+	public TransportPoint getOrigin() {
 		return origin;
 	}
 
-	public void setOrigin(Point origin) {
+	public void setOrigin(TransportPoint origin) {
 		this.origin = origin;
 	}
 
-	public Point getDestination() {
+	public TransportPoint getDestination() {
 		return destination;
 	}
 
-	public void setDestination(Point destination) {
+	public void setDestination(TransportPoint destination) {
 		this.destination = destination;
 	}
 

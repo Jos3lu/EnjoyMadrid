@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { toastController } from '@ionic/core';
 import { throwError } from 'rxjs';
-import { PointModel } from 'src/app/models/point-model';
+import { TransportPointModel } from 'src/app/models/transport-point.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class SharedService {
 
   // Communicate info-place with create-route page
   private destinationEmpty: boolean = true;
-  private destination: PointModel;
+  private destination: TransportPointModel;
 
   constructor() { 
   }
@@ -23,7 +23,7 @@ export class SharedService {
     return this.destinationEmpty;
   }
 
-  setDestination(destination: PointModel, destinationEmpty: boolean) {
+  setDestination(destination: TransportPointModel, destinationEmpty: boolean) {
     this.destinationEmpty = destinationEmpty;
     this.destination = destination;
   }
