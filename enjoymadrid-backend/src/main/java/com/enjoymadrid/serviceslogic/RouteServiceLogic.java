@@ -68,7 +68,7 @@ public class RouteServiceLogic implements RouteService {
 		return new Route();
 	}
 	
-	private <N> List<N> findBestRoute(N origin, N destination, Double maxDistance, List<N> transportPoints, Map<String, Integer> preferences) {
+	private <N extends Comparable<N>> List<N> findBestRoute(N origin, N destination, Double maxDistance, List<N> transportPoints, Map<String, Integer> preferences) {
 		
 		// Map that delivers the wrapper for a point
 		Map<N, PointWrapper<N>> points = new HashMap<>();
@@ -84,16 +84,17 @@ public class RouteServiceLogic implements RouteService {
 		
 		while (!openList.isEmpty()) {
 			PointWrapper<N> pointWrapper = openList.pollFirst();
-			N point = pointWrapper.getNode();
+			N point = pointWrapper.getPoint();
 			bestPointsFound.add(point);
 			
 			// Point destination reached, return list of points
 			if (calculateDistance(point, destination) <= maxDistance) {
 				List<N> route = new ArrayList<>();
 				while (pointWrapper != null) {
-					route.add(0, pointWrapper.getNode());
+					route.add(0, pointWrapper.getPoint());
 					pointWrapper = pointWrapper.getPrevious();
 				}
+				route.add(destination);
 				return route;
 			}
 			
@@ -136,7 +137,7 @@ public class RouteServiceLogic implements RouteService {
 		return null;
 	}
 	
-	private <N> double calculateDistance(N origin, N destination) {
+	private <N extends Comparable<N>> double calculateDistance(N origin, N destination) {
 		Point source = (Point) origin;
 		Point target = (Point) destination;
 		return haversine(source.getLatitude(), source.getLongitude(), target.getLatitude(), target.getLongitude());

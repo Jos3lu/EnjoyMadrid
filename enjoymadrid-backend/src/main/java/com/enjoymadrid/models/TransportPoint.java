@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Entity
 @DiscriminatorValue("Transport")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class TransportPoint extends Point {
+public class TransportPoint extends Point implements Comparable<TransportPoint> {
 		
 	@JsonView(TransportPointInterfaces.BasicData.class)
 	@NotEmpty(message = "Type cannot be empty")
@@ -33,6 +33,11 @@ public class TransportPoint extends Point {
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public int compareTo(TransportPoint o) {
+		return this.getName().compareTo(o.getName());
 	}
 	
 }

@@ -1,15 +1,15 @@
 package com.enjoymadrid.models;
 
-public class PointWrapper<N> implements Comparable<PointWrapper<N>>{
+public class PointWrapper<N extends Comparable<N>> implements Comparable<PointWrapper<N>>{
 
-	private final N node;
+	private final N point;
 	private PointWrapper<N> previous;
 	private double totalCostFromStart;
 	private final double minRemainingCostToTarget;
 	private double costSum;
 	
-	public PointWrapper(N node, PointWrapper<N> previous, double totalCostFromStart, double minRemainingCostToTarget) {
-		this.node = node;
+	public PointWrapper(N point, PointWrapper<N> previous, double totalCostFromStart, double minRemainingCostToTarget) {
+		this.point = point;
 		this.previous = previous;
 		this.totalCostFromStart = totalCostFromStart;
 		this.minRemainingCostToTarget = minRemainingCostToTarget;
@@ -45,8 +45,8 @@ public class PointWrapper<N> implements Comparable<PointWrapper<N>>{
 		this.costSum = costSum;
 	}
 
-	public N getNode() {
-		return node;
+	public N getPoint() {
+		return point;
 	}
 
 	public double getMinRemainingCostToTarget() {
@@ -55,7 +55,11 @@ public class PointWrapper<N> implements Comparable<PointWrapper<N>>{
 
 	@Override
 	public int compareTo(PointWrapper<N> o) {
-		return 0;
+		int compare = Double.compare(this.costSum, o.costSum);
+		if (compare == 0) {
+			compare = point.compareTo(o.getPoint());
+		}
+		return compare;
 	}
 	
 }
