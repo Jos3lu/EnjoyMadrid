@@ -53,7 +53,7 @@
             <ion-item>
               <ion-label position="stacked">Localización de destino</ion-label>
               <ion-input type="text" [(ngModel)]="route.destination.name" placeholder="Elige un punto de destino" (ionFocus)="selectDestination()"
-                name="destination" required></ion-input>
+                name="destination" required></ion-input> 
             </ion-item>
           </ion-list>
           <ion-list lines="none">
@@ -61,13 +61,17 @@
             <ion-item-group>
               <ion-item *ngFor="let transport of transports">
                 <ion-label>{{transport.mode}}</ion-label>
-                <ion-checkbox name="{{transport.mode}" slot="start" [(ngModel)]="transport.isChecked"></ion-checkbox>
+                <ion-checkbox name="{{transport.mode}" slot="start" (ionChange)="onChange(transports)" [(ngModel)]="transport.isChecked">
+                </ion-checkbox>
               </ion-item>
             </ion-item-group>
+            <div [hidden]="!disabled" class="invalid-input">
+              Selecciona al menos un modo de transporte
+            </div>
           </ion-list>
 
           <div class="ion-text-end ion-margin-top">
-            <ion-button [disabled]="!routeForm.form.valid" type="submit">Crear Ruta</ion-button>
+            <ion-button [disabled]="!routeForm.form.valid || disabled" type="submit">Crear Ruta</ion-button>
           </div>
         </form>
       </ion-col>

@@ -24,6 +24,8 @@ export class CreateRoutePage implements OnInit {
   originEmpty: boolean 
   // Destination point is empty
   destinationEmpty: boolean;
+  // Submit button is disabled
+  disabled: boolean;
 
   constructor(
     private sharedService: SharedService,
@@ -77,6 +79,8 @@ export class CreateRoutePage implements OnInit {
       { mode: 'BiciMAD', isChecked: true }
     ];
 
+    this.disabled = false;
+
   }
 
   onRating(value: number, index: number) {
@@ -121,6 +125,16 @@ export class CreateRoutePage implements OnInit {
     if (!location.data) return;
     this.destinationEmpty = false;
     this.route.destination = location.data.point;
+  }
+
+  onChange(transports: any) {
+    for (let transport of transports) {
+      if (transport.isChecked) {
+        this.disabled = false;
+        return;
+      }
+    }
+    this.disabled = true;
   }
 
   async onCreateRoute() {
