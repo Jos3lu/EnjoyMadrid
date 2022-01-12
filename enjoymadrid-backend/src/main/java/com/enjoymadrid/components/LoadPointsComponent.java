@@ -140,11 +140,11 @@ public class LoadPointsComponent implements CommandLineRunner {
 	}
 
 	/**
-	 * This method is executed three times a day (12 a.m. / 8 a.m. / 4 p.m.),
+	 * This method is executed six times a day (12 a.m / 4 a.m / 8 a.m / 12 p.m. / 4 p.m. / 8 p.m),
 	 * updating the air quality data at each station. 
 	 * cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the week
 	 */
-	@Scheduled(cron = "0 0 0/8 * * *", zone = "Europe/Madrid")
+	@Scheduled(cron = "0 0 0/4 * * *", zone = "Europe/Madrid")
 	private void scheduleAqiStations() {
 		/*
 		 * Execute the method updateIcaStations at a random minute. Scheduled annotation

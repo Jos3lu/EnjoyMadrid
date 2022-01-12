@@ -61,18 +61,18 @@ export class CreateRoutePage implements OnInit {
     this.maxDistance = 1000;
 
     this.preferences = [
-      { name: 'Cultura y arte', value: 0 }, 
-      { name: 'Parques y jardines', value: 0 }, 
-      { name: 'Escuelas de cocina y catas de vinos y aceites', value: 0 },
-      { name: 'Empresas de guías Turísticas', value: 0 },
-      { name: 'Edificios y monumentos', value : 0 },
-      { name: 'Centros de ocio', value: 0 },
-      { name: 'Deporte', value: 0 },
-      { name: 'Tiendas', value: 0 },
-      { name: 'Restauración', value: 0 }
+      { category: 'C', name: 'Instalaciones culturales', value: 0 }, 
+      { category: 'C', name: 'Parques y jardines', value: 0 }, 
+      { category: 'C', name: 'Escuelas de cocina y catas de vinos y aceites', value: 0 },
+      { category: 'C', name: 'Empresas de guías Turísticas', value: 0 },
+      { category: 'C', name: 'Edificios y monumentos', value : 0 },
+      { category: 'C', name: 'Centros de ocio', value: 0 },
+      { category: 'T', name: 'Deportes', value: 0 },
+      { category: 'T', name: 'Tiendas', value: 0 },
+      { category: 'R', name: 'Restauración', value: 0 }
     ];
 
-    this.transports =[
+    this.transports = [
       { mode: 'Metro', isChecked: true },
       { mode: 'Bus', isChecked: true },
       { mode: 'Cercanías', isChecked: true },
@@ -141,7 +141,7 @@ export class CreateRoutePage implements OnInit {
 
     // Transform preferences from Star rating to Map
     this.route.preferences = this.preferences.reduce((map, preference) => {
-      map[preference.name] = preference.value;
+      map[preference.category + '_' +  preference.name] = preference.value;
       return map;
     }, {});
     

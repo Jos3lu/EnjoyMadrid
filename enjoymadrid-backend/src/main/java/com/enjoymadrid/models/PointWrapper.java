@@ -1,61 +1,61 @@
 package com.enjoymadrid.models;
 
-public class PointWrapper<N extends Comparable<N>> implements Comparable<PointWrapper<N>>{
+public class PointWrapper<P extends Comparable<P>> implements Comparable<PointWrapper<P>>{
 
-	private final N point;
-	private PointWrapper<N> previous;
-	private double totalCostFromStart;
-	private final double minRemainingCostToTarget;
-	private double costSum;
+	private final P point;
+	private PointWrapper<P> previous;
+	private double distanceFromOrigin;
+	private final double costHeuristic;
+	private double totalCost;
 	
-	public PointWrapper(N point, PointWrapper<N> previous, double totalCostFromStart, double minRemainingCostToTarget) {
+	public PointWrapper(P point, PointWrapper<P> previous, double distanceFromOrigin, double costHeuristic) {
 		this.point = point;
 		this.previous = previous;
-		this.totalCostFromStart = totalCostFromStart;
-		this.minRemainingCostToTarget = minRemainingCostToTarget;
-		calculateCostSum();
+		this.distanceFromOrigin = distanceFromOrigin;
+		this.costHeuristic = costHeuristic;
+		calculateTotalCost();
 	}
 	
-	private void calculateCostSum() {
-		this.costSum = this.totalCostFromStart + this.minRemainingCostToTarget;
+	private void calculateTotalCost() {
+		this.totalCost = this.distanceFromOrigin + this.costHeuristic;
 	}
 	
-	public PointWrapper<N> getPrevious() {
+	public PointWrapper<P> getPrevious() {
 		return previous;
 	}
 
-	public void setPrevious(PointWrapper<N> previous) {
+	public void setPrevious(PointWrapper<P> previous) {
 		this.previous = previous;
 	}
 
-	public double getTotalCostFromStart() {
-		return totalCostFromStart;
+	public double getDistanceFromOrigin() {
+		return distanceFromOrigin;
 	}
 
-	public void setTotalCostFromStart(double totalCostFromStart) {
-		this.totalCostFromStart = totalCostFromStart;
-		calculateCostSum();
+	public void setDistanceFromOrigin(double distanceFromOrigin) {
+		this.distanceFromOrigin = distanceFromOrigin;
+		calculateTotalCost();
 	}
 
-	public double getCostSum() {
-		return costSum;
+	public double getTotalCost() {
+		return totalCost;
 	}
 
-	public void setCostSum(double costSum) {
-		this.costSum = costSum;
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
 	}
 
-	public N getPoint() {
+	public P getPoint() {
 		return point;
 	}
 
-	public double getMinRemainingCostToTarget() {
-		return minRemainingCostToTarget;
+	public double getCostHeuristic() {
+		return costHeuristic;
 	}
 
 	@Override
-	public int compareTo(PointWrapper<N> o) {
-		int compare = Double.compare(this.costSum, o.costSum);
+	public int compareTo(PointWrapper<P> o) {
+		int compare = Double.compare(this.totalCost, o.totalCost);
 		if (compare == 0) {
 			compare = point.compareTo(o.getPoint());
 		}
