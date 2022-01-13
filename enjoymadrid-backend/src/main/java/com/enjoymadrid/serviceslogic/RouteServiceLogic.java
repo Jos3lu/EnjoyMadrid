@@ -1,10 +1,10 @@
 package com.enjoymadrid.serviceslogic;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -98,7 +98,7 @@ public class RouteServiceLogic implements RouteService {
 
 			// Point destination reached, return list of points
 			if (calculateDistance(point, destination) <= maxDistance) {
-				List<P> route = new ArrayList<>();
+				List<P> route = new LinkedList<>();
 				while (pointWrapper != null) {
 					route.add(0, pointWrapper.getPoint());
 					pointWrapper = pointWrapper.getPrevious();
@@ -153,12 +153,9 @@ public class RouteServiceLogic implements RouteService {
 		double minDistanceToDestination = calculateDistance(point, destination);
 
 		// Get air quality level from nearest station
-		int aqiStation = airQualityPoints.stream()
-				.reduce((s1,
-						s2) -> haversine(s1.getLatitude(), s1.getLongitude(), ((Point) point).getLatitude(),
-								((Point) point).getLongitude()) < haversine(s2.getLatitude(), s2.getLongitude(),
-										((Point) point).getLatitude(), ((Point) point).getLongitude()) ? s1 : s2)
-				.get().getAqi();
+		int aqiStation = Collections.min(airQualityPoints, Comparator.comparing(station -> 
+			haversine(station.getLatitude(), station.getLongitude(), ((Point) point).getLatitude(), ((Point) point).getLongitude())))
+			.getAqi();
 
 		// Get touristic points within a radius of 500 meters
 		List<TouristicPoint> nearTouristicPoints = touristicPoints.parallelStream()
@@ -184,7 +181,8 @@ public class RouteServiceLogic implements RouteService {
 			}
 			// Search the touristic point by type attribute
 			else if (preference.getKey().contains("T_")) {
-				sum += nearTouristicPoints.stream().filter(place -> place.getType().equals(preferenceName))
+				sum += nearTouristicPoints.stream()
+						.filter(place -> place.getType().equals(preferenceName))
 						.count() * (preference.getValue() * 2);
 			}
 			return sum;
@@ -192,7 +190,7 @@ public class RouteServiceLogic implements RouteService {
 		
 		if (interestPlaces == 0.0) interestPlaces = 1.0;
 		
-		return (minDistanceToDestination + aqiStation) / interestPlaces;
+		return (minDistanceToDestination * aqiStation) / interestPlaces;
 	}
 	
 	private <P extends Comparable<P>> double calculateDistance(P origin, P destination) {

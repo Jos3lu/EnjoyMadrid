@@ -1,6 +1,6 @@
 package com.enjoymadrid.models;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -44,15 +44,15 @@ public class TouristicPoint extends Point {
 
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
-	private List<String> categories = new LinkedList<>();
+	private List<String> categories = new ArrayList<>();
 
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
-	private List<String> subcategories = new LinkedList<>();
+	private List<String> subcategories = new ArrayList<>();
 
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
-	private List<String> images = new LinkedList<>();
+	private List<String> images = new ArrayList<>();
 
 	public TouristicPoint() {
 		super();

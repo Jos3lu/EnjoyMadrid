@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -166,7 +165,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		/*
 		 * Pages ->
 		 * 1.
-		 * https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_5~~TEMP_UNIT_c~~WIND_UNIT_kmh~
+		 * https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_6~~TEMP_UNIT_c~~WIND_UNIT_kmh~
 		 * 2.
 		 * https://website-api.airvisual.com/v1/stations/by/cityID/igp7hSLYmouA2JFhu?AQI=US&language=es
 		 */
@@ -189,7 +188,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		try {
 			// Web page https://www.eltiempo.es
 			org.jsoup.nodes.Document page = Jsoup
-					.connect("https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_5~~TEMP_UNIT_c~~WIND_UNIT_kmh~")
+					.connect("https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_6~~TEMP_UNIT_c~~WIND_UNIT_kmh~")
 					.get();
 
 			org.jsoup.nodes.Element tableMadrid = page.select("table").stream()

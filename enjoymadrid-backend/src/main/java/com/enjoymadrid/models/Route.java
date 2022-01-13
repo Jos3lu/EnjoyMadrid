@@ -1,8 +1,8 @@
 package com.enjoymadrid.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +50,7 @@ public class Route {
 	@JsonView(RouteInterfaces.BasicData.class)
 	@ElementCollection
 	@NotNull(message = "Mode of transports cannot be empty")
-	private List<String> transports = new LinkedList<>();
+	private List<String> transports = new ArrayList<>();
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@ElementCollection
