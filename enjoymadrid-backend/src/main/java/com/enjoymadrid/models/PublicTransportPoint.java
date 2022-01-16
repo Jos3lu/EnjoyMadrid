@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 @Entity
 @DiscriminatorValue("PublicTransport")
@@ -13,6 +14,9 @@ public class PublicTransportPoint extends TransportPoint {
 
 	@ElementCollection
 	private Set<String> lines = new HashSet<>();
+	
+	@ManyToMany
+	private Set<PublicTransportPoint> nextStops = new HashSet<>();
 	
 	public PublicTransportPoint() {
 		super();
@@ -28,6 +32,14 @@ public class PublicTransportPoint extends TransportPoint {
 
 	public void setLines(Set<String> lines) {
 		this.lines = lines;
+	}
+	
+	public Set<PublicTransportPoint> getNextStops() {
+		return nextStops;
+	}
+
+	public void setNextStops(Set<PublicTransportPoint> nextStops) {
+		this.nextStops = nextStops;
 	}
 	
 }

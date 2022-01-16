@@ -1,9 +1,13 @@
 package com.enjoymadrid.serviceslogic;
 
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +24,10 @@ import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
 import com.enjoymadrid.models.repositories.UserRepository;
 import com.enjoymadrid.models.AirQualityPoint;
+import com.enjoymadrid.models.BicycleTransportPoint;
 import com.enjoymadrid.models.Point;
 import com.enjoymadrid.models.PointWrapper;
+import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.Route;
 import com.enjoymadrid.models.TouristicPoint;
 import com.enjoymadrid.models.TransportPoint;
@@ -61,7 +67,7 @@ public class RouteServiceLogic implements RouteService {
 		
 		// Get all the transport points selected by user
 		List<String> transports = route.getTransports();
-		List<TransportPoint> transportPoints = transportPointRepository.findByTypeIn(transports);
+		List<TransportPoint> transportPoints = getTransportPoints(transports);
 		
 		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transportPoints, preferences);
 		
@@ -69,7 +75,7 @@ public class RouteServiceLogic implements RouteService {
 
 		return new Route();
 	}
-	
+		
 	private <P extends Comparable<P>> List<P> findBestRoute(P origin, P destination, Double maxDistance,
 			List<P> transportPoints, Map<String, Integer> preferences) {
 
@@ -86,7 +92,7 @@ public class RouteServiceLogic implements RouteService {
 		List<TouristicPoint> touristicPoints = touristicPointRepository.findAll();
 
 		// Add origin point
-		PointWrapper<P> originWrapper = new PointWrapper<>(origin, null, 0.0,
+		PointWrapper<P> originWrapper = new PointWrapper<>(origin, null, false, 0.0,
 				calculateHeuristic(origin, destination, airQualityPoints, touristicPoints, preferences));
 		points.put(origin, originWrapper);
 		openList.add(originWrapper);
@@ -107,10 +113,7 @@ public class RouteServiceLogic implements RouteService {
 				return route;
 			}
 
-			// Iterate over neighbors
-			Set<P> neighbors = transportPoints.parallelStream()
-					.filter(neighbor -> (calculateDistance(point, neighbor) <= maxDistance))
-					.collect(Collectors.toSet());
+			Set<P> neighbors = getNeighbors(pointWrapper, point, transportPoints, maxDistance);			
 			for (P neighbor : neighbors) {
 				// Continue with next neighbor if already in best points
 				if (bestPointsFound.contains(neighbor)) {
@@ -119,12 +122,13 @@ public class RouteServiceLogic implements RouteService {
 
 				// Calculate cost from start to neighbor via current node
 				double cost = calculateDistance(point, neighbor);
-				double distanceFromOrigin = pointWrapper.getDistanceFromOrigin() + cost;
+				double distanceFromOrigin = pointWrapper.getDistanceFromOrigin() + cost;				
+				boolean isSameLine = isSameLine(point, neighbor);
 
 				// Neighbor not discovered yet
 				PointWrapper<P> neighborWrapper = points.get(neighbor);
 				if (neighborWrapper == null) {
-					neighborWrapper = new PointWrapper<P>(neighbor, pointWrapper, distanceFromOrigin,
+					neighborWrapper = new PointWrapper<P>(neighbor, pointWrapper, isSameLine, distanceFromOrigin,
 							calculateHeuristic(neighbor, destination, airQualityPoints, touristicPoints, preferences));
 					points.put(neighbor, neighborWrapper);
 					openList.add(neighborWrapper);
@@ -133,6 +137,7 @@ public class RouteServiceLogic implements RouteService {
 				// & previous point
 				else if (distanceFromOrigin < neighborWrapper.getDistanceFromOrigin()) {
 					openList.remove(neighborWrapper);
+					neighborWrapper.setSameLine(isSameLine);
 					neighborWrapper.setDistanceFromOrigin(distanceFromOrigin);
 					neighborWrapper.setPrevious(pointWrapper);
 					openList.add(neighborWrapper);
@@ -145,10 +150,49 @@ public class RouteServiceLogic implements RouteService {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
+	private <P extends Comparable<P>> Set<P> getNeighbors(PointWrapper<P> pointWrapper, P point, List<P> transportPoints, Double maxDistance) {
+		Set<P> neighbors = new HashSet<>();	
+		
+		boolean sameLine = false;
+		if (point instanceof PublicTransportPoint) {	
+			// Check if previous point and actual point are neighbors of the same line
+			if (pointWrapper.getPrevious() != null) {
+				sameLine = isSameLine(pointWrapper.getPrevious().getPoint(), point);
+			}
+			
+			// If public transport get next stop in line(s)
+			neighbors =  (Set<P>) ((PublicTransportPoint) point).getNextStops();		
+		} else if (point instanceof BicycleTransportPoint) {
+			// If bicycle station get available stations 
+			neighbors = transportPoints.parallelStream()
+					.filter(stop -> stop instanceof BicycleTransportPoint && ((BicycleTransportPoint) stop).isAvailable())
+					.collect(Collectors.toSet());
+		}
+		
+		if (neighbors.isEmpty() || sameLine) {
+			// Iterate over neighbors (nearest distance established by user)
+			neighbors = transportPoints.parallelStream()
+					.filter(neighbor -> (calculateDistance(point, neighbor) <= maxDistance))
+					.collect(Collectors.toSet());
+		}
+				
+		return neighbors;
+	}
+	
+	private <P extends Comparable<P>> boolean isSameLine(P previous, P point) {
+		
+		if (point instanceof PublicTransportPoint && previous instanceof PublicTransportPoint) {
+			return ((PublicTransportPoint) previous).getNextStops().contains((PublicTransportPoint) point);
+		}
+		
+		return false;
+	}
+	
 	private <P extends Comparable<P>> double calculateHeuristic(P point, P destination,
 			List<AirQualityPoint> airQualityPoints, List<TouristicPoint> touristicPoints,
 			Map<String, Integer> preferences) {
-		
+				
 		// Calculate distance to destination using haversine formula
 		double minDistanceToDestination = calculateDistance(point, destination);
 
@@ -192,7 +236,7 @@ public class RouteServiceLogic implements RouteService {
 		
 		return (minDistanceToDestination * aqiStation) / interestPlaces;
 	}
-	
+		
 	private <P extends Comparable<P>> double calculateDistance(P origin, P destination) {
 		Point source = (Point) origin;
 		Point target = (Point) destination;
@@ -223,6 +267,61 @@ public class RouteServiceLogic implements RouteService {
 		double c = 2 * Math.asin(Math.sqrt(h)); //2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h)); 
 		
 		return R * c;
+	}
+	
+	private List<TransportPoint> getTransportPoints(List<String> transports) {
+		
+		// Subway operates every day between 6:00 and 2:00 a.m
+		if (ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isAfter(LocalTime.of(2, 0)) 
+				&& ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isBefore(LocalTime.of(6, 0))) {
+			transports.remove("Metro");
+		}
+		
+		// Commuter train start around 5:00 and 5:30 a.m and end around 00:00 a.m
+		if (ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isAfter(LocalTime.MIDNIGHT) 
+				&& ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isBefore(LocalTime.of(5, 30))) {
+			transports.remove("Cercanías");
+		}
+		
+		// Query to get the points in order to create the route
+		List<TransportPoint> transportPoints = transportPointRepository.findByTypeIn(transports);
+		
+		// Bus general hours of service during all days of the year are from 6:00 a.m to 11:30 p.m
+		if (ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isAfter(LocalTime.of(11, 30)) 
+				&& ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isBefore(LocalTime.of(6, 0))) {
+			// Remove not night buses
+			transportPoints = transportPoints.stream()
+					.map(point -> {
+						if (point.getType().equals("Bus")) {
+							((PublicTransportPoint) point).getLines().removeIf(line -> !line.contains("N"));		
+						}
+						return point;
+					})
+					.filter(point -> {
+						if (point.getType().equals("Bus") && ((PublicTransportPoint) point).getLines().isEmpty()) {
+							return false;
+						}
+						return true;
+					})
+					.toList();
+		} else {
+			// Remove night buses
+			transportPoints = transportPoints.stream()
+					.map(point -> {
+						if (point.getType().equals("Bus"))
+							((PublicTransportPoint) point).getLines().removeIf(line -> line.contains("N"));								
+						return point;
+					})
+					.filter(point -> {
+						if (point.getType().equals("Bus") && ((PublicTransportPoint) point).getLines().isEmpty()) {
+							return false;
+						}
+						return true;
+					})
+					.toList();
+		}
+		
+		return transportPoints;
 	}
 
 }

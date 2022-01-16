@@ -4,8 +4,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("BycicleTransport")
-public class BycicleTransportPoint extends TransportPoint {
+@DiscriminatorValue("BicycleTransport")
+public class BicycleTransportPoint extends TransportPoint {
 	
 	private String stationNumber;
 	private Integer totalBases;
@@ -15,11 +15,11 @@ public class BycicleTransportPoint extends TransportPoint {
 	private Boolean no_available;
 	private Integer reservations;
 	
-	public BycicleTransportPoint() {
+	public BicycleTransportPoint() {
 		super();
 	}
 	
-	public BycicleTransportPoint(String stationNumber, String name, Double longitude, Double latitude, String type) {
+	public BicycleTransportPoint(String stationNumber, String name, Double longitude, Double latitude, String type) {
 		super(name, longitude, latitude, type);
 		this.stationNumber = stationNumber;
 	}
@@ -78,6 +78,10 @@ public class BycicleTransportPoint extends TransportPoint {
 
 	public void setReservations(Integer reservations) {
 		this.reservations = reservations;
+	}
+	
+	public boolean isAvailable() {
+		return activate && !no_available && dockBases > 0 && (freeBases - reservations) > 0;
 	}
 	
 }

@@ -5,19 +5,23 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -49,7 +53,7 @@ import com.enjoymadrid.models.repositories.AirQualityPointRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
 import com.enjoymadrid.models.AirQualityPoint;
-import com.enjoymadrid.models.BycicleTransportPoint;
+import com.enjoymadrid.models.BicycleTransportPoint;
 import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.TouristicPoint;
 import com.enjoymadrid.models.TransportPoint;
@@ -457,11 +461,12 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private void loadDataPublicTransportPoints(String type, String stopsFile, String itineraryStopsFile, CyclicBarrier waitToEnd) {
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		// Store stops before save it in DataBase
-		Map<String, PublicTransportPoint> publicTransportStops = new HashMap<>();
-
-		// Transform json file to tree model
 		try {
+			
+			// Store stops before save it in DataBase
+			Map<String, PublicTransportPoint> publicTransportStops = new HashMap<>();
+			
+			// Transform json file to tree model
 			File stopsCoord = new ClassPathResource(stopsFile).getFile();
 
 			JsonNode stops = objectMapper.readTree(stopsCoord).get("features");
@@ -473,7 +478,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 				publicTransportStops.putIfAbsent(name,
 						new PublicTransportPoint(StringUtils.capitalize(name.toLowerCase()), longitude, latitude, type));
 			}
-
+			
+			// Transform json file to tree model
 			File stopsItinerary = new ClassPathResource(itineraryStopsFile)
 					.getFile();
 
@@ -486,18 +492,50 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Integer order = stop.get("properties").get("NUMEROORDEN").asInt();
 					
 				PublicTransportPoint publicTransportPoint = publicTransportStops.get(name);
-				publicTransportPoint.getLines().add(line + " [" + direction + "] " + ": " + order);
+				
+				String infoLine = line + " [" + direction + "]: " + order;
+				publicTransportPoint.getLines().add(infoLine);
 			}
 			
-			for (TransportPoint transportPoint : publicTransportStops.values()) {
+			// Map each line with the stop
+			Map<String, PublicTransportPoint> linePublicTransportStops = new HashMap<>();
+			// Iterate over the points already saved in DB
+			List<PublicTransportPoint> transportPoints = new ArrayList<>();
+			
+			for (PublicTransportPoint transportPoint: publicTransportStops.values()) {
 				// Search if stop already exists in DB
-				Boolean transportPointDB = transportPointRepository
-						.existsByNameIgnoreCaseAndLongitudeAndLatitude(transportPoint.getName(),
+				Optional<TransportPoint> optTransportPointDB = transportPointRepository
+						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(transportPoint.getName(),
 								transportPoint.getLongitude(), transportPoint.getLatitude());
-				if (!transportPointDB) {
-					transportPointRepository.save(transportPoint);
+				
+				if (optTransportPointDB.isEmpty()) {
+					transportPoint = transportPointRepository.save(transportPoint);
+				} else {
+					transportPoint = (PublicTransportPoint) optTransportPointDB.get();
 				}
-
+				
+				// Get the lines of the stop to store in the HashMap for future use
+				Set<String> lines = transportPoint.getLines();
+				for (String line: lines) {
+					linePublicTransportStops.put(line, transportPoint);
+				}
+				transportPoints.add(transportPoint);
+			}
+			
+			for (PublicTransportPoint transportPoint: transportPoints) {
+				Set<String> lines = transportPoint.getLines().stream()
+						.map(line -> line.split(": "))
+						.map(line -> line[0] + ": " + (Integer.parseInt(line[1]) + 1))
+						.collect(Collectors.toSet());
+				
+				Set<PublicTransportPoint> nextStops = new HashSet<>();
+				lines.forEach(line -> {
+					PublicTransportPoint nextStop = linePublicTransportStops.get(line);
+					if (nextStop != null)
+						nextStops.add(nextStop);
+				});
+				transportPoint.setNextStops(nextStops);
+				transportPointRepository.save(transportPoint);
 			}
 			
 		} catch (IOException e) {
@@ -531,7 +569,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Boolean transportPointDB = transportPointRepository
 						.existsByStationNumber(stationNumber);
 				if (!transportPointDB) {
-					transportPointRepository.save(new BycicleTransportPoint(stationNumber, name, longitude, latitude, type));
+					transportPointRepository.save(new BicycleTransportPoint(stationNumber, name, longitude, latitude, type));
 				}
 			}
 		} catch (IOException e) {
@@ -567,9 +605,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 		for (JsonNode station : stations) {
 			String stationNumber = station.get("number").asText();
 			
-			Optional<BycicleTransportPoint> bycicleTransportPointDBOpt = transportPointRepository.findByStationNumber(stationNumber);
+			Optional<BicycleTransportPoint> bicycleTransportPointDBOpt = transportPointRepository.findByStationNumber(stationNumber);
 			
-			if (bycicleTransportPointDBOpt.isEmpty()) {
+			if (bicycleTransportPointDBOpt.isEmpty()) {
 				continue;
 			}
 			
@@ -580,15 +618,15 @@ public class LoadPointsComponent implements CommandLineRunner {
 			Integer free_bases = station.get("free_bases").asInt();
 			Integer reservations_count = station.get("reservations_count").asInt();
 			
-			BycicleTransportPoint bycicleTransportPointDB = bycicleTransportPointDBOpt.get();
-			bycicleTransportPointDB.setActivate(activate == 1 ? true : false);
-			bycicleTransportPointDB.setNo_available(no_available == 1 ? true : false);
-			bycicleTransportPointDB.setTotalBases(total_bases);
-			bycicleTransportPointDB.setDockBases(dock_bikes);
-			bycicleTransportPointDB.setFreeBases(free_bases);
-			bycicleTransportPointDB.setReservations(reservations_count);
+			BicycleTransportPoint bicycleTransportPointDB = bicycleTransportPointDBOpt.get();
+			bicycleTransportPointDB.setActivate(activate == 1 ? true : false);
+			bicycleTransportPointDB.setNo_available(no_available == 1 ? true : false);
+			bicycleTransportPointDB.setTotalBases(total_bases);
+			bicycleTransportPointDB.setDockBases(dock_bikes);
+			bicycleTransportPointDB.setFreeBases(free_bases);
+			bicycleTransportPointDB.setReservations(reservations_count);
 			
-			transportPointRepository.save(bycicleTransportPointDB);
+			transportPointRepository.save(bicycleTransportPointDB);
 		}
 		
 	}
