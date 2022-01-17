@@ -268,11 +268,11 @@ public class LoadPointsComponent implements CommandLineRunner {
 	}
 
 	/**
-	 * This method is executed all the Mondays at 12:00 a.m. (and the first time the
+	 * This method is executed the first day of every month at 12:00 a.m. (and the first time the
 	 * server is activated), checking for new information and deleting old information in tourist points.
 	 * cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the week
 	 */
-	@Scheduled(cron = "0 0 0 ? * 1", zone = "Europe/Madrid")
+	@Scheduled(cron = "0 0 0 1 * *", zone = "Europe/Madrid")
 	private void loadDataTouristicPoints() {
 		// Data sources
 		String[] dataOrigins = { "turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml",

@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +61,7 @@ public class RouteServiceLogic implements RouteService {
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
 		TransportPoint destination = route.getDestination();		
-		Double maxDistance = route.getMaxDistance();
+		Double maxDistance = route.getMaxDistance() * 0.8;
 		Map<String, Integer> preferences = route.getPreferences();
 		
 		// Get all the transport points selected by user
@@ -103,7 +102,8 @@ public class RouteServiceLogic implements RouteService {
 			bestPointsFound.add(point);
 
 			// Point destination reached, return list of points
-			if (calculateDistance(point, destination) <= maxDistance) {
+			if (calculateDistance(point, destination) <= maxDistance
+					&& isDirectNeighbor(pointWrapper.getPrevious() != null ? pointWrapper.getPrevious().getPoint() : null, point, true)) {
 				List<P> route = new LinkedList<>();
 				while (pointWrapper != null) {
 					route.add(0, pointWrapper.getPoint());
@@ -123,7 +123,7 @@ public class RouteServiceLogic implements RouteService {
 				// Calculate cost from start to neighbor via current node
 				double cost = calculateDistance(point, neighbor);
 				double distanceFromOrigin = pointWrapper.getDistanceFromOrigin() + cost;				
-				boolean isSameLine = isSameLine(point, neighbor);
+				boolean isSameLine = isDirectNeighbor(point, neighbor, false);
 
 				// Neighbor not discovered yet
 				PointWrapper<P> neighborWrapper = points.get(neighbor);
@@ -154,23 +154,19 @@ public class RouteServiceLogic implements RouteService {
 	private <P extends Comparable<P>> Set<P> getNeighbors(PointWrapper<P> pointWrapper, P point, List<P> transportPoints, Double maxDistance) {
 		Set<P> neighbors = new HashSet<>();	
 		
-		boolean sameLine = false;
+		// Check if previous point and actual point are directly connected (Example: Same line of bus or subway)
+		boolean directNeighbors = isDirectNeighbor(pointWrapper.getPrevious() != null ? pointWrapper.getPrevious().getPoint() : null, point, true);
 		if (point instanceof PublicTransportPoint) {	
-			// Check if previous point and actual point are neighbors of the same line
-			if (pointWrapper.getPrevious() != null) {
-				sameLine = isSameLine(pointWrapper.getPrevious().getPoint(), point);
-			}
-			
 			// If public transport get next stop in line(s)
 			neighbors =  (Set<P>) ((PublicTransportPoint) point).getNextStops();		
-		} else if (point instanceof BicycleTransportPoint) {
+		} else if (point instanceof BicycleTransportPoint) {			
 			// If bicycle station get available stations 
 			neighbors = transportPoints.parallelStream()
 					.filter(stop -> stop instanceof BicycleTransportPoint && ((BicycleTransportPoint) stop).isAvailable())
 					.collect(Collectors.toSet());
 		}
 		
-		if (neighbors.isEmpty() || sameLine) {
+		if (neighbors.isEmpty() || directNeighbors) {
 			// Iterate over neighbors (nearest distance established by user)
 			neighbors = transportPoints.parallelStream()
 					.filter(neighbor -> (calculateDistance(point, neighbor) <= maxDistance))
@@ -180,10 +176,15 @@ public class RouteServiceLogic implements RouteService {
 		return neighbors;
 	}
 	
-	private <P extends Comparable<P>> boolean isSameLine(P previous, P point) {
+	private <P extends Comparable<P>> boolean isDirectNeighbor(P previous, P point, boolean includeBicycle) {
 		
-		if (point instanceof PublicTransportPoint && previous instanceof PublicTransportPoint) {
-			return ((PublicTransportPoint) previous).getNextStops().contains((PublicTransportPoint) point);
+		if (previous != null && point != null) {
+			if (previous instanceof PublicTransportPoint && point instanceof PublicTransportPoint) {
+				return ((PublicTransportPoint) previous).getNextStops().contains((PublicTransportPoint) point);
+			} else if (includeBicycle && previous instanceof BicycleTransportPoint 
+					&& point instanceof BicycleTransportPoint) {
+				return true;
+			}
 		}
 		
 		return false;
@@ -277,7 +278,7 @@ public class RouteServiceLogic implements RouteService {
 			transports.remove("Metro");
 		}
 		
-		// Commuter train start around 5:00 and 5:30 a.m and end around 00:00 a.m
+		// Commuter train start around 5:30 a.m and end around 00:00 a.m
 		if (ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isAfter(LocalTime.MIDNIGHT) 
 				&& ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isBefore(LocalTime.of(5, 30))) {
 			transports.remove("Cercanías");
