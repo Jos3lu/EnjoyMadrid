@@ -10,7 +10,7 @@ import com.enjoymadrid.models.Point;
 @NoRepositoryBean
 public interface PointRepository<T extends Point> extends JpaRepository<T, Long>{
 
-	Optional<T> findByNameIgnoreCase(String name);
+	Optional<T> findTopByNameIgnoreCase(String name);
 	
 	Boolean existsByLongitudeAndLatitude(Double longitude, Double latitude);
 	

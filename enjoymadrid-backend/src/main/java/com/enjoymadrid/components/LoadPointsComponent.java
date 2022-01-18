@@ -3,13 +3,13 @@ package com.enjoymadrid.components;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,7 +56,6 @@ import com.enjoymadrid.models.AirQualityPoint;
 import com.enjoymadrid.models.BicycleTransportPoint;
 import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.TouristicPoint;
-import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.User;
 
 @Component
@@ -253,7 +252,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		for (Map.Entry<String, Integer> airQualityStation : airQualityPoints.entrySet()) {
 			// Search station in DB
 			Optional<AirQualityPoint> airQualityPointDB = airQualityStationRepository
-					.findByNameIgnoreCase(airQualityStation.getKey());
+					.findTopByNameIgnoreCase(airQualityStation.getKey());
 
 			// If not in DB skip it
 			if (airQualityPointDB.isEmpty()) {
@@ -278,37 +277,27 @@ public class LoadPointsComponent implements CommandLineRunner {
 		String[] dataOrigins = { "turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml",
 				"restaurantes_v1_es.xml" };
 
-		// Sync threads pool
-		CyclicBarrier waitToEnd = new CyclicBarrier(dataOrigins.length + 1);
+		// Sync threads pool (dataOriginsLength - 1 + Main)
+		CyclicBarrier waitToEnd = new CyclicBarrier(dataOrigins.length);
 		// Points extracted from the Madrid city hall page
-		List<TouristicPoint> touristicPoints = Collections.synchronizedList(new LinkedList<>());
-
+		List<TouristicPoint> touristicPoints = Collections.synchronizedList(new ArrayList<>());
 		// Each thread for type of tourism
-		ExecutorService ex = Executors.newFixedThreadPool(dataOrigins.length);
+		ExecutorService ex = Executors.newFixedThreadPool(dataOrigins.length - 1);
 
-		for (String origin : dataOrigins) {
-			ex.execute(() -> loadDataTouristicPoints(origin, waitToEnd, touristicPoints));
+		int originLast = dataOrigins.length - 1;
+		for (int i = 0; i < originLast; i++) {
+			final int originIndex = i;
+			ex.execute(() -> loadDataTouristicPoints(dataOrigins[originIndex], waitToEnd, touristicPoints));
 		}
 		ex.shutdown();
-
-		try {
-			waitToEnd.await();
-		} catch (InterruptedException | BrokenBarrierException e) {
-			logger.error(e.getMessage());
-			ex.shutdownNow();
-			return;
-		}
+		
+		// Keep the Main busy
+		loadDataTouristicPoints(dataOrigins[originLast], waitToEnd, touristicPoints);
 
 		// Delete points not found anymore on the Madrid city hall page
 		List<TouristicPoint> touristicPointsDB = touristicPointRepository.findAll();
 		touristicPointsDB.removeAll(touristicPoints);
 		touristicPointsDB.forEach(point -> touristicPointRepository.delete(point));
-
-		/*
-		 * touristicPointRepository.findAll().stream().filter(point ->
-		 * !touristicPoints.contains(point)) .forEach(point ->
-		 * touristicPointRepository.delete(point));
-		 */
 
 		logger.info("Touristic points updated");
 	}
@@ -322,6 +311,11 @@ public class LoadPointsComponent implements CommandLineRunner {
 					.parse(new URL("https://www.esmadrid.com/opendata/" + typeTourism).openStream());
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			logger.error(e.getMessage());
+			try {
+				waitToEnd.await();
+			} catch (InterruptedException | BrokenBarrierException e1) {
+				logger.error(e.getMessage());
+			}
 			return;
 		}
 
@@ -331,8 +325,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 		NodeList listNodes = document.getElementsByTagName("service");
 
 		// Spain/Madrid current day
-		String currentDate = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate().toString();
-		for (int i = 0; i < listNodes.getLength(); i++) {
+		LocalDate currentDate = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate();
+		for (int i = 0; i < listNodes.getLength(); i++) {			
 			Node node = listNodes.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) node;
@@ -348,7 +342,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 				// database we update/add the point in the DB
 				Optional<TouristicPoint> pointDB = touristicPointRepository
 						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude);
-				if (pointDB.isPresent() && !currentDate.equals(element.getAttribute("fechaActualizacion"))) {
+				LocalDate updateDate = LocalDate.parse(element.getAttribute("fechaActualizacion"));
+				if (pointDB.isPresent() && Period.between(updateDate, currentDate).getDays() > 30) {
 					continue;
 				}
 
@@ -360,9 +355,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 				String paymentServices = "";
 				String horary = "";
 				String type = "";
-				List<String> categories = new LinkedList<>();
-				List<String> subcategories = new LinkedList<>();
-				List<String> images = new LinkedList<>();
+				List<String> categories = new ArrayList<>();
+				List<String> subcategories = new ArrayList<>();
+				List<String> images = new ArrayList<>();
 
 				NodeList listNodesItems = element.getElementsByTagName("item");
 				for (int j = 0; j < listNodesItems.getLength(); j++) {
@@ -430,39 +425,33 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private void loadDataTransportPoints() {		
 		// Data sources
 		String[][] publicTransportTypes = {
-				{"Metro", "static/subway/estaciones_red_de_metro.geojson", "static/subway/paradas_por_itinerario_red_de_metro.geojson"}, 
-				{"Bus", "static/bus/estaciones_red_de_autobuses_urbanos_de_madrid__EMT.geojson", "static/bus/paradas_por_itinerario_red_de_autobuses_urbanos_de_madrid__EMT.geojson"}, 
-				{"Cercanías", "static/commuter/estaciones_red_de_cercanias.geojson", "static/commuter/paradas_por_itinerario_red_de_cercanias.geojson"}
+				{"Metro", "static/subway/estaciones_red_de_metro.geojson", "static/subway/paradas_por_itinerario_red_de_metro.geojson", "KeyByName"}, 
+				{"Bus", "static/bus/estaciones_red_de_autobuses_urbanos_de_madrid__EMT.geojson", "static/bus/paradas_por_itinerario_red_de_autobuses_urbanos_de_madrid__EMT.geojson", "KeyByStation"}, 
+				{"Cercanías", "static/commuter/estaciones_red_de_cercanias.geojson", "static/commuter/paradas_por_itinerario_red_de_cercanias.geojson", "KeyByName"}
 		};
 		
 		// Thread for each type of transport
-		ExecutorService ex = Executors.newFixedThreadPool(publicTransportTypes.length + 1);
+		ExecutorService ex = Executors.newFixedThreadPool(publicTransportTypes.length);
 		
 		// Sync threads pool
-		CyclicBarrier waitToEnd = new CyclicBarrier(publicTransportTypes.length + 2);
+		CyclicBarrier waitToEnd = new CyclicBarrier(publicTransportTypes.length + 1);
 		
-		for (String[] publicTransport: publicTransportTypes) {
-			ex.execute(() -> loadDataPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2], waitToEnd));
+		for (String[] publicTransport : publicTransportTypes) {
+			ex.execute(() -> loadDataPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2],
+					publicTransport[3].equals("KeyByName") ? true : false, waitToEnd));
 		}	
-		ex.execute(() -> loadDataBiciMADPoints("BiciMAD", "static/bicycle/estaciones_bici_transporte_publico.geojson", waitToEnd));
 		ex.shutdown();
-				
-		try {
-			waitToEnd.await();
-		} catch (InterruptedException | BrokenBarrierException e) {
-			logger.error(e.getMessage());
-			ex.shutdownNow();
-			return;
-		}
-				
+		
+		// Main working at the same time as threads
+		loadDataBiciMADPoints("BiciMAD", "static/bicycle/estaciones_bici_transporte_publico.geojson", waitToEnd);
+					
 		logger.info("Transport points updated");
 	}
 	
-	private void loadDataPublicTransportPoints(String type, String stopsFile, String itineraryStopsFile, CyclicBarrier waitToEnd) {
+	private void loadDataPublicTransportPoints(String type, String stopsFile, String itineraryStopsFile, boolean nameKey, CyclicBarrier waitToEnd) {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		try {
-			
 			// Store stops before save it in DataBase
 			Map<String, PublicTransportPoint> publicTransportStops = new HashMap<>();
 			
@@ -473,69 +462,81 @@ public class LoadPointsComponent implements CommandLineRunner {
 			// For each node get the name and coordinates, and save in HashMap
 			for (JsonNode stop : stops) {
 				String name = stop.get("properties").get("DENOMINACION").asText();
+				String codeStation = stop.get("properties").get("CODIGOESTACION").asText();
 				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
 				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
-				publicTransportStops.putIfAbsent(name,
-						new PublicTransportPoint(StringUtils.capitalize(name.toLowerCase()), longitude, latitude, type));
-			}
-			
-			// Transform json file to tree model
-			File stopsItinerary = new ClassPathResource(itineraryStopsFile)
-					.getFile();
-
-			stops = objectMapper.readTree(stopsItinerary).get("features");
-			// In the file get line information for each node
-			for (JsonNode stop : stops) {
-				String name = stop.get("properties").get("DENOMINACION").asText();
-				String line = stop.get("properties").get("NUMEROLINEAUSUARIO").asText();
-				Integer direction = stop.get("properties").get("SENTIDO").asInt();
-				Integer order = stop.get("properties").get("NUMEROORDEN").asInt();
-					
-				PublicTransportPoint publicTransportPoint = publicTransportStops.get(name);
-				
-				String infoLine = line + " [" + direction + "]: " + order;
-				publicTransportPoint.getLines().add(infoLine);
-			}
-			
-			// Map each line with the stop
-			Map<String, PublicTransportPoint> linePublicTransportStops = new HashMap<>();
-			// Iterate over the points already saved in DB
-			List<PublicTransportPoint> transportPoints = new ArrayList<>();
-			
-			for (PublicTransportPoint transportPoint: publicTransportStops.values()) {
-				// Search if stop already exists in DB
-				Optional<TransportPoint> optTransportPointDB = transportPointRepository
-						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(transportPoint.getName(),
-								transportPoint.getLongitude(), transportPoint.getLatitude());
-				
-				if (optTransportPointDB.isEmpty()) {
-					transportPoint = transportPointRepository.save(transportPoint);
+								
+				// Check if point already in DB
+				boolean transportPointDB = false;
+				if (nameKey) {
+					if (publicTransportStops.containsKey(name)) continue;
+					transportPointDB = transportPointRepository
+							.existsByNameIgnoreCaseAndType(name, type);
 				} else {
-					transportPoint = (PublicTransportPoint) optTransportPointDB.get();
+					if (publicTransportStops.containsKey(codeStation)) continue;
+					transportPointDB = transportPointRepository
+							.existsByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude);
+				}
+
+				// Get point if in DB or save it
+				if (!transportPointDB) {
+					PublicTransportPoint publicTransportPoint = transportPointRepository.save(new PublicTransportPoint(
+							StringUtils.capitalize(name.toLowerCase()), longitude, latitude, type));
+					
+					// Save in map using as key the name or the code station depending on the type of transport
+					if (nameKey) {
+						publicTransportStops.putIfAbsent(name, publicTransportPoint);
+					} else {
+						publicTransportStops.putIfAbsent(codeStation, publicTransportPoint);
+					}
 				}
 				
-				// Get the lines of the stop to store in the HashMap for future use
-				Set<String> lines = transportPoint.getLines();
-				for (String line: lines) {
-					linePublicTransportStops.put(line, transportPoint);
-				}
-				transportPoints.add(transportPoint);
 			}
 			
-			for (PublicTransportPoint transportPoint: transportPoints) {
-				Set<String> lines = transportPoint.getLines().stream()
-						.map(line -> line.split(": "))
-						.map(line -> line[0] + ": " + (Integer.parseInt(line[1]) + 1))
-						.collect(Collectors.toSet());
+			if (!publicTransportStops.isEmpty()) {
 				
-				Set<PublicTransportPoint> nextStops = new HashSet<>();
-				lines.forEach(line -> {
-					PublicTransportPoint nextStop = linePublicTransportStops.get(line);
-					if (nextStop != null)
-						nextStops.add(nextStop);
-				});
-				transportPoint.setNextStops(nextStops);
-				transportPointRepository.save(transportPoint);
+				// Map each line with the stop
+				Map<String, PublicTransportPoint> linePublicTransportStops = new HashMap<>();
+
+				// Transform json file to tree model
+				File stopsItinerary = new ClassPathResource(itineraryStopsFile).getFile();
+
+				stops = objectMapper.readTree(stopsItinerary).get("features");
+				// In the file get line information for each node
+				for (JsonNode stop : stops) {
+					String name = stop.get("properties").get("DENOMINACION").asText();
+					String codeStation = stop.get("properties").get("CODIGOESTACION").asText();
+					String line = stop.get("properties").get("NUMEROLINEAUSUARIO").asText();
+					Integer direction = stop.get("properties").get("SENTIDO").asInt();
+					Integer order = stop.get("properties").get("NUMEROORDEN").asInt();
+
+					PublicTransportPoint publicTransportPoint;
+					if (nameKey) {
+						publicTransportPoint = publicTransportStops.get(name);
+					} else {
+						publicTransportPoint = publicTransportStops.get(codeStation);
+					}
+					
+					if (publicTransportPoint == null) continue;
+					
+					String infoLine = line + " [" + direction + "]: " + order;
+					publicTransportPoint.getLines().add(infoLine);
+					linePublicTransportStops.put(infoLine, publicTransportPoint);
+				}
+
+				for (PublicTransportPoint transportPoint : publicTransportStops.values()) {
+					Set<String> lines = transportPoint.getLines().stream().map(line -> line.split(": "))
+							.map(line -> line[0] + ": " + (Integer.parseInt(line[1]) + 1)).collect(Collectors.toSet());
+
+					Map<String, PublicTransportPoint> nextStops = new HashMap<>();
+					lines.forEach(line -> {
+						PublicTransportPoint nextStop = linePublicTransportStops.get(line);
+						if (nextStop != null)
+							nextStops.put(line.split("\\[")[0], nextStop);
+					});
+					transportPoint.setNextStops(nextStops);
+					transportPointRepository.save(transportPoint);
+				}
 			}
 			
 		} catch (IOException e) {

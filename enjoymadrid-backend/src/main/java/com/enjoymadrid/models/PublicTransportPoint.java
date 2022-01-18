@@ -1,6 +1,8 @@
 package com.enjoymadrid.models;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.DiscriminatorValue;
@@ -16,7 +18,7 @@ public class PublicTransportPoint extends TransportPoint {
 	private Set<String> lines = new HashSet<>();
 	
 	@ManyToMany
-	private Set<PublicTransportPoint> nextStops = new HashSet<>();
+	private Map<String, PublicTransportPoint> nextStops = new HashMap<>();
 	
 	public PublicTransportPoint() {
 		super();
@@ -33,12 +35,12 @@ public class PublicTransportPoint extends TransportPoint {
 	public void setLines(Set<String> lines) {
 		this.lines = lines;
 	}
-	
-	public Set<PublicTransportPoint> getNextStops() {
+
+	public Map<String, PublicTransportPoint> getNextStops() {
 		return nextStops;
 	}
 
-	public void setNextStops(Set<PublicTransportPoint> nextStops) {
+	public void setNextStops(Map<String, PublicTransportPoint> nextStops) {
 		this.nextStops = nextStops;
 	}
 	

@@ -152,13 +152,14 @@ public class RouteServiceLogic implements RouteService {
 	
 	@SuppressWarnings("unchecked")
 	private <P extends Comparable<P>> Set<P> getNeighbors(PointWrapper<P> pointWrapper, P point, List<P> transportPoints, Double maxDistance) {
+		// No duplicates in neighbors
 		Set<P> neighbors = new HashSet<>();	
 		
 		// Check if previous point and actual point are directly connected (Example: Same line of bus or subway)
 		boolean directNeighbors = isDirectNeighbor(pointWrapper.getPrevious() != null ? pointWrapper.getPrevious().getPoint() : null, point, true);
 		if (point instanceof PublicTransportPoint) {	
 			// If public transport get next stop in line(s)
-			neighbors =  (Set<P>) ((PublicTransportPoint) point).getNextStops();		
+			neighbors =  (Set<P>) ((PublicTransportPoint) point).getNextStops().values().stream().collect(Collectors.toSet());		
 		} else if (point instanceof BicycleTransportPoint) {			
 			// If bicycle station get available stations 
 			neighbors = transportPoints.parallelStream()
@@ -168,9 +169,11 @@ public class RouteServiceLogic implements RouteService {
 		
 		if (neighbors.isEmpty() || directNeighbors) {
 			// Iterate over neighbors (nearest distance established by user)
-			neighbors = transportPoints.parallelStream()
+			neighbors.addAll(
+				transportPoints.parallelStream()
 					.filter(neighbor -> (calculateDistance(point, neighbor) <= maxDistance))
-					.collect(Collectors.toSet());
+					.collect(Collectors.toSet())
+			);
 		}
 				
 		return neighbors;
@@ -180,7 +183,7 @@ public class RouteServiceLogic implements RouteService {
 		
 		if (previous != null && point != null) {
 			if (previous instanceof PublicTransportPoint && point instanceof PublicTransportPoint) {
-				return ((PublicTransportPoint) previous).getNextStops().contains((PublicTransportPoint) point);
+				return ((PublicTransportPoint) previous).getNextStops().values().contains((PublicTransportPoint) point);
 			} else if (includeBicycle && previous instanceof BicycleTransportPoint 
 					&& point instanceof BicycleTransportPoint) {
 				return true;
@@ -272,15 +275,17 @@ public class RouteServiceLogic implements RouteService {
 	
 	private List<TransportPoint> getTransportPoints(List<String> transports) {
 		
+		LocalTime currentLocalTime = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime();
+		
 		// Subway operates every day between 6:00 and 2:00 a.m
-		if (ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isAfter(LocalTime.of(2, 0)) 
-				&& ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isBefore(LocalTime.of(6, 0))) {
+		if (currentLocalTime.isAfter(LocalTime.of(2, 0)) 
+				&& currentLocalTime.isBefore(LocalTime.of(6, 0))) {
 			transports.remove("Metro");
 		}
 		
 		// Commuter train start around 5:30 a.m and end around 00:00 a.m
-		if (ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isAfter(LocalTime.MIDNIGHT) 
-				&& ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isBefore(LocalTime.of(5, 30))) {
+		if (currentLocalTime.isAfter(LocalTime.MIDNIGHT) 
+				&& currentLocalTime.isBefore(LocalTime.of(5, 30))) {
 			transports.remove("Cercanías");
 		}
 		
@@ -288,13 +293,17 @@ public class RouteServiceLogic implements RouteService {
 		List<TransportPoint> transportPoints = transportPointRepository.findByTypeIn(transports);
 		
 		// Bus general hours of service during all days of the year are from 6:00 a.m to 11:30 p.m
-		if (ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isAfter(LocalTime.of(11, 30)) 
-				&& ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime().isBefore(LocalTime.of(6, 0))) {
+		if (currentLocalTime.isAfter(LocalTime.of(23, 30)) 
+				&& currentLocalTime.isBefore(LocalTime.of(6, 0))) {
 			// Remove not night buses
-			transportPoints = transportPoints.stream()
+			transportPoints = transportPoints.parallelStream()
 					.map(point -> {
 						if (point.getType().equals("Bus")) {
-							((PublicTransportPoint) point).getLines().removeIf(line -> !line.contains("N"));		
+							((PublicTransportPoint) point).getLines().removeIf(line -> !line.contains("N"));	
+							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream().filter(line -> !line.contains("N")).collect(Collectors.toSet());
+							for (String line: keys) {
+								((PublicTransportPoint) point).getNextStops().remove(line);
+							}
 						}
 						return point;
 					})
@@ -307,10 +316,15 @@ public class RouteServiceLogic implements RouteService {
 					.toList();
 		} else {
 			// Remove night buses
-			transportPoints = transportPoints.stream()
+			transportPoints = transportPoints.parallelStream()
 					.map(point -> {
-						if (point.getType().equals("Bus"))
-							((PublicTransportPoint) point).getLines().removeIf(line -> line.contains("N"));								
+						if (point.getType().equals("Bus")) {
+							((PublicTransportPoint) point).getLines().removeIf(line -> line.contains("N"));	
+							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream().filter(line -> line.contains("N")).collect(Collectors.toSet());
+							for (String line: keys) {
+								((PublicTransportPoint) point).getNextStops().remove(line);
+							}
+						}
 						return point;
 					})
 					.filter(point -> {
