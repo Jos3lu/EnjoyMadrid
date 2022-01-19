@@ -163,7 +163,7 @@ public class RouteServiceLogic implements RouteService {
 		} else if (point instanceof BicycleTransportPoint) {			
 			// If bicycle station get available stations 
 			neighbors = transportPoints.parallelStream()
-					.filter(stop -> stop instanceof BicycleTransportPoint && ((BicycleTransportPoint) stop).isAvailable())
+					.filter(stop -> stop instanceof BicycleTransportPoint)
 					.collect(Collectors.toSet());
 		}
 		
@@ -293,8 +293,7 @@ public class RouteServiceLogic implements RouteService {
 		List<TransportPoint> transportPoints = transportPointRepository.findByTypeIn(transports);
 		
 		// Bus general hours of service during all days of the year are from 6:00 a.m to 11:30 p.m
-		if (currentLocalTime.isAfter(LocalTime.of(23, 30)) 
-				&& currentLocalTime.isBefore(LocalTime.of(6, 0))) {
+		if (currentLocalTime.isBefore(LocalTime.of(6, 0)) || currentLocalTime.isAfter(LocalTime.of(23, 30))) {
 			// Remove not night buses
 			transportPoints = transportPoints.parallelStream()
 					.map(point -> {
@@ -335,6 +334,12 @@ public class RouteServiceLogic implements RouteService {
 					})
 					.toList();
 		}
+		
+		// Exclude bike stations that don't currently operate nor have bikes available
+		// for pick-up or drop-off
+		transportPoints = transportPoints.stream()
+				.filter(point -> point.getType().equals("BiciMAD") && ((BicycleTransportPoint) point).isAvailable())
+				.toList();
 		
 		return transportPoints;
 	}

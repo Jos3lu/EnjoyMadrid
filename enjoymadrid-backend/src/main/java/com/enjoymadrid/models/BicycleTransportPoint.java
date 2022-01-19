@@ -81,7 +81,7 @@ public class BicycleTransportPoint extends TransportPoint {
 	}
 	
 	public boolean isAvailable() {
-		return activate && !no_available && dockBases > 0 && (freeBases - reservations) > 0;
+		return activate && !no_available && (dockBases > 0) && ((freeBases - reservations) > 0);
 	}
 	
 }
