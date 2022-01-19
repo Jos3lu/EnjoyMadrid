@@ -199,44 +199,23 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 			Elements rows = tableMadrid.select("tr");
 
+			Map<String, String> nameStations = Map.of(
+					"Barajas - Pueblo", "Barajas Pueblo",
+					"Cuatro Caminos-Pablo Iglesias", "Cuatro Caminos",
+					"Fernandez Ladreda-Oporto", "Plaza Eliptica",
+					"Plaza Castilla-Canal", "Plaza Castilla",
+					"Mendez Alvaro", "Méndez Álvaro",
+					"Puente De Vallecas", "Vallecas",
+					"Retiro", "Parque del Retiro",
+					"Urbanizacion Embajada", "Urbanización Embajada");
 			for (int i = 1; i < rows.size(); i++) {
 				Elements stations = rows.get(i).select("td");
 				String name = stations.get(0).ownText();
 				Integer aqi = tryParseInteger(stations.get(1).child(0).text());
-
-				switch (name) {
-				case "Barajas - Pueblo":
-					name = "Barajas Pueblo";
-					break;
-
-				case "Cuatro Caminos-Pablo Iglesias":
-					name = "Cuatro Caminos";
-					break;
-
-				case "Fernandez Ladreda-Oporto":
-					name = "Plaza Eliptica";
-					break;
-
-				case "Plaza Castilla-Canal":
-					name = "Plaza Castilla";
-					break;
-
-				case "Mendez Alvaro":
-					name = "Méndez Álvaro";
-					break;
-
-				case "Puente De Vallecas":
-					name = "Vallecas";
-					break;
-
-				case "Retiro":
-					name = "Parque del Retiro";
-					break;
-
-				case "Urbanizacion Embajada":
-					name = "Urbanización Embajada";
-					break;
-
+				
+				// Change the station name to match with the other information source
+				if (nameStations.containsKey(name)) {
+					name = nameStations.get(name);
 				}
 
 				if (!airQualityPoints.containsKey(name)) {
@@ -524,6 +503,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 					linePublicTransportStops.put(infoLine, publicTransportPoint);
 				}
 
+				// Set next stops of our transport point
 				for (PublicTransportPoint transportPoint : publicTransportStops.values()) {
 					Set<String> lines = transportPoint.getLines().stream().map(line -> line.split(": "))
 							.map(line -> line[0] + ": " + (Integer.parseInt(line[1]) + 1)).collect(Collectors.toSet());
@@ -532,7 +512,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 					lines.forEach(line -> {
 						PublicTransportPoint nextStop = linePublicTransportStops.get(line);
 						if (nextStop != null)
-							nextStops.put(line.split("\\[")[0], nextStop);
+							nextStops.put(line.split(":")[0], nextStop);
 					});
 					transportPoint.setNextStops(nextStops);
 					transportPointRepository.save(transportPoint);

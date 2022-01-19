@@ -212,28 +212,30 @@ public class RouteServiceLogic implements RouteService {
 				.collect(Collectors.toList());
 
 		// Calculate value respect to the number of sites of a given type
-		double interestPlaces = preferences.entrySet().stream().reduce(0.0, (sum, preference) -> {
+		double interestPlaces = preferences.entrySet().parallelStream().reduce(0.0, (sum, preference) -> {
 			// Get preference type
 			String preferenceName = preference.getKey().substring(preference.getKey().indexOf('_') + 1);
 			// Search the touristic point by category attribute
+			double nearPlaces = 0.0;
 			if (preference.getKey().contains("C_")) {
-				sum += nearTouristicPoints.stream()
+				nearPlaces = nearTouristicPoints.stream()
 						.filter(place -> place.getCategories().contains(preferenceName))
-						.count() * (preference.getValue() * 2);
+						.count();
 			}
 			// Preference is a combination of 2 types
 			else if (preference.getKey().contains("R_")) {
-				sum += nearTouristicPoints.stream()
+				nearPlaces = nearTouristicPoints.stream()
 						.filter(place -> place.getType().equals("Restaurantes") || place.getType().equals("Clubs"))
-						.count() * (preference.getValue() * 2);
+						.count();
 			}
 			// Search the touristic point by type attribute
 			else if (preference.getKey().contains("T_")) {
-				sum += nearTouristicPoints.stream()
+				nearPlaces = nearTouristicPoints.stream()
 						.filter(place -> place.getType().equals(preferenceName))
-						.count() * (preference.getValue() * 2);
+						.count();
 			}
-			return sum;
+			nearPlaces *= preference.getValue() * 1.5; 
+			return sum + nearPlaces;
 		}, (p1, p2) -> p1 + p2);
 		
 		if (interestPlaces == 0.0) interestPlaces = 1.0;
@@ -299,7 +301,9 @@ public class RouteServiceLogic implements RouteService {
 					.map(point -> {
 						if (point.getType().equals("Bus")) {
 							((PublicTransportPoint) point).getLines().removeIf(line -> !line.contains("N"));	
-							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream().filter(line -> !line.contains("N")).collect(Collectors.toSet());
+							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream().
+									filter(line -> !line.contains("N"))
+									.collect(Collectors.toSet());
 							for (String line: keys) {
 								((PublicTransportPoint) point).getNextStops().remove(line);
 							}
@@ -307,7 +311,8 @@ public class RouteServiceLogic implements RouteService {
 						return point;
 					})
 					.filter(point -> {
-						if (point.getType().equals("Bus") && ((PublicTransportPoint) point).getLines().isEmpty()) {
+						if (point.getType().equals("Bus") 
+								&& ((PublicTransportPoint) point).getLines().isEmpty()) {
 							return false;
 						}
 						return true;
@@ -319,7 +324,9 @@ public class RouteServiceLogic implements RouteService {
 					.map(point -> {
 						if (point.getType().equals("Bus")) {
 							((PublicTransportPoint) point).getLines().removeIf(line -> line.contains("N"));	
-							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream().filter(line -> line.contains("N")).collect(Collectors.toSet());
+							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream()
+									.filter(line -> line.contains("N"))
+									.collect(Collectors.toSet());
 							for (String line: keys) {
 								((PublicTransportPoint) point).getNextStops().remove(line);
 							}
@@ -327,7 +334,8 @@ public class RouteServiceLogic implements RouteService {
 						return point;
 					})
 					.filter(point -> {
-						if (point.getType().equals("Bus") && ((PublicTransportPoint) point).getLines().isEmpty()) {
+						if (point.getType().equals("Bus") 
+								&& ((PublicTransportPoint) point).getLines().isEmpty()) {
 							return false;
 						}
 						return true;
@@ -338,7 +346,13 @@ public class RouteServiceLogic implements RouteService {
 		// Exclude bike stations that don't currently operate nor have bikes available
 		// for pick-up or drop-off
 		transportPoints = transportPoints.stream()
-				.filter(point -> point.getType().equals("BiciMAD") && ((BicycleTransportPoint) point).isAvailable())
+				.filter(point -> {
+					if (point.getType().equals("BiciMAD")
+							&& !((BicycleTransportPoint) point).isAvailable()) {
+						return false;
+					}
+					return true;
+				})
 				.toList();
 		
 		return transportPoints;

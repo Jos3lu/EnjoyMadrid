@@ -11,14 +11,5 @@ public interface TouristicPointRepository extends PointRepository<TouristicPoint
 			
 	@Query("SELECT p FROM TouristicPoint p WHERE :category MEMBER p.categories")
 	List<TouristicPoint> findByCategory(@Param("category") String category);
-
-	/*
-	// Haversine Formula
-	String HAVERSINE_FORMULA = "(6371 * acos(cos(radians(:latitude)) * cos(radians(p.latitude)) *" +
-	        " cos(radians(p.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(p.latitude))))";
 	
-	@Query("SELECT p FROM TouristicPoint p WHERE " + HAVERSINE_FORMULA + " < :distance ORDER BY " + HAVERSINE_FORMULA + " DESC")
-	List<TouristicPoint> findTouristicPointsWithInDistance(@Param("longitude") Double longitude, 
-			@Param("latitude") Double latitude, @Param("distance") Double distance);
-	*/
 }

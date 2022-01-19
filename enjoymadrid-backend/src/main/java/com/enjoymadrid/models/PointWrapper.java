@@ -19,7 +19,7 @@ public class PointWrapper<P extends Comparable<P>> implements Comparable<PointWr
 	}
 	
 	private void calculateTotalCost() {
-		this.totalCost = (this.distanceFromOrigin + this.costHeuristic); // * (this.sameLine ? 0.5 : 1);
+		this.totalCost = (this.distanceFromOrigin + this.costHeuristic) * (this.sameLine ? 0.5 : 1);
 	}
 	
 	public PointWrapper<P> getPrevious() {
