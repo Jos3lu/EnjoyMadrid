@@ -65,8 +65,7 @@ public class RouteServiceLogic implements RouteService {
 		Map<String, Integer> preferences = route.getPreferences();
 		
 		// Get all the transport points selected by user
-		List<String> transports = route.getTransports();
-		List<TransportPoint> transportPoints = getTransportPoints(transports);
+		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports());
 		
 		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transportPoints, preferences);
 		

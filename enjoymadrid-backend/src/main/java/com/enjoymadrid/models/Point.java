@@ -30,18 +30,18 @@ public class Point {
 	private String name;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	@NotNull(message = "Longitude cannot be empty")
+	@NotNull(message = "Longitude cannot be null")
 	private Double longitude;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	@NotNull(message = "Latitude cannot be empty")
+	@NotNull(message = "Latitude cannot be null")
 	private Double latitude;
 	
 	public Point() {}
 
 	public Point(@NotEmpty(message = "Name cannot be empty") String name,
-			@NotNull(message = "Longitude cannot be empty") Double longitude,
-			@NotNull(message = "Latitude cannot be empty") Double latitude) {
+			@NotNull(message = "Longitude cannot be null") Double longitude,
+			@NotNull(message = "Latitude cannot be null") Double latitude) {
 		this.name = name;
 		this.longitude = longitude;
 		this.latitude = latitude;

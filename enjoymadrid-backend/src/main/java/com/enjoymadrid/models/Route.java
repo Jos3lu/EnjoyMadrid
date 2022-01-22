@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -33,63 +34,60 @@ public class Route {
 	@NotBlank(message = "Name cannot be empty")
 	private String name;
 	
-	@JsonView(RouteInterfaces.BasicData.class)
-	@NotNull(message = "Origin cannot be empty")
+	@JsonView(RouteInterfaces.PointsData.class)
+	@NotNull(message = "Origin cannot be null")
 	@ManyToOne(cascade = CascadeType.ALL)
 	private TransportPoint origin;
 	
-	@JsonView(RouteInterfaces.BasicData.class)
-	@NotNull(message = "Destination cannot be empty")
+	@JsonView(RouteInterfaces.PointsData.class)
+	@NotNull(message = "Destination cannot be null")
 	@ManyToOne(cascade = CascadeType.ALL)
 	private TransportPoint destination;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotNull(message = "Max distance cannot be empty")
+	@NotNull(message = "Max distance cannot be null")
 	private Double maxDistance;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@ElementCollection
-	@NotNull(message = "Mode of transports cannot be empty")
 	private List<String> transports = new ArrayList<>();
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@ElementCollection
 	@MapKeyColumn(name = "PREFERENCES")
 	@Column(name = "PREFRENCES_VALUE")
-	@NotNull(message = "Preferences cannot be empty")
 	private Map<String, Integer> preferences = new HashMap<>();
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotNull(message = "Date cannot be empty")
+	@NotNull(message = "Date cannot be null")
 	private LocalDate date;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	private Integer duration;
+	@NotNull(message = "Duration cannot be null")
+	private Double duration;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
+	@NotNull(message = "Distance cannot be null")
 	private Double distance;
-		
-	//@ManyToMany
-	//@JoinTable(name="ROUTE_POINT", joinColumns=@JoinColumn(name="ROUTE_ID"), inverseJoinColumns=@JoinColumn(name="POINT_ID"))
-	//@JsonView(RouteInterfaces.PointsData.class)
-	//private List<Point> points = new ArrayList<>();
-		
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonView(RouteInterfaces.SegmentData.class)
+	private List<Segment> segments = new ArrayList<>();
+				
 	public Route() {}
 	
 	public Route(@NotBlank(message = "Name cannot be empty") String name,
-			@NotNull(message = "Origin cannot be empty") TransportPoint origin,
-			@NotNull(message = "Destination cannot be empty") TransportPoint destination,
-			@NotNull(message = "Max distance cannot be empty") Double maxDistance,
-			@NotNull(message = "Mode of transports cannot be empty") List<String> transports,
-			@NotNull(message = "Date cannot be empty") LocalDate date, 
-			@NotNull(message = "Preferences cannot be empty") Map<String, Integer> preferences) {
+			@NotNull(message = "Origin cannot be null") TransportPoint origin,
+			@NotNull(message = "Destination cannot be null") TransportPoint destination,
+			@NotNull(message = "Max distance cannot be null") Double maxDistance, List<String> transports,
+			Map<String, Integer> preferences, @NotNull(message = "Date cannot be null") LocalDate date) {
 		this.name = name;
 		this.origin = origin;
 		this.destination = destination;
 		this.maxDistance = maxDistance;
 		this.transports = transports;
-		this.date = date;
 		this.preferences = preferences;
+		this.date = date;
 	}
 
 	public Long getId() {
@@ -148,11 +146,11 @@ public class Route {
 		this.date = date;
 	}
 
-	public Integer getDuration() {
+	public Double getDuration() {
 		return duration;
 	}
 
-	public void setDuration(Integer duration) {
+	public void setDuration(Double duration) {
 		this.duration = duration;
 	}
 
