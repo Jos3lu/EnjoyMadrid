@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import com.enjoymadrid.models.interfaces.SegmentInterfaces;
@@ -25,10 +26,12 @@ public class Segment {
 	
 	@JsonView(SegmentInterfaces.PointsData.class)
 	@NotNull(message = "Source cannot be null")
+	@ManyToOne
 	private TransportPoint source;
 	
 	@JsonView(SegmentInterfaces.PointsData.class)
 	@NotNull(message = "Target cannot be null")
+	@ManyToOne
 	private TransportPoint target;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
@@ -39,12 +42,12 @@ public class Segment {
 	@NotNull(message = "Duration cannot be null")
 	private Double duration;
 	
-	@ElementCollection
 	@JsonView(SegmentInterfaces.BasicData.class)
-	private Map<Integer, String> steps = new HashMap<>();
+	@ElementCollection
+	private Map<Integer[], String> steps = new HashMap<>();
 	
-	@ElementCollection
 	@JsonView(SegmentInterfaces.BasicData.class)
+	@ElementCollection
 	private List<Double[]> polyline = new ArrayList<>();
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
@@ -55,15 +58,14 @@ public class Segment {
 	public Segment(@NotNull(message = "Source cannot be null") TransportPoint source,
 			@NotNull(message = "Target cannot be null") TransportPoint target,
 			@NotNull(message = "Distance cannot be null") Double distance,
-			@NotNull(message = "Duration cannot be null") Double duration, Map<Integer, String> steps,
-			List<Double[]> polyline, String line) {
+			@NotNull(message = "Duration cannot be null") Double duration, Map<Integer[], String> steps,
+			List<Double[]> polyline) {
 		this.source = source;
 		this.target = target;
 		this.distance = distance;
 		this.duration = duration;
 		this.steps = steps;
 		this.polyline = polyline;
-		this.line = line;
 	}
 	
 }

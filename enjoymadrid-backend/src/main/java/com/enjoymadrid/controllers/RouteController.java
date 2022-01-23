@@ -45,7 +45,7 @@ public class RouteController {
 	public ResponseEntity<Route> createRoute(@Valid @RequestBody RouteDto routeDto) {
 		LocalDate date = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate();
 		Route route = new Route(routeDto.getName(), routeDto.getOrigin(), routeDto.getDestination(),
-				routeDto.getMaxDistance(), routeDto.getTransports(), date, routeDto.getPreferences());
+				routeDto.getMaxDistance(), routeDto.getTransports(), routeDto.getPreferences(), date);
 		route = this.routeService.createRoute(route);
 		return new ResponseEntity<>(route, HttpStatus.CREATED);
 	}

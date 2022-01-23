@@ -32,14 +32,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -93,23 +90,6 @@ public class LoadPointsComponent implements CommandLineRunner {
 		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
 		userRepository.save(user3);
 		
-		/*
-		WebClient client = WebClient.create("https://api.openrouteservice.org");
-
-		ObjectNode response = client.post()
-				.uri("/v2/directions/cycling-electric/geojson")
-				.header(HttpHeaders.AUTHORIZATION, "5b3ce3597851110001cf6248079a826553c748d0aed309710623ce33")
-				.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE, "application/geo+json")
-				.contentType(MediaType.APPLICATION_JSON)
-				.body(BodyInserters.fromValue(
-						"{\"coordinates\":[[8.681495,49.41461],[8.686507,49.41943],[8.687872,49.420318]],"
-						+ "\"language\":\"es-es\"}"))
-				.retrieve()
-				.bodyToMono(ObjectNode.class)
-				.block();
-		
-		System.out.println();
-		*/
 		loadDataAirQualityPoints();
 		loadDataTouristicPoints();
 		loadDataTransportPoints();

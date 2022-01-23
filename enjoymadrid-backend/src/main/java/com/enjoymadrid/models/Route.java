@@ -36,12 +36,12 @@ public class Route {
 	
 	@JsonView(RouteInterfaces.PointsData.class)
 	@NotNull(message = "Origin cannot be null")
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private TransportPoint origin;
 	
 	@JsonView(RouteInterfaces.PointsData.class)
 	@NotNull(message = "Destination cannot be null")
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private TransportPoint destination;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
@@ -168,6 +168,14 @@ public class Route {
 
 	public void setPreferences(Map<String, Integer> preferences) {
 		this.preferences = preferences;
+	}
+
+	public List<Segment> getSegments() {
+		return segments;
+	}
+
+	public void setSegments(List<Segment> segments) {
+		this.segments = segments;
 	}
 	
 }
