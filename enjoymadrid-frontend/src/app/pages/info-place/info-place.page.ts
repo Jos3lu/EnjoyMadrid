@@ -1,8 +1,8 @@
 import { Component, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { PointModel } from 'src/app/models/point-model';
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
-import { TransportPointModel } from 'src/app/models/transport-point.model';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import SwiperCore, { Autoplay, Navigation, Pagination, SwiperOptions, EffectCoverflow } from 'swiper';
 
@@ -44,11 +44,10 @@ export class InfoPlacePage implements OnInit {
 
   createRoute() {
     this.modalController.dismiss();
-    const point: TransportPointModel = { 
+    const point: PointModel = { 
       latitude: this.place.latitude, 
       longitude: this.place.longitude, 
-      name: this.place.name + ', ' + this.place.address + ', ' + this.place.zipcode + ' Madrid',
-      type: 'A pie'
+      name: this.place.name + ', ' + this.place.address + ', ' + this.place.zipcode + ' Madrid'
     };
     this.sharedService.setDestination(point, false);
     this.router.navigateByUrl('/create-route');

@@ -5,10 +5,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyColumn;
 
 @Entity
 @DiscriminatorValue("PublicTransport")
@@ -18,6 +20,8 @@ public class PublicTransportPoint extends TransportPoint {
 	private Set<String> lines = new HashSet<>();
 	
 	@ManyToMany
+	@MapKeyColumn(name = "LINE")
+	@Column(name = "NEXT_POINT")
 	private Map<String, PublicTransportPoint> nextStops = new HashMap<>();
 	
 	public PublicTransportPoint() {

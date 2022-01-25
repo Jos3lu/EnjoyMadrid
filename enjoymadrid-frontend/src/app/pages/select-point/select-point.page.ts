@@ -4,7 +4,7 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import * as L from 'leaflet';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { ModalController } from '@ionic/angular';
-import { TransportPointModel } from 'src/app/models/transport-point.model';
+import { PointModel } from 'src/app/models/point-model';
 
 @Component({
   selector: 'app-select-point',
@@ -16,7 +16,7 @@ export class SelectPointPage implements OnInit {
   // Information passed from create-route page
   @Input() isOrigin: boolean;
   @Input() pointEmpty: boolean;
-  @Input() point: TransportPointModel;
+  @Input() point: PointModel;
 
   // For the geo search
   provider = new OpenStreetMapProvider();
@@ -104,7 +104,7 @@ export class SelectPointPage implements OnInit {
 
   setMarker(latitude: number, longitude: number, name: string) {
     this.pointEmpty = false;
-    this.point = { latitude: latitude, longitude: longitude, name: name, type: 'A pie' };
+    this.point = { latitude: latitude, longitude: longitude, name: name };
     if (this.marker) {
       this.map.removeLayer(this.marker);
     }

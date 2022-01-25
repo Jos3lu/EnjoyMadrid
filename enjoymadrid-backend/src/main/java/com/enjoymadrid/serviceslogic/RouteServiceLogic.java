@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -72,17 +73,21 @@ public class RouteServiceLogic implements RouteService {
 		
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
-		TransportPoint destination = route.getDestination();		
+		TransportPoint destination = route.getDestination();
+		origin.setType("");
+		destination.setType("");
+		// Walking distance to the next transport point
 		Double maxDistance = route.getMaxDistance() * 0.8;
+		// User's interests
 		Map<String, Integer> preferences = route.getPreferences();
 		
 		// Get all the transport points selected by user
 		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports());
 		
 		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transportPoints, preferences);
-		setSegments(routePoints, route);
+		route = setSegments(routePoints, route);
 
-		return new Route();
+		return route;
 	}
 			
 	private <P extends Comparable<P>> List<P> findBestRoute(P origin, P destination, Double maxDistance,
@@ -368,7 +373,11 @@ public class RouteServiceLogic implements RouteService {
 		return transportPoints;
 	}
 	
-	private void setSegments(List<TransportPoint> routePoints, Route route) {
+	private Route setSegments(List<TransportPoint> routePoints, Route route) {
+	
+		// Total distance and duration of the route
+		Double totalDuration = 0.0;
+		Double totalDistance = 0.0;
 		
 		// List of Segments that create the route
 		List<Segment> segmentsRoute = new ArrayList<>();
@@ -379,28 +388,28 @@ public class RouteServiceLogic implements RouteService {
 				"BiciMAD", "cycling-electric",
 				"Bus", "driving-hgv");
 		// Get mode of transport
-		String modeTransport = "";
+		String transportMode = "";
+		// Get line (if segment is public transport)
+		Map<Integer[], String> lines = new HashMap<>();
 		
 		// Return a route between two or more locations for a selected profile
 		WebClient client = WebClient.create("https://api.openrouteservice.org");
-		for (int i = 0; i < routePoints.size(); i++) {
-			// Get start point
-			TransportPoint source = routePoints.get(i);
+		for (int i = 0; i < routePoints.size(); i++) {	
+			
+			// Index of first of segment
+			Integer source = i;
 			
 			// Add coordinates
 			List<TransportPoint> points = new ArrayList<>();
 			for (int j = i; j < routePoints.size(); j++) {
-				// Update index
-				if (j == routePoints.size() - 1) {
-					i = j;
-				}
-				
+				// Get point
 				TransportPoint transportPoint_1 = routePoints.get(j);
+				// Get next point to current
 				TransportPoint transportPoint_2 = routePoints.get(j + 1);
 				
 				// Add coordinates first point
 				points.add(transportPoint_1);
-				
+								
 				if (transportPoint_1.getType().equals(transportPoint_2.getType())) {
 					if (transportPoint_1 instanceof PublicTransportPoint && transportPoint_2 instanceof PublicTransportPoint) {
 						PublicTransportPoint publicTransportPoint_1 = (PublicTransportPoint) transportPoint_1;
@@ -412,32 +421,74 @@ public class RouteServiceLogic implements RouteService {
 						continue;
 					}
 				}
-				
+								
+				// 2 or more points of the same type (in public tranport also same line)
 				if (points.size() >= 2) {
-					// Add coordinates second point & update index
-					modeTransport = transportPoint_1.getType();
+					// Add to lines
+					List<String> linesList = new ArrayList<>();
+					int first = i;
+					int last = i;
+					for (int k = 0; k < points.size(); k++) {						
+						if (points.get(k) instanceof PublicTransportPoint) {
+							PublicTransportPoint point1 = (PublicTransportPoint) points.get(k);
+							PublicTransportPoint point2 = (PublicTransportPoint) points.get(k + 1);
+														
+							List<String> nextLines = point1.getNextStops().entrySet().stream()
+									.filter(entry -> entry.getValue().equals(point2))
+									.map(Map.Entry::getKey)
+									.collect(Collectors.toList());
+							
+							if (k == 0) {
+								linesList = nextLines;
+							}
+							
+							List<String> nextLinesAux = new ArrayList<>(nextLines);
+							nextLinesAux.retainAll(linesList);
+							if (nextLinesAux.isEmpty()) {
+								lines.put(new Integer[] {first, last}, linesList.get(0));
+								linesList = nextLines;
+								first = last;
+							}
+							
+							// Increment last element index
+							last++;
+							
+							if ((k + 1) == (points.size() - 1)) {
+								lines.put(new Integer[] {first, last}, linesList.get(0));
+								break;
+							}						
+						}
+					}
+					// Reduce index and then we calculate the segment
+					transportMode = transportPoint_1.getType();
 					i = j - 1;
 					break;
 				}
 				
 				// Add coordinates second point & update index
-				modeTransport = "A pie";
+				// Segment has to be done by walking
+				transportMode = "A pie";
 				points.add(transportPoint_2);
-				i = j;
+				// Last point, update index and calculate segment
+				if ((j + 1) == (routePoints.size() - 1)) {
+					i = j + 1;
+				} else {
+					i = j;
+				}
 				break;
 			}
 			
-			// Get end point
-			TransportPoint target = points.get(points.size() - 1);
+			// Index of first & last point of segment
+			Integer target = source + points.size() - 1;
 			
 			// For subway and commuter
-			if (!modeTransports.containsKey(modeTransport)) {
+			if (!modeTransports.containsKey(transportMode)) {
 				double speed = 1.0;
 				// Average speed of Madrid subway is aorund 30 km/h
-				if (modeTransport.equals("Metro")) {
+				if (transportMode.equals("Metro")) {
 					speed = 30.0;
 				} // Average speed of commuter is around 50 km/h 
-				else if (modeTransport.equals("Cercanías")) {
+				else if (transportMode.equals("Cercanías")) {
 					speed = 50.0;
 				}
 				// Add coordinates to be used as a polyline
@@ -445,24 +496,32 @@ public class RouteServiceLogic implements RouteService {
 				points.forEach(point -> polylineList.add(new Double[] {point.getLatitude(), point.getLongitude()}));
 				// Calculate total distance (in a straight line)
 				double distance = 0.0;
-				for (int j = points.size() - 1; j > 0; j++) {
+				for (int j = points.size() - 1; j > 0; j--) {
 					distance += calculateDistance(points.get(j), points.get(j - 1));
 				}
+				double duration = distance / speed;
+				// Calculate distance & duration of the route
+				totalDistance += distance;
+				totalDuration += duration;
 				
-				Segment segment = new Segment(source, target, distance, distance / speed, null, polylineList);
+				Segment segment = new Segment(source, target, distance, duration, transportMode, polylineList);
 				segmentsRoute.add(segment);
 				continue;
 			}
 			
 			// Transform the points into their coordinates
 			StringBuilder coordinates = new StringBuilder();
-			points.forEach(point -> {
-				coordinates.append("[" + point.getLongitude() + "," + point.getLatitude());
-			});
+			Iterator<TransportPoint> iterator = points.iterator();
+			while (iterator.hasNext()) {
+				TransportPoint point = iterator.next();
+				coordinates.append("[" + point.getLongitude() + "," + point.getLatitude() + "]");
+				if (iterator.hasNext()) 
+					coordinates.append(",");
+			}
 			
 			// Get response
 			ObjectNode response = client.post()
-					.uri("/v2/directions/" + modeTransports.get(modeTransport) + "/geojson")
+					.uri("/v2/directions/" + modeTransports.get(transportMode) + "/geojson")
 					.header(HttpHeaders.AUTHORIZATION, "5b3ce3597851110001cf6248079a826553c748d0aed309710623ce33")
 					.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE, "application/geo+json")
 					.contentType(MediaType.APPLICATION_JSON)
@@ -477,21 +536,26 @@ public class RouteServiceLogic implements RouteService {
 			JsonNode features = response.get("features");
 			
 			JsonNode properties = features.findValue("properties");	
-			Double distance = properties.get("summary").get("distance").asDouble();
-			Double duration = properties.get("summary").get("duration").asDouble();
-			List<JsonNode> stepsList = properties.get("segments").findValues("steps");
+			Double distance = properties.get("summary").get("distance").asDouble() / 1000;
+			Double duration = properties.get("summary").get("duration").asDouble() / 60;
 			
 			Map<Integer[], String> stepsMap = new HashMap<>();
-			for (JsonNode steps: stepsList) {
-				for (JsonNode step: steps) {
-					JsonNode way_points = step.get("way_points");
-					Integer first = way_points.get(0).asInt();
-					Integer last = way_points.get(1).asInt();
-					String instruction = step.get("instruction").asText();
-					stepsMap.put(new Integer[] {first, last}, instruction);
+			// Get segment instructions if not bus
+			if (!transportMode.equals("Bus")) {
+				List<JsonNode> stepsList = properties.get("segments").findValues("steps");
+
+				for (JsonNode steps : stepsList) {
+					for (JsonNode step : steps) {
+						JsonNode way_points = step.get("way_points");
+						Integer first = way_points.get(0).asInt();
+						Integer last = way_points.get(1).asInt();
+						String instruction = step.get("instruction").asText();
+						stepsMap.put(new Integer[] { first, last }, instruction);
+					}
 				}
 			}
 			
+			// Get the points to draw the route
 			JsonNode polyline = features.findValue("geometry").findValue("coordinates");
 			List<Double[]> polylineList = new ArrayList<>();
 			for (JsonNode coordinatesNode: polyline) {
@@ -500,14 +564,25 @@ public class RouteServiceLogic implements RouteService {
 				polylineList.add(new Double[] {latitude, longitude});
 			}
 			
-			Segment segment = new Segment(source, target, distance, duration, modeTransport.equals("Bus") ? null : stepsMap, polylineList);
+			
+			// Calculate distance & duration of the route
+			totalDistance += distance;
+			totalDuration += duration;
+			
+			Segment segment = new Segment(source, target, distance, duration, transportMode, polylineList);
+			segment.setSteps(stepsMap);
 			segmentsRoute.add(segment);
 		}
 		
 		// Save route in DataBase
-		route.setSegments(segmentsRoute);
-		routeRepository.save(route);
+		route.setPoints(routePoints);
+		route.setSegments(segmentsRoute);	
+		route.setDistance(totalDistance);
+		route.setDuration(totalDuration);
+		route.setLines(lines);
+		route = routeRepository.save(route);
 		
+		return route;
 	}
 
 }

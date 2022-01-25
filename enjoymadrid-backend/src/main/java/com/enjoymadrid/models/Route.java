@@ -13,9 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -36,12 +37,12 @@ public class Route {
 	
 	@JsonView(RouteInterfaces.PointsData.class)
 	@NotNull(message = "Origin cannot be null")
-	@ManyToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private TransportPoint origin;
 	
 	@JsonView(RouteInterfaces.PointsData.class)
 	@NotNull(message = "Destination cannot be null")
-	@ManyToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private TransportPoint destination;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
@@ -54,8 +55,8 @@ public class Route {
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@ElementCollection
-	@MapKeyColumn(name = "PREFERENCES")
-	@Column(name = "PREFRENCES_VALUE")
+	@MapKeyColumn(name = "PREFERENCE")
+	@Column(name = "PREFRENCE_INTEREST")
 	private Map<String, Integer> preferences = new HashMap<>();
 	
 	@JsonView(RouteInterfaces.BasicData.class)
@@ -70,9 +71,19 @@ public class Route {
 	@NotNull(message = "Distance cannot be null")
 	private Double distance;
 	
+	@ManyToMany
+	@JsonView(RouteInterfaces.CompleteData.class)
+	private List<TransportPoint> points = new ArrayList<>();
+	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonView(RouteInterfaces.SegmentData.class)
 	private List<Segment> segments = new ArrayList<>();
+	
+	@JsonView(RouteInterfaces.CompleteData.class)
+	@ElementCollection
+	@MapKeyColumn(name = "LINE")
+	@Column(name = "WAY_POINTS")
+	private Map<Integer[], String> lines = new HashMap<>();
 				
 	public Route() {}
 	
@@ -170,12 +181,28 @@ public class Route {
 		this.preferences = preferences;
 	}
 
+	public List<TransportPoint> getPoints() {
+		return points;
+	}
+
+	public void setPoints(List<TransportPoint> points) {
+		this.points = points;
+	}
+
 	public List<Segment> getSegments() {
 		return segments;
 	}
 
 	public void setSegments(List<Segment> segments) {
 		this.segments = segments;
+	}
+
+	public Map<Integer[], String> getLines() {
+		return lines;
+	}
+
+	public void setLines(Map<Integer[], String> lines) {
+		this.lines = lines;
 	}
 	
 }

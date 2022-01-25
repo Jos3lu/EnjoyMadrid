@@ -41,7 +41,7 @@ public class RouteController {
 	}
 	
 	@PostMapping("/routes")
-	@JsonView(RouteInterfaces.BasicData.class)
+	@JsonView(RouteInterfaces.GeneralData.class)
 	public ResponseEntity<Route> createRoute(@Valid @RequestBody RouteDto routeDto) {
 		LocalDate date = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate();
 		Route route = new Route(routeDto.getName(), routeDto.getOrigin(), routeDto.getDestination(),
