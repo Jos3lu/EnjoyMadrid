@@ -249,6 +249,13 @@ public class RouteServiceLogic implements RouteService {
 							.filter(place -> place.getType().equals("Restaurantes") || place.getType().equals("Clubs"))
 							.count();
 				}
+				// Preference by sport type or category
+				else if (preference.getKey().contains("D_")) {
+					nearPlaces = nearTouristicPoints.stream()
+							.filter(place -> place.getType().equals(preferenceName)
+									|| place.getCategories().contains("Instalaciones deportivas"))
+							.count();
+				}
 				// Search the touristic point by type attribute
 				else if (preference.getKey().contains("T_")) {
 					nearPlaces = nearTouristicPoints.stream()

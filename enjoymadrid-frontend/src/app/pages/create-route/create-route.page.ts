@@ -67,7 +67,7 @@ export class CreateRoutePage implements OnInit {
       { category: 'C', name: 'Empresas de guías Turísticas', value: 0 },
       { category: 'C', name: 'Edificios y monumentos', value : 0 },
       { category: 'C', name: 'Centros de ocio', value: 0 },
-      { category: 'T', name: 'Deportes', value: 0 },
+      { category: 'D', name: 'Deportes', value: 0 },
       { category: 'T', name: 'Tiendas', value: 0 },
       { category: 'R', name: 'Restauración', value: 0 }
     ];
@@ -89,6 +89,14 @@ export class CreateRoutePage implements OnInit {
 
   changeColor(indexStar: number, index: number) {
     return indexStar > this.preferences[index].value ? '#ccc' : '#ffc700';
+  }
+
+  ratingSelected(index: number) {
+    return this.preferences[index].value > 0;
+  }
+
+  clearRating(index: number) {
+    this.preferences[index].value = 0;
   }
 
   async selectOrigin() {

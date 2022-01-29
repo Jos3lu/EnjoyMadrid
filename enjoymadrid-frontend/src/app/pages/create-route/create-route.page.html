@@ -24,10 +24,12 @@
             <ion-list-header>Preferencias</ion-list-header>
             <ion-item-group>
               <ion-item *ngFor="let preference of preferences; let i = index">
-                <ion-label class="ion-text-wrap">{{preference.name}}</ion-label>
+                <ion-label [ngClass]="{ 'ion-text-wrap' : !ratingSelected(i) }">{{preference.name}}</ion-label>
                 <div slot="start">
-                  <ion-icon class="color-star" name="star" *ngFor="let n of [1,2,3,4,5]"
-                    [ngStyle]="{'color': changeColor(n, i)}" (click)="onRating(n, i)">
+                  <ion-icon class="clear-button ion-padding-end" [hidden]="!ratingSelected(i)" (click)="clearRating(i)" color="danger"
+                    name="heart-dislike-outline"></ion-icon>
+                  <ion-icon class="color-star" name="star" *ngFor="let n of [1,2,3,4,5]" [ngStyle]="{'color': changeColor(n, i)}"
+                    (click)="onRating(n, i)">
                   </ion-icon>
                 </div>
               </ion-item>
