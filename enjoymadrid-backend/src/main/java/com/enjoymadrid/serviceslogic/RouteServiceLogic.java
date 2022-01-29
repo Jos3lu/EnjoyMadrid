@@ -386,14 +386,15 @@ public class RouteServiceLogic implements RouteService {
 		Map<String, String> modeTransports = Map.of(
 				"A pie", "foot-walking",
 				"BiciMAD", "cycling-electric",
-				"Bus", "driving-hgv");
+				"Bus", "driving-car");
 		// Get mode of transport
 		String transportMode = "";
 		// Get line (if segment is public transport)
 		Map<Integer[], String> lines = new HashMap<>();
 		
 		// Return a route between two or more locations for a selected profile
-		WebClient client = WebClient.create("https://api.openrouteservice.org");
+		//WebClient client = WebClient.create("https://api.openrouteservice.org");
+		WebClient client = WebClient.create("http://localhost:8088/ors");
 		for (int i = 0; i < routePoints.size(); i++) {	
 			
 			// Index of first of segment
