@@ -85,6 +85,9 @@ public class RouteServiceLogic implements RouteService {
 		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports());
 		
 		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transportPoints, preferences);
+		if (routePoints == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST , "No se ha podido crear la ruta con estos parámetros de entrada");
+		}
 		route = setSegments(routePoints, route);
 
 		return route;
@@ -118,7 +121,8 @@ public class RouteServiceLogic implements RouteService {
 
 			// Point destination reached, return list of points
 			if (calculateDistance(point, destination) <= maxDistance
-					&& isDirectNeighbor(pointWrapper.getPrevious() != null ? pointWrapper.getPrevious().getPoint() : null, point, true)) {
+					&& (isDirectNeighbor(pointWrapper.getPrevious() != null ? pointWrapper.getPrevious().getPoint() : null, point, true) 
+						|| point.equals(origin))) {
 				List<P> route = new LinkedList<>();
 				while (pointWrapper != null) {
 					route.add(0, pointWrapper.getPoint());
@@ -225,33 +229,36 @@ public class RouteServiceLogic implements RouteService {
 				.filter(touristicPoint -> haversine(touristicPoint.getLatitude(), touristicPoint.getLongitude(),
 						((Point) point).getLatitude(), ((Point) point).getLongitude()) <= 0.5)
 				.collect(Collectors.toList());
-
-		// Calculate value respect to the number of sites of a given type
-		double interestPlaces = preferences.entrySet().parallelStream().reduce(0.0, (sum, preference) -> {
-			// Get preference type
-			String preferenceName = preference.getKey().substring(preference.getKey().indexOf('_') + 1);
-			// Search the touristic point by category attribute
-			double nearPlaces = 0.0;
-			if (preference.getKey().contains("C_")) {
-				nearPlaces = nearTouristicPoints.stream()
-						.filter(place -> place.getCategories().contains(preferenceName))
-						.count();
-			}
-			// Preference is a combination of 2 types
-			else if (preference.getKey().contains("R_")) {
-				nearPlaces = nearTouristicPoints.stream()
-						.filter(place -> place.getType().equals("Restaurantes") || place.getType().equals("Clubs"))
-						.count();
-			}
-			// Search the touristic point by type attribute
-			else if (preference.getKey().contains("T_")) {
-				nearPlaces = nearTouristicPoints.stream()
-						.filter(place -> place.getType().equals(preferenceName))
-						.count();
-			}
-			nearPlaces *= preference.getValue() * 1.5; 
-			return sum + nearPlaces;
-		}, (p1, p2) -> p1 + p2);
+		
+		double interestPlaces = 0.0;
+		if (!nearTouristicPoints.isEmpty()) {
+			// Calculate value respect to the number of sites of a given type
+			interestPlaces = preferences.entrySet().parallelStream().reduce(0.0, (sum, preference) -> {
+				// Get preference type
+				String preferenceName = preference.getKey().substring(preference.getKey().indexOf('_') + 1);
+				// Search the touristic point by category attribute
+				double nearPlaces = 0.0;
+				if (preference.getKey().contains("C_")) {
+					nearPlaces = nearTouristicPoints.stream()
+							.filter(place -> place.getCategories().contains(preferenceName))
+							.count();
+				}
+				// Preference is a combination of 2 types
+				else if (preference.getKey().contains("R_")) {
+					nearPlaces = nearTouristicPoints.stream()
+							.filter(place -> place.getType().equals("Restaurantes") || place.getType().equals("Clubs"))
+							.count();
+				}
+				// Search the touristic point by type attribute
+				else if (preference.getKey().contains("T_")) {
+					nearPlaces = nearTouristicPoints.stream()
+							.filter(place -> place.getType().equals(preferenceName))
+							.count();
+				}
+				nearPlaces *= preference.getValue() * 1.5; 
+				return sum + nearPlaces;
+			}, (p1, p2) -> p1 + p2);
+		}
 		
 		if (interestPlaces == 0.0) interestPlaces = 1.0;
 		
@@ -374,7 +381,7 @@ public class RouteServiceLogic implements RouteService {
 	}
 	
 	private Route setSegments(List<TransportPoint> routePoints, Route route) {
-	
+
 		// Total distance and duration of the route
 		Double totalDuration = 0.0;
 		Double totalDistance = 0.0;
@@ -393,8 +400,8 @@ public class RouteServiceLogic implements RouteService {
 		Map<Integer[], String> lines = new HashMap<>();
 		
 		// Return a route between two or more locations for a selected profile
-		//WebClient client = WebClient.create("https://api.openrouteservice.org");
-		WebClient client = WebClient.create("http://localhost:8088/ors");
+		WebClient client = WebClient.create("https://api.openrouteservice.org");
+		//WebClient client = WebClient.create("http://localhost:8088/ors");
 		for (int i = 0; i < routePoints.size(); i++) {	
 			
 			// Index of first of segment
@@ -449,6 +456,8 @@ public class RouteServiceLogic implements RouteService {
 								lines.put(new Integer[] {first, last}, linesList.get(0));
 								linesList = nextLines;
 								first = last;
+							} else {
+								linesList = nextLinesAux;
 							}
 							
 							// Increment last element index
