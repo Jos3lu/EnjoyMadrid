@@ -404,7 +404,7 @@ public class RouteServiceLogic implements RouteService {
 		// Get mode of transport
 		String transportMode = "";
 		// Get line (if segment is public transport)
-		Map<Integer[], String> lines = new HashMap<>();
+		Map<String, String> lines = new HashMap<>();
 		
 		// Return a route between two or more locations for a selected profile
 		WebClient client = WebClient.create("https://api.openrouteservice.org");
@@ -460,7 +460,7 @@ public class RouteServiceLogic implements RouteService {
 							List<String> nextLinesAux = new ArrayList<>(nextLines);
 							nextLinesAux.retainAll(linesList);
 							if (nextLinesAux.isEmpty()) {
-								lines.put(new Integer[] {first, last}, linesList.get(0));
+								lines.put(first + "-" + last, linesList.get(0));
 								linesList = nextLines;
 								first = last;
 							} else {
@@ -471,7 +471,7 @@ public class RouteServiceLogic implements RouteService {
 							last++;
 							
 							if ((k + 1) == (points.size() - 1)) {
-								lines.put(new Integer[] {first, last}, linesList.get(0));
+								lines.put(first + "-" + last, linesList.get(0));
 								break;
 							}						
 						}
@@ -556,7 +556,7 @@ public class RouteServiceLogic implements RouteService {
 			Double distance = properties.get("summary").get("distance").asDouble() / 1000;
 			Double duration = properties.get("summary").get("duration").asDouble() / 60;
 			
-			Map<Integer[], String> stepsMap = new HashMap<>();
+			Map<String, String> stepsMap = new HashMap<>();
 			// Get segment instructions if not bus
 			if (!transportMode.equals("Bus")) {
 				List<JsonNode> stepsList = properties.get("segments").findValues("steps");
@@ -567,7 +567,7 @@ public class RouteServiceLogic implements RouteService {
 						Integer first = way_points.get(0).asInt();
 						Integer last = way_points.get(1).asInt();
 						String instruction = step.get("instruction").asText();
-						stepsMap.put(new Integer[] { first, last }, instruction);
+						stepsMap.put(first + "-" + last, instruction);
 					}
 				}
 			}

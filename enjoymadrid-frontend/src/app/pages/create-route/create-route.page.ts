@@ -163,8 +163,8 @@ export class CreateRoutePage implements OnInit {
     this.route.maxDistance = this.maxDistance / 1000;
 
     this.routeService.createRoute(this.route).subscribe(
-      (points: any) => {
-        console.log(points);
+      (route: any) => {
+        console.log(route);
       }
     );
 

@@ -83,7 +83,7 @@ public class Route {
 	@ElementCollection
 	@MapKeyColumn(name = "LINE")
 	@Column(name = "WAY_POINTS")
-	private Map<Integer[], String> lines = new HashMap<>();
+	private Map<String, String> lines = new HashMap<>();
 				
 	public Route() {}
 	
@@ -197,11 +197,11 @@ public class Route {
 		this.segments = segments;
 	}
 
-	public Map<Integer[], String> getLines() {
+	public Map<String, String> getLines() {
 		return lines;
 	}
 
-	public void setLines(Map<Integer[], String> lines) {
+	public void setLines(Map<String, String> lines) {
 		this.lines = lines;
 	}
 	

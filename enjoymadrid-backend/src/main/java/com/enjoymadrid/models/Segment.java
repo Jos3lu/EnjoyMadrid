@@ -50,7 +50,7 @@ public class Segment {
 	@ElementCollection
 	@MapKeyColumn(name = "WAY_POINTS")
 	@Column(name = "STEP")
-	private Map<Integer[], String> steps = new HashMap<>();
+	private Map<String, String> steps = new HashMap<>();
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
 	@ElementCollection
@@ -112,11 +112,11 @@ public class Segment {
 		this.duration = duration;
 	}
 
-	public Map<Integer[], String> getSteps() {
+	public Map<String, String> getSteps() {
 		return steps;
 	}
 
-	public void setSteps(Map<Integer[], String> steps) {
+	public void setSteps(Map<String, String> steps) {
 		this.steps = steps;
 	}
 

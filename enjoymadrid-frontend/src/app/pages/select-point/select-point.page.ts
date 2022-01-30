@@ -75,6 +75,7 @@ export class SelectPointPage implements OnInit {
     L.control.zoom({ position: 'topright' }).addTo(this.map);
     L.control.layers(layers, null, { position: 'topright' }).addTo(this.map);
 
+    // Search location (search box) or select point in the map
     this.map.on('geosearch/showlocation', e => this.searchPoint(e));
     this.map.on('click', e => this.selectPoint(e));
 
@@ -82,6 +83,7 @@ export class SelectPointPage implements OnInit {
 
   @HostListener('window:popstate', ['$event'])
   dismissModal() {
+    // Close modal when back button selected
     this.modalController.dismiss();
   }
 
@@ -94,6 +96,7 @@ export class SelectPointPage implements OnInit {
   }
 
   searchCurrentLocation() {
+    // Get actual location of user
     this.geolocation.getCurrentPosition().then(position => {
       this.setMarker(position.coords.latitude, position.coords.longitude, 'Tu ubicación');
     }).catch(error => {
@@ -103,6 +106,7 @@ export class SelectPointPage implements OnInit {
   }
 
   setMarker(latitude: number, longitude: number, name: string) {
+    // Update the position of the marker
     this.pointEmpty = false;
     this.point = { latitude: latitude, longitude: longitude, name: name };
     if (this.marker) {
