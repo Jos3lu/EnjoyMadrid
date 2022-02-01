@@ -164,7 +164,13 @@ export class CreateRoutePage implements OnInit {
 
     this.routeService.createRoute(this.route).subscribe(
       (route: any) => {
-        console.log(route);
+        this.sharedService.setRoute(route);
+      },
+      error => {
+        this.sharedService.handleError(error);
+        if (error.error.message) {
+          this.sharedService.showToast(error.error?.message, 3000);
+        }
       }
     );
 

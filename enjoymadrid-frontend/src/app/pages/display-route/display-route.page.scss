@@ -1,0 +1,31 @@
+.my-map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+hr {
+    border-bottom: 1px solid #ccc;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.openMenuButton {
+    z-index: 1;
+}
+
+.side-menu {
+    background-color: white;
+    min-width: 400px;
+    width: 25%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+}
+
+.name-point {
+    color: #747475;
+}

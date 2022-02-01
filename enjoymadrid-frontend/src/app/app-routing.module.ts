@@ -30,6 +30,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/sign/sign.module').then( m => m.LoginPageModule)
   },
   {
+    path: 'display-route',
+    loadChildren: () => import('./pages/display-route/display-route.module').then( m => m.DisplayRoutePageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/page-not-found/page-not-found.module').then( m => m.PageNotFoundPageModule)
   }

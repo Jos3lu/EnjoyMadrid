@@ -75,7 +75,7 @@ export class SelectPointPage implements OnInit {
     L.control.zoom({ position: 'topright' }).addTo(this.map);
     L.control.layers(layers, null, { position: 'topright' }).addTo(this.map);
 
-    // Search location (search box) or select point in the map
+    // Search location (search bar) or select point in the map
     this.map.on('geosearch/showlocation', e => this.searchPoint(e));
     this.map.on('click', e => this.selectPoint(e));
 
