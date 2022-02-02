@@ -25,7 +25,7 @@ import { Router } from '@angular/router';
 export class DisplayRoutePage implements OnInit {
 
   // Get if running on Desktop or mobile
-  isDesktop: boolean;
+  showSideMenu: boolean;
   // Map
   map: L.Map;
   // Close side menu when user click button
@@ -42,7 +42,7 @@ export class DisplayRoutePage implements OnInit {
 
   ngOnInit() {
     this.platform.ready().then(() => {
-      this.isDesktop = this.platform.is('desktop');
+      this.showSideMenu = this.platform.is('desktop');
     });
 
     this.route = this.sharedService.getRoute();

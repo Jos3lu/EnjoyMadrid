@@ -1,5 +1,7 @@
 package com.enjoymadrid.serviceslogic;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -390,10 +392,6 @@ public class RouteServiceLogic implements RouteService {
 	}
 	
 	private Route setSegments(List<TransportPoint> routePoints, Route route) {
-
-		// Total distance and duration of the route
-		Double totalDuration = 0.0;
-		Double totalDistance = 0.0;
 		
 		// List of Segments that create the route
 		List<Segment> segmentsRoute = new ArrayList<>();
@@ -502,28 +500,12 @@ public class RouteServiceLogic implements RouteService {
 			
 			// For subway and commuter
 			if (!modeTransports.containsKey(transportMode)) {
-				double speed = 1.0;
-				// Average speed of Madrid subway is aorund 30 km/h
-				if (transportMode.equals("Metro")) {
-					speed = 30.0;
-				} // Average speed of commuter is around 50 km/h 
-				else if (transportMode.equals("Cercanías")) {
-					speed = 50.0;
-				}
 				// Add coordinates to be used as a polyline
 				List<Double[]> polylineList = new ArrayList<>();
 				points.forEach(point -> polylineList.add(new Double[] {point.getLatitude(), point.getLongitude()}));
-				// Calculate total distance (in a straight line)
-				double distance = 0.0;
-				for (int j = points.size() - 1; j > 0; j--) {
-					distance += calculateDistance(points.get(j), points.get(j - 1));
-				}
-				double duration = distance / speed;
-				// Calculate distance & duration of the route
-				totalDistance += distance;
-				totalDuration += duration;
-				
-				Segment segment = new Segment(source, target, distance, duration, transportMode, polylineList);
+
+				// Create segment & add it to the rest of segments
+				Segment segment = new Segment(source, target, transportMode, polylineList);
 				segmentsRoute.add(segment);
 				continue;
 			}
@@ -552,15 +534,30 @@ public class RouteServiceLogic implements RouteService {
 					.bodyToMono(ObjectNode.class)
 					.block();
 			
+			// Get data of the response
 			JsonNode features = response.get("features");
-			
 			JsonNode properties = features.findValue("properties");	
-			Double distance = properties.get("summary").get("distance").asDouble() / 1000;
-			Double duration = properties.get("summary").get("duration").asDouble() / 60;
 			
-			Map<String, String> stepsMap = new HashMap<>();
+			// Get the points to draw the route
+			JsonNode polyline = features.findValue("geometry").findValue("coordinates");
+			List<Double[]> polylineList = new ArrayList<>();
+			for (JsonNode coordinatesNode: polyline) {
+				Double longitude = coordinatesNode.get(0).asDouble();
+				Double latitude = coordinatesNode.get(1).asDouble();
+				polylineList.add(new Double[] {latitude, longitude});
+			}
+			
+			// Create segment 
+			Segment segment = new Segment(source, target, transportMode, polylineList);
+			
 			// Get segment instructions if not bus
 			if (!transportMode.equals("Bus")) {
+				Map<String, String> stepsMap = new HashMap<>();
+				double distance = properties.get("summary").get("distance").asDouble() / 1000;
+				double duration = properties.get("summary").get("duration").asDouble() / 60;
+				distance = BigDecimal.valueOf(distance).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+				duration = Math.round(duration);
+				
 				List<JsonNode> stepsList = properties.get("segments").findValues("steps");
 
 				for (JsonNode steps : stepsList) {
@@ -572,32 +569,17 @@ public class RouteServiceLogic implements RouteService {
 						stepsMap.put(first + "-" + last, instruction);
 					}
 				}
-			}
-			
-			// Get the points to draw the route
-			JsonNode polyline = features.findValue("geometry").findValue("coordinates");
-			List<Double[]> polylineList = new ArrayList<>();
-			for (JsonNode coordinatesNode: polyline) {
-				Double longitude = coordinatesNode.get(0).asDouble();
-				Double latitude = coordinatesNode.get(1).asDouble();
-				polylineList.add(new Double[] {latitude, longitude});
-			}
-			
-			
-			// Calculate distance & duration of the route
-			totalDistance += distance;
-			totalDuration += duration;
-			
-			Segment segment = new Segment(source, target, distance, duration, transportMode, polylineList);
-			segment.setSteps(stepsMap);
+				
+				segment.setSteps(stepsMap);
+			} 
+									
+			// Add segment to the segments list
 			segmentsRoute.add(segment);
 		}
 		
 		// Save route in DataBase
 		route.setPoints(routePoints);
-		route.setSegments(segmentsRoute);	
-		route.setDistance(totalDistance);
-		route.setDuration(totalDuration);
+		route.setSegments(segmentsRoute);
 		route.setLines(lines);
 		route = routeRepository.save(route);
 		

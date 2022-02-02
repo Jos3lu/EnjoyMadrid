@@ -35,11 +35,9 @@ public class Segment {
 	private Integer target;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
-	@NotNull(message = "Distance cannot be null")
 	private Double distance;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
-	@NotNull(message = "Duration cannot be null")
 	private Double duration;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
@@ -60,14 +58,10 @@ public class Segment {
 
 	public Segment(@NotNull(message = "Source cannot be null") Integer source,
 			@NotNull(message = "Target cannot be null") Integer target,
-			@NotNull(message = "Distance cannot be null") Double distance,
-			@NotNull(message = "Duration cannot be null") Double duration,
 			@NotBlank(message = "Mode of transport cannot be empty") String transportMode, 
 			List<Double[]> polyline) {
 		this.source = source;
 		this.target = target;
-		this.distance = distance;
-		this.duration = duration;
 		this.transportMode = transportMode;
 		this.polyline = polyline;
 	}

@@ -63,14 +63,6 @@ public class Route {
 	@NotNull(message = "Date cannot be null")
 	private LocalDate date;
 	
-	@JsonView(RouteInterfaces.BasicData.class)
-	@NotNull(message = "Duration cannot be null")
-	private Double duration;
-	
-	@JsonView(RouteInterfaces.BasicData.class)
-	@NotNull(message = "Distance cannot be null")
-	private Double distance;
-	
 	@ManyToMany
 	@JsonView(RouteInterfaces.CompleteData.class)
 	private List<TransportPoint> points = new ArrayList<>();
@@ -155,22 +147,6 @@ public class Route {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
-	}
-
-	public Double getDuration() {
-		return duration;
-	}
-
-	public void setDuration(Double duration) {
-		this.duration = duration;
-	}
-
-	public Double getDistance() {
-		return distance;
-	}
-
-	public void setDistance(Double distance) {
-		this.distance = distance;
 	}
 
 	public Map<String, Integer> getPreferences() {

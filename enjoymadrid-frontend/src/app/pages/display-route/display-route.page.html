@@ -6,29 +6,22 @@
   </ion-fab>
   <div id="map" class="my-map"></div>
   <!-- Display side menu for desktop -->
-  <div *ngIf="isDesktop">
+  <div *ngIf="showSideMenu">
     <ion-content *ngIf="isOpen" [@openClose] class="side-menu">
-      <ion-grid class="ion-margin-horizontal">
-        <ion-row>
-          <ion-col>
-            <h3>Detalles de la ruta</h3>
-          </ion-col>
-          <ion-col size="auto">
-            <!-- close side menu -->
-            <ion-button (click)="toggleMenu()" fill="clear">
-              <ion-icon name="close-outline"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-item-group>
-              <ion-label><span class="name-point">Inicio</span> {{route?.origin?.name}}</ion-label>
-              <ion-label><span class="name-point">Fin</span> {{route?.destination?.name}}</ion-label>
-            </ion-item-group>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <div class="ion-padding-horizontal">
+        <ion-fab horizontal="end" vertical="top" slot="fixed">
+          <!-- close side menu -->
+          <ion-button (click)="toggleMenu()" fill="clear">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-fab>
+        <h3>Detalles de la ruta</h3>
+        <ion-item-group class="text-small ion-margin-top">
+          <ion-label><span class="name-point">Inicio</span> {{route?.origin?.name}}</ion-label>
+          <ion-label><span class="name-point">Fin</span> {{route?.destination?.name}}</ion-label>
+        </ion-item-group>
+      </div>
+      <hr>
     </ion-content>
     <ion-fab class="openMenuButton" [hidden]="isOpen" vertical="center" horizontal="start">
       <ion-button (click)="toggleMenu()" color="light" size="small">
@@ -41,7 +34,7 @@
 
 
 <!-- Display sheet modal for mobile 
-  <div *ngIf="!isDesktop">
+  <div *ngIf="!showSideMenu">
   <ion-button id="trigger-button">Click to open modal</ion-button>
   <ion-modal trigger="trigger-button">
     <ng-template>

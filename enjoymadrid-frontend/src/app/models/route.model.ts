@@ -9,8 +9,6 @@ export interface RouteModel {
     transports: string[];
     origin: PointModel;
     destination: PointModel;
-    distance?: number;
-    duration?: number;
     date?: Date; 
     points?: PointModel[];
     lines?: {[key: string]: string};
