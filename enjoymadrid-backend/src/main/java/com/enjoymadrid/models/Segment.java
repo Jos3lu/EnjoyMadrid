@@ -53,6 +53,9 @@ public class Segment {
 	@JsonView(SegmentInterfaces.BasicData.class)
 	@ElementCollection
 	private List<Double[]> polyline = new ArrayList<>();
+	
+	@JsonView(SegmentInterfaces.BasicData.class)
+	private String line;
 		
 	public Segment() {}
 
@@ -128,6 +131,14 @@ public class Segment {
 
 	public void setTransportMode(String transportMode) {
 		this.transportMode = transportMode;
+	}
+
+	public String getLine() {
+		return line;
+	}
+
+	public void setLine(String line) {
+		this.line = line;
 	}
 	
 }

@@ -15,6 +15,6 @@ public class RouteInterfaces {
 	public static interface DetailData extends BasicData, PointsData {}
 	
 	public static interface GeneralData 
-		extends BasicData, PointsData, SegmentData, CompleteData {}
+		extends DetailData, SegmentData, CompleteData {}
 	
 }

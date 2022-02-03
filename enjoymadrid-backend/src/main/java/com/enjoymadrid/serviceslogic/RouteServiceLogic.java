@@ -403,8 +403,6 @@ public class RouteServiceLogic implements RouteService {
 				"Bus", "driving-car");
 		// Get mode of transport
 		String transportMode = "";
-		// Get line (if segment is public transport)
-		Map<String, String> lines = new HashMap<>();
 		
 		// Return a route between two or more locations for a selected profile
 		WebClient client = WebClient.create("https://api.openrouteservice.org");
@@ -416,6 +414,8 @@ public class RouteServiceLogic implements RouteService {
 			
 			// Add coordinates
 			List<TransportPoint> points = new ArrayList<>();
+			// List to differentiate the different public transport lines on the route
+			List<String> linesList = new ArrayList<>();
 			for (int j = i; j < routePoints.size(); j++) {
 				// Get point
 				TransportPoint transportPoint_1 = routePoints.get(j);
@@ -425,57 +425,39 @@ public class RouteServiceLogic implements RouteService {
 				// Add coordinates first point
 				points.add(transportPoint_1);
 								
+				// Check if same mode of transport
 				if (transportPoint_1.getType().equals(transportPoint_2.getType())) {
+					// Subway, commuter or bus
 					if (transportPoint_1 instanceof PublicTransportPoint && transportPoint_2 instanceof PublicTransportPoint) {
 						PublicTransportPoint publicTransportPoint_1 = (PublicTransportPoint) transportPoint_1;
 						PublicTransportPoint publicTransportPoint_2 = (PublicTransportPoint) transportPoint_2;
 						if (publicTransportPoint_1.getNextStops().containsValue(publicTransportPoint_2)) {
-							continue;
+							// Get lines in common between the two points
+							List<String> nextLines = publicTransportPoint_1.getNextStops().entrySet().stream()
+									.filter(entry -> entry.getValue().equals(publicTransportPoint_2))
+									.map(Map.Entry::getKey)
+									.collect(Collectors.toList());
+							// First iteration
+							if (linesList.isEmpty()) {
+								linesList = nextLines;
+							}
+							// Check if transshipment or similar is done
+							nextLines.retainAll(linesList);
+							if (!nextLines.isEmpty() ) {
+								linesList = nextLines;
+								continue;
+							}
+							
 						}
-					} else if (transportPoint_1 instanceof BicycleTransportPoint && transportPoint_2 instanceof BicycleTransportPoint) {
+					}
+					// Bicycle
+					else if (transportPoint_1 instanceof BicycleTransportPoint && transportPoint_2 instanceof BicycleTransportPoint) {
 						continue;
 					}
 				}
 								
 				// 2 or more points of the same type (in public tranport also same line)
 				if (points.size() >= 2) {
-					// Add to lines
-					List<String> linesList = new ArrayList<>();
-					int first = i;
-					int last = i;
-					for (int k = 0; k < points.size(); k++) {						
-						if (points.get(k) instanceof PublicTransportPoint) {
-							PublicTransportPoint point1 = (PublicTransportPoint) points.get(k);
-							PublicTransportPoint point2 = (PublicTransportPoint) points.get(k + 1);
-														
-							List<String> nextLines = point1.getNextStops().entrySet().stream()
-									.filter(entry -> entry.getValue().equals(point2))
-									.map(Map.Entry::getKey)
-									.collect(Collectors.toList());
-							
-							if (k == 0) {
-								linesList = nextLines;
-							}
-							
-							List<String> nextLinesAux = new ArrayList<>(nextLines);
-							nextLinesAux.retainAll(linesList);
-							if (nextLinesAux.isEmpty()) {
-								lines.put(first + "-" + last, linesList.get(0));
-								linesList = nextLines;
-								first = last;
-							} else {
-								linesList = nextLinesAux;
-							}
-							
-							// Increment last element index
-							last++;
-							
-							if ((k + 1) == (points.size() - 1)) {
-								lines.put(first + "-" + last, linesList.get(0));
-								break;
-							}						
-						}
-					}
 					// Reduce index and then we calculate the segment
 					transportMode = transportPoint_1.getType();
 					i = j - 1;
@@ -489,7 +471,7 @@ public class RouteServiceLogic implements RouteService {
 				// Last point, update index and calculate segment
 				if ((j + 1) == (routePoints.size() - 1)) {
 					i = j + 1;
-				} else {
+				} else { // Update index and create segment
 					i = j;
 				}
 				break;
@@ -506,6 +488,7 @@ public class RouteServiceLogic implements RouteService {
 
 				// Create segment & add it to the rest of segments
 				Segment segment = new Segment(source, target, transportMode, polylineList);
+				segment.setLine(!linesList.isEmpty() ? linesList.get(0).substring(0, linesList.get(0).indexOf(' ')) : null);
 				segmentsRoute.add(segment);
 				continue;
 			}
@@ -550,7 +533,7 @@ public class RouteServiceLogic implements RouteService {
 			// Create segment 
 			Segment segment = new Segment(source, target, transportMode, polylineList);
 			
-			// Get segment instructions if not bus
+			// Get distance, duration & segment instructions if not bus
 			if (!transportMode.equals("Bus")) {
 				Map<String, String> stepsMap = new HashMap<>();
 				double distance = properties.get("summary").get("distance").asDouble() / 1000;
@@ -570,8 +553,12 @@ public class RouteServiceLogic implements RouteService {
 					}
 				}
 				
+				segment.setDistance(distance);
+				segment.setDuration(duration);
 				segment.setSteps(stepsMap);
-			} 
+			} else {
+				segment.setLine(!linesList.isEmpty() ? linesList.get(0).substring(0, linesList.get(0).indexOf(' ')) : null);
+			}
 									
 			// Add segment to the segments list
 			segmentsRoute.add(segment);
@@ -580,7 +567,6 @@ public class RouteServiceLogic implements RouteService {
 		// Save route in DataBase
 		route.setPoints(routePoints);
 		route.setSegments(segmentsRoute);
-		route.setLines(lines);
 		route = routeRepository.save(route);
 		
 		return route;

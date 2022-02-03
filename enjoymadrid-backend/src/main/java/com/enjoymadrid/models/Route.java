@@ -70,13 +70,7 @@ public class Route {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonView(RouteInterfaces.SegmentData.class)
 	private List<Segment> segments = new ArrayList<>();
-	
-	@JsonView(RouteInterfaces.CompleteData.class)
-	@ElementCollection
-	@MapKeyColumn(name = "LINE")
-	@Column(name = "WAY_POINTS")
-	private Map<String, String> lines = new HashMap<>();
-				
+					
 	public Route() {}
 	
 	public Route(@NotBlank(message = "Name cannot be empty") String name,
@@ -171,14 +165,6 @@ public class Route {
 
 	public void setSegments(List<Segment> segments) {
 		this.segments = segments;
-	}
-
-	public Map<String, String> getLines() {
-		return lines;
-	}
-
-	public void setLines(Map<String, String> lines) {
-		this.lines = lines;
 	}
 	
 }
