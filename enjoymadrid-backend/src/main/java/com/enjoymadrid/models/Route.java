@@ -20,6 +20,9 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.enjoymadrid.models.interfaces.RouteInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -65,6 +68,7 @@ public class Route {
 	
 	@ManyToMany
 	@JsonView(RouteInterfaces.CompleteData.class)
+	@Fetch(FetchMode.SELECT)
 	private List<TransportPoint> points = new ArrayList<>();
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

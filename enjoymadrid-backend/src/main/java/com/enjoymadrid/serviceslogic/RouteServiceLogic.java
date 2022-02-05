@@ -78,8 +78,6 @@ public class RouteServiceLogic implements RouteService {
 		TransportPoint destination = route.getDestination();
 		origin.setType("");
 		destination.setType("");
-		origin = transportPointRepository.save(origin);
-		destination = transportPointRepository.save(destination);
 		// Walking distance to the next transport point
 		Double maxDistance = route.getMaxDistance() * 0.8;
 		// User's interests
