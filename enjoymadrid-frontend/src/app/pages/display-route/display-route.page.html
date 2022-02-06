@@ -22,8 +22,16 @@
         </ion-item-group>
       </div>
       <hr>
-      <div>
-        
+      <div class="ion-margin-top ion-text-center">
+        <span *ngFor="let segment of route.segments; let last = last">
+          <img class="img-size" [src]="'./assets/' + iconTransport.get(segment.transportMode)">
+          <span *ngIf="segment.line" class="line"
+            [ngStyle]="{'background-color': segment.transportMode === 'Bus' ? 
+              colorSegments.get(segment.transportMode) : colorSegments.get(segment.line)}">
+            {{segment.line}}
+          </span>
+          <ion-icon class="separator" *ngIf="!last" style="opacity: 0.7" name="chevron-forward-outline"></ion-icon>
+        </span>
       </div>
     </ion-content>
     <ion-fab class="openMenuButton" [hidden]="isOpen" vertical="center" horizontal="start">

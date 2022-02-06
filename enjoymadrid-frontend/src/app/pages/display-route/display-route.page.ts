@@ -33,6 +33,10 @@ export class DisplayRoutePage implements OnInit {
   isOpen: boolean;
   // Route to view in the map
   route: RouteModel
+  // Map with the type 
+  iconTransport: Map<string, string>;
+  // Map with line zones associated to general line
+  linesZone: Map<string, string>;
   // Map with the color of the different lines of subway, commuter & bus
   colorSegments: Map<string, string>;
 
@@ -48,10 +52,16 @@ export class DisplayRoutePage implements OnInit {
       this.showSideMenu = this.platform.is('desktop');
     });
 
-    this.colorSegments = new Map<string, string>([ ["1", "#2DBEF0"], ["2", "#ED1C24"], ["3", "#FFD000"], ["4", "#B65518"],
-      ["5", "#8FD400"], ["6-1", "#98989B"], ["6-2", "#98989B"], ["7a", "#EE7518"], ["7b", "#EE7518"], ["8", "#EC82B1"], 
-      ["9A", "#A60084"], ["9B", "#A60084"], ["10a", "#005AA9"], ["10b", "#005AA9"], ["11", "#009B3A"], 
-      ["12-1", "#A49800"], ["12-2", "#A49800"], ["R", "#FFFFFF"],
+    // Different icon for the mode of transport
+    this.iconTransport = new Map<string, string>([ ['A pie', 'walk.png'], ['Metro', 'subway.png'], ['Bus', 'bus.png'],
+      ['BiciMAD', 'bicycle.png'], ['Cercanías', 'commuter.png'] ]);
+    // Different line zone to line
+    this.linesZone = new Map<string, string>([ ["6-1", "6"], ["6-2", "6"], ["7a", "7"], ["7b", "7"], 
+      ["9A", "9"], ["9B", "9"], ["12-1", "12"], ["12-2", "12"] ]);
+    // Line -> color segment
+    this.colorSegments = new Map<string, string>([ ["1", "#2DBEF0"], ["2", "#ED1C24"], ["3", "#FFD000"], 
+      ["4", "#B65518"], ["5", "#8FD400"], ["6", "#98989B"], ["7", "#EE7518"], ["8", "#EC82B1"], 
+      ["9", "#A60084"], ["10", "#005AA9"], ["11", "#009B3A"], ["12", "#A49800"], ["R", "#D5D2CD"],
       ["C-1", "#4FB0E5"], ["C-2", "#008B45"], ["C-3", "#9F2E86"], ["C-3a", "#EA65A8"], ["C-4a", "#005AA3"], ["C-4b", "#005AA3"], 
       ["C-5", "F9BA13#"], ["C-7", "#ED1C24"], ["C-8", "#008B45"], ["C-9", "#F95900"], ["C-10", "#90B70E"], 
       ["Bus", "#0178BC"], ["BiciMAD","#FFAD00"], ["A pie","#665538"] ]);
@@ -81,6 +91,14 @@ export class DisplayRoutePage implements OnInit {
       //this.sharedService.showToast('No se ha podido obtener la ruta', 3000);
       //this.router.navigate(['/']);
     }
+
+    // Transform some lines to unify zones in one
+    this.route.segments = this.route.segments.map(segment => {
+      if (this.linesZone.has(segment.line)) {
+        segment.line = this.linesZone.get(segment.line);
+      }
+      return segment;
+    });
   }
 
   ionViewDidEnter() {
@@ -112,14 +130,11 @@ export class DisplayRoutePage implements OnInit {
 
     let multiPolyline: L.Polyline<LineString | MultiLineString, any>;
     let coordinates = [];
-    // Different icon marker for the mode of transport
-    let iconMarker = new Map<string, string>([ ['A pie', 'walk.png'], ['Metro', 'subway.png'], ['Bus', 'bus.png'],
-    ['BiciMAD', 'bicycle.png'], ['Cercanías', 'commuter.png'] ]);
     // Iterate over the segments of the route
     for (let segment of this.route.segments) {
       // Transform number[][] to LatLng array
       let coords = segment.polyline.map(coord => new L.LatLng(coord[0], coord[1]));
-
+      
       // Establish the color for the segment
       let color = segment.line && segment.transportMode !== 'Bus' 
                     ? this.colorSegments.get(segment.line) 
@@ -127,6 +142,23 @@ export class DisplayRoutePage implements OnInit {
       // Dash pattern for the segment (for walk segments)
       let dashArray = segment.transportMode === 'A pie' ? '1 7' : null;
       
+      // Tooltip set line if applicable
+      let lineTooltip = segment.line ? 
+      '<div style="margin-top: 3px;"><span style="border-radius: 4px; padding: 2px 5px; background-color: '
+      + color
+      + '; color: #ffffff;">'
+      + segment.line
+      + '</span></div>' : '';
+      // Tooltip for the polylines that make up the route
+      let tooltip = 
+      '<div style="text-align: center;"><img style="height: 20px; width: 20px; margin: 0px auto; display:block;" src="./assets/' 
+      + this.iconTransport.get(segment.transportMode) + '">'
+      + this.route.points[segment.source].name 
+      + '<ion-icon style="vertical-align: middle; font-size: 10px; opacity: 0.7" name="chevron-forward-outline"></ion-icon>' 
+      + this.route.points[segment.target].name 
+      + lineTooltip
+      + '</div>';
+
       // Add polyline to map
       L.polyline(coords, {
         stroke: true,
@@ -135,6 +167,8 @@ export class DisplayRoutePage implements OnInit {
         lineJoin: 'round',
         lineCap: 'round',
         dashArray: dashArray
+      }).bindTooltip(tooltip, {
+        sticky: true
       }).addTo(this.map);
 
       // Add the coordinates of each segment
@@ -142,7 +176,7 @@ export class DisplayRoutePage implements OnInit {
 
       // Icon for marker
       let icon = L.icon({
-        iconUrl: './assets/' + iconMarker.get(segment.transportMode),
+        iconUrl: './assets/' + this.iconTransport.get(segment.transportMode),
         iconSize: [20, 20]
       });
 
