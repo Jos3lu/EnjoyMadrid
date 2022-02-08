@@ -39,6 +39,8 @@ export class DisplayRoutePage implements OnInit {
   linesZone: Map<string, string>;
   // Map with the color of the different lines of subway, commuter & bus
   colorSegments: Map<string, string>;
+  // Store the segment color, the icon to display & if line is solid or dotted
+  segmentsVisual: any[];
 
   constructor(
     private platform: Platform,
@@ -64,7 +66,9 @@ export class DisplayRoutePage implements OnInit {
       ["9", "#A60084"], ["10", "#005AA9"], ["11", "#009B3A"], ["12", "#A49800"], ["R", "#D5D2CD"],
       ["C-1", "#4FB0E5"], ["C-2", "#008B45"], ["C-3", "#9F2E86"], ["C-3a", "#EA65A8"], ["C-4a", "#005AA3"], ["C-4b", "#005AA3"], 
       ["C-5", "F9BA13#"], ["C-7", "#ED1C24"], ["C-8", "#008B45"], ["C-9", "#F95900"], ["C-10", "#90B70E"], 
-      ["Bus", "#0178BC"], ["BiciMAD","#FFAD00"], ["A pie","#665538"] ]);
+      ["Bus", "#0178BC"], ["BiciMAD","#FFAD00"], ["A pie","#2D2E2D"] ]);
+    // Init segmentsVisual
+    this.segmentsVisual = [];
 
     this.route = this.sharedService.getRoute();
     this.sharedService.setRoute(undefined);
@@ -92,12 +96,24 @@ export class DisplayRoutePage implements OnInit {
       //this.router.navigate(['/']);
     }
 
-    // Transform some lines to unify zones in one
-    this.route.segments = this.route.segments.map(segment => {
+    // Iterate over the segments of the route
+    this.route.segments.forEach(segment => {
+      // Transform some lines to unify zones in one line
       if (this.linesZone.has(segment.line)) {
         segment.line = this.linesZone.get(segment.line);
       }
-      return segment;
+
+      // Get the color for the segment
+      let colorSegment = segment.line && segment.transportMode !== 'Bus' 
+      ? this.colorSegments.get(segment.line) 
+      : this.colorSegments.get(segment.transportMode);
+      // Dash pattern for the segment (for walk segments)
+      let dashedSegment = segment.transportMode === 'A pie';
+      // Icon (mode of transport) for the segment
+      let iconSegment = this.iconTransport.get(segment.transportMode);
+
+      // Store some features of the segments
+      this.segmentsVisual.push({ color: colorSegment, dashed: dashedSegment, icon: iconSegment });
     });
   }
 
@@ -131,16 +147,14 @@ export class DisplayRoutePage implements OnInit {
     let multiPolyline: L.Polyline<LineString | MultiLineString, any>;
     let coordinates = [];
     // Iterate over the segments of the route
-    for (let segment of this.route.segments) {
-      // Transform number[][] to LatLng array
+    this.route.segments.forEach((segment, index) => {
+      // Transform number[][] to LatLng array in polyline
       let coords = segment.polyline.map(coord => new L.LatLng(coord[0], coord[1]));
       
       // Establish the color for the segment
-      let color = segment.line && segment.transportMode !== 'Bus' 
-                    ? this.colorSegments.get(segment.line) 
-                    : this.colorSegments.get(segment.transportMode);
+      let color = this.segmentsVisual[index].color;
       // Dash pattern for the segment (for walk segments)
-      let dashArray = segment.transportMode === 'A pie' ? '1 7' : null;
+      let dashArray = this.segmentsVisual[index].dashed ? '1 7' : null;
       
       // Tooltip set line if applicable
       let lineTooltip = segment.line ? 
@@ -152,7 +166,7 @@ export class DisplayRoutePage implements OnInit {
       // Tooltip for the polylines that make up the route
       let tooltip = 
       '<div style="text-align: center;"><img style="height: 20px; width: 20px; margin: 0px auto; display:block;" src="./assets/' 
-      + this.iconTransport.get(segment.transportMode) + '">'
+      + this.segmentsVisual[index].icon + '">'
       + this.route.points[segment.source].name 
       + '<ion-icon style="vertical-align: middle; font-size: 10px; opacity: 0.7" name="chevron-forward-outline"></ion-icon>' 
       + this.route.points[segment.target].name 
@@ -176,7 +190,7 @@ export class DisplayRoutePage implements OnInit {
 
       // Icon for marker
       let icon = L.icon({
-        iconUrl: './assets/' + this.iconTransport.get(segment.transportMode),
+        iconUrl: './assets/' + this.segmentsVisual[index].icon,
         iconSize: [20, 20]
       });
 
@@ -184,7 +198,7 @@ export class DisplayRoutePage implements OnInit {
       new L.Marker([this.route.points[segment.source].latitude, this.route.points[segment.source].longitude], {
         icon: icon
       }).addTo(this.map).bindTooltip(this.route.points[segment.source].name);
-    }
+    });
 
     // Marker for destination point
     new L.Marker([this.route.destination.latitude, this.route.destination.longitude], {

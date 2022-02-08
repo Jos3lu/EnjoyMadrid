@@ -22,16 +22,25 @@
         </ion-item-group>
       </div>
       <hr>
-      <div class="ion-margin-top ion-text-center">
-        <span *ngFor="let segment of route.segments; let last = last">
-          <img class="img-size" [src]="'./assets/' + iconTransport.get(segment.transportMode)">
-          <span *ngIf="segment.line" class="line"
-            [ngStyle]="{'background-color': segment.transportMode === 'Bus' ? 
-              colorSegments.get(segment.transportMode) : colorSegments.get(segment.line)}">
+      <div class="ion-padding ion-text-center">
+        <span *ngFor="let segment of route.segments;let i = index; let last = last">
+          <img class="img-size" [src]="'./assets/' + segmentsVisual[i].icon">
+          <ion-badge style="margin-left: 3px;" *ngIf="segment.line" [ngStyle]="{'background-color': segmentsVisual[i].color}">
             {{segment.line}}
-          </span>
+          </ion-badge>
           <ion-icon class="separator" *ngIf="!last" style="opacity: 0.7" name="chevron-forward-outline"></ion-icon>
         </span>
+      </div>
+      <div class="ion-margin-top ion-padding-horizontal">
+        <div *ngFor="let segment of route.segments; let i = index; let last = last">
+          <span>{{i + '. ' + route.points[segment.source].name}}</span>
+          <div [ngStyle]="{'border-left': segmentsVisual[i].dashed ? '5px dotted' : '2px solid', 
+            'border-color': segmentsVisual[i].color}" 
+            class="vertical-line">
+            <img class="img-size" [src]="'./assets/' + iconTransport.get(segment.transportMode)">
+          </div>
+          <span *ngIf="last">{{i + '. ' + route.points[segment.target].name}}</span>
+        </div>
       </div>
     </ion-content>
     <ion-fab class="openMenuButton" [hidden]="isOpen" vertical="center" horizontal="start">
