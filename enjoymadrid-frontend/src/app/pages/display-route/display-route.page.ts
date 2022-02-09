@@ -158,19 +158,21 @@ export class DisplayRoutePage implements OnInit {
       
       // Tooltip set line if applicable
       let lineTooltip = segment.line ? 
-      '<div style="margin-top: 3px;"><span style="border-radius: 4px; padding: 2px 5px; background-color: '
+      '<ion-badge mode="md" style="margin-left: 3px; background-color: '
       + color
       + '; color: #ffffff;">'
       + segment.line
-      + '</span></div>' : '';
+      + '</ion-badge>' : '';
       // Tooltip for the polylines that make up the route
       let tooltip = 
-      '<div style="text-align: center;"><img style="height: 20px; width: 20px; margin: 0px auto; display:block;" src="./assets/' 
+      '<div style="text-align: center">' 
+      + '<div style="display: block"><img style="height: 20px; width: 20px; margin: 0px auto;" src="./assets/' 
       + this.segmentsVisual[index].icon + '">'
-      + this.route.points[segment.source].name 
-      + '<ion-icon style="vertical-align: middle; font-size: 10px; opacity: 0.7" name="chevron-forward-outline"></ion-icon>' 
-      + this.route.points[segment.target].name 
       + lineTooltip
+      + '</div>'
+      + this.route.points[segment.source].name 
+      + '<ion-icon style="vertical-align: middle; font-size: 9px; opacity: 0.7" name="chevron-forward-outline"></ion-icon>' 
+      + this.route.points[segment.target].name 
       + '</div>';
 
       // Add polyline to map
@@ -212,6 +214,12 @@ export class DisplayRoutePage implements OnInit {
 
   toggleMenu() {
     this.isOpen = !this.isOpen;
+  }
+
+  zoomToStep(points: string, index: number) {
+    // Ordenar steps 
+    console.log(points);
+    console.log(index);
   }
 
 }
