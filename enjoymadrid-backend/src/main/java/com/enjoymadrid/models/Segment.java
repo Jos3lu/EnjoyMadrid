@@ -1,9 +1,7 @@
 package com.enjoymadrid.models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -48,7 +46,7 @@ public class Segment {
 	@ElementCollection
 	@MapKeyColumn(name = "WAY_POINTS")
 	@Column(name = "STEP")
-	private Map<String, String> steps = new HashMap<>();
+	private List<String> steps = new ArrayList<>();
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
 	@ElementCollection
@@ -109,11 +107,11 @@ public class Segment {
 		this.duration = duration;
 	}
 
-	public Map<String, String> getSteps() {
+	public List<String> getSteps() {
 		return steps;
 	}
 
-	public void setSteps(Map<String, String> steps) {
+	public void setSteps(List<String> steps) {
 		this.steps = steps;
 	}
 

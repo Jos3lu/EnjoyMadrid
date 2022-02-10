@@ -533,7 +533,7 @@ public class RouteServiceLogic implements RouteService {
 			
 			// Get distance, duration & segment instructions if not bus
 			if (!transportMode.equals("Bus")) {
-				Map<String, String> stepsMap = new HashMap<>();
+				List<String> stepsMap = new ArrayList<>();
 				double distance = properties.get("summary").get("distance").asDouble() / 1000;
 				double duration = properties.get("summary").get("duration").asDouble() / 60;
 				distance = BigDecimal.valueOf(distance).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
@@ -547,7 +547,7 @@ public class RouteServiceLogic implements RouteService {
 						Integer first = way_points.get(0).asInt();
 						Integer last = way_points.get(1).asInt();
 						String instruction = step.get("instruction").asText();
-						stepsMap.put(first + "-" + last, instruction);
+						stepsMap.add(first + "-" + last + ":" + instruction);
 					}
 				}
 				

@@ -42,7 +42,7 @@
             'margin-left': segmentsVisual[i].dashed ? '4px' : '5px',
             'border-color': segmentsVisual[i].color}" 
             class="vertical-line">
-            <img class="img-size" [src]="'./assets/' + iconTransport.get(segment.transportMode)">
+            <img class="img-size" [src]="'./assets/' + segmentsVisual[i].icon">
             <ion-accordion-group style="padding-left: 0px;">
               <ion-accordion toggle-icon-slot="start">
                 <ion-item slot="header">
@@ -55,8 +55,8 @@
                 </ion-item>
 
                 <ion-list slot="content">
-                  <ion-item *ngFor="let step of segment.steps | keyvalue" (click)="zoomToStep(step.key, i)">
-                    <ion-label class="text-small ion-text-wrap">{{step.value}}</ion-label>
+                  <ion-item *ngFor="let step of segmentsSteps.get(i)">
+                    <ion-label (click)="zoomToStep(step.first, step.last, i)" class="text-small ion-text-wrap pointer">{{step.instruction}}</ion-label>
                   </ion-item>
                 </ion-list>
               </ion-accordion>

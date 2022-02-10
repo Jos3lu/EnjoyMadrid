@@ -5,7 +5,7 @@ export interface SegmentModel {
     distance?: number;
     duration?: number;
     transportMode: string;
-    steps?: {[key: string]: string};
+    steps?: string[];
     polyline: number[][];
     line?: string;
 }
