@@ -485,7 +485,7 @@ public class RouteServiceLogic implements RouteService {
 				points.forEach(point -> polylineList.add(new Double[] {point.getLatitude(), point.getLongitude()}));
 
 				// Create segment & add it to the rest of segments
-				Segment segment = new Segment(source, target, transportMode, polylineList);
+				Segment segment = new Segment(source, target, transportMode, polylineList, "");
 				segment.setLine(!linesList.isEmpty() ? linesList.get(0).substring(0, linesList.get(0).indexOf(' ')) : null);
 				segmentsRoute.add(segment);
 				continue;
@@ -529,7 +529,7 @@ public class RouteServiceLogic implements RouteService {
 			}
 			
 			// Create segment 
-			Segment segment = new Segment(source, target, transportMode, polylineList);
+			Segment segment = new Segment(source, target, transportMode, polylineList, "");
 			
 			// Get distance, duration & segment instructions if not bus
 			if (!transportMode.equals("Bus")) {

@@ -18,7 +18,7 @@
           </h5>
           <ion-item-group *ngFor="let category of categories; let i = index">
             <ion-item (click)="categorySelected(i)">
-              <ion-label class="ion-text-wrap categories">
+              <ion-label class="ion-text-wrap">
                 <ion-icon *ngIf="!category.selected" class="align-icon" slot="start" name="chevron-forward-outline"></ion-icon>
                 <ion-icon *ngIf="category.selected" class="align-icon" slot="start" name="chevron-down-outline"></ion-icon>
                 {{category.name}}
@@ -26,7 +26,7 @@
             </ion-item>
             <ion-item-group *ngIf="category.selected" class="subcategories">
               <ion-item *ngFor="let subcategory of category.subcategories" (click)="subcategorySelected(subcategory)">
-                <ion-label class="ion-text-wrap categories">
+                <ion-label class="ion-text-wrap">
                   <ion-icon class="align-icon" slot="start" name="chevron-forward-outline"></ion-icon>
                   {{subcategory}}
                 </ion-label>

@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.text.WordUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
@@ -36,7 +37,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -89,10 +89,11 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
 		userRepository.save(user3);
-		
+				
 		loadDataAirQualityPoints();
 		loadDataTouristicPoints();
 		loadDataTransportPoints();
+				
 	}
 
 	/**
@@ -463,7 +464,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				// Get point if in DB or save it
 				if (!transportPointDB) {
 					PublicTransportPoint publicTransportPoint = transportPointRepository.save(new PublicTransportPoint(
-							StringUtils.capitalize(name.toLowerCase()), longitude, latitude, type));
+							WordUtils.capitalizeFully(name.toLowerCase()), longitude, latitude, type));
 					
 					// Save in map using as key the name or the code station depending on the type of transport
 					if (nameKey) {
