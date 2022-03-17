@@ -1,8 +1,6 @@
 package com.enjoymadrid.models;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Column;
@@ -22,22 +20,85 @@ public class PublicTransportLine {
 	
 	private String line;
 	
-	private String destination;
-	
 	private String direction;
+	
+	private String destination;
 	
 	private String color;
 	
-	/*
 	@ElementCollection
-	@MapKeyColumn(name = "STATION_LINE")
-	@Column(name = "INDEX_COORDINATES")
-	private Map<String, Double[]> stationsPolyline = new HashMap<>();
-	*/
+	@MapKeyColumn(name = "STOP_ORDER")
+	@Column(name = "POLYLINE_ID")
+	private Map<String, Polyline> polylineStops = new HashMap<>();
 	
-	public PublicTransportLine() {
+	@ElementCollection
+	@MapKeyColumn(name = "SCHEDULE_KEY")
+	@Column(name = "SCHEDULE_VALUE")
+	private Map<String, Schedule> scheduleStops = new HashMap<>();
+	
+	public PublicTransportLine() {}
+
+	public PublicTransportLine(String line, String direction, String destination, String color) {
+		this.line = line;
+		this.direction = direction;
+		this.destination = destination;
+		this.color = color;
 	}
 
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getLine() {
+		return line;
+	}
+
+	public void setLine(String line) {
+		this.line = line;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public Map<String, Polyline> getPolylineStops() {
+		return polylineStops;
+	}
+
+	public void setPolylineStops(Map<String, Polyline> polylineStops) {
+		this.polylineStops = polylineStops;
+	}
+
+	public Map<String, Schedule> getScheduleStops() {
+		return scheduleStops;
+	}
+
+	public void setScheduleStops(Map<String, Schedule> scheduleStops) {
+		this.scheduleStops = scheduleStops;
+	}
 	
 }

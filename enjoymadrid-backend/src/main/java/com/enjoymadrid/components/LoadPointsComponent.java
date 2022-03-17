@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.text.WordUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
@@ -464,7 +463,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				// Get point if in DB or save it
 				if (!transportPointDB) {
 					PublicTransportPoint publicTransportPoint = transportPointRepository.save(new PublicTransportPoint(
-							WordUtils.capitalizeFully(name.toLowerCase()), longitude, latitude, type));
+							(name.toLowerCase()), longitude, latitude, type));
 					
 					// Save in map using as key the name or the code station depending on the type of transport
 					if (nameKey) {
