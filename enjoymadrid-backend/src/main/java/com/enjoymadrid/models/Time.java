@@ -1,26 +1,26 @@
 package com.enjoymadrid.models;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 
 @Entity
-public class Time {
+public class Time extends Schedule {
 
 	@ElementCollection
-	private List<LocalTime> times = new ArrayList<>();
+	private Map<String, LocalTime[]> timesDay = new HashMap<>();
 	
 	public Time() {}
 
-	public List<LocalTime> getTimes() {
-		return times;
+	public Map<String, LocalTime[]> getTimesDay() {
+		return timesDay;
 	}
 
-	public void setTimes(List<LocalTime> times) {
-		this.times = times;
+	public void setTimesDay(Map<String, LocalTime[]> timesDay) {
+		this.timesDay = timesDay;
 	}
 	
 }
