@@ -24,12 +24,12 @@ public class Polyline {
 	private Double distance;
 	
 	@ElementCollection
-	private List<Double> coordinates = new ArrayList<>();
+	private List<Double[]> coordinates = new ArrayList<>();
 	
 	public Polyline() {
 	}
 
-	public Polyline(Double duration, Double distance, List<Double> coordinates) {
+	public Polyline(Double duration, Double distance, List<Double[]> coordinates) {
 		this.duration = duration;
 		this.distance = distance;
 		this.coordinates = coordinates;
@@ -59,11 +59,11 @@ public class Polyline {
 		this.distance = distance;
 	}
 
-	public List<Double> getCoordinates() {
+	public List<Double[]> getCoordinates() {
 		return coordinates;
 	}
 
-	public void setCoordinates(List<Double> coordinates) {
+	public void setCoordinates(List<Double[]> coordinates) {
 		this.coordinates = coordinates;
 	}
 	

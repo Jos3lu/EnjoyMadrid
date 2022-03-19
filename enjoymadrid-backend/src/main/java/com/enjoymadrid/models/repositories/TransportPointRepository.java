@@ -19,9 +19,7 @@ public interface TransportPointRepository extends PointRepository<TransportPoint
 	Optional<PublicTransportPoint> findByLine(@Param("line") String line);
 	
 	Optional<BicycleTransportPoint> findByStationNumber(String stationNumber);
-	
-	Boolean existsByNameIgnoreCaseAndType(String name, String type);
-	
+		
 	@Query("SELECT COUNT(bt) > 0 FROM BicycleTransportPoint bt WHERE :stationNumber = bt.stationNumber")
 	Boolean existsByStationNumber(@Param("stationNumber") String stationNumber);
 	

@@ -28,8 +28,9 @@ public class PublicTransportPoint extends TransportPoint {
 		super();
 	}
 	
-	public PublicTransportPoint(String name, Double longitude, Double latitude, String type) {
+	public PublicTransportPoint(String name, Double longitude, Double latitude, String type, Set<String> lines) {
 		super(name, longitude, latitude, type);
+		this.lines = lines;
 	}
 
 	public Set<String> getLines() {

@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +23,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -48,6 +49,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.enjoymadrid.models.repositories.AirQualityPointRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
@@ -55,6 +57,7 @@ import com.enjoymadrid.models.AirQualityPoint;
 import com.enjoymadrid.models.BicycleTransportPoint;
 import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.TouristicPoint;
+import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.User;
 
 @Component
@@ -88,9 +91,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
 		userRepository.save(user3);
-				
-		loadDataAirQualityPoints();
-		loadDataTouristicPoints();
+		
+		//new Thread(() -> loadDataAirQualityPoints()).start();
+		//loadDataTouristicPoints();
 		loadDataTransportPoints();
 				
 	}
@@ -136,7 +139,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		}
 
 		// Update the air quality data
-		new Thread(() -> updateAqiPoints()).start();
+		updateAqiPoints();
 
 	}
 
@@ -407,9 +410,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private void loadDataTransportPoints() {		
 		// Data sources
 		String[][] publicTransportTypes = {
-				{"Metro", "static/subway/estaciones_red_de_metro.geojson", "static/subway/paradas_por_itinerario_red_de_metro.geojson", "KeyByName"}, 
-				{"Bus", "static/bus/estaciones_red_de_autobuses_urbanos_de_madrid__EMT.geojson", "static/bus/paradas_por_itinerario_red_de_autobuses_urbanos_de_madrid__EMT.geojson", "KeyByStation"}, 
-				{"Cercanías", "static/commuter/estaciones_red_de_cercanias.geojson", "static/commuter/paradas_por_itinerario_red_de_cercanias.geojson", "KeyByName"}
+				{"Metro", "static/subway/stops_subway.geojson", "static/subway/lines_subway.json"}, 
+				{"Bus", "static/bus/stops_bus.geojson", "static/bus/lines_bus.json"}, 
+				{"Cercanías", "static/commuter/stops_commuter.geojson", "static/commuter/lines_commuter.json"},
 		};
 		
 		// Thread for each type of transport
@@ -419,17 +422,105 @@ public class LoadPointsComponent implements CommandLineRunner {
 		CyclicBarrier waitToEnd = new CyclicBarrier(publicTransportTypes.length + 1);
 		
 		for (String[] publicTransport : publicTransportTypes) {
-			ex.execute(() -> loadDataPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2],
-					publicTransport[3].equals("KeyByName") ? true : false, waitToEnd));
+			ex.execute(() -> loadDataPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2], waitToEnd));
 		}	
 		ex.shutdown();
 		
 		// Main working at the same time as threads
-		loadDataBiciMADPoints("BiciMAD", "static/bicycle/estaciones_bici_transporte_publico.geojson", waitToEnd);
-					
+		loadDataPublicTransportPoints("BiciMAD", "static/bicycle/stops_bicycle.geojson", "", waitToEnd);
+		// Add availability of each Bike station
+		updateBiciMADStations();
 		logger.info("Transport points updated");
 	}
 	
+	private void loadDataPublicTransportPoints(String type, String stopsPath, String linesPath, CyclicBarrier waitToEnd) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		try {
+			// Transform json file to tree model
+			File stopsFile = new ClassPathResource(stopsPath).getFile();
+			
+			JsonNode stops = objectMapper.readTree(stopsFile).get("data");
+			for (JsonNode stop: stops) {
+				String name = stop.get("name").asText();
+				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
+				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
+				
+				// If bicycle search by number of the station (in DB) and save it (if not already)
+				if (type.equals("BiciMAD")) {
+					String stationNumber = stop.get("number").asText();
+					// Search if stop already exists in DB
+					Boolean transportPointDB = transportPointRepository
+							.existsByStationNumber(stationNumber);
+					if (!transportPointDB) {
+						transportPointRepository.save(new BicycleTransportPoint(stationNumber, name, longitude, latitude, type));
+					}
+					continue;
+				}
+				
+				// If already in DB skip it
+				if (transportPointRepository.existsByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude)) {
+					continue;
+				}
+				
+				// Store lines of the stop
+				Set<String> linesStop = new HashSet<>();
+				// Get the lines of the stop in the file
+				JsonNode lines = stop.get("lines");
+				for (JsonNode line: lines) {
+					String lineName = line.get("line").asText();
+					String direction = line.get("direction").asText();
+					String order = line.get("order").asText();
+					Double distance = line.get("distance_previous_segment").asDouble();
+					Double speed = line.get("speed_previous_segment").asDouble();
+					
+					String infoLine = line + " [" + direction + "]: " + order;
+					linesStop.add(infoLine);
+					
+					JsonNode stopTimes = line.get("stop_times");
+					if (stopTimes != null) {
+						for (JsonNode times: stopTimes) {
+							String day = times.get("week_day").asText();
+							
+							List<LocalTime> lineTimes = new ArrayList<>();
+							JsonNode arrivalTimes = times.get("arrival_times");
+							for (JsonNode arrivalTime: arrivalTimes) {
+								LocalTime time = LocalTime.parse(arrivalTime.asText());
+								lineTimes.add(time);
+							}
+						}
+					}
+					
+					JsonNode polyline = line.get("geometry").get("coordinates");
+					if (polyline != null) {
+						List<Double[]> coordinates = new ArrayList<>();
+						for (JsonNode point: polyline) {
+							Double longitudePoint = point.get(0).asDouble();
+							Double latitudePoint = point.get(1).asDouble();
+							coordinates.add(new Double[] {longitudePoint, latitudePoint});
+						}
+					}
+				}
+				
+				// Save stop in DB
+				transportPointRepository.save(new PublicTransportPoint(name, longitude, latitude, type, linesStop));
+				
+			}
+			
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
+		
+		try {
+			waitToEnd.await();
+		} catch (InterruptedException | BrokenBarrierException e) {
+			logger.error(e.getMessage());
+		}
+		
+	}
+	
+	
+	/*
 	private void loadDataPublicTransportPoints(String type, String stopsFile, String itineraryStopsFile, boolean nameKey, CyclicBarrier waitToEnd) {
 		ObjectMapper objectMapper = new ObjectMapper();
 
@@ -534,6 +625,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		
 	}
 	
+	
 	private void loadDataBiciMADPoints(String type, String stopsFile, CyclicBarrier waitToEnd) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
@@ -570,6 +662,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		}
 		
 	}
+	*/
 	
 	/**
 	 * This method is executed all the days every 30 minutes (and the first time the

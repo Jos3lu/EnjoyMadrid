@@ -16,7 +16,14 @@ public class Frequency extends Schedule {
 	@Column(name = "FREQUENCY")
 	private Map<String, Integer> frequenciesDay = new HashMap<>();
 	
-	public Frequency() {}
+	public Frequency() {
+		super();
+	}
+	
+	public Frequency(Map<String, Integer> frequenciesDay) {
+		super();
+		this.frequenciesDay = frequenciesDay;
+	}
 
 	public Map<String, Integer> getFrequenciesDay() {
 		return frequenciesDay;

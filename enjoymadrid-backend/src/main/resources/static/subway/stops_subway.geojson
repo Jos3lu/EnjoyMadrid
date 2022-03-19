@@ -2,7 +2,7 @@
 "name": "Stops_Subway",
 "data": [
 	{ 
-		"id": 1, "name": "Universidad Rey Juan Carlos", "address": "Calle  Tulipán 2", 
+		"id": 1, "name": "Universidad Rey Juan Carlos", "number": null, "address": "Calle  Tulipán 2", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 5, "distance_previous_segment": 2607.765, "speed_previous_segment": 40.53, 
@@ -18,7 +18,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.87217960642448,  40.335122976598598 ] } 
 	},
 	{ 
-		"id": 2, "name": "Banco de España", "address": "Calle de Alcalá 49", 
+		"id": 2, "name": "Banco de España", "number": null, "address": "Calle de Alcalá 49", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 11, "distance_previous_segment": 747.072, "speed_previous_segment": 24.22, 
@@ -34,7 +34,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69496510558138,  40.419219786114802 ] } 
 	},
 	{ 
-		"id": 3, "name": "La Almudena", "address": "Calle de Arriaga 75", 
+		"id": 3, "name": "La Almudena", "number": null, "address": "Calle de Arriaga 75", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "2", "order": 17, "distance_previous_segment": 1152.519, "speed_previous_segment": 24.22, 
@@ -50,7 +50,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63914233036257,  40.423613290680599 ] } 
 	},
 	{ 
-		"id": 4, "name": "Casa de Campo", "address": "Ctra del Zoo 1", 
+		"id": 4, "name": "Casa de Campo", "number": null, "address": "Ctra del Zoo 1", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 16, "distance_previous_segment": 921.38581770467999, "speed_previous_segment": 31.12, 
@@ -76,7 +76,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.7610136676265,  40.403242270835896 ] } 
 	},
 	{ 
-		"id": 5, "name": "Aviación Española", "address": "Paseo de Extremadura 463", 
+		"id": 5, "name": "Aviación Española", "number": null, "address": "Paseo de Extremadura 463", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 18, "distance_previous_segment": 1722.8914478439799, "speed_previous_segment": 31.12, 
@@ -92,7 +92,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.78392294643938,  40.383639437611201 ] } 
 	},
 	{ 
-		"id": 6, "name": "Ronda de la Comunicación", "address": "Ronda de la Comunicación 22", 
+		"id": 6, "name": "Ronda de la Comunicación", "number": null, "address": "Ronda de la Comunicación 22", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 8, "distance_previous_segment": 1498.2797551343599, "speed_previous_segment": 37.18, 
@@ -108,7 +108,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66276510350324,  40.515534647177397 ] } 
 	},
 	{ 
-		"id": 7, "name": "Estación del Arte", "address": "Plaza del Emperador Carlos V 11", 
+		"id": 7, "name": "Estación del Arte", "number": null, "address": "Plaza del Emperador Carlos V 11", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 18, "distance_previous_segment": 674.97890446639997, "speed_previous_segment": 22.96, 
@@ -124,7 +124,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69248727105058,  40.408851598375499 ] } 
 	},
 	{ 
-		"id": 8, "name": "Barrio de la Concepción", "address": "Calle de Martínez Villergas 1", 
+		"id": 8, "name": "Barrio de la Concepción", "number": null, "address": "Calle de Martínez Villergas 1", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 8, "distance_previous_segment": 976.707, "speed_previous_segment": 27.77, 
@@ -140,7 +140,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.65200400129475,  40.439099399993097 ] } 
 	},
 	{ 
-		"id": 9, "name": "Alfonso XIII", "address": "Calle de López de Hoyos 190", 
+		"id": 9, "name": "Alfonso XIII", "number": null, "address": "Calle de López de Hoyos 190", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 13, "distance_previous_segment": 854.036, "speed_previous_segment": 22.42, 
@@ -156,7 +156,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66790615299561,  40.448248388160998 ] } 
 	},
 	{ 
-		"id": 10, "name": "Canal", "address": "Calle de Cea Bermúdez 1", 
+		"id": 10, "name": "Canal", "number": null, "address": "Calle de Cea Bermúdez 1", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 19, "distance_previous_segment": 706.852, "speed_previous_segment": 24.22, 
@@ -182,7 +182,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70488898865674,  40.438702507945102 ] } 
 	},
 	{ 
-		"id": 11, "name": "San Fernando", "address": "Calle de Gonzalo de Córdoba 24", 
+		"id": 11, "name": "San Fernando", "number": null, "address": "Calle de Gonzalo de Córdoba 24", 
 		"lines": [ 
 			{ 
 				"line": "7b", "direction": "1", "order": 4, "distance_previous_segment": 1073.1361, "speed_previous_segment": 33.38, 
@@ -198,7 +198,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.53541452255171,  40.424412249660598 ] } 
 	},
 	{ 
-		"id": 12, "name": "Avenida de Guadalajara", "address": "Avda de Guadalajara 110", 
+		"id": 12, "name": "Avenida de Guadalajara", "number": null, "address": "Avda de Guadalajara 110", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "2", "order": 19, "distance_previous_segment": 1088.5085, "speed_previous_segment": 24.22, 
@@ -214,7 +214,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.61206460968115,  40.422393583822704 ] } 
 	},
 	{ 
-		"id": 13, "name": "Nuevos Ministerios", "address": "Calle de Raimundo Fernández Villaverde 67", 
+		"id": 13, "name": "Nuevos Ministerios", "number": null, "address": "Calle de Raimundo Fernández Villaverde 67", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 8, "distance_previous_segment": 792.14602398899297, "speed_previous_segment": 31.12, 
@@ -250,7 +250,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69240645851146,  40.446621215182503 ] } 
 	},
 	{ 
-		"id": 14, "name": "Leganés Central", "address": "Calle  Virgen del Camino 1", 
+		"id": 14, "name": "Leganés Central", "number": null, "address": "Calle  Virgen del Camino 1", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 27, "distance_previous_segment": 1100.396, "speed_previous_segment": 40.53, 
@@ -266,7 +266,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.77153699668843,  40.328985230945499 ] } 
 	},
 	{ 
-		"id": 15, "name": "Bilbao", "address": "Calle de Sagasta 5", 
+		"id": 15, "name": "Bilbao", "number": null, "address": "Calle de Sagasta 5", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 3, "distance_previous_segment": 389.76444449860901, "speed_previous_segment": 22.42, 
@@ -292,7 +292,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70113817556514,  40.428850304442001 ] } 
 	},
 	{ 
-		"id": 16, "name": "Hospital Infanta Sofía", "address": "Paseo  Europa 11", 
+		"id": 16, "name": "Hospital Infanta Sofía", "number": null, "address": "Paseo  Europa 11", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -308,7 +308,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.61145473384219,  40.5597694481961 ] } 
 	},
 	{ 
-		"id": 17, "name": "Congosto", "address": "Calle del Congosto 48", 
+		"id": 17, "name": "Congosto", "number": null, "address": "Calle del Congosto 48", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 30, "distance_previous_segment": 804.11568300700696, "speed_previous_segment": 22.96, 
@@ -324,7 +324,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.61884135012454,  40.372382370366701 ] } 
 	},
 	{ 
-		"id": 18, "name": "Manuel Becerra", "address": "Plaza de Manuel Becerra 1", 
+		"id": 18, "name": "Manuel Becerra", "number": null, "address": "Plaza de Manuel Becerra 1", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 7, "distance_previous_segment": 627.83, "speed_previous_segment": 24.22, 
@@ -350,7 +350,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66920518071164,  40.427904479837501 ] } 
 	},
 	{ 
-		"id": 19, "name": "Abrantes", "address": "Avda de Abrantes 77", 
+		"id": 19, "name": "Abrantes", "number": null, "address": "Avda de Abrantes 77", 
 		"lines": [ 
 			{ 
 				"line": "11", "direction": "1", "order": 2, "distance_previous_segment": 899.641, "speed_previous_segment": 26.52, 
@@ -366,7 +366,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72790024912171,  40.380833614731202 ] } 
 	},
 	{ 
-		"id": 20, "name": "Arganzuela-Planetario", "address": "Calle del Bronce 1", 
+		"id": 20, "name": "Arganzuela-Planetario", "number": null, "address": "Calle del Bronce 1", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 8, "distance_previous_segment": 547.451, "speed_previous_segment": 25.65, 
@@ -382,7 +382,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68864034744709,  40.3931027049207 ] } 
 	},
 	{ 
-		"id": 21, "name": "Canillejas", "address": "Calle de Alcalá 631", 
+		"id": 21, "name": "Canillejas", "number": null, "address": "Calle de Alcalá 631", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 3, "distance_previous_segment": 1419.7351, "speed_previous_segment": 23.38, 
@@ -398,7 +398,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.60816032312032,  40.449420844365697 ] } 
 	},
 	{ 
-		"id": 22, "name": "Barrio del Pilar", "address": "Calle de Ginzo de Limia 22", 
+		"id": 22, "name": "Barrio del Pilar", "number": null, "address": "Calle de Ginzo de Limia 22", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 4, "distance_previous_segment": 966.563, "speed_previous_segment": 26.81, 
@@ -414,7 +414,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70316450384176,  40.476889068805598 ] } 
 	},
 	{ 
-		"id": 23, "name": "Villaverde Bajo Cruce", "address": "Avda de Andalucía 38", 
+		"id": 23, "name": "Villaverde Bajo Cruce", "number": null, "address": "Avda de Andalucía 38", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 3, "distance_previous_segment": 1065.9677, "speed_previous_segment": 24.99, 
@@ -430,7 +430,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69264894181344,  40.350894763961499 ] } 
 	},
 	{ 
-		"id": 24, "name": "Méndez Álvaro", "address": "Calle del Ombu 16", 
+		"id": 24, "name": "Méndez Álvaro", "number": null, "address": "Calle del Ombu 16", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 9, "distance_previous_segment": 900.391, "speed_previous_segment": 25.65, 
@@ -446,7 +446,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67814150708304,  40.395375599391002 ] } 
 	},
 	{ 
-		"id": 25, "name": "San Nicasio", "address": "Avda  Mar Mediterráneo SN", 
+		"id": 25, "name": "San Nicasio", "number": null, "address": "Avda  Mar Mediterráneo SN", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 28, "distance_previous_segment": 1164.882, "speed_previous_segment": 40.53, 
@@ -462,7 +462,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.77587362530074,  40.336163147896002 ] } 
 	},
 	{ 
-		"id": 26, "name": "Casa del Reloj", "address": "Avda  Gibraltar 11", 
+		"id": 26, "name": "Casa del Reloj", "number": null, "address": "Avda  Gibraltar 11", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 25, "distance_previous_segment": 1363.821, "speed_previous_segment": 40.53, 
@@ -478,7 +478,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.75942499130863,  40.326602721384198 ] } 
 	},
 	{ 
-		"id": 27, "name": "Reyes Católicos", "address": "Avda de la Plaza de Toros 7", 
+		"id": 27, "name": "Reyes Católicos", "number": null, "address": "Avda de la Plaza de Toros 7", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 2, "distance_previous_segment": 1556.3600521061701, "speed_previous_segment": 37.18, 
@@ -494,7 +494,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.62339941044202,  40.550374833665501 ] } 
 	},
 	{ 
-		"id": 28, "name": "Estadio Metropolitano", "address": "Avda de Arcentales 28", 
+		"id": 28, "name": "Estadio Metropolitano", "number": null, "address": "Avda de Arcentales 28", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -520,7 +520,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.60015365421252,  40.433393484099902 ] } 
 	},
 	{ 
-		"id": 29, "name": "Palos de la Frontera", "address": "Calle de Palos de la Frontera 33", 
+		"id": 29, "name": "Palos de la Frontera", "number": null, "address": "Calle de Palos de la Frontera 33", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 10, "distance_previous_segment": 532.81225220382203, "speed_previous_segment": 24.99, 
@@ -536,7 +536,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69423268407983,  40.403072283978297 ] } 
 	},
 	{ 
-		"id": 30, "name": "Guzmán el Bueno", "address": "Calle de Guzmán el Bueno 118", 
+		"id": 30, "name": "Guzmán el Bueno", "number": null, "address": "Calle de Guzmán el Bueno 118", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 16, "distance_previous_segment": 1468.397, "speed_previous_segment": 27.77, 
@@ -562,7 +562,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71229403706057,  40.446366079143701 ] } 
 	},
 	{ 
-		"id": 31, "name": "Conservatorio", "address": "Avda de las Arcas del Agua 5", 
+		"id": 31, "name": "Conservatorio", "number": null, "address": "Avda de las Arcas del Agua 5", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 16, "distance_previous_segment": 950.642, "speed_previous_segment": 40.53, 
@@ -578,7 +578,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.74576104044338,  40.293243846316599 ] } 
 	},
 	{ 
-		"id": 32, "name": "Velázquez", "address": "Calle de Núñez de Balboa 33", 
+		"id": 32, "name": "Velázquez", "number": null, "address": "Calle de Núñez de Balboa 33", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 7, "distance_previous_segment": 362.51, "speed_previous_segment": 22.42, 
@@ -594,7 +594,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6829181480862,  40.425032550864799 ] } 
 	},
 	{ 
-		"id": 33, "name": "Quevedo", "address": "Gta de Quevedo 1", 
+		"id": 33, "name": "Quevedo", "number": null, "address": "Gta de Quevedo 1", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 18, "distance_previous_segment": 296.626, "speed_previous_segment": 24.22, 
@@ -610,7 +610,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70433286125026,  40.433217315157599 ] } 
 	},
 	{ 
-		"id": 34, "name": "Aeropuerto T4", "address": "Ctra de Alcobendas a Barajas SN", 
+		"id": 34, "name": "Aeropuerto T4", "number": null, "address": "Ctra de Alcobendas a Barajas SN", 
 		"lines": [ 
 			{ 
 				"line": "8", "direction": "1", "order": 8, "distance_previous_segment": 2090.505, "speed_previous_segment": 43.29, 
@@ -626,7 +626,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.59324559721343,  40.491766772326002 ] } 
 	},
 	{ 
-		"id": 35, "name": "Vicente Aleixandre", "address": "Avda de Gregorio del Amo 4", 
+		"id": 35, "name": "Vicente Aleixandre", "number": null, "address": "Avda de Gregorio del Amo 4", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 21, "distance_previous_segment": 637.731, "speed_previous_segment": 25.65, 
@@ -642,7 +642,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71942671196889,  40.446436399348499 ] } 
 	},
 	{ 
-		"id": 36, "name": "Alameda de Osuna", "address": "Calle de la Corbeta 14", 
+		"id": 36, "name": "Alameda de Osuna", "number": null, "address": "Calle de la Corbeta 14", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -658,7 +658,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.58752092904349,  40.457788628520497 ] } 
 	},
 	{ 
-		"id": 37, "name": "Cuatro Vientos", "address": "Col  Militar de Cuatro Vientos 6", 
+		"id": 37, "name": "Cuatro Vientos", "number": null, "address": "Col  Militar de Cuatro Vientos 6", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 19, "distance_previous_segment": 1160.6965001512999, "speed_previous_segment": 31.12, 
@@ -674,7 +674,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.79151519987357,  40.377706888769701 ] } 
 	},
 	{ 
-		"id": 38, "name": "Pacífico", "address": "Avda de la Ciudad de Barcelona 79", 
+		"id": 38, "name": "Pacífico", "number": null, "address": "Avda de la Ciudad de Barcelona 79", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 21, "distance_previous_segment": 539.78307826711603, "speed_previous_segment": 22.96, 
@@ -700,7 +700,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67513655621334,  40.401261789048199 ] } 
 	},
 	{ 
-		"id": 39, "name": "Pirámides", "address": "Paseo del Doctor Vallejo Nágera 37", 
+		"id": 39, "name": "Pirámides", "number": null, "address": "Paseo del Doctor Vallejo Nágera 37", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 22, "distance_previous_segment": 552.653, "speed_previous_segment": 23.38, 
@@ -716,7 +716,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71137712281232,  40.402598165458897 ] } 
 	},
 	{ 
-		"id": 40, "name": "La Elipa", "address": "Avda del Marqués de Corbera 58", 
+		"id": 40, "name": "La Elipa", "number": null, "address": "Avda del Marqués de Corbera 58", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 5, "distance_previous_segment": 1155.7413, "speed_previous_segment": 24.22, 
@@ -732,7 +732,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.65051891390286,  40.426617234977201 ] } 
 	},
 	{ 
-		"id": 41, "name": "Empalme", "address": "Calle de Tembleque 105", 
+		"id": 41, "name": "Empalme", "number": null, "address": "Calle de Tembleque 105", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 30, "distance_previous_segment": 675.791, "speed_previous_segment": 23.38, 
@@ -748,7 +748,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.76534787557234,  40.390572557831597 ] } 
 	},
 	{ 
-		"id": 42, "name": "El Capricho", "address": "Calle de Pinos de Osuna 15", 
+		"id": 42, "name": "El Capricho", "number": null, "address": "Calle de Pinos de Osuna 15", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 2, "distance_previous_segment": 736.7145, "speed_previous_segment": 23.38, 
@@ -764,7 +764,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.59401165769579,  40.453468332704901 ] } 
 	},
 	{ 
-		"id": 43, "name": "Torre Arias", "address": "Calle de Alcalá 557", 
+		"id": 43, "name": "Torre Arias", "number": null, "address": "Calle de Alcalá 557", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 4, "distance_previous_segment": 985.045, "speed_previous_segment": 23.38, 
@@ -780,7 +780,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.61699470593882,  40.443743296414603 ] } 
 	},
 	{ 
-		"id": 44, "name": "La Latina", "address": "Calle de San Millán 5", 
+		"id": 44, "name": "La Latina", "number": null, "address": "Calle de San Millán 5", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 19, "distance_previous_segment": 754.561, "speed_previous_segment": 23.38, 
@@ -796,7 +796,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70816086851901,  40.4112803286869 ] } 
 	},
 	{ 
-		"id": 45, "name": "Marqués De Vadillo", "address": "Gta del Marqués de Vadillo 4", 
+		"id": 45, "name": "Marqués De Vadillo", "number": null, "address": "Gta del Marqués de Vadillo 4", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 23, "distance_previous_segment": 758.424, "speed_previous_segment": 23.38, 
@@ -812,7 +812,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71596007651405,  40.397356290324502 ] } 
 	},
 	{ 
-		"id": 46, "name": "Estrella", "address": "Calle del Camino de los Vinateros 1", 
+		"id": 46, "name": "Estrella", "number": null, "address": "Calle del Camino de los Vinateros 1", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 17, "distance_previous_segment": 840.255, "speed_previous_segment": 26.81, 
@@ -828,7 +828,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66178527076064,  40.411472219206502 ] } 
 	},
 	{ 
-		"id": 47, "name": "Paco de Lucía", "address": "Calle de Monasterio de Las Huelgas 5", 
+		"id": 47, "name": "Paco de Lucía", "number": null, "address": "Calle de Monasterio de Las Huelgas 5", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 26.81, 
@@ -844,7 +844,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70908148055736,  40.499654912051703 ] } 
 	},
 	{ 
-		"id": 48, "name": "Tirso de Molina", "address": "Plaza de Tirso de Molina 7", 
+		"id": 48, "name": "Tirso de Molina", "number": null, "address": "Plaza de Tirso de Molina 7", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 16, "distance_previous_segment": 655.27515843759795, "speed_previous_segment": 22.96, 
@@ -860,7 +860,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70465526879971,  40.4123480941102 ] } 
 	},
 	{ 
-		"id": 49, "name": "Gran Vía", "address": "Calle  Gran Vía 23", 
+		"id": 49, "name": "Gran Vía", "number": null, "address": "Calle  Gran Vía 23", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 16, "distance_previous_segment": 469.881, "speed_previous_segment": 23.38, 
@@ -886,7 +886,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70180393013566,  40.419986617735702 ] } 
 	},
 	{ 
-		"id": 50, "name": "Campamento", "address": "Avda del Padre Piquer 7", 
+		"id": 50, "name": "Campamento", "number": null, "address": "Avda del Padre Piquer 7", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 31, "distance_previous_segment": 445.038, "speed_previous_segment": 23.38, 
@@ -902,7 +902,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.76812813678741,  40.394807757402099 ] } 
 	},
 	{ 
-		"id": 51, "name": "Mar de Cristal", "address": "Gta de Mar de Cristal 1", 
+		"id": 51, "name": "Mar de Cristal", "number": null, "address": "Gta de Mar de Cristal 1", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 18, "distance_previous_segment": 638.119, "speed_previous_segment": 22.42, 
@@ -928,7 +928,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63832022322047,  40.469383787188697 ] } 
 	},
 	{ 
-		"id": 52, "name": "Delicias", "address": "Paseo de las Delicias 60", 
+		"id": 52, "name": "Delicias", "number": null, "address": "Paseo de las Delicias 60", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 9, "distance_previous_segment": 738.11155833199996, "speed_previous_segment": 24.99, 
@@ -944,7 +944,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69419961603634,  40.399904778554401 ] } 
 	},
 	{ 
-		"id": 53, "name": "Parque Lisboa", "address": "Calle de Porto Lagos 7", 
+		"id": 53, "name": "Parque Lisboa", "number": null, "address": "Calle de Porto Lagos 7", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 2, "distance_previous_segment": 841.921, "speed_previous_segment": 40.53, 
@@ -960,7 +960,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.82119573255216,  40.349687281522201 ] } 
 	},
 	{ 
-		"id": 54, "name": "Barajas", "address": "Cmno  Viejo de Hortaleza 10", 
+		"id": 54, "name": "Barajas", "number": null, "address": "Cmno  Viejo de Hortaleza 10", 
 		"lines": [ 
 			{ 
 				"line": "8", "direction": "1", "order": 7, "distance_previous_segment": 1430.526, "speed_previous_segment": 43.29, 
@@ -976,7 +976,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.58252790979637,  40.475774163830899 ] } 
 	},
 	{ 
-		"id": 55, "name": "Canillas", "address": "Avda de Machupichu 64", 
+		"id": 55, "name": "Canillas", "number": null, "address": "Avda de Machupichu 64", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 17, "distance_previous_segment": 1279.047, "speed_previous_segment": 22.42, 
@@ -992,7 +992,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63559546398109,  40.463810536980198 ] } 
 	},
 	{ 
-		"id": 56, "name": "Coslada Central", "address": "Calle del Doctor Fleming 41", 
+		"id": 56, "name": "Coslada Central", "number": null, "address": "Calle del Doctor Fleming 41", 
 		"lines": [ 
 			{ 
 				"line": "7b", "direction": "1", "order": 6, "distance_previous_segment": 1343.4833, "speed_previous_segment": 33.38, 
@@ -1008,7 +1008,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.56119234949966,  40.423736205977697 ] } 
 	},
 	{ 
-		"id": 57, "name": "Parque Europa", "address": "Calle de Francia 34", 
+		"id": 57, "name": "Parque Europa", "number": null, "address": "Calle de Francia 34", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 12, "distance_previous_segment": 719.981, "speed_previous_segment": 40.53, 
@@ -1024,7 +1024,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.80632299228354,  40.2851756964955 ] } 
 	},
 	{ 
-		"id": 58, "name": "Alonso Martínez", "address": "Calle de Manuel González Longoria 14", 
+		"id": 58, "name": "Alonso Martínez", "number": null, "address": "Calle de Manuel González Longoria 14", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 14, "distance_previous_segment": 700.584, "speed_previous_segment": 23.38, 
@@ -1060,7 +1060,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69643188600389,  40.428526028829999 ] } 
 	},
 	{ 
-		"id": 59, "name": "Rivas Futura", "address": "Calle  Concepción Arenal 1", 
+		"id": 59, "name": "Rivas Futura", "number": null, "address": "Calle  Concepción Arenal 1", 
 		"lines": [ 
 			{ 
 				"line": "9B", "direction": "2", "order": 4, "distance_previous_segment": 1520.461, "speed_previous_segment": 54.34, 
@@ -1076,7 +1076,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.52478901227188,  40.341342154053599 ] } 
 	},
 	{ 
-		"id": 60, "name": "San Cipriano", "address": "Calle de San Cipriano 68", 
+		"id": 60, "name": "San Cipriano", "number": null, "address": "Calle de San Cipriano 68", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "2", "order": 2, "distance_previous_segment": 648.056, "speed_previous_segment": 26.81, 
@@ -1092,7 +1092,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6023940495699,  40.403811757459401 ] } 
 	},
 	{ 
-		"id": 61, "name": "Antón Martín", "address": "Calle de Atocha 50", 
+		"id": 61, "name": "Antón Martín", "number": null, "address": "Calle de Atocha 50", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 17, "distance_previous_segment": 505.29944306409197, "speed_previous_segment": 22.96, 
@@ -1108,7 +1108,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69937296334489,  40.412463565689997 ] } 
 	},
 	{ 
-		"id": 62, "name": "El Bercial", "address": "Avda  Comandante José Manuel Ripollés 4", 
+		"id": 62, "name": "El Bercial", "number": null, "address": "Avda  Comandante José Manuel Ripollés 4", 
 		"lines": [ 
 			{ 
 				"line": "12-2", "direction": "1", "order": 8, "distance_previous_segment": 1550.37, "speed_previous_segment": 40.59, 
@@ -1124,7 +1124,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72963318048934,  40.329072367482901 ] } 
 	},
 	{ 
-		"id": 63, "name": "Avenida de la Paz", "address": "Avda de Ramón y Cajal 107", 
+		"id": 63, "name": "Avenida de la Paz", "number": null, "address": "Avda de Ramón y Cajal 107", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 14, "distance_previous_segment": 636.081, "speed_previous_segment": 22.42, 
@@ -1140,7 +1140,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66118199968261,  40.4535426348993 ] } 
 	},
 	{ 
-		"id": 64, "name": "Ciudad Universitaria", "address": "Avda  Complutense 1", 
+		"id": 64, "name": "Ciudad Universitaria", "number": null, "address": "Avda  Complutense 1", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 22, "distance_previous_segment": 684.284, "speed_previous_segment": 25.65, 
@@ -1156,7 +1156,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72678481009787,  40.443564676946202 ] } 
 	},
 	{ 
-		"id": 65, "name": "Menéndez Pelayo", "address": "Avda de la Ciudad de Barcelona 23", 
+		"id": 65, "name": "Menéndez Pelayo", "number": null, "address": "Avda de la Ciudad de Barcelona 23", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 20, "distance_previous_segment": 701.87686782395804, "speed_previous_segment": 22.96, 
@@ -1172,7 +1172,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68097941707577,  40.404450522263602 ] } 
 	},
 	{ 
-		"id": 66, "name": "Puerta de Arganda", "address": "Calle de San Cipriano 85", 
+		"id": 66, "name": "Puerta de Arganda", "number": null, "address": "Calle de San Cipriano 85", 
 		"lines": [ 
 			{ 
 				"line": "9B", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -1198,7 +1198,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.59597530294796,  40.401315782161198 ] } 
 	},
 	{ 
-		"id": 67, "name": "Montecarmelo", "address": "Avda de Monasterio de Silos 63", 
+		"id": 67, "name": "Montecarmelo", "number": null, "address": "Avda de Monasterio de Silos 63", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 10, "distance_previous_segment": 3081.81098261633, "speed_previous_segment": 37.18, 
@@ -1214,7 +1214,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69575069505638,  40.505252159111002 ] } 
 	},
 	{ 
-		"id": 68, "name": "Mirasierra", "address": "Avda del Ventisquero de la Condesa 28", 
+		"id": 68, "name": "Mirasierra", "number": null, "address": "Avda del Ventisquero de la Condesa 28", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 2, "distance_previous_segment": 1450.0727, "speed_previous_segment": 26.81, 
@@ -1230,7 +1230,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71634448229921,  40.491097784867499 ] } 
 	},
 	{ 
-		"id": 69, "name": "San Francisco", "address": "Avda de los Poblados 102", 
+		"id": 69, "name": "San Francisco", "number": null, "address": "Avda de los Poblados 102", 
 		"lines": [ 
 			{ 
 				"line": "11", "direction": "1", "order": 4, "distance_previous_segment": 588.626, "speed_previous_segment": 26.52, 
@@ -1246,7 +1246,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.73910292919002,  40.373598841055802 ] } 
 	},
 	{ 
-		"id": 70, "name": "Lavapiés", "address": "Plaza de Lavapiés 7", 
+		"id": 70, "name": "Lavapiés", "number": null, "address": "Plaza de Lavapiés 7", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 12, "distance_previous_segment": 456.29086783718901, "speed_previous_segment": 24.99, 
@@ -1262,7 +1262,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70090412320048,  40.408510942855898 ] } 
 	},
 	{ 
-		"id": 71, "name": "Hospital de Fuenlabrada", "address": "Cmno del Molino 3", 
+		"id": 71, "name": "Hospital de Fuenlabrada", "number": null, "address": "Cmno del Molino 3", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 11, "distance_previous_segment": 2277.737, "speed_previous_segment": 40.53, 
@@ -1278,7 +1278,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.81641680868562,  40.285755485877601 ] } 
 	},
 	{ 
-		"id": 72, "name": "Embajadores", "address": "Gta de Embajadores 10", 
+		"id": 72, "name": "Embajadores", "number": null, "address": "Gta de Embajadores 10", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 11, "distance_previous_segment": 779.54576746087298, "speed_previous_segment": 24.99, 
@@ -1294,7 +1294,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70268049977228,  40.405127271162499 ] } 
 	},
 	{ 
-		"id": 73, "name": "Hospital del Henares", "address": "Cmno del Tiro SN", 
+		"id": 73, "name": "Hospital del Henares", "number": null, "address": "Cmno del Tiro SN", 
 		"lines": [ 
 			{ 
 				"line": "7b", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -1310,7 +1310,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.53453497209821,  40.417610018218497 ] } 
 	},
 	{ 
-		"id": 74, "name": "Lacoma", "address": "Calle de Riscos de Polanco 3", 
+		"id": 74, "name": "Lacoma", "number": null, "address": "Calle de Riscos de Polanco 3", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 22, "distance_previous_segment": 679.682, "speed_previous_segment": 27.77, 
@@ -1326,7 +1326,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72304554155022,  40.485015026073597 ] } 
 	},
 	{ 
-		"id": 75, "name": "Alsacia", "address": "Plaza de Alsacia S\/N", 
+		"id": 75, "name": "Alsacia", "number": null, "address": "Plaza de Alsacia S\/N", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 3, "distance_previous_segment": 1088.4661, "speed_previous_segment": 24.22, 
@@ -1342,7 +1342,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.62350600154867,  40.4182926946444 ] } 
 	},
 	{ 
-		"id": 76, "name": "San Fermín-Orcasur", "address": "Avda de Andalucía 9", 
+		"id": 76, "name": "San Fermín-Orcasur", "number": null, "address": "Avda de Andalucía 9", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 5, "distance_previous_segment": 1137.5782, "speed_previous_segment": 24.99, 
@@ -1358,7 +1358,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6941764145037,  40.369990930550898 ] } 
 	},
 	{ 
-		"id": 77, "name": "Ventura Rodríguez", "address": "Calle de la Princesa 22", 
+		"id": 77, "name": "Ventura Rodríguez", "number": null, "address": "Calle de la Princesa 22", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 16, "distance_previous_segment": 461.14004013239298, "speed_previous_segment": 24.99, 
@@ -1374,7 +1374,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71341309670545,  40.427087364431102 ] } 
 	},
 	{ 
-		"id": 78, "name": "Moncloa", "address": "Plaza de la Moncloa 1", 
+		"id": 78, "name": "Moncloa", "number": null, "address": "Plaza de la Moncloa 1", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 18, "distance_previous_segment": 632.8537, "speed_previous_segment": 24.99, 
@@ -1400,7 +1400,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.7194506192407,  40.435023515195603 ] } 
 	},
 	{ 
-		"id": 79, "name": "Valdeacederas", "address": "Calle de Bravo Murillo 332", 
+		"id": 79, "name": "Valdeacederas", "number": null, "address": "Calle de Bravo Murillo 332", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "2", "order": 29, "distance_previous_segment": 562.896386764196, "speed_previous_segment": 22.96, 
@@ -1416,7 +1416,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69506203750875,  40.464424178598698 ] } 
 	},
 	{ 
-		"id": 80, "name": "Prosperidad", "address": "Plaza de la Prosperidad 4", 
+		"id": 80, "name": "Prosperidad", "number": null, "address": "Plaza de la Prosperidad 4", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 12, "distance_previous_segment": 785.926, "speed_previous_segment": 22.42, 
@@ -1432,7 +1432,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67481890299206,  40.444188974144502 ] } 
 	},
 	{ 
-		"id": 81, "name": "Chueca", "address": "Plaza de Chueca 7", 
+		"id": 81, "name": "Chueca", "number": null, "address": "Plaza de Chueca 7", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 15, "distance_previous_segment": 712.497, "speed_previous_segment": 23.38, 
@@ -1448,7 +1448,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69761659244378,  40.422933178079802 ] } 
 	},
 	{ 
-		"id": 82, "name": "Conde de Casal", "address": "Plaza del Conde de Casal 3", 
+		"id": 82, "name": "Conde de Casal", "number": null, "address": "Plaza del Conde de Casal 3", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 11, "distance_previous_segment": 734.787, "speed_previous_segment": 25.65, 
@@ -1464,7 +1464,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67040806723398,  40.406967950475398 ] } 
 	},
 	{ 
-		"id": 83, "name": "Antonio Machado", "address": "Calle de Valderrodrigo 55", 
+		"id": 83, "name": "Antonio Machado", "number": null, "address": "Calle de Valderrodrigo 55", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 19, "distance_previous_segment": 886.558, "speed_previous_segment": 27.77, 
@@ -1480,7 +1480,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71769485524122,  40.4702177203907 ] } 
 	},
 	{ 
-		"id": 84, "name": "Pan Bendito", "address": "Avda de Abrantes 289", 
+		"id": 84, "name": "Pan Bendito", "number": null, "address": "Avda de Abrantes 289", 
 		"lines": [ 
 			{ 
 				"line": "11", "direction": "1", "order": 3, "distance_previous_segment": 783.737, "speed_previous_segment": 26.52, 
@@ -1496,7 +1496,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.73416885653047,  40.375868636656698 ] } 
 	},
 	{ 
-		"id": 85, "name": "Avenida de América", "address": "Avda de América 9", 
+		"id": 85, "name": "Avenida de América", "number": null, "address": "Avda de América 9", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 12, "distance_previous_segment": 709.73, "speed_previous_segment": 26.81, 
@@ -1542,7 +1542,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67663955532626,  40.438032577381598 ] } 
 	},
 	{ 
-		"id": 86, "name": "Artilleros", "address": "Calle del Camino de los Vinateros 210", 
+		"id": 86, "name": "Artilleros", "number": null, "address": "Calle del Camino de los Vinateros 210", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 19, "distance_previous_segment": 853.276, "speed_previous_segment": 26.81, 
@@ -1558,7 +1558,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.64181233777473,  40.405223833667499 ] } 
 	},
 	{ 
-		"id": 87, "name": "Alto de Extremadura", "address": "Paseo de Extremadura 154", 
+		"id": 87, "name": "Alto de Extremadura", "number": null, "address": "Paseo de Extremadura 154", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 27, "distance_previous_segment": 1032.064, "speed_previous_segment": 25.65, 
@@ -1574,7 +1574,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.73893618157226,  40.409926016985096 ] } 
 	},
 	{ 
-		"id": 88, "name": "Valdezarza", "address": "Calle de San Restituto 70", 
+		"id": 88, "name": "Valdezarza", "number": null, "address": "Calle de San Restituto 70", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 18, "distance_previous_segment": 1201.128, "speed_previous_segment": 27.77, 
@@ -1590,7 +1590,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71597212685142,  40.4648235328361 ] } 
 	},
 	{ 
-		"id": 89, "name": "O'donnell", "address": "Calle del Doctor Esquerdo 47", 
+		"id": 89, "name": "O'donnell", "number": null, "address": "Calle del Doctor Esquerdo 47", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 13, "distance_previous_segment": 759.713, "speed_previous_segment": 25.65, 
@@ -1606,7 +1606,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66859514629195,  40.422888424644597 ] } 
 	},
 	{ 
-		"id": 90, "name": "Hortaleza", "address": "Calle del Capitán Cortés 4", 
+		"id": 90, "name": "Hortaleza", "number": null, "address": "Calle del Capitán Cortés 4", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 21, "distance_previous_segment": 777.26573132380804, "speed_previous_segment": 22.42, 
@@ -1622,7 +1622,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.65257261134101,  40.475371717959 ] } 
 	},
 	{ 
-		"id": 91, "name": "Ciudad de los Ángeles", "address": "Avda de Andalucía 38", 
+		"id": 91, "name": "Ciudad de los Ángeles", "number": null, "address": "Avda de Andalucía 38", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 4, "distance_previous_segment": 986.936, "speed_previous_segment": 24.99, 
@@ -1638,7 +1638,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69362644417066,  40.359585428137002 ] } 
 	},
 	{ 
-		"id": 92, "name": "Fuenlabrada Central", "address": "Calle de la Vía SN", 
+		"id": 92, "name": "Fuenlabrada Central", "number": null, "address": "Calle de la Vía SN", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 13, "distance_previous_segment": 877.74, "speed_previous_segment": 40.53, 
@@ -1654,7 +1654,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.79890690078202,  40.282675775140497 ] } 
 	},
 	{ 
-		"id": 93, "name": "La Poveda", "address": "Parcela  9017 Polígono 1 S\/N", 
+		"id": 93, "name": "La Poveda", "number": null, "address": "Parcela  9017 Polígono 1 S\/N", 
 		"lines": [ 
 			{ 
 				"line": "9B", "direction": "1", "order": 5, "distance_previous_segment": 4371.06, "speed_previous_segment": 54.34, 
@@ -1670,7 +1670,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.47744735058845,  40.319015730792799 ] } 
 	},
 	{ 
-		"id": 94, "name": "Manoteras", "address": "Calle de Bacares 24", 
+		"id": 94, "name": "Manoteras", "number": null, "address": "Calle de Bacares 24", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 22, "distance_previous_segment": 933.00000757161695, "speed_previous_segment": 22.42, 
@@ -1686,7 +1686,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66289547589112,  40.476874226693603 ] } 
 	},
 	{ 
-		"id": 95, "name": "Pueblo Nuevo", "address": "Calle de Alcalá 372", 
+		"id": 95, "name": "Pueblo Nuevo", "number": null, "address": "Calle de Alcalá 372", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 7, "distance_previous_segment": 539.239, "speed_previous_segment": 23.38, 
@@ -1712,7 +1712,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.64282293725217,  40.4356585154991 ] } 
 	},
 	{ 
-		"id": 96, "name": "Tres Olivos", "address": "Acces  M-607 SN", 
+		"id": 96, "name": "Tres Olivos", "number": null, "address": "Acces  M-607 SN", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -1738,7 +1738,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69520245046674,  40.501204627481997 ] } 
 	},
 	{ 
-		"id": 97, "name": "Ciudad Lineal", "address": "Calle de Arturo Soria 2", 
+		"id": 97, "name": "Ciudad Lineal", "number": null, "address": "Calle de Arturo Soria 2", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 6, "distance_previous_segment": 943.039, "speed_previous_segment": 23.38, 
@@ -1754,7 +1754,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6381575883455,  40.438048408420102 ] } 
 	},
 	{ 
-		"id": 98, "name": "Sierra de Guadalupe", "address": "Avda de la Democracia 1", 
+		"id": 98, "name": "Sierra de Guadalupe", "number": null, "address": "Avda de la Democracia 1", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 28, "distance_previous_segment": 1344.99593007363, "speed_previous_segment": 22.96, 
@@ -1770,7 +1770,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.62471747014878,  40.382164250300598 ] } 
 	},
 	{ 
-		"id": 99, "name": "El Carrascal", "address": "Avda  Rey Juan Carlos I 85", 
+		"id": 99, "name": "El Carrascal", "number": null, "address": "Avda  Rey Juan Carlos I 85", 
 		"lines": [ 
 			{ 
 				"line": "12-2", "direction": "1", "order": 7, "distance_previous_segment": 1056.813, "speed_previous_segment": 40.59, 
@@ -1786,7 +1786,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.74018488291484,  40.3366382437775 ] } 
 	},
 	{ 
-		"id": 100, "name": "Simancas", "address": "Calle del Castillo de Madrigal de las Altas Torres 15", 
+		"id": 100, "name": "Simancas", "number": null, "address": "Calle del Castillo de Madrigal de las Altas Torres 15", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 4, "distance_previous_segment": 843.958, "speed_previous_segment": 27.77, 
@@ -1802,7 +1802,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.62572167294121,  40.427992373025198 ] } 
 	},
 	{ 
-		"id": 101, "name": "Los Espartales", "address": "Avda  Rigoberta Menchú 3", 
+		"id": 101, "name": "Los Espartales", "number": null, "address": "Avda  Rigoberta Menchú 3", 
 		"lines": [ 
 			{ 
 				"line": "12-2", "direction": "1", "order": 9, "distance_previous_segment": 1199.174, "speed_previous_segment": 40.59, 
@@ -1818,7 +1818,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.7181978645244,  40.3242270149373 ] } 
 	},
 	{ 
-		"id": 102, "name": "Principe Pío", "address": "Paseo de la Florida 2", 
+		"id": 102, "name": "Principe Pío", "number": null, "address": "Paseo de la Florida 2", 
 		"lines": [ 
 			{ 
 				"line": "R", "direction": "1", "order": 2, "distance_previous_segment": 994.453, "speed_previous_segment": 19.001, 
@@ -1854,7 +1854,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72032355914226,  40.421068844383598 ] } 
 	},
 	{ 
-		"id": 103, "name": "Hospital de Móstoles", "address": "Calle del Río Sella 10", 
+		"id": 103, "name": "Hospital de Móstoles", "number": null, "address": "Calle del Río Sella 10", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 8, "distance_previous_segment": 1031.324, "speed_previous_segment": 40.53, 
@@ -1870,7 +1870,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.87471247771921,  40.316524281645599 ] } 
 	},
 	{ 
-		"id": 104, "name": "Esperanza", "address": "Calle de Andorra 51", 
+		"id": 104, "name": "Esperanza", "number": null, "address": "Calle de Andorra 51", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 16, "distance_previous_segment": 832.943, "speed_previous_segment": 22.42, 
@@ -1886,7 +1886,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.64581718003963,  40.459447297191801 ] } 
 	},
 	{ 
-		"id": 105, "name": "Juan de la Cierva", "address": "Avda de España 20", 
+		"id": 105, "name": "Juan de la Cierva", "number": null, "address": "Avda de España 20", 
 		"lines": [ 
 			{ 
 				"line": "12-2", "direction": "1", "order": 11, "distance_previous_segment": 1577.403, "speed_previous_segment": 40.59, 
@@ -1902,7 +1902,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72224012270444,  40.311802364856298 ] } 
 	},
 	{ 
-		"id": 106, "name": "Tribunal", "address": "Calle de Fuencarral 81", 
+		"id": 106, "name": "Tribunal", "number": null, "address": "Calle de Fuencarral 81", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 13, "distance_previous_segment": 459.65403824967302, "speed_previous_segment": 22.96, 
@@ -1928,7 +1928,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70109984950459,  40.426185395590203 ] } 
 	},
 	{ 
-		"id": 107, "name": "Francos Rodríguez", "address": "Avda de Pablo Iglesias 87", 
+		"id": 107, "name": "Francos Rodríguez", "number": null, "address": "Avda de Pablo Iglesias 87", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 17, "distance_previous_segment": 1124.824, "speed_previous_segment": 27.77, 
@@ -1944,7 +1944,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.7123866721983,  40.456481820778301 ] } 
 	},
 	{ 
-		"id": 108, "name": "Colón", "address": "Plaza de Colón 2", 
+		"id": 108, "name": "Colón", "number": null, "address": "Plaza de Colón 2", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 5, "distance_previous_segment": 369.364, "speed_previous_segment": 22.42, 
@@ -1960,7 +1960,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69100739257143,  40.425419182137396 ] } 
 	},
 	{ 
-		"id": 109, "name": "Cuatro Caminos", "address": "Gta de Cuatro Caminos 9", 
+		"id": 109, "name": "Cuatro Caminos", "number": null, "address": "Gta de Cuatro Caminos 9", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "2", "order": 25, "distance_previous_segment": 508.84599617393701, "speed_previous_segment": 22.96, 
@@ -1996,7 +1996,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70386869928601,  40.446974596904603 ] } 
 	},
 	{ 
-		"id": 110, "name": "Valdecarros", "address": "Avda del Ensanche de Vallecas 120", 
+		"id": 110, "name": "Valdecarros", "number": null, "address": "Avda del Ensanche de Vallecas 120", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 33, "distance_previous_segment": 841.76776423596698, "speed_previous_segment": 22.96, 
@@ -2012,7 +2012,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.59316035499877,  40.360068133185202 ] } 
 	},
 	{ 
-		"id": 111, "name": "Portazgo", "address": "Avda de la Albufera 131", 
+		"id": 111, "name": "Portazgo", "number": null, "address": "Avda de la Albufera 131", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 24, "distance_previous_segment": 579.10459701792104, "speed_previous_segment": 22.96, 
@@ -2028,7 +2028,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.65868242534443,  40.392664108961 ] } 
 	},
 	{ 
-		"id": 112, "name": "Las Suertes", "address": "Calle de Cañada del Santísimo 45", 
+		"id": 112, "name": "Las Suertes", "number": null, "address": "Calle de Cañada del Santísimo 45", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 32, "distance_previous_segment": 1312.5643801399999, "speed_previous_segment": 22.96, 
@@ -2044,7 +2044,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.59953268972882,  40.363228024765903 ] } 
 	},
 	{ 
-		"id": 113, "name": "Diego de León", "address": "Calle de Francisco Silvela 47", 
+		"id": 113, "name": "Diego de León", "number": null, "address": "Calle de Francisco Silvela 47", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 15, "distance_previous_segment": 737.324, "speed_previous_segment": 25.65, 
@@ -2080,7 +2080,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67293856677242,  40.432947682446098 ] } 
 	},
 	{ 
-		"id": 114, "name": "Argüelles", "address": "Calle de Alberto Aguilera 72", 
+		"id": 114, "name": "Argüelles", "number": null, "address": "Calle de Alberto Aguilera 72", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -2116,7 +2116,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71596265109483,  40.430660930224597 ] } 
 	},
 	{ 
-		"id": 115, "name": "Legazpi", "address": "Plaza de Legazpi 2", 
+		"id": 115, "name": "Legazpi", "number": null, "address": "Plaza de Legazpi 2", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 8, "distance_previous_segment": 1065.5137, "speed_previous_segment": 24.99, 
@@ -2142,7 +2142,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69505136534669,  40.391157757940299 ] } 
 	},
 	{ 
-		"id": 116, "name": "Callao", "address": "Plaza del Callao 3", 
+		"id": 116, "name": "Callao", "number": null, "address": "Plaza del Callao 3", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 14, "distance_previous_segment": 450.74735397638, "speed_previous_segment": 24.99, 
@@ -2168,7 +2168,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70566477670052,  40.420083254396502 ] } 
 	},
 	{ 
-		"id": 117, "name": "Sainz de Baranda", "address": "Calle del Doctor Esquerdo 103", 
+		"id": 117, "name": "Sainz de Baranda", "number": null, "address": "Calle del Doctor Esquerdo 103", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 16, "distance_previous_segment": 951.661, "speed_previous_segment": 26.81, 
@@ -2194,7 +2194,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66951374370264,  40.415028496807103 ] } 
 	},
 	{ 
-		"id": 118, "name": "Bambú", "address": "Calle del Bambú 14", 
+		"id": 118, "name": "Bambú", "number": null, "address": "Calle del Bambú 14", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "2", "order": 32, "distance_previous_segment": 770.2919, "speed_previous_segment": 22.96, 
@@ -2210,7 +2210,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67636744147116,  40.476815361165102 ] } 
 	},
 	{ 
-		"id": 119, "name": "Usera", "address": "Calle de Amparo Usera 44", 
+		"id": 119, "name": "Usera", "number": null, "address": "Calle de Amparo Usera 44", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 6, "distance_previous_segment": 958.909, "speed_previous_segment": 25.65, 
@@ -2226,7 +2226,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70689564278932,  40.387096693269697 ] } 
 	},
 	{ 
-		"id": 120, "name": "La Peseta", "address": "Calle de Salvador Allende 3", 
+		"id": 120, "name": "La Peseta", "number": null, "address": "Calle de Salvador Allende 3", 
 		"lines": [ 
 			{ 
 				"line": "11", "direction": "2", "order": 2, "distance_previous_segment": 2346.2778, "speed_previous_segment": 26.52, 
@@ -2242,7 +2242,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.75690271058812,  40.364224011811601 ] } 
 	},
 	{ 
-		"id": 121, "name": "La Moraleja", "address": "Avda de la Ermita 5", 
+		"id": 121, "name": "La Moraleja", "number": null, "address": "Avda de la Ermita 5", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 6, "distance_previous_segment": 1325.8005162275499, "speed_previous_segment": 37.18, 
@@ -2258,7 +2258,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63555952271399,  40.5319556473465 ] } 
 	},
 	{ 
-		"id": 122, "name": "Rios Rosas", "address": "Calle de Ríos Rosas 22", 
+		"id": 122, "name": "Rios Rosas", "number": null, "address": "Calle de Ríos Rosas 22", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "2", "order": 24, "distance_previous_segment": 745.68841712624499, "speed_previous_segment": 22.96, 
@@ -2274,7 +2274,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70132848117729,  40.441975356355897 ] } 
 	},
 	{ 
-		"id": 123, "name": "Puerta del Sur", "address": "Avda de la Libertad 2", 
+		"id": 123, "name": "Puerta del Sur", "number": null, "address": "Avda de la Libertad 2", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 21, "distance_previous_segment": 723.81886015531995, "speed_previous_segment": 31.12, 
@@ -2310,7 +2310,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.81211073504745,  40.345242874276799 ] } 
 	},
 	{ 
-		"id": 124, "name": "Parque de las Avenidas", "address": "Avda de Bruselas 56", 
+		"id": 124, "name": "Parque de las Avenidas", "number": null, "address": "Avda de Bruselas 56", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 9, "distance_previous_segment": 925.965, "speed_previous_segment": 27.77, 
@@ -2326,7 +2326,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66297058086922,  40.439447602340302 ] } 
 	},
 	{ 
-		"id": 125, "name": "Príncipe de Vergara", "address": "Calle de Alcalá 123", 
+		"id": 125, "name": "Príncipe de Vergara", "number": null, "address": "Calle de Alcalá 123", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 9, "distance_previous_segment": 407.951, "speed_previous_segment": 24.22, 
@@ -2352,7 +2352,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68012268104369,  40.422944861760698 ] } 
 	},
 	{ 
-		"id": 126, "name": "Alvarado", "address": "Calle de Bravo Murillo 138", 
+		"id": 126, "name": "Alvarado", "number": null, "address": "Calle de Bravo Murillo 138", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "2", "order": 26, "distance_previous_segment": 450.80671938018901, "speed_previous_segment": 22.96, 
@@ -2368,7 +2368,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70331420927578,  40.450331975994303 ] } 
 	},
 	{ 
-		"id": 127, "name": "San Bernardo", "address": "Calle de San Bernardo 94", 
+		"id": 127, "name": "San Bernardo", "number": null, "address": "Calle de San Bernardo 94", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 17, "distance_previous_segment": 627.705, "speed_previous_segment": 24.22, 
@@ -2394,7 +2394,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70556993325102,  40.430012762660802 ] } 
 	},
 	{ 
-		"id": 128, "name": "Rubén Darío", "address": "Paseo de Eduardo Dato 33", 
+		"id": 128, "name": "Rubén Darío", "number": null, "address": "Paseo de Eduardo Dato 33", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 13, "distance_previous_segment": 667.161, "speed_previous_segment": 23.38, 
@@ -2410,7 +2410,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68954159857549,  40.4331579372096 ] } 
 	},
 	{ 
-		"id": 129, "name": "Tetuán", "address": "Calle de Bravo Murillo 264", 
+		"id": 129, "name": "Tetuán", "number": null, "address": "Calle de Bravo Murillo 264", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "2", "order": 28, "distance_previous_segment": 756.85963743504499, "speed_previous_segment": 22.96, 
@@ -2426,7 +2426,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69824989397233,  40.460551882664802 ] } 
 	},
 	{ 
-		"id": 130, "name": "Ventas", "address": "Calle de Alcalá 204", 
+		"id": 130, "name": "Ventas", "number": null, "address": "Calle de Alcalá 204", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 10, "distance_previous_segment": 697.93, "speed_previous_segment": 23.38, 
@@ -2452,7 +2452,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66360584172735,  40.4308848031949 ] } 
 	},
 	{ 
-		"id": 131, "name": "Joaquín Vilumbrales", "address": "Avda de la Libertad 13", 
+		"id": 131, "name": "Joaquín Vilumbrales", "number": null, "address": "Avda de la Libertad 13", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 20, "distance_previous_segment": 3272.3640448661599, "speed_previous_segment": 31.12, 
@@ -2468,7 +2468,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.80720128436728,  40.349848097733997 ] } 
 	},
 	{ 
-		"id": 132, "name": "Quintana", "address": "Calle de la Virgen del Sagrario 2", 
+		"id": 132, "name": "Quintana", "number": null, "address": "Calle de la Virgen del Sagrario 2", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 8, "distance_previous_segment": 530.192, "speed_previous_segment": 23.38, 
@@ -2484,7 +2484,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.64736224209832,  40.433584941649499 ] } 
 	},
 	{ 
-		"id": 133, "name": "Cruz del Rayo", "address": "Calle del Príncipe de Vergara 138", 
+		"id": 133, "name": "Cruz del Rayo", "number": null, "address": "Calle del Príncipe de Vergara 138", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 11, "distance_previous_segment": 718.335, "speed_previous_segment": 26.81, 
@@ -2500,7 +2500,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67821410967105,  40.444265881103298 ] } 
 	},
 	{ 
-		"id": 134, "name": "Puente de Vallecas", "address": "Avda de la Albufera 1", 
+		"id": 134, "name": "Puente de Vallecas", "number": null, "address": "Avda de la Albufera 1", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 22, "distance_previous_segment": 712.55157974663405, "speed_previous_segment": 22.96, 
@@ -2516,7 +2516,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66905899947859,  40.398192151002903 ] } 
 	},
 	{ 
-		"id": 135, "name": "Las Rosas", "address": "Paseo de Ginebra 35", 
+		"id": 135, "name": "Las Rosas", "number": null, "address": "Paseo de Ginebra 35", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "2", "order": 20, "distance_previous_segment": 909.1055, "speed_previous_segment": 24.22, 
@@ -2532,7 +2532,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.60330559556744,  40.423748431044203 ] } 
 	},
 	{ 
-		"id": 136, "name": "Batán", "address": "Paseo de la Venta 1", 
+		"id": 136, "name": "Batán", "number": null, "address": "Paseo de la Venta 1", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 15, "distance_previous_segment": 1918.45850846236, "speed_previous_segment": 31.12, 
@@ -2548,7 +2548,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.75310993717595,  40.407860208402397 ] } 
 	},
 	{ 
-		"id": 137, "name": "Pío XII", "address": "Avda de Pío XII 27", 
+		"id": 137, "name": "Pío XII", "number": null, "address": "Avda de Pío XII 27", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 8, "distance_previous_segment": 753.186, "speed_previous_segment": 26.81, 
@@ -2564,7 +2564,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67579015001895,  40.463002760511301 ] } 
 	},
 	{ 
-		"id": 138, "name": "Peñagrande", "address": "Cmno de Ganapanes 35", 
+		"id": 138, "name": "Peñagrande", "number": null, "address": "Cmno de Ganapanes 35", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 20, "distance_previous_segment": 655.011, "speed_previous_segment": 27.77, 
@@ -2580,7 +2580,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71582415791248,  40.475923520249701 ] } 
 	},
 	{ 
-		"id": 139, "name": "Chamartín", "address": "Calle de Agustín de Foxá 40", 
+		"id": 139, "name": "Chamartín", "number": null, "address": "Calle de Agustín de Foxá 40", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 4, "distance_previous_segment": 1032.4933877544399, "speed_previous_segment": 31.12, 
@@ -2606,7 +2606,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68259088054998,  40.472103124612701 ] } 
 	},
 	{ 
-		"id": 140, "name": "Iglesia", "address": "Gta del Pintor Sorolla 2", 
+		"id": 140, "name": "Iglesia", "number": null, "address": "Gta del Pintor Sorolla 2", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 11, "distance_previous_segment": 744.95039236396406, "speed_previous_segment": 22.96, 
@@ -2622,7 +2622,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69897999234847,  40.434923478284901 ] } 
 	},
 	{ 
-		"id": 141, "name": "San Blas", "address": "Calle de Pobladura del Valle 27", 
+		"id": 141, "name": "San Blas", "number": null, "address": "Calle de Pobladura del Valle 27", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 3, "distance_previous_segment": 869.567, "speed_previous_segment": 27.77, 
@@ -2638,7 +2638,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.61546907625776,  40.427991906767403 ] } 
 	},
 	{ 
-		"id": 142, "name": "Atocha", "address": "Avda de la Ciudad de Barcelona 2", 
+		"id": 142, "name": "Atocha", "number": null, "address": "Avda de la Ciudad de Barcelona 2", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 19, "distance_previous_segment": 308.981287298045, "speed_previous_segment": 22.96, 
@@ -2654,7 +2654,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68937811076585,  40.4065868145425 ] } 
 	},
 	{ 
-		"id": 143, "name": "Loranca", "address": "Calle de la Alegría 4", 
+		"id": 143, "name": "Loranca", "number": null, "address": "Calle de la Alegría 4", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 10, "distance_previous_segment": 2902.405, "speed_previous_segment": 40.53, 
@@ -2670,7 +2670,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.83768345712019,  40.296812664055302 ] } 
 	},
 	{ 
-		"id": 144, "name": "Lista", "address": "Calle del Conde de Peñalver 45", 
+		"id": 144, "name": "Lista", "number": null, "address": "Calle del Conde de Peñalver 45", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 9, "distance_previous_segment": 558.569, "speed_previous_segment": 22.42, 
@@ -2686,7 +2686,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67540982227869,  40.4291685202558 ] } 
 	},
 	{ 
-		"id": 145, "name": "Pinar del Rey", "address": "Avda de la Gran Vía de Hortaleza 47", 
+		"id": 145, "name": "Pinar del Rey", "number": null, "address": "Avda de la Gran Vía de Hortaleza 47", 
 		"lines": [ 
 			{ 
 				"line": "8", "direction": "1", "order": 3, "distance_previous_segment": 2871.017, "speed_previous_segment": 43.29, 
@@ -2702,7 +2702,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.64866836052012,  40.468001362073799 ] } 
 	},
 	{ 
-		"id": 146, "name": "Duque de Pastrana", "address": "Calle de Mateo Inurria 41", 
+		"id": 146, "name": "Duque de Pastrana", "number": null, "address": "Calle de Mateo Inurria 41", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 7, "distance_previous_segment": 617.12, "speed_previous_segment": 26.81, 
@@ -2718,7 +2718,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6791705524779,  40.467625851508799 ] } 
 	},
 	{ 
-		"id": 147, "name": "Fuencarral", "address": "Calle de la Fuente Chica 21", 
+		"id": 147, "name": "Fuencarral", "number": null, "address": "Calle de la Fuente Chica 21", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 2, "distance_previous_segment": 774.06427894722003, "speed_previous_segment": 31.12, 
@@ -2734,7 +2734,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69283123100657,  40.495085162407698 ] } 
 	},
 	{ 
-		"id": 148, "name": "El Carmen", "address": "Calle de Raquel Méller 2", 
+		"id": 148, "name": "El Carmen", "number": null, "address": "Calle de Raquel Méller 2", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 9, "distance_previous_segment": 713.966, "speed_previous_segment": 23.38, 
@@ -2750,7 +2750,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.65757254725966,  40.4318932920946 ] } 
 	},
 	{ 
-		"id": 149, "name": "Lago", "address": "Ronda del Lago 3", 
+		"id": 149, "name": "Lago", "number": null, "address": "Ronda del Lago 3", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 14, "distance_previous_segment": 1766.07477408003, "speed_previous_segment": 31.12, 
@@ -2766,7 +2766,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.73563105937362,  40.416414110991496 ] } 
 	},
 	{ 
-		"id": 150, "name": "Feria de Madrid", "address": "Avda del Partenón 5", 
+		"id": 150, "name": "Feria de Madrid", "number": null, "address": "Avda del Partenón 5", 
 		"lines": [ 
 			{ 
 				"line": "8", "direction": "1", "order": 5, "distance_previous_segment": 2214.535, "speed_previous_segment": 43.29, 
@@ -2782,7 +2782,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.61620468224152,  40.4638931513133 ] } 
 	},
 	{ 
-		"id": 151, "name": "Carpetana", "address": "Calle  Vía Carpetana 141", 
+		"id": 151, "name": "Carpetana", "number": null, "address": "Calle  Vía Carpetana 141", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 2, "distance_previous_segment": 688.044, "speed_previous_segment": 25.65, 
@@ -2798,7 +2798,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.74099367671356,  40.392701899463503 ] } 
 	},
 	{ 
-		"id": 152, "name": "Rivas Vaciamadrid", "address": "Calle  Areneros 6", 
+		"id": 152, "name": "Rivas Vaciamadrid", "number": null, "address": "Calle  Areneros 6", 
 		"lines": [ 
 			{ 
 				"line": "9B", "direction": "1", "order": 4, "distance_previous_segment": 1521.842, "speed_previous_segment": 54.34, 
@@ -2814,7 +2814,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.52059752095372,  40.328370921892898 ] } 
 	},
 	{ 
-		"id": 153, "name": "Móstoles Central", "address": "Paseo de la Estación 13", 
+		"id": 153, "name": "Móstoles Central", "number": null, "address": "Paseo de la Estación 13", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 6, "distance_previous_segment": 1306.587, "speed_previous_segment": 40.53, 
@@ -2830,7 +2830,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.86354217563866,  40.328500218331499 ] } 
 	},
 	{ 
-		"id": 154, "name": "Vista Alegre", "address": "Calle de la Oca 74", 
+		"id": 154, "name": "Vista Alegre", "number": null, "address": "Calle de la Oca 74", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 26, "distance_previous_segment": 731.653, "speed_previous_segment": 23.38, 
@@ -2846,7 +2846,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.73982455000658,  40.388847025757201 ] } } ] } 
 	},
 	{ 
-		"id": 155, "name": "Aeropuerto T1 T2 T3", "address": "Avda de la Hispanidad SN", 
+		"id": 155, "name": "Aeropuerto T1 T2 T3", "number": null, "address": "Avda de la Hispanidad SN", 
 		"lines": [ 
 			{ 
 				"line": "8", "direction": "1", "order": 6, "distance_previous_segment": 4057.627, "speed_previous_segment": 43.29, 
@@ -2862,7 +2862,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.56953825594321,  40.468644236836298 ] } 
 	},
 	{ 
-		"id": 156, "name": "Cuzco", "address": "Paseo de la Castellana 162", 
+		"id": 156, "name": "Cuzco", "number": null, "address": "Paseo de la Castellana 162", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 6, "distance_previous_segment": 914.89641032393195, "speed_previous_segment": 31.12, 
@@ -2878,7 +2878,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6898507512138,  40.4584214192787 ] } 
 	},
 	{ 
-		"id": 157, "name": "Julián Besteiro", "address": "Avda  Rey Juan Carlos I 23", 
+		"id": 157, "name": "Julián Besteiro", "number": null, "address": "Avda  Rey Juan Carlos I 23", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 24, "distance_previous_segment": 1058.544, "speed_previous_segment": 40.53, 
@@ -2894,7 +2894,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.75265895099191,  40.334749107830604 ] } 
 	},
 	{ 
-		"id": 158, "name": "Manuel de Falla", "address": "Calle  Manuel de Falla 59", 
+		"id": 158, "name": "Manuel de Falla", "number": null, "address": "Calle  Manuel de Falla 59", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 4, "distance_previous_segment": 1108.192303689, "speed_previous_segment": 37.18, 
@@ -2910,7 +2910,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.64687944950569,  40.550479980897201 ] } 
 	},
 	{ 
-		"id": 159, "name": "Baunatal", "address": "Avda de las Lomas del Rey 2", 
+		"id": 159, "name": "Baunatal", "number": null, "address": "Avda de las Lomas del Rey 2", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 3, "distance_previous_segment": 1085.9220776801301, "speed_previous_segment": 37.18, 
@@ -2926,7 +2926,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63512602371204,  40.554423207144197 ] } 
 	},
 	{ 
-		"id": 160, "name": "Miguel Hernández", "address": "Calle de León Felipe 4", 
+		"id": 160, "name": "Miguel Hernández", "number": null, "address": "Calle de León Felipe 4", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 27, "distance_previous_segment": 627.76553397831196, "speed_previous_segment": 22.96, 
@@ -2942,7 +2942,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63950990063064,  40.387315747056697 ] } 
 	},
 	{ 
-		"id": 161, "name": "Cartagena", "address": "Avda de América 35", 
+		"id": 161, "name": "Cartagena", "number": null, "address": "Avda de América 35", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 10, "distance_previous_segment": 720.828, "speed_previous_segment": 27.77, 
@@ -2958,7 +2958,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67215160132978,  40.439337495245098 ] } 
 	},
 	{ 
-		"id": 162, "name": "Ibiza", "address": "Calle de Ibiza 1", 
+		"id": 162, "name": "Ibiza", "number": null, "address": "Calle de Ibiza 1", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 15, "distance_previous_segment": 718.542, "speed_previous_segment": 26.81, 
@@ -2974,7 +2974,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67857510552646,  40.418391210589803 ] } 
 	},
 	{ 
-		"id": 163, "name": "Lucero", "address": "Calle de las Higueras 47", 
+		"id": 163, "name": "Lucero", "number": null, "address": "Calle de las Higueras 47", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 28, "distance_previous_segment": 937.219, "speed_previous_segment": 25.65, 
@@ -2990,7 +2990,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.74533695945151,  40.405099650652197 ] } 
 	},
 	{ 
-		"id": 164, "name": "Villa de Vallecas", "address": "Paseo de Federico García Lorca 2", 
+		"id": 164, "name": "Villa de Vallecas", "number": null, "address": "Paseo de Federico García Lorca 2", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 29, "distance_previous_segment": 483.08088968113202, "speed_previous_segment": 22.96, 
@@ -3006,7 +3006,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.62129648488235,  40.379598611419098 ] } 
 	},
 	{ 
-		"id": 165, "name": "Alonso de Mendoza", "address": "Calle del Greco 6", 
+		"id": 165, "name": "Alonso de Mendoza", "number": null, "address": "Calle del Greco 6", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 17, "distance_previous_segment": 1215.894, "speed_previous_segment": 40.53, 
@@ -3022,7 +3022,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.73663697171246,  40.300813961926501 ] } 
 	},
 	{ 
-		"id": 166, "name": "Arganda del Rey", "address": "Paseo de la Estación 37", 
+		"id": 166, "name": "Arganda del Rey", "number": null, "address": "Paseo de la Estación 37", 
 		"lines": [ 
 			{ 
 				"line": "9B", "direction": "1", "order": 6, "distance_previous_segment": 3707.895, "speed_previous_segment": 54.34, 
@@ -3038,7 +3038,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.44751896078065,  40.303669277437002 ] } 
 	},
 	{ 
-		"id": 167, "name": "Sevilla", "address": "Calle de Alcalá 23", 
+		"id": 167, "name": "Sevilla", "number": null, "address": "Calle de Alcalá 23", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 12, "distance_previous_segment": 450.157, "speed_previous_segment": 24.22, 
@@ -3054,7 +3054,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69925113804034,  40.418050748124102 ] } 
 	},
 	{ 
-		"id": 168, "name": "Villaverde Alto", "address": "Calle del Valle de Tobalina 56", 
+		"id": 168, "name": "Villaverde Alto", "number": null, "address": "Calle del Valle de Tobalina 56", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -3070,7 +3070,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71199027086867,  40.341228656891502 ] } 
 	},
 	{ 
-		"id": 169, "name": "Parque Oeste", "address": "Calle de Estambul 5", 
+		"id": 169, "name": "Parque Oeste", "number": null, "address": "Calle de Estambul 5", 
 		"lines": [ 
 			{ 
 				"line": "12-2", "direction": "1", "order": 26, "distance_previous_segment": 2614.559, "speed_previous_segment": 40.59, 
@@ -3086,7 +3086,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.84933861659997,  40.345894380413696 ] } 
 	},
 	{ 
-		"id": 170, "name": "Hospital Severo Ochoa", "address": "Avda  Orellana 3", 
+		"id": 170, "name": "Hospital Severo Ochoa", "number": null, "address": "Avda  Orellana 3", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 26, "distance_previous_segment": 852.28, "speed_previous_segment": 40.53, 
@@ -3102,7 +3102,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.76797304730462,  40.321770270088301 ] } 
 	},
 	{ 
-		"id": 171, "name": "Pitis", "address": "Ctra a la Estación de Pitis 19", 
+		"id": 171, "name": "Pitis", "number": null, "address": "Ctra a la Estación de Pitis 19", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 23, "distance_previous_segment": 1276.08922075483, "speed_previous_segment": 27.77, 
@@ -3118,7 +3118,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72589123290808,  40.4951058423757 ] } 
 	},
 	{ 
-		"id": 172, "name": "Pavones", "address": "Calle de la Hacienda de Pavones 342", 
+		"id": 172, "name": "Pavones", "number": null, "address": "Calle de la Hacienda de Pavones 342", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 20, "distance_previous_segment": 938.025, "speed_previous_segment": 26.81, 
@@ -3134,7 +3134,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63512255629341,  40.400511549572698 ] } 
 	},
 	{ 
-		"id": 173, "name": "La Rambla", "address": "Calle  Honduras 2", 
+		"id": 173, "name": "La Rambla", "number": null, "address": "Calle  Honduras 2", 
 		"lines": [ 
 			{ 
 				"line": "7b", "direction": "1", "order": 5, "distance_previous_segment": 1110.1125, "speed_previous_segment": 33.38, 
@@ -3150,7 +3150,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.54792383333825,  40.425143484139099 ] } 
 	},
 	{ 
-		"id": 174, "name": "San Cristóbal", "address": "Avda de Andalucía 81", 
+		"id": 174, "name": "San Cristóbal", "number": null, "address": "Avda de Andalucía 81", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 2, "distance_previous_segment": 1632.3119, "speed_previous_segment": 24.99, 
@@ -3166,7 +3166,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69318029918632,  40.341541936009598 ] } 
 	},
 	{ 
-		"id": 175, "name": "Suanzes", "address": "Calle de Alcalá 527", 
+		"id": 175, "name": "Suanzes", "number": null, "address": "Calle de Alcalá 527", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 5, "distance_previous_segment": 785.008, "speed_previous_segment": 23.38, 
@@ -3182,7 +3182,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.62683974417714,  40.440851243077702 ] } 
 	},
 	{ 
-		"id": 176, "name": "Arturo Soria", "address": "Calle de Arturo Soria 172", 
+		"id": 176, "name": "Arturo Soria", "number": null, "address": "Calle de Arturo Soria 172", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 15, "distance_previous_segment": 756.004, "speed_previous_segment": 22.42, 
@@ -3198,7 +3198,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.65618121809782,  40.455832491871497 ] } 
 	},
 	{ 
-		"id": 177, "name": "Sol", "address": "Plaza de la Puerta del Sol 6", 
+		"id": 177, "name": "Sol", "number": null, "address": "Plaza de la Puerta del Sol 6", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 13, "distance_previous_segment": 952.86264862235805, "speed_previous_segment": 24.99, 
@@ -3234,7 +3234,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70326164857528,  40.416876060893998 ] } 
 	},
 	{ 
-		"id": 178, "name": "Laguna", "address": "Calle de Cuart de Poblet 1", 
+		"id": 178, "name": "Laguna", "number": null, "address": "Calle de Cuart de Poblet 1", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -3260,7 +3260,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.74428871805663,  40.3992296247106 ] } 
 	},
 	{ 
-		"id": 179, "name": "Arroyo Culebro", "address": "Paseo de Juan José Rosón 1", 
+		"id": 179, "name": "Arroyo Culebro", "number": null, "address": "Paseo de Juan José Rosón 1", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 15, "distance_previous_segment": 2719.907, "speed_previous_segment": 40.53, 
@@ -3276,7 +3276,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.75682335666738,  40.288741769149397 ] } 
 	},
 	{ 
-		"id": 180, "name": "Vicálvaro", "address": "Calle de San Cipriano 11", 
+		"id": 180, "name": "Vicálvaro", "number": null, "address": "Calle de San Cipriano 11", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 22, "distance_previous_segment": 1384.662, "speed_previous_segment": 26.81, 
@@ -3292,7 +3292,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6088588260062,  40.404215916403402 ] } 
 	},
 	{ 
-		"id": 181, "name": "Carabanchel Alto", "address": "Avda de Carabanchel Alto 40", 
+		"id": 181, "name": "Carabanchel Alto", "number": null, "address": "Avda de Carabanchel Alto 40", 
 		"lines": [ 
 			{ 
 				"line": "11", "direction": "1", "order": 5, "distance_previous_segment": 1195.689, "speed_previous_segment": 26.52, 
@@ -3308,7 +3308,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.75190634426727,  40.372002421685401 ] } 
 	},
 	{ 
-		"id": 182, "name": "Nueva Numancia", "address": "Avda de la Albufera 70", 
+		"id": 182, "name": "Nueva Numancia", "number": null, "address": "Avda de la Albufera 70", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 23, "distance_previous_segment": 471.77632004724802, "speed_previous_segment": 22.96, 
@@ -3324,7 +3324,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66414170148567,  40.395538162157202 ] } 
 	},
 	{ 
-		"id": 183, "name": "San Lorenzo", "address": "Avda de la Barranquilla 9", 
+		"id": 183, "name": "San Lorenzo", "number": null, "address": "Avda de la Barranquilla 9", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 19, "distance_previous_segment": 475.16232803317098, "speed_previous_segment": 22.42, 
@@ -3340,7 +3340,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6395772765646,  40.474470739586899 ] } 
 	},
 	{ 
-		"id": 184, "name": "Serrano", "address": "Calle de Goya 19", 
+		"id": 184, "name": "Serrano", "number": null, "address": "Calle de Goya 19", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 6, "distance_previous_segment": 497.659, "speed_previous_segment": 22.42, 
@@ -3356,7 +3356,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68663043638334,  40.425432159419003 ] } 
 	},
 	{ 
-		"id": 185, "name": "Estrecho", "address": "Calle de Bravo Murillo 191", 
+		"id": 185, "name": "Estrecho", "number": null, "address": "Calle de Bravo Murillo 191", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "2", "order": 27, "distance_previous_segment": 537.54484331724598, "speed_previous_segment": 22.96, 
@@ -3372,7 +3372,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70302295994985,  40.454288025828198 ] } 
 	},
 	{ 
-		"id": 186, "name": "Plaza Elíptica", "address": "Plaza de Fernández Ladreda 2", 
+		"id": 186, "name": "Plaza Elíptica", "number": null, "address": "Plaza de Fernández Ladreda 2", 
 		"lines": [ 
 			{ 
 				"line": "11", "direction": "1", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -3398,7 +3398,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71837055781195,  40.384600055407603 ] } 
 	},
 	{ 
-		"id": 187, "name": "Ventilla", "address": "Avda de Asturias 39", 
+		"id": 187, "name": "Ventilla", "number": null, "address": "Avda de Asturias 39", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 5, "distance_previous_segment": 1027.091, "speed_previous_segment": 26.81, 
@@ -3414,7 +3414,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69588332976518,  40.469435376987299 ] } 
 	},
 	{ 
-		"id": 188, "name": "Parque de Santa María", "address": "Calle de Santa Virgilia 1", 
+		"id": 188, "name": "Parque de Santa María", "number": null, "address": "Calle de Santa Virgilia 1", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 20, "distance_previous_segment": 688.71699583689497, "speed_previous_segment": 22.42, 
@@ -3430,7 +3430,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.64524200216563,  40.477114293896697 ] } 
 	},
 	{ 
-		"id": 189, "name": "Ascao", "address": "Calle de Ascao 29", 
+		"id": 189, "name": "Ascao", "number": null, "address": "Calle de Ascao 29", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 6, "distance_previous_segment": 788.088, "speed_previous_segment": 27.77, 
@@ -3446,7 +3446,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.64105571498423,  40.430205530158098 ] } 
 	},
 	{ 
-		"id": 190, "name": "Plaza de España", "address": "Calle de los Reyes 10", 
+		"id": 190, "name": "Plaza de España", "number": null, "address": "Calle de los Reyes 10", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 12, "distance_previous_segment": 665.82401866470605, "speed_previous_segment": 31.12, 
@@ -3472,7 +3472,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70969871159774,  40.4240868846098 ] } 
 	},
 	{ 
-		"id": 191, "name": "Acacias", "address": "Paseo de las Acacias 20", 
+		"id": 191, "name": "Acacias", "number": null, "address": "Paseo de las Acacias 20", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 21, "distance_previous_segment": 888.667, "speed_previous_segment": 23.38, 
@@ -3488,7 +3488,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70664108607519,  40.4038716437299 ] } 
 	},
 	{ 
-		"id": 192, "name": "Alto del Arenal", "address": "Calle de Santillana del Mar 21", 
+		"id": 192, "name": "Alto del Arenal", "number": null, "address": "Calle de Santillana del Mar 21", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 26, "distance_previous_segment": 654.79346786278404, "speed_previous_segment": 22.96, 
@@ -3504,7 +3504,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.64521654904283,  40.389771012148699 ] } 
 	},
 	{ 
-		"id": 193, "name": "Buenos Aires", "address": "Avda de la Albufera 179", 
+		"id": 193, "name": "Buenos Aires", "number": null, "address": "Avda de la Albufera 179", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 25, "distance_previous_segment": 557.87201065695206, "speed_previous_segment": 22.96, 
@@ -3520,7 +3520,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6539061229837,  40.391562877215797 ] } 
 	},
 	{ 
-		"id": 194, "name": "Concha Espina", "address": "Calle del Príncipe de Vergara 210", 
+		"id": 194, "name": "Concha Espina", "number": null, "address": "Calle del Príncipe de Vergara 210", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 10, "distance_previous_segment": 724.578, "speed_previous_segment": 26.81, 
@@ -3536,7 +3536,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67738012287591,  40.451448432622399 ] } 
 	},
 	{ 
-		"id": 195, "name": "Plaza de Castilla", "address": "Paseo de la Castellana 216", 
+		"id": 195, "name": "Plaza de Castilla", "number": null, "address": "Paseo de la Castellana 216", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "2", "order": 30, "distance_previous_segment": 512.64864217894103, "speed_previous_segment": 22.96, 
@@ -3572,7 +3572,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68908610432808,  40.466896534141902 ] } 
 	},
 	{ 
-		"id": 196, "name": "Puerta de Toledo", "address": "Gta de Puerta de Toledo 1", 
+		"id": 196, "name": "Puerta de Toledo", "number": null, "address": "Gta de Puerta de Toledo 1", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 20, "distance_previous_segment": 597.455, "speed_previous_segment": 23.38, 
@@ -3588,7 +3588,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71104645076763,  40.407035754461901 ] } 
 	},
 	{ 
-		"id": 197, "name": "Santiago Bernabéu", "address": "Paseo de la Castellana 97", 
+		"id": 197, "name": "Santiago Bernabéu", "number": null, "address": "Paseo de la Castellana 97", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 7, "distance_previous_segment": 796.31312096739805, "speed_previous_segment": 31.12, 
@@ -3604,7 +3604,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69037934673485,  40.451589179525797 ] } 
 	},
 	{ 
-		"id": 198, "name": "Colonia Jardín", "address": "Calle de Arenas de San Pedro 2", 
+		"id": 198, "name": "Colonia Jardín", "number": null, "address": "Calle de Arenas de San Pedro 2", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 17, "distance_previous_segment": 1310.47638421292, "speed_previous_segment": 31.12, 
@@ -3620,7 +3620,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.77461625619616,  40.396975426434203 ] } 
 	},
 	{ 
-		"id": 199, "name": "La Granja", "address": "Calle de Sepúlveda 1", 
+		"id": 199, "name": "La Granja", "number": null, "address": "Calle de Sepúlveda 1", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 7, "distance_previous_segment": 2061.13450920886, "speed_previous_segment": 37.18, 
@@ -3636,7 +3636,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.65859208713804,  40.527599622362402 ] } 
 	},
 	{ 
-		"id": 200, "name": "Valdebernardo", "address": "Bulv de Indalecio Prieto 26", 
+		"id": 200, "name": "Valdebernardo", "number": null, "address": "Bulv de Indalecio Prieto 26", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 21, "distance_previous_segment": 1412.685, "speed_previous_segment": 26.81, 
@@ -3652,7 +3652,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.62155915980853,  40.400047129618002 ] } 
 	},
 	{ 
-		"id": 201, "name": "Manuela Malasaña", "address": "Plaza  Sol de 9001 SN", 
+		"id": 201, "name": "Manuela Malasaña", "number": null, "address": "Plaza  Sol de 9001 SN", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 9, "distance_previous_segment": 1598.815, "speed_previous_segment": 40.53, 
@@ -3668,7 +3668,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.86402119722615,  40.309030055836502 ] } 
 	},
 	{ 
-		"id": 202, "name": "La Gavia", "address": "Avda del Ensanche de Vallecas 16", 
+		"id": 202, "name": "La Gavia", "number": null, "address": "Avda del Ensanche de Vallecas 16", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 31, "distance_previous_segment": 590.123126953579, "speed_previous_segment": 22.96, 
@@ -3684,7 +3684,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.61346348307526,  40.370191663197502 ] } 
 	},
 	{ 
-		"id": 203, "name": "El Casar", "address": "Avda del Casar 2", 
+		"id": 203, "name": "El Casar", "number": null, "address": "Avda del Casar 2", 
 		"lines": [ 
 			{ 
 				"line": "12-2", "direction": "1", "order": 10, "distance_previous_segment": 819.974, "speed_previous_segment": 40.59, 
@@ -3700,7 +3700,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70985404230006,  40.318623157885398 ] } 
 	},
 	{ 
-		"id": 204, "name": "Noviciado", "address": "Calle de San Bernardo 49", 
+		"id": 204, "name": "Noviciado", "number": null, "address": "Calle de San Bernardo 49", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 16, "distance_previous_segment": 401.712, "speed_previous_segment": 24.22, 
@@ -3716,7 +3716,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70741904261363,  40.424842233578403 ] } 
 	},
 	{ 
-		"id": 205, "name": "Oporto", "address": "Gta del Valle de Oro 13", 
+		"id": 205, "name": "Oporto", "number": null, "address": "Gta del Valle de Oro 13", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 25, "distance_previous_segment": 658.234, "speed_previous_segment": 23.38, 
@@ -3742,7 +3742,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.73132331241503,  40.388464763093197 ] } 
 	},
 	{ 
-		"id": 206, "name": "Urgel", "address": "Calle del Camino Viejo de Leganés 1", 
+		"id": 206, "name": "Urgel", "number": null, "address": "Calle del Camino Viejo de Leganés 1", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 24, "distance_previous_segment": 764.61, "speed_previous_segment": 23.38, 
@@ -3758,7 +3758,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72360482429366,  40.393351768456199 ] } 
 	},
 	{ 
-		"id": 207, "name": "Puerta del Ángel", "address": "Paseo de Extremadura 26", 
+		"id": 207, "name": "Puerta del Ángel", "number": null, "address": "Paseo de Extremadura 26", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 26, "distance_previous_segment": 1140.39, "speed_previous_segment": 25.65, 
@@ -3774,7 +3774,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72724045181543,  40.413898894396297 ] } 
 	},
 	{ 
-		"id": 208, "name": "Núñez de Balboa", "address": "Plaza del Marqués de Salamanca 9", 
+		"id": 208, "name": "Núñez de Balboa", "number": null, "address": "Plaza del Marqués de Salamanca 9", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 12, "distance_previous_segment": 669.974, "speed_previous_segment": 23.38, 
@@ -3800,7 +3800,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67936371945562,  40.430129821265702 ] } 
 	},
 	{ 
-		"id": 209, "name": "Gregorio Marañón", "address": "Calle de José Abascal 65", 
+		"id": 209, "name": "Gregorio Marañón", "number": null, "address": "Calle de José Abascal 65", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 9, "distance_previous_segment": 869.12602353319596, "speed_previous_segment": 31.12, 
@@ -3826,7 +3826,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69148286211901,  40.438250994428998 ] } 
 	},
 	{ 
-		"id": 210, "name": "Getafe Central", "address": "Calle  Ferrocarril 2", 
+		"id": 210, "name": "Getafe Central", "number": null, "address": "Calle  Ferrocarril 2", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 18, "distance_previous_segment": 1319.163, "speed_previous_segment": 40.53, 
@@ -3842,7 +3842,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.734025028929,  40.309927909041697 ] } 
 	},
 	{ 
-		"id": 211, "name": "La Fortuna", "address": "Calle  San José 40", 
+		"id": 211, "name": "La Fortuna", "number": null, "address": "Calle  San José 40", 
 		"lines": [ 
 			{ 
 				"line": "11", "direction": "2", "order": 1, "distance_previous_segment": 0.0, "speed_previous_segment": 0.0, 
@@ -3858,7 +3858,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.777825849896,  40.357953128926503 ] } 
 	},
 	{ 
-		"id": 212, "name": "República Argentina", "address": "Calle de Joaquín Costa 24", 
+		"id": 212, "name": "República Argentina", "number": null, "address": "Calle de Joaquín Costa 24", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 17, "distance_previous_segment": 879.521, "speed_previous_segment": 25.65, 
@@ -3874,7 +3874,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68406186705705,  40.443794564489998 ] } 
 	},
 	{ 
-		"id": 213, "name": "Begoña", "address": "Paseo de la Castellana 261", 
+		"id": 213, "name": "Begoña", "number": null, "address": "Paseo de la Castellana 261", 
 		"lines": [ 
 			{ 
 				"line": "10a", "direction": "1", "order": 3, "distance_previous_segment": 1426.9935728318501, "speed_previous_segment": 31.12, 
@@ -3890,7 +3890,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.685849695579,  40.480412932105402 ] } 
 	},
 	{ 
-		"id": 214, "name": "Alonso Cano", "address": "Calle de José Abascal 18", 
+		"id": 214, "name": "Alonso Cano", "number": null, "address": "Calle de José Abascal 18", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 13, "distance_previous_segment": 624.335, "speed_previous_segment": 27.77, 
@@ -3906,7 +3906,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69924564323726,  40.4383753761104 ] } 
 	},
 	{ 
-		"id": 215, "name": "Hospital 12 de Octubre", "address": "Avda de Córdoba 49", 
+		"id": 215, "name": "Hospital 12 de Octubre", "number": null, "address": "Avda de Córdoba 49", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 6, "distance_previous_segment": 607.3871, "speed_previous_segment": 24.99, 
@@ -3922,7 +3922,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69585469244456,  40.375031361291001 ] } 
 	},
 	{ 
-		"id": 216, "name": "Parque de ños Estados", "address": "Calle de Venezuela 2", 
+		"id": 216, "name": "Parque de ños Estados", "number": null, "address": "Calle de Venezuela 2", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 14, "distance_previous_segment": 1300.089, "speed_previous_segment": 40.53, 
@@ -3938,7 +3938,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.7869740434575,  40.2868358005326 ] } 
 	},
 	{ 
-		"id": 217, "name": "Jarama", "address": "Plaza  Guernica 1", 
+		"id": 217, "name": "Jarama", "number": null, "address": "Plaza  Guernica 1", 
 		"lines": [ 
 			{ 
 				"line": "7b", "direction": "1", "order": 3, "distance_previous_segment": 921.2163, "speed_previous_segment": 33.38, 
@@ -3954,7 +3954,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.52549376489887,  40.422954804337998 ] } 
 	},
 	{ 
-		"id": 218, "name": "Vinateros", "address": "Calle del Camino de los Vinateros 70", 
+		"id": 218, "name": "Vinateros", "number": null, "address": "Calle del Camino de los Vinateros 70", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 18, "distance_previous_segment": 905.122, "speed_previous_segment": 26.81, 
@@ -3970,7 +3970,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.65273420710476,  40.410239927799601 ] } 
 	},
 	{ 
-		"id": 219, "name": "Eugenia de Montijo", "address": "Calle de Ocaña 86", 
+		"id": 219, "name": "Eugenia de Montijo", "number": null, "address": "Calle de Ocaña 86", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 28, "distance_previous_segment": 589.297, "speed_previous_segment": 23.38, 
@@ -3986,7 +3986,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.75121118478282,  40.384385797175703 ] } 
 	},
 	{ 
-		"id": 220, "name": "Rivas Urbanizaciones", "address": "Plaza de Galicia 5", 
+		"id": 220, "name": "Rivas Urbanizaciones", "number": null, "address": "Plaza de Galicia 5", 
 		"lines": [ 
 			{ 
 				"line": "9B", "direction": "1", "order": 2, "distance_previous_segment": 5749.903, "speed_previous_segment": 54.34, 
@@ -4002,7 +4002,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.54727580674555,  40.3667715025775 ] } 
 	},
 	{ 
-		"id": 221, "name": "Marqués de la Valdavia", "address": "Calle del Marqués de la Valdavia 21", 
+		"id": 221, "name": "Marqués de la Valdavia", "number": null, "address": "Calle del Marqués de la Valdavia 21", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 5, "distance_previous_segment": 1514.5843171364299, "speed_previous_segment": 37.18, 
@@ -4018,7 +4018,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63738494117669,  40.541023562133503 ] } 
 	},
 	{ 
-		"id": 222, "name": "Retiro", "address": "Calle de Alcalá 81", 
+		"id": 222, "name": "Retiro", "number": null, "address": "Calle de Alcalá 81", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 10, "distance_previous_segment": 543.72, "speed_previous_segment": 24.22, 
@@ -4034,7 +4034,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68624471917784,  40.420306717523303 ] } 
 	},
 	{ 
-		"id": 223, "name": "Carabanchel", "address": "Gta del Ejército 1", 
+		"id": 223, "name": "Carabanchel", "number": null, "address": "Gta del Ejército 1", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 27, "distance_previous_segment": 623.79, "speed_previous_segment": 23.38, 
@@ -4050,7 +4050,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.74487052104138,  40.387827019968 ] } 
 	},
 	{ 
-		"id": 224, "name": "Las Tablas", "address": "Calle de Palas de Rey 30", 
+		"id": 224, "name": "Las Tablas", "number": null, "address": "Calle de Palas de Rey 30", 
 		"lines": [ 
 			{ 
 				"line": "10b", "direction": "1", "order": 9, "distance_previous_segment": 963.71859370557695, "speed_previous_segment": 37.18, 
@@ -4066,7 +4066,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66944258328346,  40.508330121063899 ] } 
 	},
 	{ 
-		"id": 225, "name": "Ópera", "address": "Plaza de Isabel II 9", 
+		"id": 225, "name": "Ópera", "number": null, "address": "Plaza de Isabel II 9", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 14, "distance_previous_segment": 505.944, "speed_previous_segment": 24.22, 
@@ -4102,7 +4102,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70941860871968,  40.418092919493098 ] } 
 	},
 	{ 
-		"id": 226, "name": "Barrio del Puerto", "address": "Avda de España 8", 
+		"id": 226, "name": "Barrio del Puerto", "number": null, "address": "Avda de España 8", 
 		"lines": [ 
 			{ 
 				"line": "7b", "direction": "1", "order": 7, "distance_previous_segment": 691.7971, "speed_previous_segment": 33.38, 
@@ -4118,7 +4118,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.56918847026566,  40.422496870095998 ] } 
 	},
 	{ 
-		"id": 227, "name": "Goya", "address": "Calle de Alcalá 96", 
+		"id": 227, "name": "Goya", "number": null, "address": "Calle de Alcalá 96", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "1", "order": 8, "distance_previous_segment": 488.21, "speed_previous_segment": 22.42, 
@@ -4144,7 +4144,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67591017618596,  40.424548389670598 ] } 
 	},
 	{ 
-		"id": 228, "name": "Las Musas", "address": "Avda de Niza 61", 
+		"id": 228, "name": "Las Musas", "number": null, "address": "Avda de Niza 61", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 2, "distance_previous_segment": 1053.3618, "speed_previous_segment": 27.77, 
@@ -4160,7 +4160,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.60787951427632,  40.432988127939801 ] } 
 	},
 	{ 
-		"id": 229, "name": "Alcorcón Central", "address": "Avda de Móstoles 12", 
+		"id": 229, "name": "Alcorcón Central", "number": null, "address": "Avda de Móstoles 12", 
 		"lines": [ 
 			{ 
 				"line": "12-1", "direction": "1", "order": 3, "distance_previous_segment": 1278.985, "speed_previous_segment": 40.53, 
@@ -4176,7 +4176,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.83177862063198,  40.350084340279402 ] } 
 	},
 	{ 
-		"id": 230, "name": "García Noblejas", "address": "Calle de Luis del Campo 1", 
+		"id": 230, "name": "García Noblejas", "number": null, "address": "Calle de Luis del Campo 1", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 5, "distance_previous_segment": 809.035, "speed_previous_segment": 27.77, 
@@ -4192,7 +4192,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63329946572732,  40.428423190545097 ] } 
 	},
 	{ 
-		"id": 231, "name": "Pradillo", "address": "Calle de Agustina de Aragón 23", 
+		"id": 231, "name": "Pradillo", "number": null, "address": "Calle de Agustina de Aragón 23", 
 		"lines": [ 
 			{ 
 				"line": "12-2", "direction": "1", "order": 23, "distance_previous_segment": 1032.144, "speed_previous_segment": 40.59, 
@@ -4208,7 +4208,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.86488940297031,  40.321676964744697 ] } 
 	},
 	{ 
-		"id": 232, "name": "Almendrales", "address": "Avda de Córdoba 21", 
+		"id": 232, "name": "Almendrales", "number": null, "address": "Avda de Córdoba 21", 
 		"lines": [ 
 			{ 
 				"line": "3", "direction": "1", "order": 7, "distance_previous_segment": 1040.756, "speed_previous_segment": 24.99, 
@@ -4224,7 +4224,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69788139765522,  40.384093527174002 ] } 
 	},
 	{ 
-		"id": 233, "name": "Avda. de la Ilustración", "address": "Calle de las Islas Cíes 23", 
+		"id": 233, "name": "Avda. de la Ilustración", "number": null, "address": "Calle de las Islas Cíes 23", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 21, "distance_previous_segment": 549.275, "speed_previous_segment": 27.77, 
@@ -4240,7 +4240,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71839825221866,  40.480102611545703 ] } 
 	},
 	{ 
-		"id": 234, "name": "Herrera Oria", "address": "Calle de Valencia de Don Juan 1", 
+		"id": 234, "name": "Herrera Oria", "number": null, "address": "Calle de Valencia de Don Juan 1", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 3, "distance_previous_segment": 1213.2967, "speed_previous_segment": 26.81, 
@@ -4256,7 +4256,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.70751021303079,  40.484662780153002 ] } 
 	},
 	{ 
-		"id": 235, "name": "Opañel", "address": "Calle del Valle de Oro 50", 
+		"id": 235, "name": "Opañel", "number": null, "address": "Calle del Valle de Oro 50", 
 		"lines": [ 
 			{ 
 				"line": "6-1", "direction": "1", "order": 4, "distance_previous_segment": 765.092, "speed_previous_segment": 25.65, 
@@ -4272,7 +4272,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72313362116361,  40.386904404255603 ] } 
 	},
 	{ 
-		"id": 236, "name": "Islas Filipinas", "address": "Calle de Cea Bermúdez 54", 
+		"id": 236, "name": "Islas Filipinas", "number": null, "address": "Calle de Cea Bermúdez 54", 
 		"lines": [ 
 			{ 
 				"line": "7a", "direction": "1", "order": 15, "distance_previous_segment": 750.736, "speed_previous_segment": 27.77, 
@@ -4288,7 +4288,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71372864479935,  40.439068206632697 ] } 
 	},
 	{ 
-		"id": 237, "name": "Colombia", "address": "Calle del Príncipe de Vergara 269", 
+		"id": 237, "name": "Colombia", "number": null, "address": "Calle del Príncipe de Vergara 269", 
 		"lines": [ 
 			{ 
 				"line": "9A", "direction": "1", "order": 9, "distance_previous_segment": 704.36, "speed_previous_segment": 26.81, 
@@ -4314,7 +4314,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67693905940289,  40.4574897504124 ] } 
 	},
 	{ 
-		"id": 238, "name": "Aluche", "address": "Calle de Valmojado 293", 
+		"id": 238, "name": "Aluche", "number": null, "address": "Calle de Valmojado 293", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "1", "order": 29, "distance_previous_segment": 933.505, "speed_previous_segment": 23.38, 
@@ -4330,7 +4330,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.76080381070444,  40.385628619563903 ] } 
 	},
 	{ 
-		"id": 239, "name": "Henares", "address": "Avda de Algorta 12", 
+		"id": 239, "name": "Henares", "number": null, "address": "Avda de Algorta 12", 
 		"lines": [ 
 			{ 
 				"line": "7b", "direction": "1", "order": 2, "distance_previous_segment": 686.9297, "speed_previous_segment": 33.38, 
@@ -4346,7 +4346,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.52717835279042,  40.417769485241202 ] } 
 	},
 	{ 
-		"id": 240, "name": "Pinar de Chamartín", "address": "Calle de Arturo Soria 330", 
+		"id": 240, "name": "Pinar de Chamartín", "number": null, "address": "Calle de Arturo Soria 330", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "2", "order": 33, "distance_previous_segment": 1073.5934949837699, "speed_previous_segment": 22.96, 
@@ -4372,7 +4372,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.66680448144828,  40.480139978151001 ] } 
 	},
 	{ 
-		"id": 241, "name": "Santo Domingo", "address": "Calle de San Bernardo 11", 
+		"id": 241, "name": "Santo Domingo", "number": null, "address": "Calle de San Bernardo 11", 
 		"lines": [ 
 			{ 
 				"line": "2", "direction": "1", "order": 15, "distance_previous_segment": 436.102, "speed_previous_segment": 24.22, 
