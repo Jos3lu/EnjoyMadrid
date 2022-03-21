@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -49,7 +50,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
 import com.enjoymadrid.models.repositories.AirQualityPointRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
@@ -57,7 +57,6 @@ import com.enjoymadrid.models.AirQualityPoint;
 import com.enjoymadrid.models.BicycleTransportPoint;
 import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.TouristicPoint;
-import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.User;
 
 @Component
@@ -103,6 +102,11 @@ public class LoadPointsComponent implements CommandLineRunner {
 	 * air quality data
 	 */
 	private void loadDataAirQualityPoints() {
+		
+		// Query to get air quality points from DB
+		Set<String> airQualityPointsDB = airQualityStationRepository.findAll().stream()
+				.map(AirQualityPoint::getName)
+				.collect(Collectors.toSet());
 
 		Document document = null;
 		try {
@@ -128,9 +132,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Double latitude = tryParseDouble(element.getElementsByTagName("geo:lat").item(0).getTextContent());
 
 				// Search if station already exists in DB
-				Boolean airQualityPointDB = airQualityStationRepository
-						.existsByLongitudeAndLatitude(longitude, latitude);
-
+				boolean airQualityPointDB = airQualityPointsDB.contains(name);
 				if (!airQualityPointDB) {
 					airQualityStationRepository.save(new AirQualityPoint(name, longitude, latitude));
 				}
@@ -234,18 +236,22 @@ public class LoadPointsComponent implements CommandLineRunner {
 			return;
 		}
 
+		// Query to get air quality points from DB and transform into map
+		Map<String, AirQualityPoint> airQualityPointsDB = airQualityStationRepository.findAll().stream()
+				.collect(Collectors.toMap(station -> station.getName().toLowerCase(), station -> station));
+		
+		// Iterate over the air quality stations
 		for (Map.Entry<String, Integer> airQualityStation : airQualityPoints.entrySet()) {
 			// Search station in DB
-			Optional<AirQualityPoint> airQualityPointDB = airQualityStationRepository
-					.findTopByNameIgnoreCase(airQualityStation.getKey());
+			AirQualityPoint airQualityPointDB = airQualityPointsDB.get(airQualityStation.getKey().toLowerCase());
 
 			// If not in DB skip it
-			if (airQualityPointDB.isEmpty()) {
+			if (airQualityPointDB == null) {
 				continue;
 			}
 
-			airQualityPointDB.get().setAqi(airQualityStation.getValue());
-			airQualityStationRepository.save(airQualityPointDB.get());
+			airQualityPointDB.setAqi(airQualityStation.getValue());
+			airQualityStationRepository.save(airQualityPointDB);
 		}
 
 		logger.info("Air quality stations updated");
@@ -258,36 +264,42 @@ public class LoadPointsComponent implements CommandLineRunner {
 	 */
 	@Scheduled(cron = "0 0 0 1 * *", zone = "Europe/Madrid")
 	private void loadDataTouristicPoints() {
+		// Query to get touristic points from DB
+		List<TouristicPoint> touristicPointsDB = touristicPointRepository.findAll();
+		Map<String, TouristicPoint> touristicPointsDBMap = touristicPointsDB.stream()
+				.collect(Collectors.toMap(point -> point.getName() + "-" + point.getLongitude() + "-" + point.getLatitude(), point -> point));
+		// Points extracted from the Madrid city hall page
+		List<TouristicPoint> touristicPoints = Collections.synchronizedList(new ArrayList<>());
+		
 		// Data sources
 		String[] dataOrigins = { "turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml",
 				"restaurantes_v1_es.xml" };
 
 		// Sync threads pool (dataOriginsLength - 1 + Main)
 		CyclicBarrier waitToEnd = new CyclicBarrier(dataOrigins.length);
-		// Points extracted from the Madrid city hall page
-		List<TouristicPoint> touristicPoints = Collections.synchronizedList(new ArrayList<>());
-		// Each thread for type of tourism
-		ExecutorService ex = Executors.newFixedThreadPool(dataOrigins.length - 1);
 
+		// Index last dataOrigins array
 		int originLast = dataOrigins.length - 1;
+		// Each thread for type of tourism
+		ExecutorService ex = Executors.newFixedThreadPool(originLast);
+
 		for (int i = 0; i < originLast; i++) {
 			final int originIndex = i;
-			ex.execute(() -> loadDataTouristicPoints(dataOrigins[originIndex], waitToEnd, touristicPoints));
+			ex.execute(() -> loadDataTouristicPoints(dataOrigins[originIndex], waitToEnd, touristicPointsDBMap, touristicPoints));
 		}
 		ex.shutdown();
 		
 		// Keep the Main busy
-		loadDataTouristicPoints(dataOrigins[originLast], waitToEnd, touristicPoints);
+		loadDataTouristicPoints(dataOrigins[originLast], waitToEnd, touristicPointsDBMap, touristicPoints);
 
 		// Delete points not found anymore on the Madrid city hall page
-		List<TouristicPoint> touristicPointsDB = touristicPointRepository.findAll();
 		touristicPointsDB.removeAll(touristicPoints);
 		touristicPointsDB.forEach(point -> touristicPointRepository.delete(point));
 
 		logger.info("Touristic points updated");
 	}
 
-	private void loadDataTouristicPoints(String typeTourism, CyclicBarrier waitToEnd,
+	private void loadDataTouristicPoints(String typeTourism, CyclicBarrier waitToEnd, Map<String, TouristicPoint> touristicPointsDB,
 			List<TouristicPoint> touristicPoints) {
 
 		Document document = null;
@@ -325,10 +337,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 				// If point is already in database and has been updated or is not in the
 				// database we update/add the point in the DB
-				Optional<TouristicPoint> pointDB = touristicPointRepository
-						.findTopByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude);
+				TouristicPoint pointDB = touristicPointsDB.get(name + "-" + longitude + "-" + latitude);
 				LocalDate updateDate = LocalDate.parse(element.getAttribute("fechaActualizacion"));
-				if (pointDB.isPresent() && Period.between(updateDate, currentDate).getDays() > 30) {
+				if (pointDB != null && Period.between(updateDate, currentDate).getDays() > 30) {
 					continue;
 				}
 
@@ -387,8 +398,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 				TouristicPoint point = new TouristicPoint(name, longitude, latitude, address, zipcode, phone,
 						description, email, paymentServices, horary, type, categories, subcategories, images);
 
-				if (pointDB.isPresent()) {
-					point.setId(pointDB.get().getId());
+				if (pointDB != null) {
+					point.setId(pointDB.getId());
 				}
 
 				// Save the point in the database
@@ -437,6 +448,10 @@ public class LoadPointsComponent implements CommandLineRunner {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		try {
+			
+			// Map with each line associated to the stop
+			Map<String, PublicTransportPoint> linePublicTransportStops = new HashMap<>();
+			
 			// Transform json file to tree model
 			File stopsFile = new ClassPathResource(stopsPath).getFile();
 			
@@ -456,9 +471,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 						transportPointRepository.save(new BicycleTransportPoint(stationNumber, name, longitude, latitude, type));
 					}
 					continue;
-				}
+				}				
 				
-				// If already in DB skip it
 				if (transportPointRepository.existsByNameIgnoreCaseAndLongitudeAndLatitude(name, longitude, latitude)) {
 					continue;
 				}
@@ -506,6 +520,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 				transportPointRepository.save(new PublicTransportPoint(name, longitude, latitude, type, linesStop));
 				
 			}
+			
+			
 			
 		} catch (IOException e) {
 			logger.error(e.getMessage());
