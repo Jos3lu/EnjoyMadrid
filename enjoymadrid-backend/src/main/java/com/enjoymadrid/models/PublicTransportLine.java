@@ -3,13 +3,14 @@ package com.enjoymadrid.models;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class PublicTransportLine {
@@ -26,12 +27,12 @@ public class PublicTransportLine {
 	
 	private String color;
 	
-	@ElementCollection
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@MapKeyColumn(name = "STOP_ORDER")
 	@Column(name = "POLYLINE_ID")
-	private Map<String, Polyline> polylineStops = new HashMap<>();
+	private Map<Integer, Polyline> polylineStops = new HashMap<>();
 	
-	@ElementCollection
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@MapKeyColumn(name = "SCHEDULE_KEY")
 	@Column(name = "SCHEDULE_VALUE")
 	private Map<String, Schedule> scheduleStops = new HashMap<>();
@@ -85,11 +86,11 @@ public class PublicTransportLine {
 		this.color = color;
 	}
 
-	public Map<String, Polyline> getPolylineStops() {
+	public Map<Integer, Polyline> getPolylineStops() {
 		return polylineStops;
 	}
 
-	public void setPolylineStops(Map<String, Polyline> polylineStops) {
+	public void setPolylineStops(Map<Integer, Polyline> polylineStops) {
 		this.polylineStops = polylineStops;
 	}
 
