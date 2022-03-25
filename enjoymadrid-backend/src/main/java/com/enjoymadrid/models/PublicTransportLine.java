@@ -27,23 +27,29 @@ public class PublicTransportLine {
 	
 	private String color;
 	
+	private Character scheduleType;
+	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@MapKeyColumn(name = "STOP_ORDER")
 	@Column(name = "POLYLINE_ID")
-	private Map<Integer, Polyline> polylineStops = new HashMap<>();
+	private Map<Integer, Polyline> stopPolylines = new HashMap<>();
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@MapKeyColumn(name = "SCHEDULE_KEY")
 	@Column(name = "SCHEDULE_VALUE")
-	private Map<String, Schedule> scheduleStops = new HashMap<>();
-	
+	private Map<String, Schedule> stopSchedules = new HashMap<>();
+		
 	public PublicTransportLine() {}
 
-	public PublicTransportLine(String line, String direction, String destination, String color) {
+	public PublicTransportLine(String line, String direction, String destination, String color, Character scheduleType, 
+			Map<Integer, Polyline> stopPolylines, Map<String, Schedule> stopSchedules) {
 		this.line = line;
 		this.direction = direction;
 		this.destination = destination;
 		this.color = color;
+		this.scheduleType = scheduleType;
+		this.stopPolylines = stopPolylines;
+		this.stopSchedules = stopSchedules;
 	}
 
 	public Long getId() {
@@ -86,20 +92,28 @@ public class PublicTransportLine {
 		this.color = color;
 	}
 
-	public Map<Integer, Polyline> getPolylineStops() {
-		return polylineStops;
+	public Character getScheduleType() {
+		return scheduleType;
 	}
 
-	public void setPolylineStops(Map<Integer, Polyline> polylineStops) {
-		this.polylineStops = polylineStops;
+	public void setScheduleType(Character scheduleType) {
+		this.scheduleType = scheduleType;
 	}
 
-	public Map<String, Schedule> getScheduleStops() {
-		return scheduleStops;
+	public Map<Integer, Polyline> getStopPolylines() {
+		return stopPolylines;
 	}
 
-	public void setScheduleStops(Map<String, Schedule> scheduleStops) {
-		this.scheduleStops = scheduleStops;
+	public void setStopPolylines(Map<Integer, Polyline> stopPolylines) {
+		this.stopPolylines = stopPolylines;
+	}
+
+	public Map<String, Schedule> getStopSchedules() {
+		return stopSchedules;
+	}
+
+	public void setStopSchedules(Map<String, Schedule> stopSchedules) {
+		this.stopSchedules = stopSchedules;
 	}
 	
 }

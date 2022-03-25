@@ -3,6 +3,7 @@ package com.enjoymadrid.components;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
@@ -14,7 +15,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
@@ -51,15 +51,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.enjoymadrid.models.repositories.AirQualityPointRepository;
+import com.enjoymadrid.models.repositories.PublicTransportLineRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
 import com.enjoymadrid.models.AirQualityPoint;
 import com.enjoymadrid.models.BicycleTransportPoint;
+import com.enjoymadrid.models.Frequency;
 import com.enjoymadrid.models.Polyline;
+import com.enjoymadrid.models.PublicTransportLine;
 import com.enjoymadrid.models.PublicTransportPoint;
+import com.enjoymadrid.models.Schedule;
 import com.enjoymadrid.models.Time;
 import com.enjoymadrid.models.TouristicPoint;
-import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.User;
 
 @Component
@@ -69,14 +72,16 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(LoadPointsComponent.class);
 
 	private final TransportPointRepository transportPointRepository;
+	private final PublicTransportLineRepository publicTransportLineRepository;
 	private final AirQualityPointRepository airQualityPointRepository;
 	private final TouristicPointRepository touristicPointRepository;
 	private final UserRepository userRepository;
 
-	public LoadPointsComponent(TransportPointRepository transportPointRepository,
+	public LoadPointsComponent(TransportPointRepository transportPointRepository, PublicTransportLineRepository publicTransportLineRepository,
 			AirQualityPointRepository airQualityPointRepository, TouristicPointRepository touristicPointRepository,
 			UserRepository userRepository) {
 		this.transportPointRepository = transportPointRepository;
+		this.publicTransportLineRepository = publicTransportLineRepository;
 		this.airQualityPointRepository = airQualityPointRepository;
 		this.touristicPointRepository = touristicPointRepository;
 		this.userRepository = userRepository;
@@ -451,17 +456,22 @@ public class LoadPointsComponent implements CommandLineRunner {
 		
 		try {
 					
-			// Query to get air quality points from DB and transform into map
+			// Query to get subway, bus & commuter points from DB and transform into map
 			Map<String, PublicTransportPoint> publicTransportPointsDB = transportPointRepository.findByType(type).stream()
 					.map(transportPoint -> (PublicTransportPoint) transportPoint)
 					.collect(Collectors.toMap(point -> point.getName() + "-" + point.getLongitude() + "-" + point.getLatitude(), point -> point));
 			
+			// Query to get lines of public transports 
+			Set<String> publicTransportLinesDB = publicTransportLineRepository.findAll().stream()
+					.map(line -> line.getLine() + " [" + line.getDirection() + "]")
+					.collect(Collectors.toSet());
+
 			// Set with the stops
 			Set<PublicTransportPoint> publicTransportPoints = new HashSet<>();
 			// Map with each line associated to the stop
 			Map<String, PublicTransportPoint> linePublicTransportPoints = new HashMap<>();
 			// Map with each line associated to the stops and its arrival times
-			Map<String, Map<Integer, Time>> timesPublicTransportPoints = new HashMap<>();
+			Map<String, Map<String, Schedule>> timesPublicTransportPoints = new HashMap<>();
 			// Map with each line associated to the stops and its polylines
 			Map<String, Map<Integer, Polyline>> polylinesPublicTransportPoints = new HashMap<>();
 			
@@ -475,15 +485,15 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
 				
 				// Store lines of the stop
-				Set<String> linesStop;
+				Set<String[]> stopLines;
 				
 				// If point already in DB 
 				PublicTransportPoint publicTransportPoint = publicTransportPointsDB.get(name + "-" + longitude + "-" + latitude);
 				if (publicTransportPoint != null) {
-					linesStop = new HashSet<>(publicTransportPoint.getLines());
+					stopLines = new HashSet<>(publicTransportPoint.getLines());
 				} else {
 					// Init Set with the lines of stop
-					linesStop = new HashSet<>();
+					stopLines = new HashSet<>();
 					// Get the lines of the stop in the file
 					JsonNode lines = stop.get("lines");
 					for (JsonNode line: lines) {
@@ -493,13 +503,12 @@ public class LoadPointsComponent implements CommandLineRunner {
 						Double distance = line.get("distance_previous_segment").asDouble();
 						Double speed = line.get("speed_previous_segment").asDouble();
 						
-						String infoLine = lineName + " [" + direction + "]: " + order;
-						linesStop.add(infoLine);
+						stopLines.add(new String[] {lineName, direction, Integer.toString(order)});
 						
 						JsonNode stopTimes = line.get("stop_times");
-						if (stopTimes != null) {
+						if (!stopTimes.isNull()) {
 							// Map with arrival times of the stop (in a line)
-							Map<String, LocalTime[]> timesDay = new HashMap<>();
+							Map<String, LocalTime[]> dayTimes = new HashMap<>();
 							
 							for (JsonNode times: stopTimes) {
 								// Get the arrival times
@@ -510,21 +519,21 @@ public class LoadPointsComponent implements CommandLineRunner {
 									LocalTime time = LocalTime.parse(arrivalTime.asText());
 									lineTimes.add(time);
 								}
-								timesDay.put(day, lineTimes.toArray(new LocalTime[0]));
+								dayTimes.put(day, lineTimes.toArray(new LocalTime[0]));
 							}
 							
 							// Put the arrival times
-							Map<Integer, Time> timesStop = timesPublicTransportPoints.get(lineName + " [" + direction + "]");
-							if (timesStop == null) {
-								timesStop = new HashMap<>();
+							Map<String, Schedule> stopTimesMap = timesPublicTransportPoints.get(lineName + " [" + direction + "]");
+							if (stopTimesMap == null) {
+								stopTimesMap = new HashMap<>();
 							}
-							timesStop.put(order, new Time(timesDay));
-							timesPublicTransportPoints.put(lineName + " [" + direction + "]", timesStop);
+							stopTimesMap.put(Integer.toString(order), new Time(dayTimes));
+							timesPublicTransportPoints.put(lineName + " [" + direction + "]", stopTimesMap);
 							
 						}
 						
 						JsonNode polyline = line.get("geometry").get("coordinates");
-						if (polyline != null) {
+						if (!polyline.isNull()) {
 							List<Double[]> coordinates = new ArrayList<>();
 							for (JsonNode point: polyline) {
 								Double longitudePoint = point.get(0).asDouble();
@@ -532,24 +541,25 @@ public class LoadPointsComponent implements CommandLineRunner {
 								coordinates.add(new Double[] {longitudePoint, latitudePoint});
 							}
 							
-							Map<Integer, Polyline> polylineStops = polylinesPublicTransportPoints.get(lineName + " [" + direction + "]");
-							if (polylineStops == null) {
-								polylineStops = new HashMap<>();
+							Map<Integer, Polyline> stopPolylines = polylinesPublicTransportPoints.get(lineName + " [" + direction + "]");
+							if (stopPolylines == null) {
+								stopPolylines = new HashMap<>();
 							}
-							Double duration = distance / speed;
-							polylineStops.put(order, new Polyline(duration, distance, coordinates));
+							Double duration = distance / (speed * (1000.0 / 3600.0));
+							stopPolylines.put(order, new Polyline(duration, distance, coordinates));
+							polylinesPublicTransportPoints.put(lineName + " [" + direction + "]", stopPolylines);
 						}
 					}
 					// Save stop in DB
-					publicTransportPoint = transportPointRepository.save(new PublicTransportPoint(name, longitude, latitude, type, linesStop));
+					publicTransportPoint = transportPointRepository.save(new PublicTransportPoint(name, longitude, latitude, type, stopLines));
 					
 					// Store transport points
 					publicTransportPoints.add(publicTransportPoint);
 				}
 				
 				// Set in the map each line associated to its point
-				for (String line: linesStop) {
-					linePublicTransportPoints.put(line, publicTransportPoint);
+				for (String[] line: stopLines) {
+					linePublicTransportPoints.put(line[0] + "_" + line[1] + "_" + line[2], publicTransportPoint);
 				}
 								
 			}
@@ -559,13 +569,110 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Map<String, PublicTransportPoint> nextStops = new HashMap<>();
 				// Get the neighboring points of the current
 				transportPoint.getLines().forEach(line -> {
-					String lineNextStop = line.split(": ")[0] + ": " + Integer.parseInt(line.split(": ")[1] + 1);
-					PublicTransportPoint nextStop = linePublicTransportPoints.get(lineNextStop);
+					line[2] = Integer.toString(Integer.parseInt(line[2]) + 1);
+					PublicTransportPoint nextStop = linePublicTransportPoints.get(line[0] + "_" + line[1] + "_" + line[2]);
 					if (nextStop != null)
-						nextStops.put(line.split(":")[0], nextStop);
+						nextStops.put(line[0] + " [" + line[1] + "]", nextStop);
 				});
 				transportPoint.setNextStops(nextStops);
 				transportPointRepository.save(transportPoint);
+			}
+			
+			// Transform json file to tree model
+			File linesFile = new ClassPathResource(linesPath).getFile();
+			
+			JsonNode lines = objectMapper.readTree(linesFile).get("data");
+			for (JsonNode line: lines) {
+				String lineName = line.get("line").asText();
+				String direction = line.get("direction").asText();
+				String lineHeadsign = line.get("line_headsign").asText();
+				String lineColor = line.get("line_color").asText();
+				
+				if (publicTransportLinesDB.contains(lineName + " [" + direction + "]")) {
+					continue;
+				}
+				
+				// Map with day associated to the start/end of line service
+				Map<String, LocalTime> startSchedules = new HashMap<>();
+				Map<String, LocalTime> endSchedules = new HashMap<>();
+				
+				// Map with day of week associated to the different frequencies throughout the day
+				Map<String, Schedule> lineFrequencies = new HashMap<>();
+				
+				JsonNode weekSchedule = line.get("week_schedule");
+				if (!weekSchedule.isNull()) {
+					int i = 1;
+					for (JsonNode schedules: weekSchedule) {
+						// Get day & schedule service
+						String[] scheduleDay = schedules.asText().split(" - ");
+						LocalTime startSchedule = LocalTime.parse(scheduleDay[0]);
+						LocalTime endSchedule = LocalTime.parse(scheduleDay[1]);
+						DayOfWeek day = DayOfWeek.of(i);
+						// Store in maps
+						startSchedules.put(day.toString(), startSchedule);
+						endSchedules.put(day.toString(), endSchedule);
+						// Update index of week day
+						i++;
+					}
+				}
+				
+				JsonNode weekFrequencies = line.get("week_frequencies");
+				if (!weekFrequencies.isNull()) {
+					for (JsonNode frequencyWeek: weekFrequencies) {
+						String frequencyDay = frequencyWeek.get("week_day").asText();
+						String[] days = frequencyDay.split("-");
+						// Store all the days between the first & last day
+						List<String> daysList = new ArrayList<>();
+						if (days.length > 1) {
+							int firstDay = DayOfWeek.valueOf(days[0]).getValue();
+							int lastDay = DayOfWeek.valueOf(days[1]).getValue();
+							DayOfWeek day;
+							if (firstDay < lastDay) {
+								for (int i = firstDay; i <= lastDay; i++) {
+									day = DayOfWeek.of(i);
+									daysList.add(day.toString());
+								}
+							} else {
+								for (int i = 0; i <= 7; i++) {
+									if (i <= lastDay && i >= firstDay) {
+										day = DayOfWeek.of(i);
+										daysList.add(day.toString());
+									}
+								}
+							}
+						} else {
+							daysList.add(days[0]);
+						}
+						
+						// Map with time slot associated to the frequency of arrival
+						Map<String, Integer> frequenciesMap = new HashMap<>();
+						
+						// Iterate over the frequencies of the line
+						JsonNode frequencies = frequencyWeek.get("frequencies");
+						for (JsonNode frequency: frequencies) {
+							String startTime = frequency.get("start_time").asText();
+							String endTime = frequency.get("end_time").asText();
+							Integer frequencyTime = frequency.get("frequency").asInt();
+							frequenciesMap.put(startTime + "-" + endTime, frequencyTime);
+						}
+						
+						// Store frequencies in a map
+						for (String daysFrequency : daysList) {
+							lineFrequencies.put(daysFrequency, 
+									new Frequency(frequenciesMap, startSchedules.get(daysFrequency), endSchedules.get(daysFrequency)));
+						}
+						
+					}	
+				}
+								
+				Map<Integer, Polyline> stopPolylines = polylinesPublicTransportPoints.get(lineName + " [" + direction + "]");
+				Map<String, Schedule> stopSchedules = timesPublicTransportPoints.isEmpty() ? 
+						lineFrequencies : timesPublicTransportPoints.get(lineName + " [" + direction + "]");
+				Character scheduleType = timesPublicTransportPoints.isEmpty() ? 'F' : 'T';
+				
+				publicTransportLineRepository.save(
+						new PublicTransportLine(lineName, direction, lineHeadsign, lineColor, scheduleType, stopPolylines, stopSchedules));
+				
 			}
 			
 		} catch (IOException e) {

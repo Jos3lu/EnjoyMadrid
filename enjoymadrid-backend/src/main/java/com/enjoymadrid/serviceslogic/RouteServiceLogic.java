@@ -331,7 +331,7 @@ public class RouteServiceLogic implements RouteService {
 			transportPoints = transportPoints.parallelStream()
 					.map(point -> {
 						if (point.getType().equals("Bus")) {
-							((PublicTransportPoint) point).getLines().removeIf(line -> !line.contains("N"));	
+							((PublicTransportPoint) point).getLines().removeIf(line -> !line[0].contains("N"));	
 							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream().
 									filter(line -> !line.contains("N"))
 									.collect(Collectors.toSet());
@@ -354,7 +354,7 @@ public class RouteServiceLogic implements RouteService {
 			transportPoints = transportPoints.parallelStream()
 					.map(point -> {
 						if (point.getType().equals("Bus")) {
-							((PublicTransportPoint) point).getLines().removeIf(line -> line.contains("N"));	
+							((PublicTransportPoint) point).getLines().removeIf(line -> line[0].contains("N"));	
 							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream()
 									.filter(line -> line.contains("N"))
 									.collect(Collectors.toSet());

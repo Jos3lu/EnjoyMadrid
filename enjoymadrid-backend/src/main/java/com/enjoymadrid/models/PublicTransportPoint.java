@@ -17,7 +17,7 @@ import javax.persistence.MapKeyColumn;
 public class PublicTransportPoint extends TransportPoint {
 
 	@ElementCollection
-	private Set<String> lines = new HashSet<>();
+	private Set<String[]> lines = new HashSet<>();
 	
 	@ManyToMany
 	@MapKeyColumn(name = "LINE")
@@ -28,16 +28,16 @@ public class PublicTransportPoint extends TransportPoint {
 		super();
 	}
 	
-	public PublicTransportPoint(String name, Double longitude, Double latitude, String type, Set<String> lines) {
+	public PublicTransportPoint(String name, Double longitude, Double latitude, String type, Set<String[]> lines) {
 		super(name, longitude, latitude, type);
 		this.lines = lines;
 	}
 
-	public Set<String> getLines() {
+	public Set<String[]> getLines() {
 		return lines;
 	}
 
-	public void setLines(Set<String> lines) {
+	public void setLines(Set<String[]> lines) {
 		this.lines = lines;
 	}
 

@@ -6804,7 +6804,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.58264257419476, 40.4756712709115 ] } 
 	},
 	{ 
-		"id": 378, "name": "Avenida Arcentales", "number": Iliada, "address": "null", 
+		"id": 378, "name": "Avenida Arcentales-Iliada", "number": 11760, "address": "Av. Arcentales con C/ Ilíada", 
 		"lines": [ 
 			{ 
 				"line": "167", "direction": "2", "order": 13, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -84203,7 +84203,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.59304520973479, 40.4609833620262 ] } 
 	},
 	{ 
-		"id": 4727, "name": "Vía Lusitana", "number": Intercambiador Plaza Elíp, "address": "null", 
+		"id": 4727, "name": "Vía Lusitana-Intercambiador Plaza Elíptica", "number": 19224, "address": "Vía Lusitana-Intercambiador Plaza Elíptica", 
 		"lines": [ 
 			{ 
 				"line": "SE708", "direction": "1", "order": 1, "distance_previous_segment": null, "speed_previous_segment": null, 

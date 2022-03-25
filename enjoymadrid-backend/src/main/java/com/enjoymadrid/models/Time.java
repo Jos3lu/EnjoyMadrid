@@ -15,23 +15,23 @@ public class Time extends Schedule {
 	@ElementCollection
 	@MapKeyColumn(name = "WEEK_DAY")
 	@Column(name = "TIMES")
-	private Map<String, LocalTime[]> timesDay = new HashMap<>();
+	private Map<String, LocalTime[]> dayTimes = new HashMap<>();
 	
 	public Time() {
 		super();
 	}
 	
-	public Time(Map<String, LocalTime[]> timesDay) {
+	public Time(Map<String, LocalTime[]> dayTimes) {
 		super();
-		this.timesDay = timesDay;
+		this.dayTimes = dayTimes;
 	}
 
-	public Map<String, LocalTime[]> getTimesDay() {
-		return timesDay;
+	public Map<String, LocalTime[]> getDayTimes() {
+		return dayTimes;
 	}
 
-	public void setTimesDay(Map<String, LocalTime[]> timesDay) {
-		this.timesDay = timesDay;
+	public void setDayTimes(Map<String, LocalTime[]> dayTimes) {
+		this.dayTimes = dayTimes;
 	}
 	
 }
