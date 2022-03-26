@@ -805,7 +805,7 @@
 },
 { 
 	"id": 91, "line_headsign": "Reina Victoria", "line": "45", "direction": "1", "line_color": "#0178BC", 
-	"week_schedule": [ "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "07:00 -23:02" ], 
+	"week_schedule": [ "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "07:00 - 23:02" ], 
 	"week_frequencies": [ 
 		{ "week_day": "MONDAY-FRIDAY", "frequencies": [ { "start_time": "06:00:00", "end_time": "08:00:00", "frequency": 840 }, { "start_time": "08:00:00", "end_time": "19:00:00", "frequency": 540 }, { "start_time": "19:00:00", "end_time": "23:00:00", "frequency": 1020 } ] }, 
 		{ "week_day": "SATURDAY", "frequencies": [ { "start_time": "06:00:00", "end_time": "10:00:00", "frequency": 1320 }, { "start_time": "10:00:00", "end_time": "21:00:00", "frequency": 900 }, { "start_time": "21:00:00", "end_time": "23:00:00", "frequency": 1080 } ] }, 
@@ -2214,7 +2214,7 @@
 },
 { 
 	"id": 248, "line_headsign": "Pavones", "line": "140", "direction": "2", "line_color": "#0178BC", 
-	"week_schedule": [ "06:00 - 23:15", "06:15- 23:15", "06:15- 23:15", "06:15- 23:15", "06:15- 23:15", "06:15- 23:15", "07:00 - 23:15" ], 
+	"week_schedule": [ "06:00 - 23:15", "06:15 - 23:15", "06:15 - 23:15", "06:15 - 23:15", "06:15 - 23:15", "06:15 - 23:15", "07:00 - 23:15" ], 
 	"week_frequencies": [ 
 		{ "week_day": "MONDAY-FRIDAY", "frequencies": [ { "start_time": "06:00:00", "end_time": "07:00:00", "frequency": 1080 }, { "start_time": "07:00:00", "end_time": "21:00:00", "frequency": 780 }, { "start_time": "21:00:00", "end_time": "23:00:00", "frequency": 1080 } ] }, 
 		{ "week_day": "SATURDAY", "frequencies": [ { "start_time": "06:00:00", "end_time": "17:00:00", "frequency": 1380 }, { "start_time": "17:00:00", "end_time": "23:00:00", "frequency": 1200 } ] }, 
@@ -3031,7 +3031,7 @@
 },
 { 
 	"id": 341, "line_headsign": "El Cañaveral", "line": "E5", "direction": "1", "line_color": "#0178BC", 
-	"week_schedule": [ "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "07:30-23:30" ], 
+	"week_schedule": [ "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "07:30 - 23:30" ], 
 	"week_frequencies": [ 
 		{ "week_day": "MONDAY-FRIDAY", "frequencies": [ { "start_time": "06:00:00", "end_time": "08:00:00", "frequency": 1500 }, { "start_time": "08:00:00", "end_time": "20:00:00", "frequency": 1080 }, { "start_time": "20:00:00", "end_time": "23:00:00", "frequency": 1800 } ] }, 
 		{ "week_day": "SATURDAY", "frequencies": [ { "start_time": "06:00:00", "end_time": "09:00:00", "frequency": 1800 }, { "start_time": "09:00:00", "end_time": "22:00:00", "frequency": 1320 }, { "start_time": "22:00:00", "end_time": "23:00:00", "frequency": 1800 } ] }, 
@@ -3127,7 +3127,7 @@
 },
 { 
 	"id": 353, "line_headsign": "Sanchinarro", "line": "N1", "direction": "1", "line_color": "#0178BC", 
-	"week_schedule": [ "00:00 - 5:10", "00:00 - 5:10", "00:00 - 5:10", "00:00 - 5:10", "00:00 - 05:50", "00:00 - 07:00", "00:00 - 5:10" ], 
+	"week_schedule": [ "00:00 - 05:10", "00:00 - 05:10", "00:00 - 05:10", "00:00 - 05:10", "00:00 - 05:50", "00:00 - 07:00", "00:00 - 05:10" ], 
 	"week_frequencies": [ 
 		{ "week_day": "SUNDAY-THURSDAY", "frequencies": [ { "start_time": "00:00:00", "end_time": "04:05:00", "frequency": 2100 }, { "start_time": "04:05:00", "end_time": "05:10:00", "frequency": 3900 } ] }, 
 		{ "week_day": "FRIDAY", "frequencies": [ { "start_time": "00:00:00", "end_time": "01:40:00", "frequency": 1500 }, { "start_time": "01:40:00", "end_time": "05:20:00", "frequency": 1200 }, { "start_time": "05:20:00", "end_time": "05:50:00", "frequency": 1800 } ] }, 
@@ -3136,7 +3136,7 @@
 },
 { 
 	"id": 354, "line_headsign": "Cibeles", "line": "N1", "direction": "2", "line_color": "#0178BC", 
-	"week_schedule": [ "23:40 - 5:50", "23:40 - 5:50", "23:40 - 5:50", "23:40 - 5:50", "23:45 - 05:30", "23:45 - 06:15", "23:40 - 5:50" ], 
+	"week_schedule": [ "23:40 - 05:50", "23:40 - 05:50", "23:40 - 05:50", "23:40 - 05:50", "23:45 - 05:30", "23:45 - 06:15", "23:40 - 05:50" ], 
 	"week_frequencies": [ 
 		{ "week_day": "SUNDAY-THURSDAY", "frequencies": [ { "start_time": "23:40:00", "end_time": "03:10:00", "frequency": 2100 }, { "start_time": "03:10:00", "end_time": "04:50:00", "frequency": 3000 }, { "start_time": "04:50:00", "end_time": "05:50:00", "frequency": 3600 } ] }, 
 		{ "week_day": "FRIDAY", "frequencies": [ { "start_time": "23:45:00", "end_time": "00:20:00", "frequency": 2100 }, { "start_time": "00:20:00", "end_time": "00:50:00", "frequency": 1800 }, { "start_time": "00:50:00", "end_time": "02:30:00", "frequency": 1500 }, { "start_time": "02:30:00", "end_time": "05:30:00", "frequency": 1200 } ] }, 
@@ -3595,7 +3595,7 @@
 },
 { 
 	"id": 405, "line_headsign": "Aeropuerto", "line": "N27", "direction": "1", "line_color": "#0178BC", 
-	"week_schedule": [ "00:00 - 5:40", "00:00 - 5:40", "00:00 - 5:40", "00:00 - 5:40", "00:00 - 5:40", "00:00 - 5:40", "00:00 - 5:40" ], 
+	"week_schedule": [ "00:00 - 05:40", "00:00 - 05:40", "00:00 - 05:40", "00:00 - 05:40", "00:00 - 05:40", "00:00 - 05:40", "00:00 - 05:40" ], 
 	"week_frequencies": [ 
 		{ "week_day": "MONDAY-SUNDAY", "frequencies": [ { "start_time": "00:00:00", "end_time": "04:40:00", "frequency": 2100 }, { "start_time": "04:40:00", "end_time": "05:40:00", "frequency": 1800 } ] } 
 	] 
@@ -3858,5 +3858,5 @@
 		{ "week_day": "MONDAY-THURSDAY", "frequencies": [ { "start_time": "07:15:00", "end_time": "10:00:00", "frequency": 600 }, { "start_time": "10:00:00", "end_time": "20:00:00", "frequency": 600 }, { "start_time": "20:00:00", "end_time": "22:00:00", "frequency": 1140 } ] }, 
 		{ "week_day": "FRIDAY", "frequencies": [ { "start_time": "07:15:00", "end_time": "14:00:00", "frequency": 600 }, { "start_time": "14:00:00", "end_time": "21:00:00", "frequency": 960 }, { "start_time": "21:00:00", "end_time": "22:00:00", "frequency": 1140 } ] } 
 	] 
-},
+}
 ] }

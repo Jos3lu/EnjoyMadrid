@@ -430,8 +430,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 		// Data sources
 		String[][] publicTransportTypes = {
 				{"Metro", "static/subway/stops_subway.geojson", "static/subway/lines_subway.json"}, 
-				{"Bus", "static/bus/stops_bus.geojson", "static/bus/lines_bus.json"}, 
-				{"Cercanías", "static/commuter/stops_commuter.geojson", "static/commuter/lines_commuter.json"},
+				//{"Bus", "static/bus/stops_bus.geojson", "static/bus/lines_bus.json"}, 
+				//{"Cercanías", "static/commuter/stops_commuter.geojson", "static/commuter/lines_commuter.json"},
 		};
 		
 		// Thread for each type of transport
@@ -532,10 +532,11 @@ public class LoadPointsComponent implements CommandLineRunner {
 							
 						}
 						
-						JsonNode polyline = line.get("geometry").get("coordinates");
+						JsonNode polyline = line.get("geometry");
 						if (!polyline.isNull()) {
+							JsonNode polylineCoords = polyline.get("coordinates");
 							List<Double[]> coordinates = new ArrayList<>();
-							for (JsonNode point: polyline) {
+							for (JsonNode point: polylineCoords) {
 								Double longitudePoint = point.get(0).asDouble();
 								Double latitudePoint = point.get(1).asDouble();
 								coordinates.add(new Double[] {longitudePoint, latitudePoint});
@@ -556,7 +557,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 					// Store transport points
 					publicTransportPoints.add(publicTransportPoint);
 				}
-				
+								
 				// Set in the map each line associated to its point
 				for (String[] line: stopLines) {
 					linePublicTransportPoints.put(line[0] + "_" + line[1] + "_" + line[2], publicTransportPoint);
@@ -570,7 +571,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 				// Get the neighboring points of the current
 				transportPoint.getLines().forEach(line -> {
 					line[2] = Integer.toString(Integer.parseInt(line[2]) + 1);
-					PublicTransportPoint nextStop = linePublicTransportPoints.get(line[0] + "_" + line[1] + "_" + line[2]);
+					String lineNextStop = line[0] + "_" + line[1] + "_" + line[2];
+					PublicTransportPoint nextStop = linePublicTransportPoints.get(lineNextStop);
 					if (nextStop != null)
 						nextStops.put(line[0] + " [" + line[1] + "]", nextStop);
 				});
@@ -603,6 +605,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				if (!weekSchedule.isNull()) {
 					int i = 1;
 					for (JsonNode schedules: weekSchedule) {
+						if (schedules.asText().isBlank()) continue;
 						// Get day & schedule service
 						String[] scheduleDay = schedules.asText().split(" - ");
 						LocalTime startSchedule = LocalTime.parse(scheduleDay[0]);
