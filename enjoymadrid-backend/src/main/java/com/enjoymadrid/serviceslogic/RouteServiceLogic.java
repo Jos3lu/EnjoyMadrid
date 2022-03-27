@@ -2,6 +2,8 @@ package com.enjoymadrid.serviceslogic;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -27,17 +29,22 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.enjoymadrid.models.repositories.AirQualityPointRepository;
+import com.enjoymadrid.models.repositories.PublicTransportLineRepository;
 import com.enjoymadrid.models.repositories.RouteRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
 import com.enjoymadrid.models.repositories.UserRepository;
 import com.enjoymadrid.models.AirQualityPoint;
 import com.enjoymadrid.models.BicycleTransportPoint;
+import com.enjoymadrid.models.Frequency;
 import com.enjoymadrid.models.Point;
 import com.enjoymadrid.models.PointWrapper;
+import com.enjoymadrid.models.PublicTransportLine;
 import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.Route;
+import com.enjoymadrid.models.Schedule;
 import com.enjoymadrid.models.Segment;
+import com.enjoymadrid.models.Time;
 import com.enjoymadrid.models.TouristicPoint;
 import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.User;
@@ -51,15 +58,17 @@ public class RouteServiceLogic implements RouteService {
 	private final UserRepository userRepository;
 	private final RouteRepository routeRepository;
 	private final TransportPointRepository transportPointRepository;
+	private final PublicTransportLineRepository publicTransportLineRepository;
 	private final TouristicPointRepository touristicPointRepository;
 	private final AirQualityPointRepository airQualityPointRepository;
 	
-	public RouteServiceLogic(RouteRepository routeRepository,
-			UserRepository userRepository, TransportPointRepository transportPointRepository,
+	public RouteServiceLogic(RouteRepository routeRepository, UserRepository userRepository, 
+			TransportPointRepository transportPointRepository, PublicTransportLineRepository publicTransportLineRepository, 
 			TouristicPointRepository touristicPointRepository, AirQualityPointRepository airQualityPointRepository) {
 		this.routeRepository = routeRepository;
 		this.userRepository = userRepository;
 		this.transportPointRepository = transportPointRepository;
+		this.publicTransportLineRepository = publicTransportLineRepository;
 		this.touristicPointRepository = touristicPointRepository;
 		this.airQualityPointRepository = airQualityPointRepository;
 	}
@@ -109,6 +118,10 @@ public class RouteServiceLogic implements RouteService {
 		List<AirQualityPoint> airQualityPoints = airQualityPointRepository.findByAqiIsNotNull();
 		// Get all the touristic points
 		List<TouristicPoint> touristicPoints = touristicPointRepository.findAll();
+		// Get only bicycle stations from DB if selected by user
+		Set<P> bicyclePoints = transportPoints.parallelStream()
+				.filter(stop -> stop instanceof BicycleTransportPoint)
+				.collect(Collectors.toSet());
 
 		// Add origin point
 		PointWrapper<P> originWrapper = new PointWrapper<>(origin, null, false, 0.0,
@@ -134,7 +147,7 @@ public class RouteServiceLogic implements RouteService {
 				return route;
 			}
 
-			Set<P> neighbors = getNeighbors(pointWrapper, point, transportPoints, maxDistance);			
+			Set<P> neighbors = getNeighbors(pointWrapper, point, transportPoints, bicyclePoints, maxDistance);			
 			for (P neighbor : neighbors) {
 				// Continue with next neighbor if already in best points
 				if (bestPointsFound.contains(neighbor)) {
@@ -172,7 +185,8 @@ public class RouteServiceLogic implements RouteService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <P extends Comparable<P>> Set<P> getNeighbors(PointWrapper<P> pointWrapper, P point, List<P> transportPoints, Double maxDistance) {
+	private <P extends Comparable<P>> Set<P> getNeighbors(PointWrapper<P> pointWrapper, P point, List<P> transportPoints, 
+			Set<P> bicyclePoints, Double maxDistance) {
 		// No duplicates in neighbors
 		Set<P> neighbors = new HashSet<>();	
 		
@@ -183,9 +197,7 @@ public class RouteServiceLogic implements RouteService {
 			neighbors =  (Set<P>) ((PublicTransportPoint) point).getNextStops().values().stream().collect(Collectors.toSet());		
 		} else if (point instanceof BicycleTransportPoint) {			
 			// If bicycle station get available stations 
-			neighbors = transportPoints.parallelStream()
-					.filter(stop -> stop instanceof BicycleTransportPoint)
-					.collect(Collectors.toSet());
+			neighbors = bicyclePoints;
 		}
 		
 		if (neighbors.isEmpty() || directNeighbors) {
@@ -309,83 +321,62 @@ public class RouteServiceLogic implements RouteService {
 	private List<TransportPoint> getTransportPoints(List<String> transports) {
 		
 		LocalTime currentLocalTime = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime();
-		
-		// Subway operates every day between 6:00 and 2:00 a.m
-		if (currentLocalTime.isAfter(LocalTime.of(2, 0)) 
-				&& currentLocalTime.isBefore(LocalTime.of(6, 0))) {
-			transports.remove("Metro");
-		}
-		
-		// Commuter train start around 5:30 a.m and end around 00:00 a.m
-		if (currentLocalTime.isAfter(LocalTime.MIDNIGHT) 
-				&& currentLocalTime.isBefore(LocalTime.of(5, 30))) {
-			transports.remove("Cercanías");
-		}
+		DayOfWeek currentDayOfWeek = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate().getDayOfWeek();
+				
+		// Map with schedules of the public transport stops
+		Map<String, PublicTransportLine> lineStops = publicTransportLineRepository.findAll().stream()
+				.collect(Collectors.toMap(line -> line.getTransportType() + "_" + line.getLine() + " [" + line.getDirection() + "]", line -> line));
 		
 		// Query to get the points in order to create the route
 		List<TransportPoint> transportPoints = transportPointRepository.findByTypeIn(transports);
 		
-		// Bus general hours of service during all days of the year are from 6:00 a.m to 11:30 p.m
-		if (currentLocalTime.isBefore(LocalTime.of(6, 0)) || currentLocalTime.isAfter(LocalTime.of(23, 30))) {
-			// Remove not night buses
-			transportPoints = transportPoints.parallelStream()
-					.map(point -> {
-						if (point.getType().equals("Bus")) {
-							((PublicTransportPoint) point).getLines().removeIf(line -> !line[0].contains("N"));	
-							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream().
-									filter(line -> !line.contains("N"))
-									.collect(Collectors.toSet());
-							for (String line: keys) {
-								((PublicTransportPoint) point).getNextStops().remove(line);
+		transportPoints = transportPoints.parallelStream()
+				.map(point -> {
+					if (point instanceof PublicTransportPoint) {
+						for (String[] line: ((PublicTransportPoint) point).getLines()) {
+							PublicTransportLine publicTransportLine = lineStops.get(point.getType() + "_" + line[0] + " [" + line[1] + "]");
+							
+							// First/last time operates the station
+							LocalTime startTime;
+							LocalTime endTime;
+							// Schedule is frequency or arrival times
+							if (publicTransportLine.getScheduleType().equals('F')) {
+								Frequency frequency = (Frequency) publicTransportLine.getStopSchedules().get(currentDayOfWeek.toString());
+								startTime = frequency.getStartSchedule();
+								endTime = frequency.getEndSchedule();
+							} else {
+								Time time = (Time) publicTransportLine.getStopSchedules().get(line[2]);
+								LocalTime[] arrivalTimes = time.getDayTimes().get(currentDayOfWeek.toString());
+								startTime = arrivalTimes[0];
+								endTime = arrivalTimes[arrivalTimes.length - 1];
 							}
-						}
-						return point;
-					})
-					.filter(point -> {
-						if (point.getType().equals("Bus") 
-								&& ((PublicTransportPoint) point).getLines().isEmpty()) {
-							return false;
-						}
-						return true;
-					})
-					.toList();
-		} else {
-			// Remove night buses
-			transportPoints = transportPoints.parallelStream()
-					.map(point -> {
-						if (point.getType().equals("Bus")) {
-							((PublicTransportPoint) point).getLines().removeIf(line -> line[0].contains("N"));	
-							Set<String> keys = ((PublicTransportPoint) point).getNextStops().keySet().stream()
-									.filter(line -> line.contains("N"))
-									.collect(Collectors.toSet());
-							for (String line: keys) {
-								((PublicTransportPoint) point).getNextStops().remove(line);
+							
+							// Different approach depending on wether the end time is after midnight
+							if (startTime.isBefore(endTime)) {
+								if (currentLocalTime.isBefore(startTime) || currentLocalTime.isAfter(endTime)) {
+									((PublicTransportPoint) point).getLines().remove(line);
+								}
+							} else {
+								if (currentLocalTime.isBefore(startTime) && currentLocalTime.isAfter(endTime)) {
+									((PublicTransportPoint) point).getLines().remove(line);
+								}
 							}
+							
 						}
-						return point;
-					})
-					.filter(point -> {
-						if (point.getType().equals("Bus") 
-								&& ((PublicTransportPoint) point).getLines().isEmpty()) {
-							return false;
-						}
-						return true;
-					})
-					.toList();
-		}
-		
-		// Exclude bike stations that don't currently operate nor have bikes available
-		// for pick-up or drop-off
-		transportPoints = transportPoints.stream()
-				.filter(point -> {
-					if (point.getType().equals("BiciMAD")
+					}
+					return point;
+				}).filter(point -> {
+					if (((PublicTransportPoint) point).getLines().isEmpty()) {
+						return false;
+					} else if (point.getType().equals("BiciMAD") 
 							&& !((BicycleTransportPoint) point).isAvailable()) {
+						// Exclude bike stations that don't operate (currently) nor have bikes available
 						return false;
 					}
 					return true;
 				})
-				.toList();
-		
+				.toList();	
+						
 		return transportPoints;
 	}
 	

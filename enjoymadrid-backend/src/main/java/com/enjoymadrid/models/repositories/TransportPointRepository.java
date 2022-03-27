@@ -10,7 +10,7 @@ public interface TransportPointRepository extends PointRepository<TransportPoint
 	List<TransportPoint> findByType(String type);
 	
 	List<TransportPoint> findByTypeIn(Collection<String> types);
-	
+		
 	//@Query("SELECT pt FROM PublicTransportPoint pt WHERE :line MEMBER pt.lines")
 	//Optional<PublicTransportPoint> findByLine(@Param("line") String line);
 	

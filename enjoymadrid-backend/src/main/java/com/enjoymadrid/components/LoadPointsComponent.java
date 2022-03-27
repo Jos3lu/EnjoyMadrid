@@ -99,8 +99,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
 		userRepository.save(user3);
 		
-		//new Thread(() -> loadDataAirQualityPoints()).start();
-		//loadDataTouristicPoints();
+		new Thread(() -> loadDataAirQualityPoints()).start();
+		loadDataTouristicPoints();
 		loadDataTransportPoints();
 				
 	}
@@ -430,8 +430,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 		// Data sources
 		String[][] publicTransportTypes = {
 				{"Metro", "static/subway/stops_subway.geojson", "static/subway/lines_subway.json"}, 
-				//{"Bus", "static/bus/stops_bus.geojson", "static/bus/lines_bus.json"}, 
-				//{"Cercanías", "static/commuter/stops_commuter.geojson", "static/commuter/lines_commuter.json"},
+				{"Bus", "static/bus/stops_bus.geojson", "static/bus/lines_bus.json"}, 
+				{"Cercanías", "static/commuter/stops_commuter.geojson", "static/commuter/lines_commuter.json"},
 		};
 		
 		// Thread for each type of transport
@@ -508,18 +508,24 @@ public class LoadPointsComponent implements CommandLineRunner {
 						JsonNode stopTimes = line.get("stop_times");
 						if (!stopTimes.isNull()) {
 							// Map with arrival times of the stop (in a line)
-							Map<String, LocalTime[]> dayTimes = new HashMap<>();
+							Map<String, LocalTime[]> daysArrivalTimes = new HashMap<>();
 							
-							for (JsonNode times: stopTimes) {
-								// Get the arrival times
-								String day = times.get("week_day").asText();
+							for (JsonNode arrivalTimesWeek: stopTimes) {
+								// Get days of the week
+								List<String> daysList = getDaysWeek(arrivalTimesWeek);
+								
 								List<LocalTime> lineTimes = new ArrayList<>();
-								JsonNode arrivalTimes = times.get("arrival_times");
+								JsonNode arrivalTimes = arrivalTimesWeek.get("arrival_times");
 								for (JsonNode arrivalTime: arrivalTimes) {
 									LocalTime time = LocalTime.parse(arrivalTime.asText());
 									lineTimes.add(time);
 								}
-								dayTimes.put(day, lineTimes.toArray(new LocalTime[0]));
+								
+								// Store frequencies in a map
+								for (String dayArrivalTimes : daysList) {
+									daysArrivalTimes.put(dayArrivalTimes, lineTimes.toArray(new LocalTime[0]));
+								}
+								
 							}
 							
 							// Put the arrival times
@@ -527,7 +533,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 							if (stopTimesMap == null) {
 								stopTimesMap = new HashMap<>();
 							}
-							stopTimesMap.put(Integer.toString(order), new Time(dayTimes));
+							stopTimesMap.put(Integer.toString(order), new Time(daysArrivalTimes));
 							timesPublicTransportPoints.put(lineName + " [" + direction + "]", stopTimesMap);
 							
 						}
@@ -622,30 +628,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 				JsonNode weekFrequencies = line.get("week_frequencies");
 				if (!weekFrequencies.isNull()) {
 					for (JsonNode frequencyWeek: weekFrequencies) {
-						String frequencyDay = frequencyWeek.get("week_day").asText();
-						String[] days = frequencyDay.split("-");
-						// Store all the days between the first & last day
-						List<String> daysList = new ArrayList<>();
-						if (days.length > 1) {
-							int firstDay = DayOfWeek.valueOf(days[0]).getValue();
-							int lastDay = DayOfWeek.valueOf(days[1]).getValue();
-							DayOfWeek day;
-							if (firstDay < lastDay) {
-								for (int i = firstDay; i <= lastDay; i++) {
-									day = DayOfWeek.of(i);
-									daysList.add(day.toString());
-								}
-							} else {
-								for (int i = 0; i <= 7; i++) {
-									if (i <= lastDay && i >= firstDay) {
-										day = DayOfWeek.of(i);
-										daysList.add(day.toString());
-									}
-								}
-							}
-						} else {
-							daysList.add(days[0]);
-						}
+						// Get days of the week
+						List<String> daysList = getDaysWeek(frequencyWeek);
 						
 						// Map with time slot associated to the frequency of arrival
 						Map<String, Integer> frequenciesMap = new HashMap<>();
@@ -660,9 +644,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 						}
 						
 						// Store frequencies in a map
-						for (String daysFrequency : daysList) {
-							lineFrequencies.put(daysFrequency, 
-									new Frequency(frequenciesMap, startSchedules.get(daysFrequency), endSchedules.get(daysFrequency)));
+						for (String dayFrequencies : daysList) {
+							lineFrequencies.put(dayFrequencies, 
+									new Frequency(frequenciesMap, startSchedules.get(dayFrequencies), endSchedules.get(dayFrequencies)));
 						}
 						
 					}	
@@ -674,7 +658,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Character scheduleType = timesPublicTransportPoints.isEmpty() ? 'F' : 'T';
 				
 				publicTransportLineRepository.save(
-						new PublicTransportLine(lineName, direction, lineHeadsign, lineColor, scheduleType, stopPolylines, stopSchedules));
+						new PublicTransportLine(type, lineName, direction, lineHeadsign, lineColor, scheduleType, stopPolylines, stopSchedules));
 				
 			}
 			
@@ -688,6 +672,37 @@ public class LoadPointsComponent implements CommandLineRunner {
 			logger.error(e.getMessage());
 		}
 		
+	}
+	
+	private List<String> getDaysWeek(JsonNode scheduleDay) {
+		// Get the days for the arrival times / frequencies in a time slot
+		String timeDay = scheduleDay.get("week_day").asText();
+		String[] days = timeDay.split("-");
+		
+		// Store all the days between the first & last day
+		List<String> daysList = new ArrayList<>();
+		if (days.length > 1) {
+			int firstDay = DayOfWeek.valueOf(days[0]).getValue();
+			int lastDay = DayOfWeek.valueOf(days[1]).getValue();
+			DayOfWeek day;
+			if (firstDay < lastDay) {
+				for (int i = firstDay; i <= lastDay; i++) {
+					day = DayOfWeek.of(i);
+					daysList.add(day.toString());
+				}
+			} else {
+				for (int i = 0; i <= 7; i++) {
+					if (i <= lastDay && i >= firstDay) {
+						day = DayOfWeek.of(i);
+						daysList.add(day.toString());
+					}
+				}
+			}
+		} else {
+			daysList.add(days[0]);
+		}
+		
+		return daysList;
 	}
 
 	private void loadDataBiciMADPoints(String type, String stopsPath, CyclicBarrier waitToEnd) {

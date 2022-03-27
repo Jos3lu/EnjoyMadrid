@@ -19,6 +19,8 @@ public class PublicTransportLine {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	private String transportType;
+	
 	private String line;
 	
 	private String direction;
@@ -41,8 +43,9 @@ public class PublicTransportLine {
 		
 	public PublicTransportLine() {}
 
-	public PublicTransportLine(String line, String direction, String destination, String color, Character scheduleType, 
-			Map<Integer, Polyline> stopPolylines, Map<String, Schedule> stopSchedules) {
+	public PublicTransportLine(String transportType, String line, String direction, String destination, String color, 
+			Character scheduleType, Map<Integer, Polyline> stopPolylines, Map<String, Schedule> stopSchedules) {
+		this.transportType = transportType;
 		this.line = line;
 		this.direction = direction;
 		this.destination = destination;
@@ -58,6 +61,14 @@ public class PublicTransportLine {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getTransportType() {
+		return transportType;
+	}
+
+	public void setTransportType(String transportType) {
+		this.transportType = transportType;
 	}
 
 	public String getLine() {
