@@ -3,7 +3,6 @@ package com.enjoymadrid.serviceslogic;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -42,7 +41,6 @@ import com.enjoymadrid.models.PointWrapper;
 import com.enjoymadrid.models.PublicTransportLine;
 import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.Route;
-import com.enjoymadrid.models.Schedule;
 import com.enjoymadrid.models.Segment;
 import com.enjoymadrid.models.Time;
 import com.enjoymadrid.models.TouristicPoint;
@@ -92,8 +90,11 @@ public class RouteServiceLogic implements RouteService {
 		// User's interests
 		Map<String, Integer> preferences = route.getPreferences();
 		
+		// Map with lines of the public transport stops
+		Map<String, PublicTransportLine> lineStops = publicTransportLineRepository.findAll().stream()
+				.collect(Collectors.toMap(line -> line.getTransportType() + "_" + line.getLine() + "_" + line.getDirection(), line -> line));
 		// Get all the transport points selected by user
-		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports());
+		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports(), lineStops);
 		
 		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transportPoints, preferences);
 		if (routePoints == null) {
@@ -318,57 +319,62 @@ public class RouteServiceLogic implements RouteService {
 		return R * c;
 	}
 	
-	private List<TransportPoint> getTransportPoints(List<String> transports) {
+	private List<TransportPoint> getTransportPoints(List<String> transports, Map<String, PublicTransportLine> lineStops) {
 		
 		LocalTime currentLocalTime = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime();
 		DayOfWeek currentDayOfWeek = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate().getDayOfWeek();
 				
-		// Map with schedules of the public transport stops
-		Map<String, PublicTransportLine> lineStops = publicTransportLineRepository.findAll().stream()
-				.collect(Collectors.toMap(line -> line.getTransportType() + "_" + line.getLine() + " [" + line.getDirection() + "]", line -> line));
-		
 		// Query to get the points in order to create the route
 		List<TransportPoint> transportPoints = transportPointRepository.findByTypeIn(transports);
 		
-		transportPoints = transportPoints.parallelStream()
+		transportPoints = transportPoints.stream()
 				.map(point -> {
-					if (point instanceof PublicTransportPoint) {
-						for (String[] line: ((PublicTransportPoint) point).getLines()) {
-							PublicTransportLine publicTransportLine = lineStops.get(point.getType() + "_" + line[0] + " [" + line[1] + "]");
+					if (point instanceof PublicTransportPoint) {						
+						PublicTransportPoint publicTransportPoint = (PublicTransportPoint) point;
+						Set<String[]> lines = new HashSet<>(publicTransportPoint.getLines());
+						for (String[] line: lines) {
+							PublicTransportLine publicTransportLine = lineStops.get(point.getType() + "_" + line[0] + "_" + line[1]);
 							
+							// Schedule is null & stop doesn't operate right now
+							boolean scheduleNull = false;
 							// First/last time operates the station
-							LocalTime startTime;
-							LocalTime endTime;
+							LocalTime startTime = LocalTime.MIDNIGHT;
+							LocalTime endTime = LocalTime.MIDNIGHT;
 							// Schedule is frequency or arrival times
 							if (publicTransportLine.getScheduleType().equals('F')) {
 								Frequency frequency = (Frequency) publicTransportLine.getStopSchedules().get(currentDayOfWeek.toString());
-								startTime = frequency.getStartSchedule();
-								endTime = frequency.getEndSchedule();
+								if (frequency == null) {
+									scheduleNull = true;
+								} else {
+									startTime = frequency.getStartSchedule();
+									endTime = frequency.getEndSchedule();
+								}
 							} else {
 								Time time = (Time) publicTransportLine.getStopSchedules().get(line[2]);
-								LocalTime[] arrivalTimes = time.getDayTimes().get(currentDayOfWeek.toString());
-								startTime = arrivalTimes[0];
-								endTime = arrivalTimes[arrivalTimes.length - 1];
+								if (time == null) {
+									scheduleNull = true;
+								} else {
+									LocalTime[] arrivalTimes = time.getDayTimes().get(currentDayOfWeek.toString());
+									startTime = arrivalTimes[0];
+									endTime = arrivalTimes[arrivalTimes.length - 1];	
+								}
 							}
 							
-							// Different approach depending on wether the end time is after midnight
-							if (startTime.isBefore(endTime)) {
-								if (currentLocalTime.isBefore(startTime) || currentLocalTime.isAfter(endTime)) {
-									((PublicTransportPoint) point).getLines().remove(line);
-								}
-							} else {
-								if (currentLocalTime.isBefore(startTime) && currentLocalTime.isAfter(endTime)) {
-									((PublicTransportPoint) point).getLines().remove(line);
-								}
+							// Different approach depending on wether the end time is after or before midnight
+							if ( scheduleNull || ( startTime.isBefore(endTime) && ( currentLocalTime.isBefore(startTime) || currentLocalTime.isAfter(endTime) ) ) 
+									|| ( startTime.isAfter(endTime) && (currentLocalTime.isBefore(startTime) && currentLocalTime.isAfter(endTime) ) ) ) {
+								publicTransportPoint.getLines().remove(line);
+								publicTransportPoint.getNextStops().remove(line[0] + " [" + line[1] + "]");
 							}
 							
 						}
 					}
 					return point;
 				}).filter(point -> {
-					if (((PublicTransportPoint) point).getLines().isEmpty()) {
+					if (point instanceof PublicTransportPoint && ((PublicTransportPoint) point).getLines().isEmpty()) {
+						// Remove public transport stop if there aren't any line that operate currently
 						return false;
-					} else if (point.getType().equals("BiciMAD") 
+					} else if (point instanceof BicycleTransportPoint 
 							&& !((BicycleTransportPoint) point).isAvailable()) {
 						// Exclude bike stations that don't operate (currently) nor have bikes available
 						return false;
@@ -376,7 +382,7 @@ public class RouteServiceLogic implements RouteService {
 					return true;
 				})
 				.toList();	
-						
+								
 		return transportPoints;
 	}
 	
