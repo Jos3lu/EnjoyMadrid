@@ -500,7 +500,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 						String lineName = line.get("line").asText();
 						String direction = line.get("direction").asText();
 						Integer order = line.get("order").asInt();
+						// Distance in meters
 						Double distance = line.get("distance_previous_segment").asDouble();
+						// Speed in kilometers/hour
 						Double speed = line.get("speed_previous_segment").asDouble();
 						
 						stopLines.add(new String[] {lineName, direction, Integer.toString(order)});
@@ -552,6 +554,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 							if (stopPolylines == null) {
 								stopPolylines = new HashMap<>();
 							}
+							// Duration in seconds
 							Double duration = distance / (speed * (1000.0 / 3600.0));
 							stopPolylines.put(order, new Polyline(duration, distance, coordinates));
 							polylinesPublicTransportPoints.put(lineName + " [" + direction + "]", stopPolylines);

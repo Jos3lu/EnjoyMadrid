@@ -7,7 +7,5 @@ import com.enjoymadrid.models.Point;
 
 @NoRepositoryBean
 public interface PointRepository<T extends Point> extends JpaRepository<T, Long>{
-
-
-		
+	
 }

@@ -3787,8 +3787,8 @@
 		"id": 431, "line_headsign": "Mercamadrid", "line": "T32", "direction": "1", "line_color": "#0178BC", 
 		"week_schedule": [ "04:30 - 00:00", "04:30 - 00:00", "04:30 - 00:00", "04:30 - 00:00", "04:30 - 00:00", "04:30 - 00:00", "" ], 
 		"week_frequencies": [ 
-			{ "week_day": "MONDAY-FRIDAY", "frequencies": [ { "start_time": "04:30:00", "end_time": "07:00:00", "frequency": 900 }, { "start_time": "07:00:00", "end_time": "09:40:00", "frequency": 1080 }, { "start_time": "09:40:00", "end_time": "24:00:00", "frequency": 1440 } ] }, 
-			{ "week_day": "SATURDAY", "frequencies": [ { "start_time": "04:30:00", "end_time": "12:08:00", "frequency": 1200 }, { "start_time": "12:08:00", "end_time": "24:00:00", "frequency": 2400 } ] } 
+			{ "week_day": "MONDAY-FRIDAY", "frequencies": [ { "start_time": "04:30:00", "end_time": "07:00:00", "frequency": 900 }, { "start_time": "07:00:00", "end_time": "09:40:00", "frequency": 1080 }, { "start_time": "09:40:00", "end_time": "00:00:00", "frequency": 1440 } ] }, 
+			{ "week_day": "SATURDAY", "frequencies": [ { "start_time": "04:30:00", "end_time": "12:08:00", "frequency": 1200 }, { "start_time": "12:08:00", "end_time": "00:00:00", "frequency": 2400 } ] } 
 		] 
 	},
 	{ 

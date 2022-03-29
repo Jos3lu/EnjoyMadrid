@@ -66,6 +66,14 @@ public class Route {
 	@NotNull(message = "Date cannot be null")
 	private LocalDate date;
 	
+	@JsonView(RouteInterfaces.CompleteData.class)
+	@NotNull(message = "Distance cannot be null")
+	private Double distance;
+	
+	@JsonView(RouteInterfaces.CompleteData.class)
+	@NotNull(message = "Duration cannot be null")
+	private Double duration;
+	
 	@ManyToMany
 	@JsonView(RouteInterfaces.CompleteData.class)
 	@Fetch(FetchMode.SELECT)
@@ -149,6 +157,22 @@ public class Route {
 
 	public Map<String, Integer> getPreferences() {
 		return preferences;
+	}
+
+	public Double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
+	}
+
+	public Double getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Double duration) {
+		this.duration = duration;
 	}
 
 	public void setPreferences(Map<String, Integer> preferences) {

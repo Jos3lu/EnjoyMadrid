@@ -6,7 +6,9 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -38,6 +40,7 @@ import com.enjoymadrid.models.BicycleTransportPoint;
 import com.enjoymadrid.models.Frequency;
 import com.enjoymadrid.models.Point;
 import com.enjoymadrid.models.PointWrapper;
+import com.enjoymadrid.models.Polyline;
 import com.enjoymadrid.models.PublicTransportLine;
 import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.Route;
@@ -92,7 +95,7 @@ public class RouteServiceLogic implements RouteService {
 		
 		// Map with lines of the public transport stops
 		Map<String, PublicTransportLine> lineStops = publicTransportLineRepository.findAll().stream()
-				.collect(Collectors.toMap(line -> line.getTransportType() + "_" + line.getLine() + "_" + line.getDirection(), line -> line));
+				.collect(Collectors.toMap(line -> line.getTransportType() + "_" + line.getLine() + " [" + line.getDirection() + "]", line -> line));
 		// Get all the transport points selected by user
 		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports(), lineStops);
 		
@@ -100,7 +103,8 @@ public class RouteServiceLogic implements RouteService {
 		if (routePoints == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST , "No se ha podido crear la ruta con estos parámetros de entrada");
 		}
-		route = setSegments(routePoints, route);
+				
+		route = setSegments(routePoints, route, lineStops);
 
 		return route;
 	}
@@ -120,7 +124,7 @@ public class RouteServiceLogic implements RouteService {
 		// Get all the touristic points
 		List<TouristicPoint> touristicPoints = touristicPointRepository.findAll();
 		// Get only bicycle stations from DB if selected by user
-		Set<P> bicyclePoints = transportPoints.parallelStream()
+		Set<P> bicyclePoints = transportPoints.stream()
 				.filter(stop -> stop instanceof BicycleTransportPoint)
 				.collect(Collectors.toSet());
 
@@ -204,7 +208,7 @@ public class RouteServiceLogic implements RouteService {
 		if (neighbors.isEmpty() || directNeighbors) {
 			// Iterate over neighbors (nearest distance established by user)
 			neighbors.addAll(
-				transportPoints.parallelStream()
+				transportPoints.stream()
 					.filter(neighbor -> (calculateDistance(point, neighbor) <= maxDistance))
 					.collect(Collectors.toSet())
 			);
@@ -240,7 +244,7 @@ public class RouteServiceLogic implements RouteService {
 			.getAqi();
 
 		// Get touristic points within a radius of 500 meters
-		List<TouristicPoint> nearTouristicPoints = touristicPoints.parallelStream()
+		List<TouristicPoint> nearTouristicPoints = touristicPoints.stream()
 				.filter(touristicPoint -> haversine(touristicPoint.getLatitude(), touristicPoint.getLongitude(),
 						((Point) point).getLatitude(), ((Point) point).getLongitude()) <= 0.5)
 				.collect(Collectors.toList());
@@ -248,7 +252,7 @@ public class RouteServiceLogic implements RouteService {
 		double interestPlaces = 0.0;
 		if (!nearTouristicPoints.isEmpty()) {
 			// Calculate value respect to the number of sites of a given type
-			interestPlaces = preferences.entrySet().parallelStream().reduce(0.0, (sum, preference) -> {
+			interestPlaces = preferences.entrySet().stream().reduce(0.0, (sum, preference) -> {
 				// Get preference type
 				String preferenceName = preference.getKey().substring(preference.getKey().indexOf('_') + 1);
 				// Search the touristic point by category attribute
@@ -321,6 +325,7 @@ public class RouteServiceLogic implements RouteService {
 	
 	private List<TransportPoint> getTransportPoints(List<String> transports, Map<String, PublicTransportLine> lineStops) {
 		
+		// Get actual time & day of week
 		LocalTime currentLocalTime = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime();
 		DayOfWeek currentDayOfWeek = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate().getDayOfWeek();
 				
@@ -333,7 +338,7 @@ public class RouteServiceLogic implements RouteService {
 						PublicTransportPoint publicTransportPoint = (PublicTransportPoint) point;
 						Set<String[]> lines = new HashSet<>(publicTransportPoint.getLines());
 						for (String[] line: lines) {
-							PublicTransportLine publicTransportLine = lineStops.get(point.getType() + "_" + line[0] + "_" + line[1]);
+							PublicTransportLine publicTransportLine = lineStops.get(point.getType() + "_" + line[0] + " [" + line[1] + "]");
 							
 							// Schedule is null & stop doesn't operate right now
 							boolean scheduleNull = false;
@@ -386,7 +391,7 @@ public class RouteServiceLogic implements RouteService {
 		return transportPoints;
 	}
 	
-	private Route setSegments(List<TransportPoint> routePoints, Route route) {
+	private Route setSegments(List<TransportPoint> routePoints, Route route, Map<String, PublicTransportLine> lineStops) {
 		
 		// List of Segments that create the route
 		List<Segment> segmentsRoute = new ArrayList<>();
@@ -396,8 +401,19 @@ public class RouteServiceLogic implements RouteService {
 				"A pie", "foot-walking",
 				"BiciMAD", "cycling-electric",
 				"Bus", "driving-car");
+		// Polyline color for walk & bike
+		Map<String, String> polylineColors = Map.of(
+				"A pie", "#2D2E2D",
+				"BiciMAD", "#FFAD00");
 		// Get mode of transport
 		String transportMode = "";
+		
+		// Distance & duration of the total route
+		double distance = 0.0, duration = 0.0;
+		
+		// Get actual time & day of week
+		LocalTime currentLocalTime = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime();
+		DayOfWeek currentDayOfWeek = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate().getDayOfWeek();
 		
 		// Return a route between two or more locations for a selected profile
 		WebClient client = WebClient.create("https://api.openrouteservice.org");
@@ -475,91 +491,156 @@ public class RouteServiceLogic implements RouteService {
 			// Index of first & last point of segment
 			Integer target = source + points.size() - 1;
 			
-			// For subway and commuter
-			if (!modeTransports.containsKey(transportMode)) {
-				// Add coordinates to be used as a polyline
-				List<Double[]> polylineList = new ArrayList<>();
-				points.forEach(point -> polylineList.add(new Double[] {point.getLatitude(), point.getLongitude()}));
-
-				// Create segment & add it to the rest of segments
-				Segment segment = new Segment(source, target, transportMode, polylineList, "");
-				segment.setLine(!linesList.isEmpty() ? linesList.get(0).substring(0, linesList.get(0).indexOf(' ')) : null);
-				segmentsRoute.add(segment);
-				continue;
-			}
-			
-			// Transform the points into their coordinates
-			StringBuilder coordinates = new StringBuilder();
-			Iterator<TransportPoint> iterator = points.iterator();
-			while (iterator.hasNext()) {
-				TransportPoint point = iterator.next();
-				coordinates.append("[" + point.getLongitude() + "," + point.getLatitude() + "]");
-				if (iterator.hasNext()) 
-					coordinates.append(",");
-			}
-			
-			// Get response
-			ObjectNode response = client.post()
-					.uri("/v2/directions/" + modeTransports.get(transportMode) + "/geojson")
-					.header(HttpHeaders.AUTHORIZATION, "5b3ce3597851110001cf6248079a826553c748d0aed309710623ce33")
-					.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE, "application/geo+json")
-					.contentType(MediaType.APPLICATION_JSON)
-					.body(BodyInserters.fromValue(
-							"{\"coordinates\":[" + coordinates + "],"
-							+ "\"language\":\"es-es\"}"
-							+ "\"preference\":\"shortest\""))
-					.retrieve()
-					.bodyToMono(ObjectNode.class)
-					.block();
-			
-			// Get data of the response
-			JsonNode features = response.get("features");
-			JsonNode properties = features.findValue("properties");	
-			
-			// Get the points to draw the route
-			JsonNode polyline = features.findValue("geometry").findValue("coordinates");
-			List<Double[]> polylineList = new ArrayList<>();
-			for (JsonNode coordinatesNode: polyline) {
-				Double longitude = coordinatesNode.get(0).asDouble();
-				Double latitude = coordinatesNode.get(1).asDouble();
-				polylineList.add(new Double[] {latitude, longitude});
-			}
-			
 			// Create segment 
-			Segment segment = new Segment(source, target, transportMode, polylineList, "");
+			Segment segment = new Segment(source, target, transportMode);
 			
-			// Get distance, duration & segment instructions if not bus
-			if (!transportMode.equals("Bus")) {
-				List<String> stepsMap = new ArrayList<>();
-				double distance = properties.get("summary").get("distance").asDouble() / 1000;
-				double duration = properties.get("summary").get("duration").asDouble() / 60;
-				distance = BigDecimal.valueOf(distance).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
-				duration = Math.round(duration);
+			// Store the coordinates that form the polyline
+			List<Double[]> polylineList = new ArrayList<>();
+			// Distance & duration of the segment
+			double distanceSegment = 0.0, durationSegment = 0.0;
+			
+			if (modeTransports.containsKey(transportMode)) {
+				// Transform the points (longitude/latitude) into their coordinates
+				StringBuilder coordinates = new StringBuilder();
+				Iterator<TransportPoint> iterator = points.iterator();
+				while (iterator.hasNext()) {
+					TransportPoint point = iterator.next();
+					coordinates.append("[" + point.getLongitude() + "," + point.getLatitude() + "]");
+					if (iterator.hasNext()) 
+						coordinates.append(",");
+				}
 				
-				List<JsonNode> stepsList = properties.get("segments").findValues("steps");
+				// Get response
+				ObjectNode response = client.post()
+						.uri("/v2/directions/" + modeTransports.get(transportMode) + "/geojson")
+						.header(HttpHeaders.AUTHORIZATION, "5b3ce3597851110001cf6248079a826553c748d0aed309710623ce33")
+						.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE, "application/geo+json")
+						.contentType(MediaType.APPLICATION_JSON)
+						.body(BodyInserters.fromValue(
+								"{\"coordinates\":[" + coordinates + "],"
+								+ "\"language\":\"es-es\"}"
+								+ "\"preference\":\"shortest\""))
+						.retrieve()
+						.bodyToMono(ObjectNode.class)
+						.block();
+				
+				// Get data of the response
+				JsonNode features = response.get("features");
+				JsonNode properties = features.findValue("properties");	
+				
+				// Get the points to draw the route
+				JsonNode polyline = features.findValue("geometry").findValue("coordinates");
+				for (JsonNode coordinatesNode: polyline) {
+					Double longitude = coordinatesNode.get(0).asDouble();
+					Double latitude = coordinatesNode.get(1).asDouble();
+					polylineList.add(new Double[] {latitude, longitude});
+				}
+				
+				// Get distance & duration
+				distanceSegment = properties.get("summary").get("distance").asDouble();
+				durationSegment = properties.get("summary").get("duration").asDouble();
+				
+				// For bicycle & walk, the steps of the segment
+				if (!transportMode.equals("Bus")) {	
+					List<String> stepsMap = new ArrayList<>();
+					
+					List<JsonNode> stepsList = properties.get("segments").findValues("steps");
+					for (JsonNode steps : stepsList) {
+						for (JsonNode step : steps) {
+							JsonNode way_points = step.get("way_points");
+							Integer first = way_points.get(0).asInt();
+							Integer last = way_points.get(1).asInt();
+							String instruction = step.get("instruction").asText();
+							stepsMap.add(first + "-" + last + ":" + instruction);
+						}
+					}
+					segment.setSteps(stepsMap);
+				}
 
-				for (JsonNode steps : stepsList) {
-					for (JsonNode step : steps) {
-						JsonNode way_points = step.get("way_points");
-						Integer first = way_points.get(0).asInt();
-						Integer last = way_points.get(1).asInt();
-						String instruction = step.get("instruction").asText();
-						stepsMap.add(first + "-" + last + ":" + instruction);
+			}
+			
+			// Color of polyline for the segment
+			String color;
+			
+			if (!linesList.isEmpty()) {
+				PublicTransportLine publicTransportLine = lineStops.get(transportMode + "_" + linesList.get(0));
+				String line = publicTransportLine.getLine();
+				String direction = publicTransportLine.getDirection();
+				String destination = publicTransportLine.getDestination();
+				color = publicTransportLine.getColor();
+								
+				// Type of schedule (frequency/arrival times)
+				char typeSchedule = publicTransportLine.getScheduleType();
+				if (typeSchedule == 'F') {
+					Frequency frequency = (Frequency) publicTransportLine.getStopSchedules().get(currentDayOfWeek.toString());
+					for (var frequencyRanges: frequency.getDayFrequencies().entrySet()) {
+						String[] frequencyTimes = frequencyRanges.getKey().split("-");
+						LocalTime startFrequency = LocalTime.parse(frequencyTimes[0]);
+						LocalTime endFrequency = LocalTime.parse(frequencyTimes[1]);
+						if ( ( startFrequency.isBefore(endFrequency) && ( currentLocalTime.isAfter(startFrequency) && currentLocalTime.isBefore(endFrequency) ) ) 
+								|| ( startFrequency.isAfter(endFrequency) && ( currentLocalTime.isBefore(startFrequency) || currentLocalTime.isAfter(endFrequency) ) ) ) {
+							durationSegment += frequencyRanges.getValue();
+							break;
+						}
+					}
+				} else {
+					String orderLine = ((PublicTransportPoint) points.get(0)).getLines().stream()
+							.filter(lineStop -> lineStop[0].equals(line) && lineStop[1].equals(direction))
+							.map(lineStop -> lineStop[2])
+							.findFirst()
+							.get();
+					Time time = (Time) publicTransportLine.getStopSchedules().get(orderLine); 
+					LocalTime[] arrivalTimes = time.getDayTimes().get(currentDayOfWeek.toString());
+					durationSegment += Arrays.stream(arrivalTimes)
+							.filter(arrivalTime -> arrivalTime.isBefore(currentLocalTime))
+							.map(arrivalTime -> ChronoUnit.SECONDS.between(arrivalTime, currentLocalTime))
+							.min(Long::compareTo).get();
+				}
+				
+				// For public transport stops, except bus add the corresponding info
+				for (TransportPoint point: points) {
+					int orderLine = ((PublicTransportPoint) point).getLines().stream()
+							.filter(lineStop -> lineStop[0].equals(line) && lineStop[1].equals(direction))
+							.map(lineStop -> Integer.parseInt(lineStop[2]))
+							.findFirst()
+							.get();
+					Polyline polylineStop = publicTransportLine.getStopPolylines().get(orderLine);
+					
+					if (polylineStop != null) {
+						durationSegment += polylineStop.getDuration();
+						distanceSegment += polylineStop.getDistance();
+						polylineList.addAll(polylineStop.getCoordinates());
 					}
 				}
 				
-				segment.setDistance(distance);
-				segment.setDuration(duration);
-				segment.setSteps(stepsMap);
+				// Add attributes to the segment
+				segment.setLine(line);
+				segment.setDestination(destination);
+				
 			} else {
-				segment.setLine(!linesList.isEmpty() ? linesList.get(0).substring(0, linesList.get(0).indexOf(' ')) : null);
+				color = polylineColors.get(transportMode);
 			}
-									
-			// Add segment to the segments list
+			
+			// Adjust distance & duration, add both to route general
+			distanceSegment = BigDecimal.valueOf(distanceSegment / 1000).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+			durationSegment = Math.round(durationSegment / 60);
+			distance += distanceSegment;
+			duration += durationSegment;
+			
+			// Add attributes to the segment
+			segment.setPolyline(polylineList);
+			segment.setDistance(distanceSegment);
+			segment.setDuration(durationSegment);
+			segment.setColor(color);
+						
+			// Add segment to the rest of the segments of the route
 			segmentsRoute.add(segment);
+			
 		}
 		
 		// Save route in DataBase
+		route.setDistance(distance);
+		route.setDuration(duration);
 		route.setPoints(routePoints);
 		route.setSegments(segmentsRoute);
 		route = routeRepository.save(route);

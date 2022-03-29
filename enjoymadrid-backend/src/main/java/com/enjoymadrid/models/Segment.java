@@ -58,19 +58,19 @@ public class Segment {
 	private String line;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
+	private String destination;
+	
+	@JsonView(SegmentInterfaces.BasicData.class)
 	private String color;
 		
 	public Segment() {}
 
 	public Segment(@NotNull(message = "Source cannot be null") Integer source,
 			@NotNull(message = "Target cannot be null") Integer target,
-			@NotBlank(message = "Mode of transport cannot be empty") String transportMode, 
-			List<Double[]> polyline, String color) {
+			@NotBlank(message = "Mode of transport cannot be empty") String transportMode) {
 		this.source = source;
 		this.target = target;
 		this.transportMode = transportMode;
-		this.polyline = polyline;
-		this.color = color;
 	}
 
 	public Long getId() {
@@ -143,6 +143,14 @@ public class Segment {
 
 	public void setLine(String line) {
 		this.line = line;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 
 	public String getColor() {
