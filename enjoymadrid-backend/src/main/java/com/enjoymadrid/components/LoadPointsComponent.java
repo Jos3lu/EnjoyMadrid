@@ -579,8 +579,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Map<String, PublicTransportPoint> nextStops = new HashMap<>();
 				// Get the neighboring points of the current
 				transportPoint.getLines().forEach(line -> {
-					line[2] = Integer.toString(Integer.parseInt(line[2]) + 1);
-					String lineNextStop = line[0] + "_" + line[1] + "_" + line[2];
+					String lineNextStop = line[0] + "_" + line[1] + "_" + (Integer.parseInt(line[2]) + 1);
 					PublicTransportPoint nextStop = linePublicTransportPoints.get(lineNextStop);
 					if (nextStop != null)
 						nextStops.put(line[0] + " [" + line[1] + "]", nextStop);

@@ -578,7 +578,7 @@ public class RouteServiceLogic implements RouteService {
 						LocalTime startFrequency = LocalTime.parse(frequencyTimes[0]);
 						LocalTime endFrequency = LocalTime.parse(frequencyTimes[1]);
 						if ( ( startFrequency.isBefore(endFrequency) && ( currentLocalTime.isAfter(startFrequency) && currentLocalTime.isBefore(endFrequency) ) ) 
-								|| ( startFrequency.isAfter(endFrequency) && ( currentLocalTime.isBefore(startFrequency) || currentLocalTime.isAfter(endFrequency) ) ) ) {
+								|| ( startFrequency.isAfter(endFrequency) && ( currentLocalTime.isAfter(startFrequency) || currentLocalTime.isBefore(endFrequency) ) ) ) {
 							durationSegment += frequencyRanges.getValue();
 							break;
 						}
