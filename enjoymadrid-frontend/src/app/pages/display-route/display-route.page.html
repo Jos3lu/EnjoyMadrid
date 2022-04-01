@@ -26,7 +26,7 @@
       <div class="ion-padding-horizontal ion-text-center margin-vertical">
         <span *ngFor="let segment of route.segments; let i = index; let last = last">
           <img class="img-size" [src]="'./assets/' + segmentsVisual[i].icon">
-          <ion-badge mode="md" style="margin-left: 3px;" *ngIf="segment.line" [ngStyle]="{'background-color': segmentsVisual[i].color}">
+          <ion-badge mode="md" style="margin-left: 3px;" *ngIf="segment.line" [ngStyle]="{'background-color': segment.color}">
             {{segment.line}}
           </ion-badge>
           <ion-icon class="separator" *ngIf="!last" name="chevron-forward-outline"></ion-icon>
@@ -45,7 +45,7 @@
           <!-- Mode of transport & intermediate stops or instructions (distance & duration) of the segment -->
           <div [ngStyle]="{'border-left': segmentsVisual[i].dashed ? '5px dotted' : '2px solid', 
             'margin-left': segmentsVisual[i].dashed ? '4px' : '5px',
-            'border-color': segmentsVisual[i].color}" 
+            'border-color': segment.color}" 
             class="vertical-line">
             <!-- Mode of transport represented by an icon -->
             <img class="img-size" [src]="'./assets/' + segmentsVisual[i].icon">
@@ -59,7 +59,7 @@
                     <ion-label class="text-small">
                       {{
                         (segment.distance < 1 ? segment.distance * 1000 + ' m' : segment.distance + ' km') + ', alrededor de ' +
-                        segment.duration + ' min'
+                        (segment.duration < 60 ? segment.duration : segment.duration / 60 + ' h' + segment.duration % 60) + ' min'
                       }}
                     </ion-label>
                   </ion-item>
@@ -75,14 +75,14 @@
                 <ion-label class="text-small">
                   {{
                     (segment.distance < 1 ? segment.distance * 1000 + ' m' : segment.distance + ' km') + ', alrededor de ' +
-                    segment.duration + ' min'
+                    (segment.duration < 60 ? segment.duration : segment.duration / 60 + ' h' + segment.duration % 60) + ' min'
                   }}
                 </ion-label>
               </ng-template>
             </ng-template>
             <ng-template #stations>
               <ion-label class="text-small">
-                <ion-badge mode="md" style="margin-left: 3px;" *ngIf="segment.line" [ngStyle]="{'background-color': segmentsVisual[i].color}">
+                <ion-badge mode="md" style="margin-left: 3px;" *ngIf="segment.line" [ngStyle]="{'background-color': segment.color}">
                   {{segment.line}}
                 </ion-badge>
               </ion-label>

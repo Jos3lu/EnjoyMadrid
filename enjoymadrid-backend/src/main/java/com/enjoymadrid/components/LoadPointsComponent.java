@@ -547,7 +547,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 							for (JsonNode point: polylineCoords) {
 								Double longitudePoint = point.get(0).asDouble();
 								Double latitudePoint = point.get(1).asDouble();
-								coordinates.add(new Double[] {longitudePoint, latitudePoint});
+								coordinates.add(new Double[] {latitudePoint, longitudePoint});
 							}
 							
 							Map<Integer, Polyline> stopPolylines = polylinesPublicTransportPoints.get(lineName + " [" + direction + "]");

@@ -592,8 +592,8 @@ public class RouteServiceLogic implements RouteService {
 					Time time = (Time) publicTransportLine.getStopSchedules().get(orderLine); 
 					LocalTime[] arrivalTimes = time.getDayTimes().get(currentDayOfWeek.toString());
 					durationSegment += Arrays.stream(arrivalTimes)
-							.filter(arrivalTime -> arrivalTime.isBefore(currentLocalTime))
-							.map(arrivalTime -> ChronoUnit.SECONDS.between(arrivalTime, currentLocalTime))
+							.filter(arrivalTime -> arrivalTime.isAfter(currentLocalTime))
+							.map(arrivalTime -> ChronoUnit.SECONDS.between(currentLocalTime, arrivalTime))
 							.min(Long::compareTo).get();
 				}
 				
