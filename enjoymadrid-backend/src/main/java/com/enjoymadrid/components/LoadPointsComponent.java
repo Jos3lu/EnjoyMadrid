@@ -556,7 +556,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 							}
 							// Duration in seconds
 							Double duration = distance / (speed * (1000.0 / 3600.0));
-							stopPolylines.put(order, new Polyline(duration, distance, coordinates));
+							stopPolylines.put(order - 1, new Polyline(duration, distance, coordinates));
 							polylinesPublicTransportPoints.put(lineName + " [" + direction + "]", stopPolylines);
 						}
 					}
@@ -613,7 +613,10 @@ public class LoadPointsComponent implements CommandLineRunner {
 				if (!weekSchedule.isNull()) {
 					int i = 1;
 					for (JsonNode schedules: weekSchedule) {
-						if (schedules.asText().isBlank()) continue;
+						if (schedules.asText().isBlank()) {
+							i++;
+							continue;
+						}
 						// Get day & schedule service
 						String[] scheduleDay = schedules.asText().split(" - ");
 						LocalTime startSchedule = LocalTime.parse(scheduleDay[0]);

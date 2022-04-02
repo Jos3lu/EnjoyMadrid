@@ -3713,16 +3713,16 @@
 	},
 	{ 
 		"id": 421, "line_headsign": "C.S. Castroviejo", "line": "SE727", "direction": "1", "line_color": "#0178BC", 
-		"week_schedule": [ "08:00 - 19:30", "08:00 - 19:30", "08:00 - 19:30", "08:00 - 19:30", "08:00 - 19:30" ], 
+		"week_schedule": [ "08:00 - 19:30", "08:00 - 19:30", "08:00 - 19:30", "08:00 - 19:30", "08:00 - 19:30", "", "" ], 
 		"week_frequencies": [ 
-			{ "week_day": "MONDAY-SUNDAY", "frequencies": [ { "start_time": "08:00:00", "end_time": "19:30:00", "frequency": 1800 } ] } 
+			{ "week_day": "MONDAY-FRIDAY", "frequencies": [ { "start_time": "08:00:00", "end_time": "19:30:00", "frequency": 1800 } ] } 
 		] 
 	},
 	{ 
 		"id": 422, "line_headsign": "C.S. Villaamil", "line": "SE727", "direction": "2", "line_color": "#0178BC", 
-		"week_schedule": [ "08:15 - 19:45", "08:15 - 19:45", "08:15 - 19:45", "08:15 - 19:45", "08:15 - 19:45" ], 
+		"week_schedule": [ "08:15 - 19:45", "08:15 - 19:45", "08:15 - 19:45", "08:15 - 19:45", "08:15 - 19:45", "", "" ], 
 		"week_frequencies": [ 
-			{ "week_day": "MONDAY-SUNDAY", "frequencies": [ { "start_time": "08:15:00", "end_time": "19:45:00", "frequency": 1800 } ] } 
+			{ "week_day": "MONDAY-FRIDAY", "frequencies": [ { "start_time": "08:15:00", "end_time": "19:45:00", "frequency": 1800 } ] } 
 		] 
 	},
 	{ 
