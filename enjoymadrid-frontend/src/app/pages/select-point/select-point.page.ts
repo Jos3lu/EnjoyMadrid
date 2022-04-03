@@ -38,11 +38,12 @@ export class SelectPointPage implements OnInit {
     // OpenStreetMap
     // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
     const standard = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' + 
+      '&copy; <a href="https://carto.com/attributions#basemaps">CARTO</a>'
     });
 
     const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      attribution: '&copy; Esri'
+      attribution: '&copy; <a href="https://www.esri.com/en-us/home"> Esri</a>'
     });
 
     const layers = {

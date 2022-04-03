@@ -598,8 +598,9 @@ public class RouteServiceLogic implements RouteService {
 				}
 				
 				// For public transport stops, except bus add the corresponding info
-				for (TransportPoint point: points) {
-					int orderLine = ((PublicTransportPoint) point).getLines().stream()
+				for (int k = 0; k < points.size(); k++) {
+					if (k == 0) continue;
+					int orderLine = ((PublicTransportPoint) points.get(k)).getLines().stream()
 							.filter(lineStop -> lineStop[0].equals(line) && lineStop[1].equals(direction))
 							.map(lineStop -> Integer.parseInt(lineStop[2]))
 							.findFirst()

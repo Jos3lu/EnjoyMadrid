@@ -26,7 +26,8 @@
       <div class="ion-padding-horizontal ion-text-center margin-vertical">
         <span *ngFor="let segment of route.segments; let i = index; let last = last">
           <img class="img-size" [src]="'./assets/' + segmentsVisual[i].icon">
-          <ion-badge mode="md" style="margin-left: 3px;" *ngIf="segment.line" [ngStyle]="{'background-color': segment.color}">
+          <ion-badge mode="md" style="margin-left: 3px;" *ngIf="segment.line"
+            [ngStyle]="{'background-color': segment.color}">
             {{segment.line}}
           </ion-badge>
           <ion-icon class="separator" *ngIf="!last" name="chevron-forward-outline"></ion-icon>
@@ -45,47 +46,74 @@
           <!-- Mode of transport & intermediate stops or instructions (distance & duration) of the segment -->
           <div [ngStyle]="{'border-left': segmentsVisual[i].dashed ? '5px dotted' : '2px solid', 
             'margin-left': segmentsVisual[i].dashed ? '4px' : '5px',
-            'border-color': segment.color}" 
-            class="vertical-line">
+            'border-color': segment.color}" class="vertical-line">
             <!-- Mode of transport represented by an icon -->
             <img class="img-size" [src]="'./assets/' + segmentsVisual[i].icon">
-            <div *ngIf="segment.transportMode === 'A pie' || segment.transportMode === 'BiciMAD';
-              then steps; else stations"></div>
-            <ng-template #steps>
+
+            <div *ngIf="segmentsVisual[i].steps; else stations">
               <!-- Instructions if walk or bike -->
               <ion-accordion-group *ngIf="segment.steps.length > 0; else noSteps" style="padding-left: 0px;">
                 <ion-accordion toggle-icon-slot="start">
                   <ion-item slot="header">
-                    <ion-label class="text-small">
-                      {{
-                        (segment.distance < 1 ? segment.distance * 1000 + ' m' : segment.distance + ' km') + ', alrededor de ' +
-                        (segment.duration < 60 ? segment.duration : segment.duration / 60 + ' h' + segment.duration % 60) + ' min'
-                      }}
+                    <ion-label class="text-small ion-text-wrap">
+                      {{ (segment.distance < 1 ? segment.distance * 1000 + ' m' : segment.distance + ' km' )
+                        + ', alrededor de ' + (segment.duration < 60 ? segment.duration : segment.duration / 60 + ' h' +
+                        segment.duration % 60) + ' min' }} 
                     </ion-label>
                   </ion-item>
-  
+
                   <ion-list slot="content">
                     <ion-item *ngFor="let step of segmentsSteps.get(i)">
-                      <ion-label (click)="zoomToStep(step.first, step.last, i)" class="text-small ion-text-wrap pointer">{{step.instruction}}</ion-label>
+                      <ion-label (click)="zoomToStep(step.first, step.last, i)"
+                        class="text-small ion-text-wrap pointer">{{step.instruction}}</ion-label>
                     </ion-item>
                   </ion-list>
                 </ion-accordion>
               </ion-accordion-group>
               <ng-template #noSteps>
-                <ion-label class="text-small">
-                  {{
-                    (segment.distance < 1 ? segment.distance * 1000 + ' m' : segment.distance + ' km') + ', alrededor de ' +
-                    (segment.duration < 60 ? segment.duration : segment.duration / 60 + ' h' + segment.duration % 60) + ' min'
-                  }}
+                <ion-label class="text-small ion-text-wrap accordion-content">
+                  {{ (segment.distance < 1 ? segment.distance * 1000 + ' m' : segment.distance + ' km' )
+                    + ', alrededor de ' + (segment.duration < 60 ? segment.duration : segment.duration / 60 + ' h' +
+                    segment.duration % 60) + ' min' }} 
                 </ion-label>
               </ng-template>
-            </ng-template>
+            </div>
             <ng-template #stations>
               <ion-label class="text-small">
-                <ion-badge mode="md" style="margin-left: 3px;" *ngIf="segment.line" [ngStyle]="{'background-color': segment.color}">
+                <ion-badge mode="md" style="margin-left: 3px;" *ngIf="segment.line"
+                  [ngStyle]="{'background-color': segment.color}">
                   {{segment.line}}
                 </ion-badge>
+                <span class="destination-align">{{segment.destination}}</span>
               </ion-label>
+              <!-- Intermediate stops for public transport stations -->
+              <ion-accordion-group *ngIf="checkIntermediateStops(segment); else noStops" style="padding-left: 0px;">
+                <ion-accordion toggle-icon-slot="start">
+                  <ion-item slot="header">
+                    <ion-label class="text-small ion-text-wrap">
+                      {{ (segment.target - segment.source) + ' paradas, alrededor de ' 
+                      + (segment.duration < 60 ? segment.duration : segment.duration / 60 + ' h' +
+                      segment.duration % 60) + ' min (' 
+                      + (segment.distance < 1 ? segment.distance * 1000 + ' m)' : segment.distance + ' km)' ) 
+                      }} 
+                    </ion-label>
+                  </ion-item>
+
+                  <ion-list lines="none" slot="content">
+                    <ion-item *ngFor="let stop of intermediateStopsNames(segment.source, segment.target)">
+                      <ion-label class="text-small ion-text-wrap">{{stop}}</ion-label>
+                    </ion-item>
+                  </ion-list>
+                </ion-accordion>
+              </ion-accordion-group>
+              <ng-template #noStops>
+                <ion-label class="text-small ion-text-wrap accordion-content">
+                  {{ 
+                    'Alrededor de ' + (segment.duration < 60 ? segment.duration : segment.duration / 60 + ' h' + segment.duration % 60) 
+                    + ' min (' + (segment.distance < 1 ? segment.distance * 1000 + ' m)' : segment.distance + ' km)' ) 
+                  }} 
+                </ion-label>
+              </ng-template>
             </ng-template>
           </div>
           <span *ngIf="last">
