@@ -19,19 +19,15 @@ public class Polyline {
 	
 	@NotNull(message = "Duration cannot be empty")
 	private Double duration;
-	
-	@NotNull(message = "Distance cannot be empty")
-	private Double distance;
-	
+		
 	@ElementCollection
 	private List<Double[]> coordinates = new ArrayList<>();
 	
 	public Polyline() {
 	}
 
-	public Polyline(Double duration, Double distance, List<Double[]> coordinates) {
+	public Polyline(Double duration, List<Double[]> coordinates) {
 		this.duration = duration;
-		this.distance = distance;
 		this.coordinates = coordinates;
 	}
 
@@ -49,14 +45,6 @@ public class Polyline {
 
 	public void setDuration(Double duration) {
 		this.duration = duration;
-	}
-
-	public Double getDistance() {
-		return distance;
-	}
-
-	public void setDistance(Double distance) {
-		this.distance = distance;
 	}
 
 	public List<Double[]> getCoordinates() {

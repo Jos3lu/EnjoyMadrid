@@ -2,7 +2,7 @@ export interface SegmentModel {
     id?: number;
     source: number;
     target: number;
-    distance: number;
+    distance?: number;
     duration: number;
     transportMode: string;
     steps?: string[];

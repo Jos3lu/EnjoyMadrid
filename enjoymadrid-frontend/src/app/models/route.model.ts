@@ -11,7 +11,6 @@ export interface RouteModel {
     destination: PointModel;
     date?: Date; 
     points?: PointModel[];
-    distance?: number;
     duration?: number;
     segments?: SegmentModel[];
 }

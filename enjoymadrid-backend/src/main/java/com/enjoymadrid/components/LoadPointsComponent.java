@@ -556,7 +556,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 							}
 							// Duration in seconds
 							Double duration = distance / (speed * (1000.0 / 3600.0));
-							stopPolylines.put(order, new Polyline(duration, distance, coordinates));
+							stopPolylines.put(order, new Polyline(duration, coordinates));
 							polylinesPublicTransportPoints.put(lineName + " [" + direction + "]", stopPolylines);
 						}
 					}

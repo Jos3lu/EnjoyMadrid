@@ -33,7 +33,6 @@ public class Segment {
 	private Integer target;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
-	@NotNull(message = "Distance cannot be null")
 	private Double distance;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)

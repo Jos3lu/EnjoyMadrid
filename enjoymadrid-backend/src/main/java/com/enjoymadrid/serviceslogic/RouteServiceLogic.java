@@ -409,7 +409,7 @@ public class RouteServiceLogic implements RouteService {
 		String transportMode = "";
 		
 		// Distance & duration of the total route
-		double distance = 0.0, duration = 0.0;
+		double duration = 0.0;
 		
 		// Get actual time & day of week
 		LocalTime currentLocalTime = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime();
@@ -452,7 +452,7 @@ public class RouteServiceLogic implements RouteService {
 							if (linesList.isEmpty()) {
 								linesList = nextLines;
 							}
-							// Check if transshipment or similar is done
+							// Check if transfer between stop to different line or similar is done
 							nextLines.retainAll(linesList);
 							if (!nextLines.isEmpty() ) {
 								linesList = nextLines;
@@ -497,7 +497,7 @@ public class RouteServiceLogic implements RouteService {
 			// Store the coordinates that form the polyline
 			List<Double[]> polylineList = new ArrayList<>();
 			// Distance & duration of the segment
-			double distanceSegment = 0.0, durationSegment = 0.0;
+			double durationSegment = 0.0;
 			
 			if (modeTransports.containsKey(transportMode)) {
 				// Transform the points (longitude/latitude) into their coordinates
@@ -537,8 +537,12 @@ public class RouteServiceLogic implements RouteService {
 				}
 				
 				// Get distance & duration
-				distanceSegment = properties.get("summary").get("distance").asDouble();
+				double distanceSegment = properties.get("summary").get("distance").asDouble();
 				durationSegment = properties.get("summary").get("duration").asDouble();
+				
+				// Adjust distance, add to segment
+				distanceSegment = BigDecimal.valueOf(distanceSegment / 1000).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+				segment.setDistance(distanceSegment);
 				
 				// For bicycle & walk, the steps of the segment
 				if (!transportMode.equals("Bus")) {	
@@ -609,7 +613,6 @@ public class RouteServiceLogic implements RouteService {
 					
 					if (polylineStop != null) {
 						durationSegment += polylineStop.getDuration();
-						distanceSegment += polylineStop.getDistance();
 						polylineList.addAll(polylineStop.getCoordinates());
 					}
 				}
@@ -622,15 +625,12 @@ public class RouteServiceLogic implements RouteService {
 				color = polylineColors.get(transportMode);
 			}
 			
-			// Adjust distance & duration, add both to route general
-			distanceSegment = BigDecimal.valueOf(distanceSegment / 1000).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+			// Adjust duration, add to route general
 			durationSegment = Math.round(durationSegment / 60);
-			distance += distanceSegment;
 			duration += durationSegment;
 			
 			// Add attributes to the segment
 			segment.setPolyline(polylineList);
-			segment.setDistance(distanceSegment);
 			segment.setDuration(durationSegment);
 			segment.setColor(color);
 						
@@ -640,7 +640,6 @@ public class RouteServiceLogic implements RouteService {
 		}
 		
 		// Save route in DataBase
-		route.setDistance(distance);
 		route.setDuration(duration);
 		route.setPoints(routePoints);
 		route.setSegments(segmentsRoute);
