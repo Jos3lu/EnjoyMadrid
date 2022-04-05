@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { RouteModel } from 'src/app/models/route.model';
 import { RouteService } from 'src/app/services/route/route.service';
@@ -26,15 +27,22 @@ export class CreateRoutePage implements OnInit {
   destinationEmpty: boolean;
   // Submit button is disabled
   disabled: boolean;
+  // Show/hide loading route spinner
+  loadingRoute: boolean;
 
   constructor(
     private sharedService: SharedService,
     private routeService: RouteService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.initRoute();
+  }
+
+  ionViewWillEnter() {
+    this.ngOnInit();
   }
 
   initRoute() {
@@ -80,6 +88,7 @@ export class CreateRoutePage implements OnInit {
     ];
 
     this.disabled = false;
+    this.loadingRoute = false;
 
   }
 
@@ -147,6 +156,9 @@ export class CreateRoutePage implements OnInit {
 
   async onCreateRoute() {
 
+    // Show loading spinner while creating route
+    this.loadingRoute = true;
+
     // Transform preferences from Star rating to Map
     this.route.preferences = this.preferences.reduce((map, preference) => {
       map[preference.category + '_' +  preference.name] = preference.value;
@@ -164,12 +176,16 @@ export class CreateRoutePage implements OnInit {
 
     this.routeService.createRoute(this.route).subscribe(
       (route: any) => {
+        this.loadingRoute = false;
         this.sharedService.setRoute(route);
+        this.router.navigate(['/display-route']);
       },
       error => {
-        this.sharedService.handleError(error);
-        if (error.error.message) {
+        this.loadingRoute = false;
+        if (error.error?.message) {
           this.sharedService.showToast(error.error?.message, 3000);
+        } else {
+          this.sharedService.showToast('No se ha podido crear la ruta', 3000);
         }
       }
     );

@@ -239,9 +239,9 @@ public class RouteServiceLogic implements RouteService {
 		double minDistanceToDestination = calculateDistance(point, destination);
 
 		// Get air quality level from nearest station
-		int aqiStation = Collections.min(airQualityPoints, Comparator.comparing(station -> 
-			haversine(station.getLatitude(), station.getLongitude(), ((Point) point).getLatitude(), ((Point) point).getLongitude())))
-			.getAqi();
+		AirQualityPoint aqiStation = Collections.min(airQualityPoints, Comparator.comparing(station -> 
+			haversine(station.getLatitude(), station.getLongitude(), ((Point) point).getLatitude(), ((Point) point).getLongitude())));
+		int aqi = aqiStation != null ? aqiStation.getAqi() : 1;
 
 		// Get touristic points within a radius of 500 meters
 		List<TouristicPoint> nearTouristicPoints = touristicPoints.stream()
@@ -288,7 +288,7 @@ public class RouteServiceLogic implements RouteService {
 		
 		if (interestPlaces == 0.0) interestPlaces = 1.0;
 		
-		return (minDistanceToDestination * aqiStation) / interestPlaces;
+		return (minDistanceToDestination * aqi) / interestPlaces;
 	}
 		
 	private <P extends Comparable<P>> double calculateDistance(P origin, P destination) {

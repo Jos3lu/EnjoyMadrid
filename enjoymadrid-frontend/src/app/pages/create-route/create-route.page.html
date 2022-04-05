@@ -72,7 +72,8 @@
             </div>
           </ion-list>
 
-          <div class="ion-text-end ion-margin-top">
+          <div class="ion-margin-top flex-div ion-align-items-center ion-align-self-end ion-justify-content-end">
+            <ion-spinner *ngIf="loadingRoute" name="bubbles"></ion-spinner>
             <ion-button [disabled]="!routeForm.form.valid || disabled" type="submit">Crear Ruta</ion-button>
           </div>
         </form>
