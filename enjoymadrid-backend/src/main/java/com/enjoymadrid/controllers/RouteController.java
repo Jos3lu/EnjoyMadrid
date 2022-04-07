@@ -1,5 +1,6 @@
 package com.enjoymadrid.controllers;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -10,7 +11,6 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,21 +33,21 @@ public class RouteController {
 		this.routeService = routeService;
 	}
 
-	@GetMapping("/users/{userId}/routes")
+	@GetMapping("/users/routes")
 	@JsonView(UserInterfaces.RouteData.class)
-	public ResponseEntity<List<Route>> getUserRoutes(@PathVariable Long userId) {
-		List<Route> routes = this.routeService.getUserRoutes(userId);
-		return routes.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(routes);
+	public ResponseEntity<List<Route>> getUserRoutes(Principal principal) {
+		return ResponseEntity.ok(this.routeService.getUserRoutes(principal != null ? principal.getName() : null));
 	}
 	
 	@PostMapping("/routes")
 	@JsonView(RouteInterfaces.GeneralData.class)
-	public ResponseEntity<Route> createRoute(@Valid @RequestBody RouteDto routeDto) {
+	public ResponseEntity<Route> createRoute(Principal principal, @Valid @RequestBody RouteDto routeDto) {
 		LocalDate date = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate();
 		Route route = new Route(routeDto.getName(), routeDto.getOrigin(), routeDto.getDestination(),
 				routeDto.getMaxDistance(), routeDto.getTransports(), routeDto.getPreferences(), date);
-		route = this.routeService.createRoute(route);
-		return new ResponseEntity<>(route, HttpStatus.CREATED);
+		return new ResponseEntity<>(this.routeService.createRoute(route, principal != null ? principal.getName() : null), HttpStatus.CREATED);
 	}
+	
+	// Remove route
 	
 }

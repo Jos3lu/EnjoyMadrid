@@ -9,8 +9,8 @@ import com.enjoymadrid.models.Route;
 @Service
 public interface RouteService {
 
-	public List<Route> getUserRoutes(Long userId);
-	
-	public Route createRoute(Route route);
+	public List<Route> getUserRoutes(String username);
+		
+	public Route createRoute(Route route, String username);
 	
 }

@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -35,6 +36,7 @@ import com.enjoymadrid.models.repositories.RouteRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
 import com.enjoymadrid.models.repositories.UserRepository;
+import com.enjoymadrid.components.UserComponent;
 import com.enjoymadrid.models.AirQualityPoint;
 import com.enjoymadrid.models.BicycleTransportPoint;
 import com.enjoymadrid.models.Frequency;
@@ -56,6 +58,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @Service
 public class RouteServiceLogic implements RouteService {
 	
+	private final UserComponent userComponent;
 	private final UserRepository userRepository;
 	private final RouteRepository routeRepository;
 	private final TransportPointRepository transportPointRepository;
@@ -63,10 +66,11 @@ public class RouteServiceLogic implements RouteService {
 	private final TouristicPointRepository touristicPointRepository;
 	private final AirQualityPointRepository airQualityPointRepository;
 	
-	public RouteServiceLogic(RouteRepository routeRepository, UserRepository userRepository, 
+	public RouteServiceLogic(RouteRepository routeRepository, UserComponent userComponent, UserRepository userRepository, 
 			TransportPointRepository transportPointRepository, PublicTransportLineRepository publicTransportLineRepository, 
 			TouristicPointRepository touristicPointRepository, AirQualityPointRepository airQualityPointRepository) {
 		this.routeRepository = routeRepository;
+		this.userComponent = userComponent;
 		this.userRepository = userRepository;
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;
@@ -75,13 +79,17 @@ public class RouteServiceLogic implements RouteService {
 	}
 
 	@Override
-	public List<Route> getUserRoutes(Long userId) {
-		User user = this.userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-		return user.getRoutes();
+	public List<Route> getUserRoutes(String username) {
+		if (username != null) {
+			User user = this.userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+			return user.getRoutes();
+		}
+		
+		return userComponent.getRoutes();
 	}
-
+	
 	@Override
-	public Route createRoute(Route route) {
+	public Route createRoute(Route route, String username) {
 		
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
@@ -89,7 +97,7 @@ public class RouteServiceLogic implements RouteService {
 		origin.setType("");
 		destination.setType("");
 		// Walking distance to the next transport point
-		Double maxDistance = route.getMaxDistance() * 0.8;
+		Double maxDistance = route.getMaxDistance() * 0.7;
 		// User's interests
 		Map<String, Integer> preferences = route.getPreferences();
 		
@@ -106,6 +114,17 @@ public class RouteServiceLogic implements RouteService {
 				
 		route = setSegments(routePoints, route, lineStops);
 
+		if (username != null) {
+			Optional<User> user = this.userRepository.findByUsername(username);
+			if (user.isPresent()) {
+				route = this.routeRepository.save(route);
+				user.get().getRoutes().add(route);
+				this.userRepository.save(user.get());
+			}
+		} else {
+			userComponent.getRoutes().add(route);
+		}
+		
 		return route;
 	}
 			
@@ -643,7 +662,6 @@ public class RouteServiceLogic implements RouteService {
 		route.setDuration(duration);
 		route.setPoints(routePoints);
 		route.setSegments(segmentsRoute);
-		route = routeRepository.save(route);
 		
 		return route;
 	}
