@@ -10,16 +10,17 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.enjoymadrid.models.dtos.RouteDto;
 import com.enjoymadrid.models.interfaces.RouteInterfaces;
-import com.enjoymadrid.models.interfaces.UserInterfaces;
 import com.enjoymadrid.models.Route;
+import com.enjoymadrid.models.dtos.RouteResponseDto;
 import com.enjoymadrid.services.RouteService;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -33,21 +34,25 @@ public class RouteController {
 		this.routeService = routeService;
 	}
 
-	@GetMapping("/users/routes")
-	@JsonView(UserInterfaces.RouteData.class)
+	@GetMapping("/routes")
+	@JsonView(RouteInterfaces.RouteData.class)
 	public ResponseEntity<List<Route>> getUserRoutes(Principal principal) {
 		return ResponseEntity.ok(this.routeService.getUserRoutes(principal != null ? principal.getName() : null));
 	}
 	
 	@PostMapping("/routes")
-	@JsonView(RouteInterfaces.GeneralData.class)
-	public ResponseEntity<Route> createRoute(Principal principal, @Valid @RequestBody RouteDto routeDto) {
+	@JsonView(RouteInterfaces.RouteResponseData.class)
+	public ResponseEntity<RouteResponseDto> createRoute(Principal principal, @Valid @RequestBody Route route) {
 		LocalDate date = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate();
-		Route route = new Route(routeDto.getName(), routeDto.getOrigin(), routeDto.getDestination(),
-				routeDto.getMaxDistance(), routeDto.getTransports(), routeDto.getPreferences(), date);
+		route.setDate(date);
 		return new ResponseEntity<>(this.routeService.createRoute(route, principal != null ? principal.getName() : null), HttpStatus.CREATED);
 	}
 	
-	// Remove route
+	@DeleteMapping("/routes/{routeId}")
+	public ResponseEntity<Void> deleteRoute(Principal principal, @PathVariable Long routeId) {
+		this.routeService.deleteRoute(routeId, principal != null ? principal.getName() : null);
+		return ResponseEntity.ok().build();
+	}
+	
 	
 }

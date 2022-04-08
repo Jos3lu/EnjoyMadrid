@@ -5,7 +5,6 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,18 +31,6 @@ public class UserController {
 		this.userService = userService;
 	}
 		
-	@GetMapping("/users/{userId}")
-	@JsonView(UserInterfaces.ExtendData.class)
-	public ResponseEntity<User> getUser(@PathVariable Long userId) {
-		return ResponseEntity.ok(this.userService.getUser(userId));
-	}
-	
-	@GetMapping("/users")
-	@JsonView(UserInterfaces.UsernameData.class)
-	public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
-		return ResponseEntity.ok(this.userService.getUserByUsername(username));
-	}
-		
 	@PostMapping("/signup")
 	public ResponseEntity<Void> createUser(@Valid @RequestBody UserCreateDto userDto) {
 		User user = new User(userDto.getName(), userDto.getUsername(), userDto.getPassword());
@@ -52,7 +39,7 @@ public class UserController {
 	}
 		
 	@PutMapping("/users/{userId}")
-	@JsonView(UserInterfaces.ExtendData.class)
+	@JsonView(UserInterfaces.UserData.class)
 	public ResponseEntity<User> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateDto updatedUserDto) {
 		User updatedUser = new User(updatedUserDto.getName(), updatedUserDto.getUsername(), updatedUserDto.getPassword());
 		return ResponseEntity.ok(this.userService.updateUser(userId, updatedUser, updatedUserDto.getOldPassword()));

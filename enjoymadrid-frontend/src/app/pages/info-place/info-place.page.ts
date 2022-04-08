@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { PointModel } from 'src/app/models/point-model';
+import { PointModel } from 'src/app/models/point.model';
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import SwiperCore, { Autoplay, Navigation, Pagination, SwiperOptions, EffectCoverflow } from 'swiper';

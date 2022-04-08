@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.enjoymadrid.models.RefreshToken;
 import com.enjoymadrid.models.User;
-import com.enjoymadrid.models.dtos.RefreshTokenRequest;
-import com.enjoymadrid.models.dtos.RefreshTokenResponse;
+import com.enjoymadrid.models.dtos.RefreshTokenRequestDto;
+import com.enjoymadrid.models.dtos.RefreshTokenResponseDto;
 import com.enjoymadrid.models.dtos.SignInRequestDto;
 import com.enjoymadrid.models.dtos.SignInResponseDto;
 import com.enjoymadrid.security.jwt.JwtUtilityToken;
@@ -67,7 +67,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/refreshtoken")
-	public ResponseEntity<RefreshTokenResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+	public ResponseEntity<RefreshTokenResponseDto> refreshToken(@Valid @RequestBody RefreshTokenRequestDto refreshTokenRequest) {
 		String refreshToken = refreshTokenRequest.getRefreshToken();
 		
 		RefreshToken refreshTokenClass = this.refreshTokenService.findByRefreshToken(refreshToken);
@@ -76,7 +76,7 @@ public class AuthController {
 		String username = refreshTokenClass.getUser().getUsername();
 		String token = jwtUtilityToken.generateTokenFromUsername(username);
 		
-		return ResponseEntity.ok(new RefreshTokenResponse(token, refreshToken));
+		return ResponseEntity.ok(new RefreshTokenResponseDto(token, refreshToken));
 	}
 
 }

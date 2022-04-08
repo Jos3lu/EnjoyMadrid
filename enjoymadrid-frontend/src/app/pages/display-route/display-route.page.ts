@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { ModalController, Platform } from '@ionic/angular';
 import { trigger, style, animate, transition } from '@angular/animations';
-import { RouteModel } from 'src/app/models/route.model';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { LineString, MultiLineString } from 'geojson';
 import { Router } from '@angular/router';
+import { RouteResponseModel } from 'src/app/models/route-response.model';
 
 @Component({
   selector: 'app-display-route',
@@ -32,7 +32,7 @@ export class DisplayRoutePage implements OnInit {
   // Close side menu when user click button
   isOpen: boolean;
   // Route to view in the map
-  route: RouteModel
+  routeResponse: RouteResponseModel;
   // Segment highlighted & zoomed when instruction is selected
   stepSelected: L.Polyline;
   // Steps/instructions of walk & bike 
@@ -43,6 +43,9 @@ export class DisplayRoutePage implements OnInit {
   startTime: Date;
   // End time
   endTime: Date;
+  // Origin & destination points of the route
+  origin: string;
+  destination: string;
 
   constructor(
     private platform: Platform,
@@ -69,15 +72,15 @@ export class DisplayRoutePage implements OnInit {
     // Init segmentsVisual
     this.segmentsVisual = [];
 
-    this.route = this.sharedService.getRoute();
+    this.routeResponse = this.sharedService.getRoute();
     this.sharedService.setRoute(undefined);
-    if (!this.route) {
+    if (!this.routeResponse) {
       this.sharedService.showToast('No se ha podido obtener la ruta', 3000);
       this.router.navigate(['/']);
     }
 
     // Iterate over the segments of the route
-    this.route.segments.forEach((segment, index) => {
+    this.routeResponse.segments.forEach((segment, index) => {
       // Transform some lines to unify zones in one line
       if (linesZone.has(segment.line)) {
         segment.line = linesZone.get(segment.line);
@@ -113,7 +116,7 @@ export class DisplayRoutePage implements OnInit {
 
     this.startTime = new Date();
     this.endTime = new Date(this.startTime.getTime());
-    this.endTime.setMinutes(this.startTime.getMinutes() + this.route.duration);
+    this.endTime.setMinutes(this.startTime.getMinutes() + this.routeResponse.duration);
   }
 
   ionViewDidLeave() {
@@ -153,7 +156,7 @@ export class DisplayRoutePage implements OnInit {
     let multiPolyline: L.Polyline<LineString | MultiLineString, any>;
     let coordinates = [];
     // Iterate over the segments of the route
-    this.route.segments.forEach((segment, index) => {
+    this.routeResponse.segments.forEach((segment, index) => {
       // Transform number[][] to LatLng array in polyline
       let coords = segment.polyline.map(coord => new L.LatLng(coord[0], coord[1]));
 
@@ -178,9 +181,9 @@ export class DisplayRoutePage implements OnInit {
         + iconSegment + '">'
         + lineTooltip
         + '</div>'
-        + this.route.points[segment.source].name
+        + this.routeResponse.points[segment.source].name
         + '<ion-icon style="vertical-align: middle; font-size: 9px; opacity: 0.7" name="chevron-forward-outline"></ion-icon>'
-        + this.route.points[segment.target].name
+        + this.routeResponse.points[segment.target].name
         + '</div>';
 
       // Add polyline to map
@@ -205,13 +208,13 @@ export class DisplayRoutePage implements OnInit {
       });
 
       // Add markers to map
-      new L.Marker([this.route.points[segment.source].latitude, this.route.points[segment.source].longitude], {
+      new L.Marker([this.routeResponse.points[segment.source].latitude, this.routeResponse.points[segment.source].longitude], {
         icon: icon
-      }).addTo(this.map).bindTooltip(this.route.points[segment.source].name);
+      }).addTo(this.map).bindTooltip(this.routeResponse.points[segment.source].name);
 
       // Walk polyline for stops with transfer between lines
-      if (index > 0 && segment.transportMode === this.route.segments[index - 1].transportMode) {
-        let previous = this.route.segments[index - 1].polyline[this.route.segments[index - 1].polyline.length - 1];
+      if (index > 0 && segment.transportMode === this.routeResponse.segments[index - 1].transportMode) {
+        let previous = this.routeResponse.segments[index - 1].polyline[this.routeResponse.segments[index - 1].polyline.length - 1];
         let current = segment.polyline[0];
         coords = [new L.LatLng(previous[0], previous[1]), new L.LatLng(current[0], current[1])];
         // Add polyline to map
@@ -229,10 +232,15 @@ export class DisplayRoutePage implements OnInit {
       }
     });
 
+    let destinationPoint = this.routeResponse.points[this.routeResponse.points.length - 1];
     // Marker for destination point
-    new L.Marker([this.route.destination.latitude, this.route.destination.longitude], {
+    new L.Marker([destinationPoint.latitude, destinationPoint.longitude], {
       icon: L.icon({ iconUrl: './assets/destination.png', iconSize: [25, 25] })
-    }).addTo(this.map).bindTooltip(this.route.destination.name);
+    }).addTo(this.map).bindTooltip(destinationPoint.name);
+
+    // Set names of start & end points of the route
+    this.origin = this.routeResponse.points[0].name;
+    this.destination = destinationPoint.name;
 
     // Polyline of the whole route
     multiPolyline = L.polyline(coordinates);
@@ -265,7 +273,7 @@ export class DisplayRoutePage implements OnInit {
     }
 
     // Get coordinates to highlight & zoom
-    let polyline = this.route.segments[index].polyline.slice(first, ++last)
+    let polyline = this.routeResponse.segments[index].polyline.slice(first, ++last)
       .map(coord => new L.LatLng(coord[0], coord[1]));;
 
     // Add polyline to map
@@ -298,7 +306,7 @@ export class DisplayRoutePage implements OnInit {
   intermediateStopsNames(start: number, end: number) {
     let names = [];
     for (let i = start + 1; i < end; i++) {
-      names.push(this.route.points[i].name);
+      names.push(this.routeResponse.points[i].name);
     }
     return names;
   }

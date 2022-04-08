@@ -1,5 +1,4 @@
-import { PointModel } from "./point-model";
-import { SegmentModel } from "./segment.model";
+import { PointModel } from "./point.model";
 
 export interface RouteModel {
     id?: number;
@@ -10,7 +9,4 @@ export interface RouteModel {
     origin: PointModel;
     destination: PointModel;
     date?: Date; 
-    points?: PointModel[];
-    duration?: number;
-    segments?: SegmentModel[];
 }

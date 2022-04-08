@@ -1,4 +1,4 @@
-import { PointModel } from "./point-model";
+import { PointModel } from "./point.model";
 
 export interface TouristicPointModel extends PointModel {
     address?: string;

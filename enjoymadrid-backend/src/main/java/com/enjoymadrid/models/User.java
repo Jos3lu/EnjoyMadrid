@@ -33,7 +33,7 @@ public class User {
 	@Size(max = 50, message = "El nombre debe tener menos de 50 caracteres")
 	private String name;
 	
-	@JsonView(UserInterfaces.UsernameData.class)
+	@JsonView(UserInterfaces.BasicData.class)
 	@NotBlank(message = "El nombre de usuario no puede estar vacío")
 	@Size(max = 50, message = "El nombre de usuario debe tener menos de 50 caracteres")
 	@Column(unique = true)
@@ -51,7 +51,6 @@ public class User {
 		
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "user_id")
-	@JsonView(UserInterfaces.RouteData.class)
 	private List<Route> routes = new ArrayList<>();
 	
 	public User() {}

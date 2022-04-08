@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -51,6 +52,7 @@ import com.enjoymadrid.models.Time;
 import com.enjoymadrid.models.TouristicPoint;
 import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.User;
+import com.enjoymadrid.models.dtos.RouteResponseDto;
 import com.enjoymadrid.services.RouteService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -85,11 +87,26 @@ public class RouteServiceLogic implements RouteService {
 			return user.getRoutes();
 		}
 		
-		return userComponent.getRoutes();
+		return (List<Route>) this.userComponent.getRoutes().values();
 	}
 	
 	@Override
-	public Route createRoute(Route route, String username) {
+	public void deleteRoute(Long routeId, String username) {
+		if (username != null) {
+			Route route = this.routeRepository.findById(routeId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ruta no encontrada"));
+			User user = this.userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+			user.getRoutes().remove(route);
+			this.userRepository.save(user);
+			this.routeRepository.delete(route);
+		} else {
+			if (this.userComponent.getRoutes().remove(routeId) == null) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ruta no encontrada");
+			}
+		}	
+	}
+	
+	@Override
+	public RouteResponseDto createRoute(Route route, String username) {
 		
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
@@ -112,7 +129,7 @@ public class RouteServiceLogic implements RouteService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST , "No se ha podido crear la ruta con estos parámetros de entrada");
 		}
 				
-		route = setSegments(routePoints, route, lineStops);
+		RouteResponseDto routeResponseDto = setSegments(routePoints, route.getName(), lineStops);
 
 		if (username != null) {
 			Optional<User> user = this.userRepository.findByUsername(username);
@@ -122,10 +139,15 @@ public class RouteServiceLogic implements RouteService {
 				this.userRepository.save(user.get());
 			}
 		} else {
-			userComponent.getRoutes().add(route);
+			long id = new Random().nextLong();
+			while (this.userComponent.getRoutes().get(id) != null) {
+				id = new Random().nextLong();
+			}
+			route.setId(id);
+			userComponent.getRoutes().put(id, route);
 		}
 		
-		return route;
+		return routeResponseDto;
 	}
 			
 	private <P extends Comparable<P>> List<P> findBestRoute(P origin, P destination, Double maxDistance,
@@ -410,10 +432,10 @@ public class RouteServiceLogic implements RouteService {
 		return transportPoints;
 	}
 	
-	private Route setSegments(List<TransportPoint> routePoints, Route route, Map<String, PublicTransportLine> lineStops) {
+	private RouteResponseDto setSegments(List<TransportPoint> routePoints, String name, Map<String, PublicTransportLine> lineStops) {
 		
 		// List of Segments that create the route
-		List<Segment> segmentsRoute = new ArrayList<>();
+		List<Segment> routeSegments = new ArrayList<>();
 		
 		// Associate the mode of transport
 		Map<String, String> modeTransports = Map.of(
@@ -654,16 +676,11 @@ public class RouteServiceLogic implements RouteService {
 			segment.setColor(color);
 						
 			// Add segment to the rest of the segments of the route
-			segmentsRoute.add(segment);
+			routeSegments.add(segment);
 			
 		}
-		
-		// Save route in DataBase
-		route.setDuration(duration);
-		route.setPoints(routePoints);
-		route.setSegments(segmentsRoute);
-		
-		return route;
+				
+		return new RouteResponseDto(name, duration, routePoints, routeSegments);
 	}
 
 }

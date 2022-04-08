@@ -2,7 +2,7 @@ package com.enjoymadrid.models.dtos;
 
 import javax.validation.constraints.NotBlank;
 
-public class RefreshTokenRequest {
+public class RefreshTokenRequestDto {
 
 	@NotBlank
 	private String refreshToken;

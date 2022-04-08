@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { toastController } from '@ionic/core';
 import { throwError } from 'rxjs';
-import { PointModel } from 'src/app/models/point-model';
-import { RouteModel } from 'src/app/models/route.model';
+import { PointModel } from 'src/app/models/point.model';
+import { RouteResponseModel } from 'src/app/models/route-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +18,17 @@ export class SharedService {
   private destination: PointModel;
 
   // Communicate route -> create-route with display-route
-  private route: RouteModel;
+  private routeResponse: RouteResponseModel;
 
   constructor() { 
   }
 
   getRoute() {
-    return this.route;
+    return this.routeResponse;
   }
 
-  setRoute(route: RouteModel) {
-    this.route = route;
+  setRoute(routeResponse: RouteResponseModel) {
+    this.routeResponse = routeResponse;
   }
 
   isDestinationEmpty() {

@@ -1,11 +1,11 @@
 package com.enjoymadrid.models.dtos;
 
-public class RefreshTokenResponse {
+public class RefreshTokenResponseDto {
 
 	private String accessToken;
 	private String refreshToken;
 	
-	public RefreshTokenResponse(String accessToken, String refreshToken) {
+	public RefreshTokenResponseDto(String accessToken, String refreshToken) {
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 	}

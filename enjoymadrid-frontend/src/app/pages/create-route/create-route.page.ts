@@ -175,9 +175,9 @@ export class CreateRoutePage implements OnInit {
     this.route.maxDistance = this.maxDistance / 1000;
 
     this.routeService.createRoute(this.route).subscribe(
-      (route: any) => {
+      (routeResponse: any) => {
         this.loadingRoute = false;
-        this.sharedService.setRoute(route);
+        this.sharedService.setRoute(routeResponse);
         this.router.navigate(['/display-route']);
       },
       error => {

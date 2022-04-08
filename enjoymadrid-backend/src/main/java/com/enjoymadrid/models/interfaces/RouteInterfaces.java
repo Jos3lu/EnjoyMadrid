@@ -7,14 +7,13 @@ public class RouteInterfaces {
 	public static interface BasicData {}
 		
 	public static interface PointsData extends PointInterfaces.BasicData {}
-	
-	public static interface SegmentData extends SegmentInterfaces.BasicData {}
-	
-	public static interface CompleteData extends PointInterfaces.BasicData {}
 			
-	public static interface DetailData extends BasicData, PointsData {}
+	public static interface RouteData extends BasicData, PointsData {}
 	
-	public static interface GeneralData 
-		extends DetailData, SegmentData, CompleteData {}
+	public static interface BasicRouteResponseData {}
+		
+	public static interface SegmentData extends SegmentInterfaces.BasicData {}
+			
+	public static interface RouteResponseData extends BasicRouteResponseData, PointsData, SegmentData {}
 	
 }

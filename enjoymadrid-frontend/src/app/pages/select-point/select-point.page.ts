@@ -4,7 +4,7 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import * as L from 'leaflet';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { ModalController } from '@ionic/angular';
-import { PointModel } from 'src/app/models/point-model';
+import { PointModel } from 'src/app/models/point.model';
 
 @Component({
   selector: 'app-select-point',
