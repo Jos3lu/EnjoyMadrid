@@ -19,12 +19,6 @@ export class UserService {
     private sharedService: SharedService
   ) { }
 
-  getUser(id: number): Observable<any> {
-    return this.httpClient.get(this.sharedService.getApiUrl() + 'users/' + id).pipe(
-      catchError(this.sharedService.handleError)
-    );
-  }
-
   updateUser(id: number, user: UserModel): Observable<any> {
     return this.httpClient.put(this.sharedService.getApiUrl() + 'users/' + id, user, headerOptions);
   }

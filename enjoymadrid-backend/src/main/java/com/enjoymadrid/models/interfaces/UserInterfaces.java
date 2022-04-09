@@ -9,5 +9,7 @@ public class UserInterfaces {
 	public static interface PictureData {}
 		
 	public static interface UserData extends BasicData, PictureData {}
+	
+	public static interface RouteData extends RouteInterfaces.RouteData {}
 
 }

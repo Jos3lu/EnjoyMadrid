@@ -12,7 +12,7 @@ import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.interfaces.RouteInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
-public class RouteResponseDto {
+public class RouteResultDto {
 
 	@JsonView(RouteInterfaces.BasicRouteResponseData.class)
 	@NotBlank(message = "Name cannot be empty")
@@ -30,7 +30,7 @@ public class RouteResponseDto {
 	@NotEmpty(message = "Segments cannot be empty")
 	private List<Segment> segments = new ArrayList<>();
 	
-	public RouteResponseDto(@NotBlank(message = "Name cannot be empty") String name,
+	public RouteResultDto(@NotBlank(message = "Name cannot be empty") String name,
 			@NotNull(message = "Duration cannot be null") Double duration,
 			@NotEmpty(message = "Points cannot be empty") List<TransportPoint> points,
 			@NotEmpty(message = "Segments cannot be empty") List<Segment> segments) {

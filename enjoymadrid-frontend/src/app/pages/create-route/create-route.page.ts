@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { RouteService } from 'src/app/services/route/route.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 import { SelectPointPage } from '../select-point/select-point.page';
 
 @Component({
@@ -31,6 +34,8 @@ export class CreateRoutePage implements OnInit {
   loadingRoute: boolean;
 
   constructor(
+    private authService: AuthService,
+    private storageService: StorageService,
     private sharedService: SharedService,
     private routeService: RouteService,
     private modalController: ModalController,
@@ -175,9 +180,15 @@ export class CreateRoutePage implements OnInit {
     this.route.maxDistance = this.maxDistance / 1000;
 
     this.routeService.createRoute(this.route).subscribe(
-      (routeResponse: any) => {
+      (routeResult: RouteResultModel) => {
         this.loadingRoute = false;
-        this.sharedService.setRoute(routeResponse);
+        this.sharedService.setRoute(routeResult);
+        // If user not logged in, store route in localStorage
+        if (this.authService.isUserLoggedIn()) {
+          let routes: any = this.storageService.get('routes');
+          routes.push(this.route);
+          this.storageService.set('routes', routes);
+        }
         this.router.navigate(['/display-route']);
       },
       error => {

@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enjoymadrid.models.interfaces.RouteInterfaces;
+import com.enjoymadrid.models.interfaces.UserInterfaces;
 import com.enjoymadrid.models.Route;
-import com.enjoymadrid.models.dtos.RouteResponseDto;
+import com.enjoymadrid.models.dtos.RouteResultDto;
 import com.enjoymadrid.services.RouteService;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -34,23 +35,23 @@ public class RouteController {
 		this.routeService = routeService;
 	}
 
-	@GetMapping("/routes")
-	@JsonView(RouteInterfaces.RouteData.class)
-	public ResponseEntity<List<Route>> getUserRoutes(Principal principal) {
-		return ResponseEntity.ok(this.routeService.getUserRoutes(principal != null ? principal.getName() : null));
+	@GetMapping("/users/{userId}/routes")
+	@JsonView(UserInterfaces.RouteData.class)
+	public ResponseEntity<List<Route>> getUserRoutes(@PathVariable Long userId) {
+		return ResponseEntity.ok(this.routeService.getUserRoutes(userId));
 	}
 	
 	@PostMapping("/routes")
 	@JsonView(RouteInterfaces.RouteResponseData.class)
-	public ResponseEntity<RouteResponseDto> createRoute(Principal principal, @Valid @RequestBody Route route) {
+	public ResponseEntity<RouteResultDto> createRoute(Principal principal, @Valid @RequestBody Route route) {
 		LocalDate date = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate();
 		route.setDate(date);
 		return new ResponseEntity<>(this.routeService.createRoute(route, principal != null ? principal.getName() : null), HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/routes/{routeId}")
-	public ResponseEntity<Void> deleteRoute(Principal principal, @PathVariable Long routeId) {
-		this.routeService.deleteRoute(routeId, principal != null ? principal.getName() : null);
+	@DeleteMapping("users/{userId}/routes/{routeId}")
+	public ResponseEntity<Void> deleteRoute(@PathVariable Long userId, @PathVariable Long routeId) {
+		this.routeService.deleteRoute(routeId, userId);
 		return ResponseEntity.ok().build();
 	}
 	

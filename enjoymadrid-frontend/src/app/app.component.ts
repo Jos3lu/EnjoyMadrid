@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -64,6 +64,7 @@ export class AppComponent implements OnDestroy {
         this.authService.setUserAuth(null);
         this.tokenService.setToken(null);
         this.route.navigateByUrl('/');
+        this.sharedService.showToast('Se ha cerrado la sesión del usuario', 3000);
       }
     );
   }

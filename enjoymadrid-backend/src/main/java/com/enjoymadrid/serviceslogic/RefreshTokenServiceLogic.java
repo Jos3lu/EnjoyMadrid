@@ -33,7 +33,7 @@ public class RefreshTokenServiceLogic implements RefreshTokenService {
 
 	@Override
 	public RefreshToken createRefreshToken(Long userId) {
-		RefreshToken refreshToken = new RefreshToken(userRepository.findById(userId).get(),
+		RefreshToken refreshToken = new RefreshToken(this.userRepository.findById(userId).get(),
 				UUID.randomUUID().toString(), Instant.now().plusMillis(JWT_REFRESH_EXPIRATION_MS));
 
 		return this.refreshTokenRepository.save(refreshToken);

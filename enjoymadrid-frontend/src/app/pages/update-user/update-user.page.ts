@@ -89,6 +89,7 @@ export class UpdateUserPage implements OnInit {
   onError(error: HttpErrorResponse) {
     this.sharedService.handleError(error);
     this.sharedService.showToast(error.error?.message, 3000);
+    // If response status tells us the access token & refresh token are expired we dispatch logout event to AppComponent
     if (error.status === 403) {
       this.eventBusService.emit({ name: 'logout', value: null });
     }

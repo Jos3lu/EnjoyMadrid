@@ -18,7 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -37,7 +36,6 @@ import com.enjoymadrid.models.repositories.RouteRepository;
 import com.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.enjoymadrid.models.repositories.TransportPointRepository;
 import com.enjoymadrid.models.repositories.UserRepository;
-import com.enjoymadrid.components.UserComponent;
 import com.enjoymadrid.models.AirQualityPoint;
 import com.enjoymadrid.models.BicycleTransportPoint;
 import com.enjoymadrid.models.Frequency;
@@ -52,15 +50,16 @@ import com.enjoymadrid.models.Time;
 import com.enjoymadrid.models.TouristicPoint;
 import com.enjoymadrid.models.TransportPoint;
 import com.enjoymadrid.models.User;
-import com.enjoymadrid.models.dtos.RouteResponseDto;
+import com.enjoymadrid.models.dtos.RouteResultDto;
 import com.enjoymadrid.services.RouteService;
+import com.enjoymadrid.services.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
 public class RouteServiceLogic implements RouteService {
 	
-	private final UserComponent userComponent;
+	private final UserService userService;
 	private final UserRepository userRepository;
 	private final RouteRepository routeRepository;
 	private final TransportPointRepository transportPointRepository;
@@ -68,12 +67,12 @@ public class RouteServiceLogic implements RouteService {
 	private final TouristicPointRepository touristicPointRepository;
 	private final AirQualityPointRepository airQualityPointRepository;
 	
-	public RouteServiceLogic(RouteRepository routeRepository, UserComponent userComponent, UserRepository userRepository, 
+	public RouteServiceLogic(RouteRepository routeRepository, UserRepository userRepository, UserService userService, 
 			TransportPointRepository transportPointRepository, PublicTransportLineRepository publicTransportLineRepository, 
 			TouristicPointRepository touristicPointRepository, AirQualityPointRepository airQualityPointRepository) {
 		this.routeRepository = routeRepository;
-		this.userComponent = userComponent;
 		this.userRepository = userRepository;
+		this.userService = userService;
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;
 		this.touristicPointRepository = touristicPointRepository;
@@ -81,32 +80,24 @@ public class RouteServiceLogic implements RouteService {
 	}
 
 	@Override
-	public List<Route> getUserRoutes(String username) {
-		if (username != null) {
-			User user = this.userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-			return user.getRoutes();
-		}
-		
-		return (List<Route>) this.userComponent.getRoutes().values();
+	public List<Route> getUserRoutes(Long userId) {
+		// Get user's routes from DB
+		User user = this.userService.getUser(userId);
+		return user.getRoutes();
 	}
 	
 	@Override
-	public void deleteRoute(Long routeId, String username) {
-		if (username != null) {
-			Route route = this.routeRepository.findById(routeId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ruta no encontrada"));
-			User user = this.userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-			user.getRoutes().remove(route);
-			this.userRepository.save(user);
-			this.routeRepository.delete(route);
-		} else {
-			if (this.userComponent.getRoutes().remove(routeId) == null) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ruta no encontrada");
-			}
-		}	
+	public void deleteRoute(Long routeId, Long userId) {
+		// Get user (delete route from user's routes) & route to be deleted in DB
+		Route route = this.routeRepository.findById(routeId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ruta no encontrada"));
+		User user = this.userService.getUser(userId);
+		user.getRoutes().remove(route);
+		this.userRepository.save(user);
+		this.routeRepository.delete(route);
 	}
 	
 	@Override
-	public RouteResponseDto createRoute(Route route, String username) {
+	public RouteResultDto createRoute(Route route, String username) {
 		
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
@@ -129,7 +120,7 @@ public class RouteServiceLogic implements RouteService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST , "No se ha podido crear la ruta con estos parámetros de entrada");
 		}
 				
-		RouteResponseDto routeResponseDto = setSegments(routePoints, route.getName(), lineStops);
+		RouteResultDto routeResultDto = setSegments(routePoints, route.getName(), lineStops);
 
 		if (username != null) {
 			Optional<User> user = this.userRepository.findByUsername(username);
@@ -138,16 +129,9 @@ public class RouteServiceLogic implements RouteService {
 				user.get().getRoutes().add(route);
 				this.userRepository.save(user.get());
 			}
-		} else {
-			long id = new Random().nextLong();
-			while (this.userComponent.getRoutes().get(id) != null) {
-				id = new Random().nextLong();
-			}
-			route.setId(id);
-			userComponent.getRoutes().put(id, route);
 		}
 		
-		return routeResponseDto;
+		return routeResultDto;
 	}
 			
 	private <P extends Comparable<P>> List<P> findBestRoute(P origin, P destination, Double maxDistance,
@@ -432,7 +416,7 @@ public class RouteServiceLogic implements RouteService {
 		return transportPoints;
 	}
 	
-	private RouteResponseDto setSegments(List<TransportPoint> routePoints, String name, Map<String, PublicTransportLine> lineStops) {
+	private RouteResultDto setSegments(List<TransportPoint> routePoints, String name, Map<String, PublicTransportLine> lineStops) {
 		
 		// List of Segments that create the route
 		List<Segment> routeSegments = new ArrayList<>();
@@ -680,7 +664,7 @@ public class RouteServiceLogic implements RouteService {
 			
 		}
 				
-		return new RouteResponseDto(name, duration, routePoints, routeSegments);
+		return new RouteResultDto(name, duration, routePoints, routeSegments);
 	}
 
 }

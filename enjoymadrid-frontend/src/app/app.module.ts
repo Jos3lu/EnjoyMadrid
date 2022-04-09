@@ -5,6 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, FormsModule, IonicModule.forRoot(), AppRoutingModule],
+    imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, FormsModule, IonicModule.forRoot(), IonicStorageModule.forRoot(), AppRoutingModule],
     providers: [
         Geolocation,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

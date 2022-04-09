@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { toastController } from '@ionic/core';
 import { throwError } from 'rxjs';
 import { PointModel } from 'src/app/models/point.model';
-import { RouteResponseModel } from 'src/app/models/route-response.model';
+import { RouteResultModel } from 'src/app/models/route-result.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +18,17 @@ export class SharedService {
   private destination: PointModel;
 
   // Communicate route -> create-route with display-route
-  private routeResponse: RouteResponseModel;
+  private routeResult: RouteResultModel;
 
   constructor() { 
   }
 
   getRoute() {
-    return this.routeResponse;
+    return this.routeResult;
   }
 
-  setRoute(routeResponse: RouteResponseModel) {
-    this.routeResponse = routeResponse;
+  setRoute(routeResult: RouteResultModel) {
+    this.routeResult = routeResult;
   }
 
   isDestinationEmpty() {

@@ -32,7 +32,7 @@ public class UserServiceLogic implements UserService {
 	public User getUserByUsername(String username) {
 		return this.userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado: " + username));
 	}
-		
+
 	@Override
 	public void createUser(User user) {
 		if (this.userRepository.existsByUsername(user.getUsername())) {

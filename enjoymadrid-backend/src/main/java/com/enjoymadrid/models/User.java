@@ -51,6 +51,7 @@ public class User {
 		
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "user_id")
+	@JsonView(UserInterfaces.RouteData.class)
 	private List<Route> routes = new ArrayList<>();
 	
 	public User() {}

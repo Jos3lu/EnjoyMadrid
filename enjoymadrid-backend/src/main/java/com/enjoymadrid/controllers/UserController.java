@@ -30,7 +30,7 @@ public class UserController {
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
-		
+	
 	@PostMapping("/signup")
 	public ResponseEntity<Void> createUser(@Valid @RequestBody UserCreateDto userDto) {
 		User user = new User(userDto.getName(), userDto.getUsername(), userDto.getPassword());
