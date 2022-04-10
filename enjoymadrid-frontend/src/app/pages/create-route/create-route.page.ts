@@ -46,8 +46,8 @@ export class CreateRoutePage implements OnInit {
     this.initRoute();
   }
 
-  ionViewWillEnter() {
-    this.ngOnInit();
+  ionViewWillLeave() {
+    this.initRoute();
   }
 
   initRoute() {

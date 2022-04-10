@@ -55,12 +55,12 @@
     <div class="ion-padding-horizontal ion-text-center">
       <h5 style="margin-bottom: 0px;">{{formatTime(startTime)}} - {{formatTime(endTime)}}</h5>
       <span style="font-weight: lighter;">
-        {{ formatDuration(routeResponse.duration) }}
+        {{ formatDuration(routeResult.duration) }}
       </span>
     </div>
     <!-- Route detail information -->
     <div class="ion-padding-horizontal ion-text-center margin-vertical">
-      <span *ngFor="let segment of routeResponse.segments; let i = index; let last = last">
+      <span *ngFor="let segment of routeResult.segments; let i = index; let last = last">
         <img class="img-size" [src]="'./assets/' + segmentsVisual[i].icon">
         <ion-badge mode="md" style="margin-left: 3px;" *ngIf="segment.line"
           [ngStyle]="{'background-color': segment.color}">
@@ -71,13 +71,13 @@
     </div>
     <hr>
     <div class="ion-margin ion-padding-bottom ion-padding-horizontal">
-      <h3 style="font-weight: bold;" class="ion-text-center">{{routeResponse.name}}</h3>
+      <h3 style="font-weight: bold;" class="ion-text-center">{{routeResult.name}}</h3>
       <!-- Represent information of the segements that make up the route -->
-      <div class="ion-margin-top" *ngFor="let segment of routeResponse.segments; let i = index; let last = last">
+      <div class="ion-margin-top" *ngFor="let segment of routeResult.segments; let i = index; let last = last">
         <span>
           <!-- Name of the point -->
           <img class="marker-icon" src="./assets/marker.png">
-          {{routeResponse.points[segment.source].name}}
+          {{routeResult.points[segment.source].name}}
         </span>
         <!-- Mode of transport & intermediate stops or instructions (distance & duration) of the segment -->
         <div [ngStyle]="{'border-left': segmentsVisual[i].dashed ? '5px dotted' : '2px solid', 
@@ -152,7 +152,7 @@
         </div>
         <span *ngIf="last">
           <img class="marker-icon" src="./assets/destination.png">
-          {{routeResponse.points[segment.target].name}}
+          {{routeResult.points[segment.target].name}}
         </span>
       </div>
     </div>

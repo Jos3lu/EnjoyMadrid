@@ -11,10 +11,10 @@
 
 <ion-content>
   <div id="margin-info">
-      <h1 class="ion-text-center" [innerHTML]="place?.name"></h1>
+      <h1 class="ion-text-center" [innerHTML]="sanitizeHtml(place?.name)"></h1>
       <swiper [config]="optionsSlider">
         <ng-template *ngFor="let image of place?.images" swiperSlide>
-          <img [src]="image ? image : 'assets/imageNotFound.png'">
+          <img [src]="image ? image : 'assets/imageNotFound.png'" data-max-retry="3" data-retry="0" (error)="onError($event)">
         </ng-template>
       </swiper>
 
@@ -29,7 +29,7 @@
         <h3>Dirección</h3>
         <p>
           <ion-icon name="location-outline"></ion-icon>
-          <span [innerHTML]="place.address"></span>
+          <span [innerHTML]="sanitizeHtml(place.address)"></span>
           <span *ngIf="place.zipcode">, {{place.zipcode}}</span>
           <span> Madrid</span>
         </p>
@@ -49,12 +49,12 @@
 
       <div *ngIf="place.paymentServices">
         <h3>Precio</h3>
-        <p [innerHTML]="place?.paymentServices"></p>
+        <p [innerHTML]="sanitizeHtml(place?.paymentServices)"></p>
       </div>
 
       <div *ngIf="place.horary">
         <h3>Horario</h3>
-        <p [innerHTML]="place.horary"></p>
+        <p [innerHTML]="sanitizeHtml(place.horary)"></p>
       </div>
 
       <div *ngIf="place.categories.length > 0">
@@ -73,7 +73,7 @@
 
       <div *ngIf="place.description">
         <h3>Conoce el lugar</h3>
-        <p [innerHTML]="place.description"></p>
+        <p [innerHTML]="sanitizeHtml(place.description)"></p>
       </div>
 
     </div>

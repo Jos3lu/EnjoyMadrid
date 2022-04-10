@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PointModel } from 'src/app/models/point.model';
@@ -31,7 +32,8 @@ export class InfoPlacePage implements OnInit {
   constructor(
     private modalController: ModalController,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -51,6 +53,15 @@ export class InfoPlacePage implements OnInit {
     };
     this.sharedService.setDestination(point, false);
     this.router.navigateByUrl('/create-route');
+  }
+
+  sanitizeHtml(innerHTMl: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(innerHTMl);
+  }
+
+  async onError(event: any) {
+    // Reload image if error loading it
+    this.sharedService.reloadImage(event, 'data-retry', 'data-max-retry', 'assets/imageNotFound.png');
   }
 
 }

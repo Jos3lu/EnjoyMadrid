@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'app-index',
@@ -8,15 +8,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class IndexPage implements OnInit { 
 
-  public id: string;
-
   // Momento de obtener las rutas comprobar que el token del usuario no ha caducado
 
-  constructor(private activatedRoute: ActivatedRoute) { 
-  }
+  constructor(
+    private storageService: StorageService
+  ) { }
 
   ngOnInit() {
-    this.id = this.activatedRoute.snapshot.paramMap.get("id");
+  }
+
+  routeSelected() {
+
   }
 
 }

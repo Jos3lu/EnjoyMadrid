@@ -199,4 +199,9 @@ export class FindPlacesPage implements OnInit {
     await modal.present();
   }
 
+  async onError(event: any) {
+    // Reload image if error loading it
+    this.sharedService.reloadImage(event, 'data-retry', 'data-max-retry', 'assets/flag.png');
+  }
+
 }

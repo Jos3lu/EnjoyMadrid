@@ -60,6 +60,21 @@ export class SharedService {
     toast.present();
   }
 
+  // Reload image if any error happens
+  async reloadImage(event: any, retry: string, maxRetry: string, fallback: string) {
+    // Reload image if any error happens
+    const originalSrc = event.target.src;
+    if (parseInt(event.target.getAttribute(retry)) !== parseInt(event.target.getAttribute(maxRetry))) {
+      event.target.setAttribute(retry, parseInt(event.target.getAttribute(retry)) + 1);
+      event.target.src = fallback;
+      setTimeout(function () {
+        event.target.src = originalSrc;
+      }, 250);
+    } else {
+      event.target.src = fallback;
+    }
+  }
+
   // Handle error in services
   handleError(handleError: HttpErrorResponse) {
     if (handleError.status === 0) {
