@@ -6,20 +6,20 @@ public class PointWrapper<P extends Comparable<P>> implements Comparable<PointWr
 	private PointWrapper<P> previous;
 	private double distanceFromOrigin;
 	private final double costHeuristic;
-	private boolean sameLine;
+	private boolean directNeighbor;
 	private double totalCost;
 	
-	public PointWrapper(P point, PointWrapper<P> previous, boolean sameLine, double distanceFromOrigin, double costHeuristic) {
+	public PointWrapper(P point, PointWrapper<P> previous, boolean directNeighbor, double distanceFromOrigin, double costHeuristic) {
 		this.point = point;
 		this.previous = previous;
 		this.distanceFromOrigin = distanceFromOrigin;
 		this.costHeuristic = costHeuristic;
-		this.sameLine = sameLine;
+		this.directNeighbor = directNeighbor;
 		calculateTotalCost();
 	}
 	
 	private void calculateTotalCost() {
-		this.totalCost = (this.distanceFromOrigin + this.costHeuristic) * (this.sameLine ? 0.25 : 1);
+		this.totalCost = (this.distanceFromOrigin + this.costHeuristic) * (this.directNeighbor ? 0.25 : 1);
 	}
 	
 	public PointWrapper<P> getPrevious() {
@@ -47,12 +47,12 @@ public class PointWrapper<P extends Comparable<P>> implements Comparable<PointWr
 		return costHeuristic;
 	}
 	
-	public boolean isSameLine() {
-		return sameLine;
+	public boolean directNeighbor() {
+		return directNeighbor;
 	}
 
-	public void setSameLine(boolean sameLine) {
-		this.sameLine = sameLine;
+	public void setDirectNeighbor(boolean directNeighbor) {
+		this.directNeighbor = directNeighbor;
 	}
 
 	@Override

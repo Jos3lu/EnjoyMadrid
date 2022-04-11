@@ -32,7 +32,14 @@ public class PublicTransportPoint extends TransportPoint {
 		super(name, longitude, latitude, type);
 		this.lines = lines;
 	}
-
+	
+	public PublicTransportPoint(PublicTransportPoint point) {
+		super(point.getName(), point.getLongitude(), point.getLatitude(), point.getType());
+		this.setId(point.getId());
+		this.lines = new HashSet<>(point.getLines());
+		this.nextStops = new HashMap<String, PublicTransportPoint>(point.getNextStops());
+	}
+	
 	public Set<String[]> getLines() {
 		return lines;
 	}

@@ -187,12 +187,12 @@ public class RouteServiceLogic implements RouteService {
 				// Calculate cost from start to neighbor via current node
 				double cost = calculateDistance(point, neighbor);
 				double distanceFromOrigin = pointWrapper.getDistanceFromOrigin() + cost;				
-				boolean isSameLine = isDirectNeighbor(point, neighbor, false);
+				boolean directNeighbor = isDirectNeighbor(point, neighbor, false);
 
 				// Neighbor not discovered yet
 				PointWrapper<P> neighborWrapper = points.get(neighbor);
 				if (neighborWrapper == null) {
-					neighborWrapper = new PointWrapper<P>(neighbor, pointWrapper, isSameLine, distanceFromOrigin,
+					neighborWrapper = new PointWrapper<P>(neighbor, pointWrapper, directNeighbor, distanceFromOrigin,
 							calculateHeuristic(neighbor, destination, airQualityPoints, touristicPoints, preferences));
 					points.put(neighbor, neighborWrapper);
 					openList.add(neighborWrapper);
@@ -201,7 +201,7 @@ public class RouteServiceLogic implements RouteService {
 				// & previous point
 				else if (distanceFromOrigin < neighborWrapper.getDistanceFromOrigin()) {
 					openList.remove(neighborWrapper);
-					neighborWrapper.setSameLine(isSameLine);
+					neighborWrapper.setDirectNeighbor(directNeighbor);
 					neighborWrapper.setDistanceFromOrigin(distanceFromOrigin);
 					neighborWrapper.setPrevious(pointWrapper);
 					openList.add(neighborWrapper);
@@ -231,10 +231,40 @@ public class RouteServiceLogic implements RouteService {
 		}
 		
 		if (neighbors.isEmpty() || directNeighbors) {
-			// Iterate over neighbors (nearest distance established by user)
+			// Get lines of point if it's public transport stop
+			Set<String> linesPoint = point instanceof PublicTransportPoint ? 
+					((PublicTransportPoint) point).getLines().stream()
+					.map(line -> line[0] + " [" + line[1] + "]")
+					.collect(Collectors.toSet())
+					: new HashSet<>();
+			
 			neighbors.addAll(
-				transportPoints.stream()
-					.filter(neighbor -> (calculateDistance(point, neighbor) <= maxDistance))
+				// Iterate over points (nearest distance established by user)
+				// & if stop is public transport delete from stops same lines
+				transportPoints.stream()					
+					.filter(neighbor -> calculateDistance(point, neighbor) <= maxDistance)
+					.map(neighbor -> {
+						if (neighbor instanceof PublicTransportPoint 
+								&& (((PublicTransportPoint) neighbor).getType().equals(((TransportPoint) point).getType()))) {
+							PublicTransportPoint neighborCopy = new PublicTransportPoint((PublicTransportPoint) neighbor);
+							Set<String[]> linesNeighbor = neighborCopy.getLines().stream()
+									.filter(line -> linesPoint.contains(line[0] + " [" + line[1] + "]"))
+									.collect(Collectors.toSet());
+							linesNeighbor.forEach(line -> {
+								neighborCopy.getLines().remove(line);
+								neighborCopy.getNextStops().remove(line[0] + " [" + line[1] + "]");
+							});
+							return (P) neighborCopy;
+						}
+						return neighbor;
+					})
+					.filter(neighbor -> {
+						if (neighbor instanceof PublicTransportPoint 
+								&& ((PublicTransportPoint) neighbor).getLines().isEmpty()) {
+							return false;
+						}
+						return true;
+					})
 					.collect(Collectors.toSet())
 			);
 		}
