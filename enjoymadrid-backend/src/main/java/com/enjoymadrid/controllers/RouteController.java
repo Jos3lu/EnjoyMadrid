@@ -1,9 +1,6 @@
 package com.enjoymadrid.controllers;
 
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -44,8 +41,6 @@ public class RouteController {
 	@PostMapping("/routes")
 	@JsonView(RouteInterfaces.RouteResponseData.class)
 	public ResponseEntity<RouteResultDto> createRoute(Principal principal, @Valid @RequestBody Route route) {
-		LocalDate date = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate();
-		route.setDate(date);
 		return new ResponseEntity<>(this.routeService.createRoute(route, principal != null ? principal.getName() : null), HttpStatus.CREATED);
 	}
 	

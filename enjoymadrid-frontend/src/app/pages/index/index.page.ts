@@ -13,10 +13,14 @@ export class IndexPage implements OnInit {
   // Get routes of user
   routes: RouteModel[];
 
+  // Image generated randomly associated to route
+  indexImages: number[];
+
   // Momento de obtener las rutas comprobar que el token del usuario no ha caducado
 
   constructor(
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {
@@ -24,10 +28,24 @@ export class IndexPage implements OnInit {
 
   ionViewWillEnter() {
     this.routes = this.sharedService.getRoutes();
+    this.selectImage(this.routes.length);
   }
 
   routeSelected() {
 
+  }
+
+  removeRoute(index: number) {
+    this.routes.splice(index, 1);
+    this.storageService.set('routes', this.routes);
+  }
+
+  selectImage(index: number) {
+    // Random image from assets
+    this.indexImages = [];
+    for (let i = 0; i < index; i++) {
+      this.indexImages.push(Math.floor(Math.random() * 15));
+    }
   }
 
 }

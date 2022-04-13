@@ -179,17 +179,19 @@ export class CreateRoutePage implements OnInit {
     // Meters -> Kilometers
     this.route.maxDistance = this.maxDistance / 1000;
 
+    // Get actual date
+    this.route.date = new Date();
+
     this.routeService.createRoute(this.route).subscribe(
       (route: RouteResultModel) => {
-        let routeStore: RouteModel = this.route;
         this.loadingRoute = false;
         // Store route response to be used in display route page
         this.sharedService.setRoute(route);
         // Store route information in list of user's routes
+        this.sharedService.getRoutes().push(this.route);
         if (!this.authService.isUserLoggedIn()) {
-          this.storageService.get('routes').then(routes => routes.push(routeStore));
+          this.storageService.set('routes', this.sharedService.getRoutes());
         }
-        this.sharedService.getRoutes().push(routeStore);
         this.router.navigate(['/display-route']);
       },
       error => {
