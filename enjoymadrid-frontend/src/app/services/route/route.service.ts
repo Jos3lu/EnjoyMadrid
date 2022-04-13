@@ -19,6 +19,12 @@ export class RouteService {
     private sharedService: SharedService
   ) { }
 
+  getUserRoutes(userId: number): Observable<any> {
+    return this.httpClient.get(this.sharedService.getApiUrl() + '/users/' + userId + '/routes').pipe(
+      catchError(this.sharedService.handleError)
+    );
+  }
+
   createRoute(route: RouteModel): Observable<any> {
     return this.httpClient.post(this.sharedService.getApiUrl() + 'routes', route, headerOptions).pipe(
       catchError(this.sharedService.handleError)

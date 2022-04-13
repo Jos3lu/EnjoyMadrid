@@ -180,15 +180,16 @@ export class CreateRoutePage implements OnInit {
     this.route.maxDistance = this.maxDistance / 1000;
 
     this.routeService.createRoute(this.route).subscribe(
-      (routeResult: RouteResultModel) => {
+      (route: RouteResultModel) => {
+        let routeStore: RouteModel = this.route;
         this.loadingRoute = false;
-        this.sharedService.setRoute(routeResult);
-        // If user not logged in, store route in localStorage
-        if (this.authService.isUserLoggedIn()) {
-          let routes: any = this.storageService.get('routes');
-          routes.push(this.route);
-          this.storageService.set('routes', routes);
+        // Store route response to be used in display route page
+        this.sharedService.setRoute(route);
+        // Store route information in list of user's routes
+        if (!this.authService.isUserLoggedIn()) {
+          this.storageService.get('routes').then(routes => routes.push(routeStore));
         }
+        this.sharedService.getRoutes().push(routeStore);
         this.router.navigate(['/display-route']);
       },
       error => {

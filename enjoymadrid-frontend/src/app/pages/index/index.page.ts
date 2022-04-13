@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RouteModel } from 'src/app/models/route.model';
+import { SharedService } from 'src/app/services/shared/shared.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
@@ -8,13 +10,20 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 })
 export class IndexPage implements OnInit { 
 
+  // Get routes of user
+  routes: RouteModel[];
+
   // Momento de obtener las rutas comprobar que el token del usuario no ha caducado
 
   constructor(
-    private storageService: StorageService
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.routes = this.sharedService.getRoutes();
   }
 
   routeSelected() {

@@ -1,6 +1,6 @@
 <ion-content>
   <ion-fab class="ion-margin ion-padding-bottom" vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="/" color="light">
+    <ion-fab-button class="margin-button" routerLink="/" color="light">
       <ion-icon name="home-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -94,8 +94,11 @@
                   <ion-label class="text-small ion-text-wrap">
                     {{
                     'Alrededor de ' + formatDuration(segment.duration) + ' ('
-                    + (segment.distance < 1 ? segment.distance * 1000 + ' m)' : segment.distance + ' km)' ) }}
-                      </ion-label>
+                    + ( distanceUnit === 'kilometers' 
+                      ? (segment.distance < 1 ? segment.distance * 1000 + ' m)' : segment.distance + ' km)' ) 
+                      : (segment.distance * 0.6213711922 + ' mi)') ) 
+                    }}
+                  </ion-label>
                 </ion-item>
 
                 <ion-list slot="content">
@@ -110,7 +113,11 @@
               <ion-label class="text-small ion-text-wrap">
                 {{
                 'Alrededor de ' + formatDuration(segment.duration) + ' ('
-                + (segment.distance < 1 ? segment.distance * 1000 + ' m)' : segment.distance + ' km)' ) }} </ion-label>
+                + ( distanceUnit === 'kilometers' 
+                  ? (segment.distance < 1 ? segment.distance * 1000 + ' m)' : segment.distance + ' km)' ) 
+                  : (segment.distance * 0.6213711922 + ' mi)') ) 
+                }}
+              </ion-label>
             </ng-template>
           </div>
           <ng-template #stations>

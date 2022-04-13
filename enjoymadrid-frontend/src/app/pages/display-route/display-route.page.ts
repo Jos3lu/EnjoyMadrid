@@ -46,6 +46,8 @@ export class DisplayRoutePage implements OnInit {
   // Origin & destination points of the route
   origin: string;
   destination: string;
+  // Distance unit for route
+  distanceUnit: string;
 
   constructor(
     private platform: Platform,
@@ -125,6 +127,7 @@ export class DisplayRoutePage implements OnInit {
 
   ionViewDidEnter() {
     this.isOpen = true;
+    this.distanceUnit = this.sharedService.getDistanceUnit();
 
     // OpenStreetMap
     // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png

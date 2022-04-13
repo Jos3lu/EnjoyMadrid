@@ -47,9 +47,9 @@
         <ion-item lines="none" detail="true">
           <ion-icon slot="start" name="footsteps-outline"></ion-icon>
           <ion-label>Distancia</ion-label>
-          <ion-select value="kilometros" cancel-text="Cancelar">
-            <ion-select-option value="kilometros">Sistema métrico (Kilómetros)</ion-select-option>
-            <ion-select-option value="millas">Sistema imperial (Millas)</ion-select-option>
+          <ion-select [(ngModel)]="distanceUnit" (ionChange)="setDistanceUnit()" cancel-text="Cancelar">
+            <ion-select-option value="kilometers">Sistema métrico (Kilómetros)</ion-select-option>
+            <ion-select-option value="miles">Sistema imperial (Millas)</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>

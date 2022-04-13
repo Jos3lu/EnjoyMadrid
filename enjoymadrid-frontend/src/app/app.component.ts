@@ -5,7 +5,9 @@ import { Subscription } from 'rxjs';
 import { UserModel } from './models/user.model';
 import { AuthService } from './services/auth/auth.service';
 import { EventBusService } from './services/event-bus/event-bus.service';
+import { RouteService } from './services/route/route.service';
 import { SharedService } from './services/shared/shared.service';
+import { StorageService } from './services/storage/storage.service';
 import { TokenStorageService } from './services/token/token-storage.service';
 import { UserService } from './services/user/user.service';
 
@@ -27,9 +29,14 @@ export class AppComponent implements OnDestroy {
   // Subscription to logout when refresh token is expired
   eventBusSub?: Subscription;
 
+  // Distance unit for routes
+  distanceUnit: string;
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private routeService: RouteService,
+    private storageService: StorageService,
     private sharedService: SharedService,
     private tokenService: TokenStorageService,
     private route: Router,
@@ -37,15 +44,40 @@ export class AppComponent implements OnDestroy {
     private eventBusService: EventBusService
   ) {
     this.selectDarkOrLightTheme();
-    this.isUserLogged = false;
+    this.setRoutesUser();
     this.eventBusSub = this.eventBusService.on('logout', () => {
       this.signOut();
     });
+    this.distanceUnit = 'kilometers';
+    this.setDistanceUnit();
   }
 
   ngOnDestroy() {
     if (this.eventBusSub) {
       this.eventBusSub.unsubscribe();
+    }
+  }
+
+  async setRoutesUser() {
+    if (this.authService.isUserLoggedIn()) {
+      let userId = this.authService.getUserAuth().id;
+      this.routeService.getUserRoutes(userId).subscribe(
+        routes => this.sharedService.setRoutes(routes),
+        _ => this.sharedService.setRoutes([])
+      );
+      this.isUserLogged = true;
+    } else {
+      await this.storageService.init();
+      this.storageService.get('routes').then(routes => {
+        if (!routes) {
+          routes = [];
+          this.storageService.set('routes',routes);
+        }
+        this.sharedService.setRoutes(routes);
+      }).catch(error => {
+        console.log(error);
+      });
+      this.isUserLogged = false;
     }
   }
 
@@ -113,6 +145,11 @@ export class AppComponent implements OnDestroy {
   toggleTheme() {
     // Toggle the dark class on the <body>
     document.body.classList.toggle('dark', this.darkTheme);
+  }
+
+  setDistanceUnit() {
+    // Change the unit distance (km/miles)
+    this.sharedService.setDistanceUnit(this.distanceUnit);
   }
 
 }

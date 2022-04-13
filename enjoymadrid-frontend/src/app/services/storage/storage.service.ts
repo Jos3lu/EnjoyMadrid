@@ -10,7 +10,6 @@ export class StorageService {
   private _storage: Storage | null = null;
 
   constructor(private storage: Storage) {
-    this.init();
   }
 
   async init() {

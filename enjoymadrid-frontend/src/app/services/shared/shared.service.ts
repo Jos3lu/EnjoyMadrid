@@ -4,6 +4,7 @@ import { toastController } from '@ionic/core';
 import { throwError } from 'rxjs';
 import { PointModel } from 'src/app/models/point.model';
 import { RouteResultModel } from 'src/app/models/route-result.model';
+import { RouteModel } from 'src/app/models/route.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,12 @@ export class SharedService {
   // Communicate route -> create-route with display-route
   private routeResult: RouteResultModel;
 
+  // Store routes of user in memory
+  private routes: RouteModel[];
+
+  // Distance unit for routes
+  private distanceUnit: string;
+
   constructor() { 
   }
 
@@ -29,6 +36,14 @@ export class SharedService {
 
   setRoute(routeResult: RouteResultModel) {
     this.routeResult = routeResult;
+  }
+
+  getRoutes() {
+    return this.routes;
+  }
+
+  setRoutes(routes: RouteModel[]) {
+    this.routes = routes;
   }
 
   isDestinationEmpty() {
@@ -42,6 +57,14 @@ export class SharedService {
 
   getDestination() {
     return this.destination;
+  }
+
+  setDistanceUnit(distanceUnit: string) {
+    this.distanceUnit = distanceUnit;
+  }
+
+  getDistanceUnit() {
+    return this.distanceUnit;
   }
 
   getApiUrl() {
