@@ -1,6 +1,5 @@
 package com.enjoymadrid.models;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +57,7 @@ public class Route {
 	private Map<String, Integer> preferences = new HashMap<>();
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	private LocalDate date;
+	private String date;
 							
 	public Route() {}
 	
@@ -66,13 +65,14 @@ public class Route {
 			@NotNull(message = "Origin cannot be null") TransportPoint origin,
 			@NotNull(message = "Destination cannot be null") TransportPoint destination,
 			@NotNull(message = "Max distance cannot be null") Double maxDistance, List<String> transports,
-			Map<String, Integer> preferences) {
+			Map<String, Integer> preferences, String date) {
 		this.name = name;
 		this.origin = origin;
 		this.destination = destination;
 		this.maxDistance = maxDistance;
 		this.transports = transports;
 		this.preferences = preferences;
+		this.date = date;
 	}
 
 	public Long getId() {
@@ -123,11 +123,11 @@ public class Route {
 		this.transports = transports;
 	}
 
-	public LocalDate getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

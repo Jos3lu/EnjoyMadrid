@@ -16,21 +16,22 @@
         </ion-label>
       </ion-list-header>
 
-      <ion-item *ngFor="let route of routes; let i = index" class="routes" (click)="routeSelected()">
-        <ion-avatar slot="start">
-          <img alt="route" src="{{'./assets/madrid' + indexImages[i] + '.jpg'}}">
-        </ion-avatar>
-        <ion-label class="ion-text-wrap">
-          <h2 class="title-route">{{route?.name}}</h2>
-          <h3>Inicio: {{route?.origin?.name}}</h3>
-          <h3>Fin: {{route?.destination?.name}}</h3>
-          <p>Fecha Creación: {{route?.date.getDate() + '/' + (route?.date.getMonth() + 1) + '/' +
-            route?.date.getFullYear()}}</p>
-        </ion-label>
-        <ion-fab-button (click)="removeRoute(i)" class="remove-button ion-align-self-center" color="danger" slot="end">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-item>
+      <ion-item-group>
+        <ion-item *ngFor="let route of routes; let i = index" class="routes" (click)="routeSelected()">
+          <ion-avatar slot="start">
+            <img alt="route" src="{{'./assets/madrid' + indexImages[i] + '.jpg'}}">
+          </ion-avatar>
+          <ion-label class="ion-text-nowrap" >
+            <h2 class="title-route">{{route?.name}}</h2>
+            <h3>Inicio: {{route?.origin?.name}}</h3>
+            <h3>Fin: {{route?.destination?.name}}</h3>
+            <p>Fecha Creación: {{route?.date}}</p>
+          </ion-label>
+          <ion-fab-button (click)="removeRoute(i)" class="remove-button ion-align-self-center" color="danger" slot="end">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-fab-button>
+        </ion-item>
+    </ion-item-group>
 
     </ion-list>
   </ion-grid>

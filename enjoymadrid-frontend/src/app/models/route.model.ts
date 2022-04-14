@@ -8,5 +8,5 @@ export interface RouteModel {
     transports: string[];
     origin: PointModel;
     destination: PointModel;
-    date?: Date; 
+    date?: string; 
 }

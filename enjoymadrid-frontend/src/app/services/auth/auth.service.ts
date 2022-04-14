@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { UserModel } from 'src/app/models/user.model';
 import { SharedService } from '../shared/shared.service';
+import { StorageService } from '../storage/storage.service';
 import { TokenStorageService } from '../token/token-storage.service';
 
 const headerOptions = {
@@ -20,7 +21,8 @@ export class AuthService {
   constructor(
     private httpClient: HttpClient, 
     private sharedService: SharedService,
-    private tokenService: TokenStorageService
+    private tokenService: TokenStorageService,
+    private storageService: StorageService
   ) {
     this.currentUser = new BehaviorSubject<UserModel>(null);
   }
@@ -43,6 +45,7 @@ export class AuthService {
         this.tokenService.setToken(data.token);
         this.tokenService.setRefreshToken(data.refreshToken);
         this.setUserAuth({ id: data.id, name: data.name, username: data.username, photo: data.photo });
+        this.sharedService.setRoutes(data.routes);
       }),
       catchError(this.sharedService.handleError)
     );
@@ -54,6 +57,19 @@ export class AuthService {
 
   signOut(): Observable<any> {
     return this.httpClient.get<any>(this.sharedService.getApiUrl() + 'signout').pipe(
+      tap(_ => {
+        this.setUserAuth(null);
+        this.tokenService.setToken(null);
+        this.storageService.get('routes').then(routes => {
+          if (!routes) {
+            routes = [];
+            this.storageService.set('routes',routes);
+          }
+          this.sharedService.setRoutes(routes);
+        }).catch(error => {
+          console.log(error);
+        });
+      }),
       catchError(this.sharedService.handleError)
     );
   }

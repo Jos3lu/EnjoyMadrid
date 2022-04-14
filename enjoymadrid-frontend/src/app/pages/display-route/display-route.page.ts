@@ -122,7 +122,7 @@ export class DisplayRoutePage implements OnInit {
   }
 
   ionViewDidLeave() {
-    this.modalController.dismiss();
+    if (!this.showSideMenu) this.modalController.dismiss();
   }
 
   ionViewDidEnter() {

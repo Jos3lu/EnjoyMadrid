@@ -1,5 +1,9 @@
 package com.enjoymadrid.models.dtos;
 
+import java.util.List;
+
+import com.enjoymadrid.models.Route;
+
 public class SignInResponseDto {
 	
 	private String token;
@@ -8,14 +12,16 @@ public class SignInResponseDto {
 	private String name;
 	private String username;
 	private byte[] photo;
+	private List<Route> routes;
 		
-	public SignInResponseDto(String token, String refreshToken, Long id, String name, String username, byte[] photo) {
+	public SignInResponseDto(String token, String refreshToken, Long id, String name, String username, byte[] photo, List<Route> routes) {
 		this.token = token;
 		this.refreshToken = refreshToken;
 		this.id = id;
 		this.name = name;
 		this.username = username;
 		this.photo = photo;
+		this.routes = routes;
 	}
 
 	public String getToken() {
@@ -64,6 +70,14 @@ public class SignInResponseDto {
 
 	public void setPhoto(byte[] photo) {
 		this.photo = photo;
+	}
+
+	public List<Route> getRoutes() {
+		return routes;
+	}
+
+	public void setRoutes(List<Route> routes) {
+		this.routes = routes;
 	}
 	
 }

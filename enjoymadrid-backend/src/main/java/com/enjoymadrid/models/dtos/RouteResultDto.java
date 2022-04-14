@@ -13,6 +13,10 @@ import com.enjoymadrid.models.interfaces.RouteInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
 public class RouteResultDto {
+	
+	@JsonView
+	@NotNull(message = "Id cannot be empty")
+	private Long id;
 
 	@JsonView(RouteInterfaces.BasicRouteResponseData.class)
 	@NotBlank(message = "Name cannot be empty")
@@ -38,6 +42,14 @@ public class RouteResultDto {
 		this.duration = duration;
 		this.points = points;
 		this.segments = segments;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {

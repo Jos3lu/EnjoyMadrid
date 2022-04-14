@@ -8,7 +8,6 @@ import { EventBusService } from './services/event-bus/event-bus.service';
 import { RouteService } from './services/route/route.service';
 import { SharedService } from './services/shared/shared.service';
 import { StorageService } from './services/storage/storage.service';
-import { TokenStorageService } from './services/token/token-storage.service';
 import { UserService } from './services/user/user.service';
 
 @Component({
@@ -38,8 +37,7 @@ export class AppComponent implements OnDestroy {
     private routeService: RouteService,
     private storageService: StorageService,
     private sharedService: SharedService,
-    private tokenService: TokenStorageService,
-    private route: Router,
+    private router: Router,
     private toastController: ToastController,
     private eventBusService: EventBusService
   ) {
@@ -59,6 +57,8 @@ export class AppComponent implements OnDestroy {
   }
 
   async setRoutesUser() {
+    await this.storageService.init();
+    // Get routes from DB (user's routes) or from local storage
     if (this.authService.isUserLoggedIn()) {
       let userId = this.authService.getUserAuth().id;
       this.routeService.getUserRoutes(userId).subscribe(
@@ -67,7 +67,6 @@ export class AppComponent implements OnDestroy {
       );
       this.isUserLogged = true;
     } else {
-      await this.storageService.init();
       this.storageService.get('routes').then(routes => {
         if (!routes) {
           routes = [];
@@ -93,9 +92,7 @@ export class AppComponent implements OnDestroy {
       _ => {
         this.userLogged = null;
         this.isUserLogged = false;
-        this.authService.setUserAuth(null);
-        this.tokenService.setToken(null);
-        this.route.navigateByUrl('/');
+        this.router.navigateByUrl('/sign');
         this.sharedService.showToast('Se ha cerrado la sesión del usuario', 3000);
       }
     );

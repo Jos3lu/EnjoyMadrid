@@ -128,6 +128,7 @@ public class RouteServiceLogic implements RouteService {
 				route = this.routeRepository.save(route);
 				user.get().getRoutes().add(route);
 				this.userRepository.save(user.get());
+				routeResultDto.setId(route.getId());
 			}
 		}
 		
@@ -227,7 +228,7 @@ public class RouteServiceLogic implements RouteService {
 			neighbors =  (Set<P>) ((PublicTransportPoint) point).getNextStops().values().stream().collect(Collectors.toSet());		
 		} else if (point instanceof BicycleTransportPoint) {			
 			// If bicycle station get available stations 
-			neighbors = bicyclePoints;
+			neighbors = new HashSet<>(bicyclePoints);
 		}
 		
 		if (neighbors.isEmpty() || directNeighbors) {

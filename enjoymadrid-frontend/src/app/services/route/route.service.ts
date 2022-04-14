@@ -20,7 +20,7 @@ export class RouteService {
   ) { }
 
   getUserRoutes(userId: number): Observable<any> {
-    return this.httpClient.get(this.sharedService.getApiUrl() + '/users/' + userId + '/routes').pipe(
+    return this.httpClient.get(this.sharedService.getApiUrl() + 'users/' + userId + '/routes').pipe(
       catchError(this.sharedService.handleError)
     );
   }
@@ -29,6 +29,12 @@ export class RouteService {
     return this.httpClient.post(this.sharedService.getApiUrl() + 'routes', route, headerOptions).pipe(
       catchError(this.sharedService.handleError)
     );
+  }
+
+  deleteRoute(userId: number, routeId: number): Observable<any> {
+    return this.httpClient.delete(this.sharedService.getApiUrl() + 'users/' + userId + '/routes/' + routeId).pipe(
+      catchError(this.sharedService.handleError)
+    )
   }
   
 }

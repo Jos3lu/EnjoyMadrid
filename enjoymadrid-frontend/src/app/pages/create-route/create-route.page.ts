@@ -180,11 +180,16 @@ export class CreateRoutePage implements OnInit {
     this.route.maxDistance = this.maxDistance / 1000;
 
     // Get actual date
-    this.route.date = new Date();
+    const date = new Date();
+    this.route.date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
 
     this.routeService.createRoute(this.route).subscribe(
       (route: RouteResultModel) => {
         this.loadingRoute = false;
+        // Set id from DB if user is Logged in
+        if (this.authService.isUserLoggedIn()) {
+          this.route.id = route.id;
+        }
         // Store route response to be used in display route page
         this.sharedService.setRoute(route);
         // Store route information in list of user's routes

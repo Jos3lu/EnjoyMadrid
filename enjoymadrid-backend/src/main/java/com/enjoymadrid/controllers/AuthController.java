@@ -53,7 +53,7 @@ public class AuthController {
 		User user = userService.getUserByUsername(loginDto.getUsername());
 		RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
 		return ResponseEntity.ok(new SignInResponseDto(jwtToken, refreshToken.getRefreshToken(), user.getId(),
-				user.getName(), user.getUsername(), user.getPhoto()));
+				user.getName(), user.getUsername(), user.getPhoto(), user.getRoutes()));
 	}
 
 	@GetMapping("/signout")
