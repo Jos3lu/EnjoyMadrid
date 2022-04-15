@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 public class RouteResultDto {
 	
-	@JsonView
+	@JsonView(RouteInterfaces.BasicRouteResponseData.class)
 	@NotNull(message = "Id cannot be empty")
 	private Long id;
 

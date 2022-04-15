@@ -122,7 +122,7 @@ public class RouteServiceLogic implements RouteService {
 				
 		RouteResultDto routeResultDto = setSegments(routePoints, route.getName(), lineStops);
 
-		if (username != null) {
+		if (username != null && route.getId() == null) {
 			Optional<User> user = this.userRepository.findByUsername(username);
 			if (user.isPresent()) {
 				route = this.routeRepository.save(route);
@@ -592,18 +592,19 @@ public class RouteServiceLogic implements RouteService {
 					polylineList.add(new Double[] {latitude, longitude});
 				}
 				
-				// Get distance & duration
-				double distanceSegment = properties.get("summary").get("distance").asDouble();
+				// Get duration
 				durationSegment = properties.get("summary").get("duration").asDouble();
-				
-				// Adjust distance, add to segment
-				distanceSegment = BigDecimal.valueOf(distanceSegment / 1000).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
-				segment.setDistance(distanceSegment);
-				
-				// For bicycle & walk, the steps of the segment
+								
+				// For bicycle & walk, the steps & distance of segment
 				if (!transportMode.equals("Bus")) {	
-					List<String> stepsMap = new ArrayList<>();
+					// Get distance
+					double distanceSegment = properties.get("summary").get("distance").asDouble();
+					// Adjust distance, add to segment
+					distanceSegment = BigDecimal.valueOf(distanceSegment / 1000).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+					segment.setDistance(distanceSegment);
 					
+					// Handle the steps
+					List<String> stepsMap = new ArrayList<>();
 					List<JsonNode> stepsList = properties.get("segments").findValues("steps");
 					for (JsonNode steps : stepsList) {
 						for (JsonNode step : steps) {
@@ -672,6 +673,9 @@ public class RouteServiceLogic implements RouteService {
 						polylineList.addAll(polylineStop.getCoordinates());
 					}
 				}
+				
+				// Add estimated time taken between stops (30 seconds per stop)
+				if (points.size() > 2) durationSegment += 30 * (points.size() - 2);
 				
 				// Add attributes to the segment
 				segment.setLine(line);
