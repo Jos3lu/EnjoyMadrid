@@ -37,11 +37,15 @@ RELEASING:
 ### Added
 - backend documentation about encoded polylines without elevation data ([#1094](https://github.com/GIScience/openrouteservice/issues/1094))
 - python code on decoding polylines including elevation data
+- Czech language support (thanks to [trendspotter](https://github.com/trendspotter) for the translation)
 ### Fixed
 - improved log file settings error message ([#1110](https://github.com/GIScience/openrouteservice/issues/1110)) 
 - Dockerfile now creates intermediate directories if they are not present ([#1109](https://github.com/GIScience/openrouteservice/issues/1109))
 - internal properties of `IsochronesRequest` model not ignored for swagger file generation
 - remove non-parameter `metricsStrings` from API documentation ([#756](https://github.com/GIScience/openrouteservice/issues/756))
+- set default vehicle type for HGV profile ([#816](https://github.com/GIScience/openrouteservice/issues/816))
+- added missing matchTraffic override ([#1133](https://github.com/GIScience/openrouteservice/issues/1133))
+- typo in docker documentation
 
 ## [6.7.0] - 2022-01-04
 ### Added

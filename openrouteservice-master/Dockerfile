@@ -46,7 +46,7 @@ RUN cp /ors-core/openrouteservice/src/main/resources/ors-config-sample.json /ors
     # init_threads = 1, > 1 been reported some issues
     jq '.ors.services.routing.init_threads = 1' /ors-core/openrouteservice/src/main/resources/ors-config.json |sponge /ors-core/openrouteservice/src/main/resources/ors-config.json && \
 
-    # Delete all profiles but car
+    # Delete all profiles but car (set 9 so none profile is deleted)
     jq 'del(.ors.services.routing.profiles.active[9])' /ors-core/openrouteservice/src/main/resources/ors-config.json |sponge /ors-core/openrouteservice/src/main/resources/ors-config.json
 
 # Make all directories writable, to allow the usage of other uids via "docker run -u"
