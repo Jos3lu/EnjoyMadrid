@@ -5,6 +5,7 @@ import * as L from 'leaflet';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { ModalController } from '@ionic/angular';
 import { PointModel } from 'src/app/models/point.model';
+import { RouteService } from 'src/app/services/route/route.service';
 
 @Component({
   selector: 'app-select-point',
@@ -23,10 +24,13 @@ export class SelectPointPage implements OnInit {
   // Map & markers
   map: L.Map;
   marker: L.Marker;
+  // Reference to Search control
+  searchControl: any;
 
   constructor(
     private geolocation: Geolocation,
     private sharedService: SharedService,
+    private routeService: RouteService,
     private modalController: ModalController
   ) { }
 
@@ -51,7 +55,7 @@ export class SelectPointPage implements OnInit {
       "<span style='cursor: pointer'>Predeterminado</span>": standard
     };
 
-    const searchControl = GeoSearchControl({
+    this.searchControl = GeoSearchControl({
       provider: new OpenStreetMapProvider(),
       style: 'bar',
       autoCompleteDelay: 500,
@@ -74,7 +78,7 @@ export class SelectPointPage implements OnInit {
       this.map.setView([this.point.latitude, this.point.longitude], 18);
     }
 
-    this.map.addControl(searchControl);
+    this.map.addControl(this.searchControl);
     L.control.zoom({ position: 'topright' }).addTo(this.map);
     L.control.layers(layers, null, { position: 'topright' }).addTo(this.map);
 
@@ -95,7 +99,19 @@ export class SelectPointPage implements OnInit {
   }
 
   selectPoint(result: any) {
-    this.setMarker(result.latlng.lat, result.latlng.lng, result.latlng.lat + ', ' + result.latlng.lng);
+    this.routeService.getAddressFromCoordinates(result.latlng.lat, result.latlng.lng).subscribe(
+      (response: any) => {
+        let name = response.features[0].properties.label;
+        let longitude = response.features[0].geometry.coordinates[0];
+        let latitude = response.features[0].geometry.coordinates[1];
+        this.setMarker(latitude, longitude, name);
+        this.searchControl.searchElement.input.value = name;
+      },
+      _ => {
+        let name = result.latlng.lat + ', ' + result.latlng.lng;
+        this.setMarker(result.latlng.lat, result.latlng.lng, name);
+      }
+    );
   }
 
   searchCurrentLocation() {

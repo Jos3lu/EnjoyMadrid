@@ -36,7 +36,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.w3c.dom.Document;
@@ -45,7 +44,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.enjoymadrid.models.repositories.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -63,7 +61,6 @@ import com.enjoymadrid.models.PublicTransportPoint;
 import com.enjoymadrid.models.Schedule;
 import com.enjoymadrid.models.Time;
 import com.enjoymadrid.models.TouristicPoint;
-import com.enjoymadrid.models.User;
 
 @Component
 @EnableScheduling
@@ -75,29 +72,17 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private final PublicTransportLineRepository publicTransportLineRepository;
 	private final AirQualityPointRepository airQualityPointRepository;
 	private final TouristicPointRepository touristicPointRepository;
-	private final UserRepository userRepository;
 
 	public LoadPointsComponent(TransportPointRepository transportPointRepository, PublicTransportLineRepository publicTransportLineRepository,
-			AirQualityPointRepository airQualityPointRepository, TouristicPointRepository touristicPointRepository,
-			UserRepository userRepository) {
+			AirQualityPointRepository airQualityPointRepository, TouristicPointRepository touristicPointRepository) {
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;
 		this.airQualityPointRepository = airQualityPointRepository;
 		this.touristicPointRepository = touristicPointRepository;
-		this.userRepository = userRepository;
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		User user1 = new User("Ramon", "ramoneitor", new BCryptPasswordEncoder().encode("1fsdfsdAff3"));
-		userRepository.save(user1);
-
-		User user2 = new User("Pepe", "pepeitor", new BCryptPasswordEncoder().encode("dfdsjhf3213DS"));
-		userRepository.save(user2);
-
-		User user3 = new User("Juan", "juaneitor", new BCryptPasswordEncoder().encode("dsd321AJDJdfd"));
-		userRepository.save(user3);
 		
 		new Thread(() -> loadDataAirQualityPoints()).start();
 		loadDataTouristicPoints();
