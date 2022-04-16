@@ -21,14 +21,14 @@
           <ion-avatar slot="start">
             <img alt="route-{{i}}" src="{{'./assets/madrid' + indexImages[i] + '.jpg'}}">
           </ion-avatar>
-          <ion-label class="ion-text-nowrap" >
+          <ion-label class="ion-text-nowrap">
             <h2 class="title-route">{{route?.name}}</h2>
-            <h3><ion-icon name="home"></ion-icon> {{route?.origin?.name}}</h3>
-            <h3><ion-icon name="flag"></ion-icon> {{route?.destination?.name}}</h3>
-            <p><ion-icon name="calendar"></ion-icon> {{route?.date}}</p>
+            <h3><span class="route-title-info route-info">Inicio</span> {{route?.origin?.name}}</h3>
+            <h3><span class="route-title-info route-info">Fin</span> {{route?.destination?.name}}</h3>
+            <p class="route-info"><ion-icon class="route-icon" name="calendar"></ion-icon> {{route?.date}}</p>
           </ion-label>
-          <ion-fab-button size="small" (click)="removeRoute(route, i)" class="remove-button ion-align-self-center" color="danger" slot="end">
-            <ion-icon name="trash-outline"></ion-icon>
+          <ion-fab-button title="Borrar" size="small" (click)="removeRoute(route, i)" class="remove-button ion-align-self-center" color="danger" slot="end">
+            <ion-icon class="route-icon" name="trash-outline"></ion-icon>
           </ion-fab-button>
         </ion-item>
     </ion-item-group>
@@ -53,26 +53,31 @@
               </ion-avatar>
             </ion-col>
             <ion-col>
-              <h3>Ruta1</h3>
+              <h2>Ruta1</h2>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <p><span style="font-weight: bold;">Creada el:</span> {{routeModal?.date}}</p>
-              <p><span style="font-weight: bold;">Inicio:</span> {{routeModal?.origin?.name}}</p>
-              <p><span style="font-weight: bold;">Fin:</span> {{routeModal?.destination?.name}}</p>
-              <p><span style="font-weight: bold;">Distancia máxima andando:</span> {{routeModal?.maxDistance}}</p>
-              <p><span style="font-weight: bold;">Transportes:</span> {{routeModal?.transports}}</p>
-              <p><span style="font-weight: bold;">Preferencias:</span>
-              <div *ngFor="let preference of routeModal.preferences | keyvalue">
-                <p *ngIf="preference.value > 0">
-                  {{preference.key.split('_')[1]}}
-                  <ion-icon class="color-star" name="star" *ngFor="let n of countStars(preference.value)"></ion-icon>
-                </p>
-              </div>
+              <ion-label>
+                <h3><span class="route-title-info route-info">Creada el</span> {{routeModal?.date}}</h3>
+                <p><span class="route-title-info route-info">Inicio</span> {{routeModal?.origin?.name}}</p>
+                <p><span class="route-title-info route-info">Fin</span> {{routeModal?.destination?.name}}</p>
+                <p><span class="route-title-info route-info">Distancia máxima andando</span> {{routeModal?.maxDistance}}</p>
+                <p><span class="route-title-info route-info">Transportes</span> {{routeModal?.transports}}</p>
+                <p><span class="route-title-info route-info">Preferencias</span>
+                <div *ngFor="let preference of routeModal.preferences | keyvalue">
+                  <p *ngIf="preference.value > 0">
+                    {{preference.key.split('_')[1]}}
+                    <ion-icon class="color-star" name="star" *ngFor="let n of countStars(preference.value)"></ion-icon>
+                  </p>
+                </div>
+              </ion-label>
             </ion-col>
           </ion-row>
-          <ion-button (click)="createRoute()" color="primary">OK</ion-button>
+          <div class="ion-margin-top flex-div ion-align-items-center ion-align-self-end ion-justify-content-end">
+            <ion-spinner *ngIf="loadingRoute" name="bubbles"></ion-spinner>
+            <ion-button (click)="createRoute()" color="primary">OK</ion-button>
+          </div>
         </ion-grid>
       </ion-content>
     </ng-template>

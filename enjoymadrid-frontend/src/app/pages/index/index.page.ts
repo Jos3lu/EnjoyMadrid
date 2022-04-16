@@ -20,6 +20,9 @@ export class IndexPage implements OnInit {
   // Image generated randomly associated to route
   indexImages: number[];
 
+  // Show spinner while create route
+  loadingRoute: boolean;
+
   // Route to show in modal
   routeModal: RouteModel;
   indexRoute: number;
@@ -41,6 +44,7 @@ export class IndexPage implements OnInit {
 
   ionViewWillEnter() {
     this.openModal = false;
+    this.loadingRoute = false;
     this.routes = this.sharedService.getRoutes();
     this.selectImage(this.routes.length);
   }
@@ -52,13 +56,16 @@ export class IndexPage implements OnInit {
   }
 
   createRoute() {
+    this.loadingRoute = true;
     this.routeService.createRoute(this.routeModal).subscribe(
       (route: RouteResultModel) => {
         // Store route response to be used in display route page
         this.sharedService.setRoute(route);
         this.router.navigate(['/display-route']);
+        this.openModal = false;
       },
       error => {
+        this.loadingRoute = false;
         if (error.error?.message) {
           this.sharedService.showToast(error.error?.message, 3000);
         } else {

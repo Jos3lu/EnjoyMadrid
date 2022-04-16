@@ -2,6 +2,18 @@ ion-menu-button {
   color: var(--ion-color-dark);
 }
 
+ion-modal {
+  --border-radius: 8px!important;
+}
+
+h3 {
+  font-size: .83em;
+}
+
+.flex-div {
+  display: flex;
+}
+
 .title-route {
   font-weight: bold;
   margin-bottom: 10px;
@@ -17,4 +29,17 @@ ion-menu-button {
 
 .color-star {
   color: #ffc700;
+}
+
+.route-title-info {
+  font-weight: bold; 
+  color: #737578;
+}
+
+.route-info {
+  font-size: small;
+}
+
+.route-icon {
+  pointer-events: none;
 }
