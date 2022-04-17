@@ -43,10 +43,10 @@ export class IndexPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.openModal = false;
-    this.loadingRoute = false;
     this.routes = this.sharedService.getRoutes();
     this.selectImage(this.routes.length);
+    this.openModal = false;
+    this.loadingRoute = false;
   }
 
   async routeSelected(route: RouteModel, index: number) {
@@ -57,22 +57,33 @@ export class IndexPage implements OnInit {
 
   createRoute() {
     this.loadingRoute = true;
-    this.routeService.createRoute(this.routeModal).subscribe(
-      (route: RouteResultModel) => {
-        // Store route response to be used in display route page
-        this.sharedService.setRoute(route);
-        this.router.navigate(['/display-route']);
-        this.openModal = false;
-      },
-      error => {
-        this.loadingRoute = false;
-        if (error.error?.message) {
-          this.sharedService.showToast(error.error?.message, 3000);
-        } else {
-          this.sharedService.showToast('No se ha podido crear la ruta', 3000);
-        }
-      }
-    );
+
+    if (this.authService.isUserLoggedIn()) {
+      const userId = this.authService.getUserAuth().id;
+      this.routeService.createRouteUserLoggedIn(this.routeModal, userId).subscribe(
+        (route: RouteResultModel) => this.onSuccessCreateRoute(route),
+        error => this.sharedService.onError(error, 5000)
+      );
+    } else {
+      this.routeService.createRouteUserNotLoggedIn(this.routeModal).subscribe(
+        (route: RouteResultModel) => this.onSuccessCreateRoute(route),
+        error => this.sharedService.onError(error, 3000)
+      );
+    }
+  }
+
+  onSuccessCreateRoute(route: RouteResultModel) {
+    // Hide spinner
+    this.loadingRoute = false;
+    // Store route response to be used in display route page & close modal with route information
+    this.sharedService.setRoute(route);
+    this.openModal = false;
+    // Display route
+    this.router.navigate(['/display-route']);
+  }
+
+  formatArray(transports: string[]) {
+    return transports.join(', ');
   }
 
   countStars(stars: number) {
@@ -90,7 +101,7 @@ export class IndexPage implements OnInit {
       let userId = this.authService.getUserAuth().id;
       this.routeService.deleteRoute(userId, route.id).subscribe(
         _ => this.sharedService.showToast('Ruta "' + route.name + '" borrada',3000),
-        _ => this.sharedService.showToast('No se ha podido borrar la ruta', 3000)
+        error => this.sharedService.onError(error, 5000)
       );
     } else {
       this.storageService.set('routes', this.routes)
@@ -101,9 +112,9 @@ export class IndexPage implements OnInit {
 
   selectImage(index: number) {
     // Random image from assets
-    this.indexImages = [];
+    this.indexImages = new Array(index);
     for (let i = 0; i < index; i++) {
-      this.indexImages.push(Math.floor(Math.random() * 15));
+      this.indexImages[i] = Math.floor(Math.random() * 15);
     }
   }
 

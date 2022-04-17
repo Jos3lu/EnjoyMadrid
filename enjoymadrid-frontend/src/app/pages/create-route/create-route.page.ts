@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
@@ -184,32 +185,47 @@ export class CreateRoutePage implements OnInit {
     const date = new Date();
     this.route.date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
 
-    this.routeService.createRoute(this.route).subscribe(
-      (route: RouteResultModel) => {
-        this.loadingRoute = false;
-        // Set id from DB if user is Logged in
-        if (this.authService.isUserLoggedIn()) {
+    if (this.authService.isUserLoggedIn()) {
+      const userId = this.authService.getUserAuth().id;
+      this.routeService.createRouteUserLoggedIn(this.route, userId).subscribe(
+        (route: RouteResultModel) => {
+          // Set id to route from DB
           this.route.id = route.id;
-        }
-        // Store route response to be used in display route page
-        this.sharedService.setRoute(route);
-        // Store route information in list of user's routes
-        this.sharedService.getRoutes().push(this.route);
-        if (!this.authService.isUserLoggedIn()) {
+          // Set route
+          this.onSuccessCreateRoute(route);
+          // Display route
+          this.router.navigate(['/display-route']);
+        },
+        error => this.onErrorCreateRoute(error)
+      );
+    } else {
+      this.routeService.createRouteUserNotLoggedIn(this.route).subscribe(
+        (route: RouteResultModel) => {
+          // Set route
+          this.onSuccessCreateRoute(route);
+          // set routes in local storage
           this.storageService.set('routes', this.sharedService.getRoutes());
-        }
-        this.router.navigate(['/display-route']);
-      },
-      error => {
-        this.loadingRoute = false;
-        if (error.error?.message) {
-          this.sharedService.showToast(error.error?.message, 3000);
-        } else {
-          this.sharedService.showToast('No se ha podido crear la ruta', 3000);
-        }
-      }
-    );
+          // Display route
+          this.router.navigate(['/display-route']);
+        },
+        error => this.onErrorCreateRoute(error)
+      );
+    }
+  }
 
+  onSuccessCreateRoute(route: RouteResultModel) {
+    // Store route response to be used in display route page
+    this.sharedService.setRoute(route);
+    // Store route information in list of user's routes
+    this.sharedService.getRoutes().push(this.route);
+    // Hide spinner
+    this.loadingRoute = false;
+  }
+
+  onErrorCreateRoute(error: HttpErrorResponse) {
+    this.sharedService.onError(error, 5000);
+    // Hide spinner
+    this.loadingRoute = false;
   }
 
 }

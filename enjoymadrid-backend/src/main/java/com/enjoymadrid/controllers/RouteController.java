@@ -1,6 +1,5 @@
 package com.enjoymadrid.controllers;
 
-import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -40,8 +39,16 @@ public class RouteController {
 	
 	@PostMapping("/routes")
 	@JsonView(RouteInterfaces.RouteResponseData.class)
-	public ResponseEntity<RouteResultDto> createRoute(Principal principal, @Valid @RequestBody Route route) {
-		return new ResponseEntity<>(this.routeService.createRoute(route, principal != null ? principal.getName() : null), HttpStatus.CREATED);
+	public ResponseEntity<RouteResultDto> createRoute(@Valid @RequestBody Route route) {
+		// Create route for user not logged in
+		return new ResponseEntity<>(this.routeService.createRoute(route, null), HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/users/{userId}/routes")
+	@JsonView(RouteInterfaces.RouteResponseData.class)
+	public ResponseEntity<RouteResultDto> createRoute(@Valid @RequestBody Route route, @PathVariable Long userId) {
+		// Create route for user logged in
+		return new ResponseEntity<RouteResultDto>(this.routeService.createRoute(route, userId), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("users/{userId}/routes/{routeId}")

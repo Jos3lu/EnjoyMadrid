@@ -53,21 +53,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http
+		// If our API uses token-based authentication, like JWT, we don't need CSRF protection
 		.csrf().disable()
 		.exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 		.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/api/users", "/api/users/*").authenticated()
+		.antMatchers(HttpMethod.GET, "/api/users", "/api/users/*", "/api/users/*/routes").authenticated()
+		.antMatchers(HttpMethod.POST, "/api/users/*/routes").authenticated()
 		.antMatchers(HttpMethod.PUT, "/api/users/*", "/api/users/*/picture").authenticated()
-		.antMatchers(HttpMethod.DELETE, "/api/users/*").authenticated()
-		.antMatchers("/**", "/h2-console/**").permitAll()
-		.and().csrf().disable()
-		.httpBasic().disable();
-		
-        //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-		http.headers().frameOptions().sameOrigin();
-			
+		.antMatchers(HttpMethod.DELETE, "/api/users/*", "/api/users/*/routes/*").authenticated()
+		.antMatchers("/**").permitAll();
+					
 		// jwtAuthTokenFilter triggers before UsernamePasswordAuthenticationFilter
 		http.addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
 	}

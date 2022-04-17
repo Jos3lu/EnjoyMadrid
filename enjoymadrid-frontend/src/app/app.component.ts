@@ -43,11 +43,11 @@ export class AppComponent implements OnDestroy {
   ) {
     this.selectDarkOrLightTheme();
     this.setRoutesUser();
+    this.distanceUnit = 'kilometers';
+    this.setDistanceUnit();
     this.eventBusSub = this.eventBusService.on('logout', () => {
       this.signOut();
     });
-    this.distanceUnit = 'kilometers';
-    this.setDistanceUnit();
   }
 
   ngOnDestroy() {
@@ -63,7 +63,10 @@ export class AppComponent implements OnDestroy {
       let userId = this.authService.getUserAuth().id;
       this.routeService.getUserRoutes(userId).subscribe(
         routes => this.sharedService.setRoutes(routes),
-        _ => this.sharedService.setRoutes([])
+        error => {
+          this.sharedService.onError(error, 5000);
+          this.sharedService.setRoutes([]);
+        }
       );
       this.isUserLogged = true;
     } else {
@@ -93,8 +96,9 @@ export class AppComponent implements OnDestroy {
         this.userLogged = null;
         this.isUserLogged = false;
         this.router.navigateByUrl('/sign');
-        this.sharedService.showToast('Se ha cerrado la sesión del usuario', 3000);
-      }
+        this.sharedService.showToast('Se ha cerrado la sesión del usuario', 2000);
+      },
+      _ => this.sharedService.showToast('Algo ha salido mal al cerrar la sesión', 3000)
     );
   }
 
@@ -112,7 +116,7 @@ export class AppComponent implements OnDestroy {
                 this.signOut();
                 this.sharedService.showToast('Cuenta borrada con éxito', 3000);
               },
-              error => this.sharedService.showToast(error.error?.message, 3000)
+              error => this.sharedService.onError(error, 5000)
             );
           }
         }, {

@@ -19,6 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // If access token then add to header
         let authRequest = request;
         const tokenJwt = this.tokenStorage.getToken();
         if (tokenJwt != null) {
@@ -26,6 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }
 
         return next.handle(authRequest).pipe(catchError(error => {
+            // If access token expired check for refresh token
             if (error instanceof HttpErrorResponse && !authRequest.url.includes('/signin') && error.status === 401) {
                 return this.handle401Error(authRequest, next);
             }
@@ -42,6 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
             const token = this.tokenStorage.getRefreshToken();
 
             if (token) {
+                // If refresh token expired, log the user out but or update the access token
                 return this.authService.refreshToken(token).pipe(
                     switchMap((token: any) => {
                         this.isRefreshing = false;
@@ -53,7 +56,6 @@ export class AuthInterceptor implements HttpInterceptor {
                     }),
                     catchError(error => {
                         this.isRefreshing = false;
-                        this.authService.signOut();
                         return throwError(error);
                     })
                 );

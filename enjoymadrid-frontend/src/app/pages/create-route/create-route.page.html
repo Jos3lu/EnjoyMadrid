@@ -40,7 +40,7 @@
             <ion-item>
               <ion-range color="secondary" step="100" name="points" [(ngModel)]="maxDistance" min="300" max="2000"
                 pin>
-                <ion-label class="ion-text-wrap" slot="start">0.3 km</ion-label>
+                <ion-label class="ion-text-wrap" slot="start">300 m</ion-label>
                 <ion-label class="ion-text-wrap" slot="end">2 km</ion-label>
               </ion-range>
             </ion-item>
@@ -73,7 +73,7 @@
           </ion-list>
 
           <div class="ion-margin-top flex-div ion-align-items-center ion-align-self-end ion-justify-content-end">
-            <ion-spinner *ngIf="loadingRoute" name="bubbles"></ion-spinner>
+            <ion-spinner *ngIf="loadingRoute" name="crescent"></ion-spinner>
             <ion-button [disabled]="!routeForm.form.valid || disabled" type="submit">Crear Ruta</ion-button>
           </div>
         </form>

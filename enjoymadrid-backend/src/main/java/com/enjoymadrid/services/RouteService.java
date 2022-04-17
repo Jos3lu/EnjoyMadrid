@@ -12,7 +12,7 @@ public interface RouteService {
 
 	public List<Route> getUserRoutes(Long userId);
 		
-	public RouteResultDto createRoute(Route route, String username);
+	public RouteResultDto createRoute(Route route, Long userId);
 	
 	public void deleteRoute(Long routeId, Long userId);
 	

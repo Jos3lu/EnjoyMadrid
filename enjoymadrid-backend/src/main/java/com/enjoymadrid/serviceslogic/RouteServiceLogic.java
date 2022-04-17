@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -97,7 +96,7 @@ public class RouteServiceLogic implements RouteService {
 	}
 	
 	@Override
-	public RouteResultDto createRoute(Route route, String username) {
+	public RouteResultDto createRoute(Route route, Long userId) {
 		
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
@@ -122,14 +121,13 @@ public class RouteServiceLogic implements RouteService {
 				
 		RouteResultDto routeResultDto = setSegments(routePoints, route.getName(), lineStops);
 
-		if (username != null && route.getId() == null) {
-			Optional<User> user = this.userRepository.findByUsername(username);
-			if (user.isPresent()) {
-				route = this.routeRepository.save(route);
-				user.get().getRoutes().add(route);
-				this.userRepository.save(user.get());
-				routeResultDto.setId(route.getId());
-			}
+		// If user logged in store route in DB
+		if (userId != null && route.getId() == null) {
+			User user = this.userService.getUser(userId);
+			route = this.routeRepository.save(route);
+			user.getRoutes().add(route);
+			this.userRepository.save(user);
+			routeResultDto.setId(route.getId());
 		}
 		
 		return routeResultDto;

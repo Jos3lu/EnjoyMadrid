@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { UserModel } from 'src/app/models/user.model';
@@ -22,7 +23,8 @@ export class AuthService {
     private httpClient: HttpClient, 
     private sharedService: SharedService,
     private tokenService: TokenStorageService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) {
     this.currentUser = new BehaviorSubject<UserModel>(null);
   }
@@ -42,6 +44,7 @@ export class AuthService {
   signIn(userSignIn: UserModel): Observable<any> {
     return this.httpClient.post<any>(this.sharedService.getApiUrl() + "signin", userSignIn, headerOptions).pipe(
       tap(data => {
+        // Set access & refresh token of user, & set information of user
         this.tokenService.setToken(data.token);
         this.tokenService.setRefreshToken(data.refreshToken);
         this.setUserAuth({ id: data.id, name: data.name, username: data.username, photo: data.photo });
@@ -52,12 +55,15 @@ export class AuthService {
   }
 
   signUp(userSignUp: UserModel): Observable<any> {
-    return this.httpClient.post<any>(this.sharedService.getApiUrl() + 'signup', userSignUp, headerOptions);
+    return this.httpClient.post<any>(this.sharedService.getApiUrl() + 'signup', userSignUp, headerOptions).pipe(
+      catchError(this.sharedService.handleError)
+    );
   }
 
   signOut(): Observable<any> {
     return this.httpClient.get<any>(this.sharedService.getApiUrl() + 'signout').pipe(
       tap(_ => {
+        // Clear data of user
         this.setUserAuth(null);
         this.tokenService.setToken(null);
         this.storageService.get('routes').then(routes => {
@@ -66,6 +72,8 @@ export class AuthService {
             this.storageService.set('routes',routes);
           }
           this.sharedService.setRoutes(routes);
+          // Navigate to sign page
+          this.router.navigateByUrl('/sign');
         }).catch(error => {
           console.log(error);
         });

@@ -79,10 +79,7 @@ export class SignPage implements OnInit {
       },
       error => {
         this.loadingSignUp = false;
-        this.sharedService.handleError(error);
-        if (error.error.message) {
-          this.sharedService.showToast(error.error?.message, 3000);
-        }
+        this.sharedService.onError(error, 3000);
       }
     );
   }

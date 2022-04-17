@@ -29,8 +29,14 @@ export class RouteService {
     );
   }
 
-  createRoute(route: RouteModel): Observable<any> {
+  createRouteUserNotLoggedIn(route: RouteModel): Observable<any> {
     return this.httpClient.post(this.sharedService.getApiUrl() + 'routes', route, headerOptionsCreateRoute).pipe(
+      catchError(this.sharedService.handleError)
+    );
+  }
+
+  createRouteUserLoggedIn(route: RouteModel, userId: number) {
+    return this.httpClient.post(this.sharedService.getApiUrl() + 'users/' + userId + '/routes', route, headerOptionsCreateRoute).pipe(
       catchError(this.sharedService.handleError)
     );
   }
@@ -42,7 +48,6 @@ export class RouteService {
   }
 
   getAddressFromCoordinates(latitude: number, longitude: number) {
-    //return this.httpClient.get('http://localhost:8088/ors/v1/geocode/reverse?' + 
     return this.httpClient.get('https://api.openrouteservice.org/geocode/reverse?' + 
       'api_key=5b3ce3597851110001cf6248079a826553c748d0aed309710623ce33' + 
       '&point.lon=' + longitude + '&point.lat=' + latitude + '&size=1', headerOptionsGetAddress)

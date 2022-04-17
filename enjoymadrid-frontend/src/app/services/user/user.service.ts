@@ -20,11 +20,15 @@ export class UserService {
   ) { }
 
   updateUser(id: number, user: UserModel): Observable<any> {
-    return this.httpClient.put(this.sharedService.getApiUrl() + 'users/' + id, user, headerOptions);
+    return this.httpClient.put(this.sharedService.getApiUrl() + 'users/' + id, user, headerOptions).pipe(
+      catchError(this.sharedService.handleError)
+    );
   }
 
   updateUserPictureProfile(id: number, imageForm: FormData): Observable<any> {
-    return this.httpClient.put(this.sharedService.getApiUrl() + 'users/' + id + '/picture', imageForm);
+    return this.httpClient.put(this.sharedService.getApiUrl() + 'users/' + id + '/picture', imageForm).pipe(
+      catchError(this.sharedService.handleError)
+    );
   }
 
   deleteUser(id: number): Observable<any> {

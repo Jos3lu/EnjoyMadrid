@@ -1,9 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserModel } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { EventBusService } from 'src/app/services/event-bus/event-bus.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -25,7 +23,6 @@ export class UpdateUserPage implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private sharedService: SharedService,
-    private eventBusService: EventBusService,
     private router: Router
   ) {
     this.showPasswordCurrent;
@@ -58,7 +55,7 @@ export class UpdateUserPage implements OnInit {
           this.user.photo = user.photo;
           this.authService.getUserAuth().photo = user.photo;
         },
-        error => this.onError(error)
+        error => this.sharedService.onError(error, 5000)
       );
     }
   }
@@ -83,15 +80,6 @@ export class UpdateUserPage implements OnInit {
         }
         this.router.navigateByUrl('/');
       },
-      error => this.onError(error));
-  }
-
-  onError(error: HttpErrorResponse) {
-    this.sharedService.handleError(error);
-    this.sharedService.showToast(error.error?.message, 3000);
-    // If response status tells us the access token & refresh token are expired we dispatch logout event to AppComponent
-    if (error.status === 403) {
-      this.eventBusService.emit({ name: 'logout', value: null });
-    }
+      error => this.sharedService.onError(error, 5000));
   }
 }

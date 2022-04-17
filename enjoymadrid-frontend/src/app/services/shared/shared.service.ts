@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { PointModel } from 'src/app/models/point.model';
 import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
+import { EventBusService } from '../event-bus/event-bus.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,9 @@ export class SharedService {
   // Distance unit for routes
   private distanceUnit: string;
 
-  constructor() { 
-  }
+  constructor(
+    private eventBusService: EventBusService
+  ) { }
 
   getRoute() {
     return this.routeResult;
@@ -85,7 +87,7 @@ export class SharedService {
 
   // Reload image if any error happens
   async reloadImage(event: any, retry: string, maxRetry: string, fallback: string) {
-    // Reload image if any error happens
+    // Get src of target, get attributes & check retry, try to reload image
     const originalSrc = event.target.src;
     if (parseInt(event.target.getAttribute(retry)) !== parseInt(event.target.getAttribute(maxRetry))) {
       event.target.setAttribute(retry, parseInt(event.target.getAttribute(retry)) + 1);
@@ -98,6 +100,17 @@ export class SharedService {
     }
   }
 
+  // Handle error in components
+  onError(error: HttpErrorResponse, timeout: number) {
+    // If response status tells us the access token & refresh token are expired we dispatch logout event to AppComponent
+    if (error.status === 403) {
+      this.eventBusService.emit({ name: 'logout', value: null });
+    }
+
+    // Show message
+    this.showToast(error.error?.message, timeout);
+  }
+
   // Handle error in services
   handleError(handleError: HttpErrorResponse) {
     if (handleError.status === 0) {
@@ -107,9 +120,9 @@ export class SharedService {
       // The backend returned an unsuccessful response code.
       console.error(`Backend returned code ${handleError.status}, body was: `, handleError.error);
     }
-    // Return an observable with a error message.
-    return throwError(
-      'Algo ha pasado. Inténtalo de nuevo');
+
+    // Return the same error.
+    return throwError(handleError);
   }
 
 }
