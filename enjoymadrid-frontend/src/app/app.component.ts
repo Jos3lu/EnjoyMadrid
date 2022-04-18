@@ -84,6 +84,7 @@ export class AppComponent implements OnDestroy {
   }
 
   checkIfUserLogged() {
+    // When side menu is opened check if user logged in
     if (this.authService.isUserLoggedIn()) {
       this.userLogged = this.authService.getUserAuth();
       this.isUserLogged = true;
@@ -93,6 +94,7 @@ export class AppComponent implements OnDestroy {
   signOut() {
     this.authService.signOut().subscribe(
       _ => {
+        // Clear user data, go to sign page
         this.userLogged = null;
         this.isUserLogged = false;
         this.router.navigateByUrl('/sign');
@@ -103,6 +105,7 @@ export class AppComponent implements OnDestroy {
   }
 
   async deleteAccount() {
+    // Confirm if user wants to delete account
     const toast = await this.toastController.create({
       header: 'Eliminar mi cuenta de forma definitiva',
       position: 'top',

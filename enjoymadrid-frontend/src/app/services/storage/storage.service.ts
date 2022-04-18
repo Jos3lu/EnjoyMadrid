@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class StorageService {
 
+  // Local storage methods
   private _storage: Storage | null = null;
 
   constructor(private storage: Storage) {

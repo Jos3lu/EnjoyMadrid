@@ -17,6 +17,7 @@ const headerOptions = {
 })
 export class AuthService {
 
+  // Store user logged in
   private currentUser: BehaviorSubject<UserModel>;
 
   constructor(

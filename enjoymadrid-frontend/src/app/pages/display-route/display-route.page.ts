@@ -12,6 +12,7 @@ import { RouteResultModel } from 'src/app/models/route-result.model';
   templateUrl: './display-route.page.html',
   styleUrls: ['./display-route.page.scss'],
   animations: [
+    // Animation for side menu
     trigger('openClose', [
       transition(':enter', [
         style({ transform: 'translateX(-100%)' }),
@@ -59,6 +60,7 @@ export class DisplayRoutePage implements OnInit {
   }
 
   ngOnInit() {
+    // Get width of device to show side menu or sheet modal
     this.platform.ready().then(() => {
       this.showSideMenu = this.platform.width() >= 768;
     });
@@ -116,17 +118,21 @@ export class DisplayRoutePage implements OnInit {
       this.segmentsVisual.push({ dashed: dashedSegment, icon: iconSegment, steps: stepSegment });
     });
 
+    // Get start & end time of route
     this.startTime = new Date();
     this.endTime = new Date(this.startTime.getTime());
     this.endTime.setMinutes(this.startTime.getMinutes() + this.routeResult.duration);
   }
 
   ionViewDidLeave() {
+    // Close sheet modal if open
     if (!this.showSideMenu) this.modalController.dismiss();
   }
 
   ionViewDidEnter() {
+    // For side menu, starts open
     this.isOpen = true;
+    // Miles or km
     this.distanceUnit = this.sharedService.getDistanceUnit();
 
     // OpenStreetMap
@@ -140,11 +146,13 @@ export class DisplayRoutePage implements OnInit {
       attribution: '&copy; <a href="https://www.esri.com/en-us/home"> Esri</a>'
     });
 
+    // Add layers
     const layers = {
       "<span style='cursor: pointer'>Satélite</span>": satellite,
       "<span style='cursor: pointer'>Predeterminado</span>": standard
     };
 
+    // Create map
     this.map = L.map('map', {
       zoomControl: false,
       center: [40.416694, -3.703250],
@@ -152,6 +160,7 @@ export class DisplayRoutePage implements OnInit {
       layers: [standard, satellite]
     });
 
+    // Configure controls
     L.control.zoom({ position: 'topright' }).addTo(this.map);
     L.control.layers(layers, null, { position: 'topright' }).addTo(this.map);
 

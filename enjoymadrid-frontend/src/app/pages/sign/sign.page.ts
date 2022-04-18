@@ -52,6 +52,7 @@ export class SignPage implements OnInit {
 
   onSignIn() {
     this.loadingSignIn = true;
+    // Call sign in function
     this.authService.signIn(this.userSignIn).subscribe(
       _ => {
         this.onResponse();
@@ -65,6 +66,7 @@ export class SignPage implements OnInit {
 
   onSignUp() {
     this.loadingSignUp = true;
+    // Call function for sign up
     this.authService.signUp(this.userSignUp).subscribe(
       _ => {
         this.authService.signIn({ username: this.userSignUp.username, password: this.userSignUp.password }).subscribe(
@@ -86,6 +88,7 @@ export class SignPage implements OnInit {
 
   onResponse() {
     this.initForms();
+    // Navigate to home page
     this.router.navigateByUrl('/');
   }
 

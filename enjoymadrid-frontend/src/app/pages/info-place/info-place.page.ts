@@ -17,6 +17,7 @@ SwiperCore.use([ Autoplay, Pagination, Navigation, EffectCoverflow]);
 })
 export class InfoPlacePage implements OnInit {
 
+  // Slider for images
   optionsSlider: SwiperOptions = {
     grabCursor: true,
     autoplay: true,
@@ -27,6 +28,7 @@ export class InfoPlacePage implements OnInit {
     pagination: { clickable: true, dynamicBullets: true }
   }
 
+  // Place information
   @Input() place: TouristicPointModel;
 
   constructor(
@@ -41,10 +43,12 @@ export class InfoPlacePage implements OnInit {
 
   @HostListener('window:popstate', ['$event'])
   closeInfoPlace() {
+    // Close modal on back button
     this.modalController.dismiss();
   }
 
   createRoute() {
+    // Send point information as destination to create route 
     this.modalController.dismiss();
     const point: PointModel = { 
       latitude: this.place.latitude, 
@@ -56,6 +60,7 @@ export class InfoPlacePage implements OnInit {
   }
 
   sanitizeHtml(innerHTMl: string) {
+    // Sanitize html
     return this.sanitizer.bypassSecurityTrustHtml(innerHTMl);
   }
 

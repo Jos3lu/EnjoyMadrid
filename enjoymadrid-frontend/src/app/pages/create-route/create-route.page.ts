@@ -53,6 +53,7 @@ export class CreateRoutePage implements OnInit {
 
   initRoute() {
 
+    // Init the necessary information
     this.route = { 
       name: '',
       preferences: {},
@@ -100,14 +101,17 @@ export class CreateRoutePage implements OnInit {
   }
 
   onRating(value: number, index: number) {
+    // Get selected stars
     this.preferences[index].value = value;
   }
 
   changeColor(indexStar: number, index: number) {
+    // Update color of stars
     return indexStar > this.preferences[index].value ? '#ccc' : '#ffc700';
   }
 
   ratingSelected(index: number) {
+    // Show clear rating icon
     return this.preferences[index].value > 0;
   }
 
@@ -116,6 +120,7 @@ export class CreateRoutePage implements OnInit {
   }
 
   async selectOrigin() {
+    // Get origin point
     const modal = await this.modalController.create({
       component: SelectPointPage,
       cssClass: 'my-modal',
@@ -134,6 +139,7 @@ export class CreateRoutePage implements OnInit {
   }
 
   async selectDestination() {
+    // Get destination point
     const modal = await this.modalController.create({
       component: SelectPointPage,
       cssClass: 'my-modal',
@@ -152,6 +158,7 @@ export class CreateRoutePage implements OnInit {
   }
 
   onChange(transports: any) {
+    // If no transport is selected disable submit button
     for (let transport of transports) {
       if (transport.isChecked) {
         this.disabled = false;
@@ -178,7 +185,7 @@ export class CreateRoutePage implements OnInit {
       return list;
     }, []);
     
-    // Meters -> Kilometers
+    // Meters -> Kilometers (max distance walking)
     this.route.maxDistance = this.maxDistance / 1000;
 
     // Get actual date
@@ -186,6 +193,7 @@ export class CreateRoutePage implements OnInit {
     this.route.date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
 
     if (this.authService.isUserLoggedIn()) {
+      // Create route for logged in user
       const userId = this.authService.getUserAuth().id;
       this.routeService.createRouteUserLoggedIn(this.route, userId).subscribe(
         (route: RouteResultModel) => {
@@ -200,6 +208,7 @@ export class CreateRoutePage implements OnInit {
       );
     } else {
       this.routeService.createRouteUserNotLoggedIn(this.route).subscribe(
+        // Create route for not logged in user
         (route: RouteResultModel) => {
           // Set route
           this.onSuccessCreateRoute(route);

@@ -6,12 +6,22 @@ ion-modal {
   --border-radius: 8px!important;
 }
 
-ion-modal h3 {
-  line-height: 2em;
-}
-
 h3 {
   font-size: .83em;
+}
+
+ion-col.margin-col {
+  margin-right: auto;
+}
+
+.title-modal {
+  margin-top: 0;
+  padding-top: 0;
+  white-space: nowrap;
+}
+
+.not-selected {
+  color: red;
 }
 
 .flex-div {
@@ -37,7 +47,7 @@ h3 {
 
 .route-title-info {
   font-weight: bold; 
-  color: #737578;
+  color: #737577;
 }
 
 .route-info {

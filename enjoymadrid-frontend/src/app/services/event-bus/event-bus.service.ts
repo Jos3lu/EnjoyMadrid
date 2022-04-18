@@ -8,6 +8,7 @@ import { EventData } from 'src/app/models/event.model';
 })
 export class EventBusService {
 
+  // Event to subscribe
   private subject$ = new Subject<EventData>();
 
   constructor() { }

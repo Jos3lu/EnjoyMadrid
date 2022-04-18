@@ -46,36 +46,73 @@
     <ng-template>
       <ion-content class="ion-padding">
         <ion-grid class="ion-margin-top">
-          <ion-row>
-            <ion-col size="auto" class="ion-margin-end">
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="auto">
               <ion-avatar>
                 <img alt="route" src="{{'./assets/madrid' + indexImages[indexRoute] + '.jpg'}}">
               </ion-avatar>
             </ion-col>
-            <ion-col>
-              <h2>Ruta1</h2>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="auto">
+              <h2 class="title-modal">{{routeModal?.name}}</h2>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="margin-col" size-xs="12" size-md="auto">
+              <ion-label>
+                <p class="route-title-info route-info">Inicio</p> 
+                <h3>{{routeModal?.origin?.name}}</h3>
+              </ion-label>
+            </ion-col>
+            <ion-col class="margin-col" size-xs="12" size-md="auto">
+              <ion-label>
+                <p class="route-title-info route-info">Fin</p>
+                <h3>{{routeModal?.destination?.name}}</h3>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="margin-col" size-xs="12" size-md="auto">
+              <ion-label>
+                <p class="route-title-info route-info">Creada el</p>
+                <h3>{{routeModal?.date}}</h3>
+              </ion-label>
+            </ion-col>
+            <ion-col class="margin-col" size-xs="12" size-md="auto">
+              <ion-label>
+                <p class="route-title-info route-info">Distancia máxima andando</p> 
+                <h3>
+                  {{ ( routeModal?.maxDistance >= 1 
+                    ? routeModal.maxDistance + ' km' 
+                    : (routeModal.maxDistance * 1000 + ' m') ) 
+                  }}
+                </h3>
+              </ion-label>
+            </ion-col>
+            <ion-col class="margin-col" size-xs="12" size-md="auto">
+              <ion-label>
+                <span class="route-title-info route-info">Transportes</span>
+                <h3>{{formatArray(routeModal?.transports)}}</h3>
+              </ion-label>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
               <ion-label>
-                <h3><span class="route-title-info route-info">Creada el</span> {{routeModal?.date}}</h3>
-                <h3><span class="route-title-info route-info">Inicio</span> {{routeModal?.origin?.name}}</h3>
-                <h3><span class="route-title-info route-info">Fin</span> {{routeModal?.destination?.name}}</h3>
-                <h3><span class="route-title-info route-info">Distancia máxima andando</span> {{routeModal?.maxDistance}}</h3>
-                <h3><span class="route-title-info route-info">Transportes</span> {{formatArray(routeModal?.transports)}}</h3>
                 <h3><span class="route-title-info route-info">Preferencias</span></h3>
-                <div class="ion-margin-start" *ngFor="let preference of routeModal.preferences | keyvalue">
-                  <h3 class="ion-text-wrap" *ngIf="preference.value > 0">
-                    <span>{{preference.key.split('_')[1]}} </span>
-                    <ion-icon class="color-star" name="star" *ngFor="let n of countStars(preference.value)"></ion-icon>
+                <div class="" *ngFor="let preference of routeModal?.preferences | keyvalue">
+                  <h3 class="ion-text-wrap" [class.not-selected]="preference.value === 0">
+                    <span style="vertical-align: middle;">{{preference.key.split('_')[1]}} </span>
+                    <ion-icon style="vertical-align: bottom;" *ngIf="preference.value === 0" name="close-outline"></ion-icon>
+                    <ion-icon style="vertical-align: middle;" class="color-star" name="star" *ngFor="let n of countStars(preference.value)"></ion-icon>
                   </h3>
                 </div>
               </ion-label>
             </ion-col>
           </ion-row>
           <div class="ion-margin-top flex-div ion-align-items-center ion-align-self-end ion-justify-content-end">
-            <ion-button fill="clear">Cancelar</ion-button>
+            <ion-button fill="clear" (click)="closeRoute()">Cancelar</ion-button>
             <ion-button fill="clear" (click)="createRoute()">OK</ion-button>
             <ion-spinner *ngIf="loadingRoute" name="crescent"></ion-spinner>
           </div>

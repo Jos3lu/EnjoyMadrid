@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
@@ -49,6 +49,12 @@ export class IndexPage implements OnInit {
     this.loadingRoute = false;
   }
 
+  @HostListener('window:popstate', ['$event'])
+  dismissModal() {
+    // Close modal when back button selected
+    this.openModal = false;
+  }
+
   async routeSelected(route: RouteModel, index: number) {
     this.routeModal = route;
     this.indexRoute = index;
@@ -56,18 +62,29 @@ export class IndexPage implements OnInit {
   }
 
   createRoute() {
+    // Show spinner of loading route
     this.loadingRoute = true;
-
+    // Get route response
     if (this.authService.isUserLoggedIn()) {
+      // User logged in
       const userId = this.authService.getUserAuth().id;
       this.routeService.createRouteUserLoggedIn(this.routeModal, userId).subscribe(
         (route: RouteResultModel) => this.onSuccessCreateRoute(route),
-        error => this.sharedService.onError(error, 5000)
+        error => {
+          this.sharedService.onError(error, 5000);
+          // Hide spinner
+          this.loadingRoute = false;
+        }
       );
     } else {
+      // User not logged in
       this.routeService.createRouteUserNotLoggedIn(this.routeModal).subscribe(
         (route: RouteResultModel) => this.onSuccessCreateRoute(route),
-        error => this.sharedService.onError(error, 3000)
+        error => {
+          this.sharedService.onError(error, 5000);
+          // Hide spinner
+          this.loadingRoute = false;
+        }
       );
     }
   }
@@ -77,12 +94,19 @@ export class IndexPage implements OnInit {
     this.loadingRoute = false;
     // Store route response to be used in display route page & close modal with route information
     this.sharedService.setRoute(route);
+    // Hide modal with route information
     this.openModal = false;
     // Display route
     this.router.navigate(['/display-route']);
   }
 
+  closeRoute() {
+    // Cancel button, hide modal 
+    this.openModal = false;
+  }
+  
   formatArray(transports: string[]) {
+    // Return transports separated by comma
     return transports.join(', ');
   }
 

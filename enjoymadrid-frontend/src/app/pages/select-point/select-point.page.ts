@@ -50,11 +50,13 @@ export class SelectPointPage implements OnInit {
       attribution: '&copy; <a href="https://www.esri.com/en-us/home"> Esri</a>'
     });
 
+    // Add layers
     const layers = {
       "<span style='cursor: pointer'>Satélite</span>": satellite,
       "<span style='cursor: pointer'>Predeterminado</span>": standard
     };
 
+    // Add search bar
     this.searchControl = GeoSearchControl({
       provider: new OpenStreetMapProvider(),
       style: 'bar',
@@ -65,6 +67,7 @@ export class SelectPointPage implements OnInit {
       notFoundMessage: 'No se ha podido encontrar la dirección',
     });
 
+    // Create map
     this.map = L.map('map', {
       zoomControl: false,
       center: [40.416694, -3.703250],
@@ -72,12 +75,14 @@ export class SelectPointPage implements OnInit {
       layers: [standard, satellite]
     });
 
+    // If received point from create route page
     if (!this.pointEmpty) { 
       this.marker = L.marker([this.point.latitude, this.point.longitude]);
       this.marker.addTo(this.map);
       this.map.setView([this.point.latitude, this.point.longitude], 18);
     }
 
+    // Configure controls
     this.map.addControl(this.searchControl);
     L.control.zoom({ position: 'topright' }).addTo(this.map);
     L.control.layers(layers, null, { position: 'topright' }).addTo(this.map);
@@ -95,10 +100,12 @@ export class SelectPointPage implements OnInit {
   }
 
   searchPoint(result: any) {
+    // Location from search bar
     this.setMarker(result.location.y, result.location.x, result.location.label);
   }
 
   selectPoint(result: any) {
+    // Selected point on the map
     this.routeService.getAddressFromCoordinates(result.latlng.lat, result.latlng.lng).subscribe(
       (response: any) => {
         let name = response.features[0].properties.label;
@@ -136,6 +143,7 @@ export class SelectPointPage implements OnInit {
     this.map.setView([latitude, longitude], 18);
   }
 
+  // Send point to create route
   onSelect() {
     if (this.pointEmpty) {
       this.sharedService.showToast('Selecciona una localización', 3000);

@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class TokenStorageService {
 
+  // Store access & refresh token
   private tokenJwt: BehaviorSubject<string>;
   private refreshTokenJwt: BehaviorSubject<string>;
 

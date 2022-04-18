@@ -141,6 +141,7 @@ export class FindPlacesPage implements OnInit {
   }
 
   loadData(event: any) {
+    // Load 10 touristic points when bottom page reached
     if (this.lastIndex + 10 > this.places.length) {
       this.lastIndex = this.places.length;
       event.target.complete();
@@ -152,6 +153,7 @@ export class FindPlacesPage implements OnInit {
   }
 
   onScrolling(event: any) {
+    // Get if bottom page reached
     if (event.detail.scrollTop > this.platform.height()) {
       this.showScrollTopButton = true;
     } else {
@@ -164,6 +166,7 @@ export class FindPlacesPage implements OnInit {
   }
 
   categorySelected(index: number) {
+    // Open subcategories 
     if (this.selectedIndex == index) {
       this.categories[this.selectedIndex].selected = false;
       this.selectedIndex = -1;
@@ -176,6 +179,7 @@ export class FindPlacesPage implements OnInit {
   }
 
   subcategorySelected(subcategory: string) {
+    // Get touristic points associated to category & subcategory
     this.touristicPointService.getTouristicPointsByCategory(subcategory).subscribe(
       places => {
         this.places = places;
@@ -189,6 +193,7 @@ export class FindPlacesPage implements OnInit {
   }
 
   async placeSelected(index: number) {
+    // Open modal with point information
     const modal = await this.modalContrall.create({
       cssClass: 'my-modal',
       component: InfoPlacePage,

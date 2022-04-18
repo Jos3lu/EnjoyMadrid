@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class UpdateUserPage implements OnInit {
 
+  // User information
   user: UserModel;
   imageUser: File;
 
@@ -34,6 +35,7 @@ export class UpdateUserPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    // Copy user
     this.user = Object.assign(this.user, this.authService.getUserAuth());
   }
 
@@ -46,6 +48,7 @@ export class UpdateUserPage implements OnInit {
   }
 
   loadProfilePicture(event: { target: { files: File[]; }; }) {
+    // Update photo independently of other user's information
     this.imageUser = event.target.files[0];
     if (this.imageUser) {
       let pictureForm = new FormData();
@@ -61,7 +64,7 @@ export class UpdateUserPage implements OnInit {
   }
 
   async onSubmit() {
-    // First request update profile picture then rest of the user
+    // Update user's information, if password has been modified then log back in
     this.userService.updateUser(this.user.id, this.user).subscribe(
       user => {
         if (this.user.password) {
