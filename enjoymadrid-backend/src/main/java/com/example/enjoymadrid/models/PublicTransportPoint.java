@@ -17,35 +17,33 @@ import javax.persistence.MapKeyColumn;
 public class PublicTransportPoint extends TransportPoint {
 
 	@ElementCollection
-	private Set<String[]> lines = new HashSet<>();
+	private Set<String[]> stopLines = new HashSet<>();
 	
 	@ManyToMany
 	@MapKeyColumn(name = "LINE")
 	@Column(name = "NEXT_POINT")
 	private Map<String, PublicTransportPoint> nextStops = new HashMap<>();
 	
-	public PublicTransportPoint() {
-		super();
-	}
+	public PublicTransportPoint() {}
 	
-	public PublicTransportPoint(String name, Double longitude, Double latitude, String type, Set<String[]> lines) {
+	public PublicTransportPoint(String name, Double longitude, Double latitude, String type, Set<String[]> stopLines) {
 		super(name, longitude, latitude, type);
-		this.lines = lines;
+		this.stopLines = stopLines;
 	}
 	
 	public PublicTransportPoint(PublicTransportPoint point) {
 		super(point.getName(), point.getLongitude(), point.getLatitude(), point.getType());
 		this.setId(point.getId());
-		this.lines = new HashSet<>(point.getLines());
+		this.stopLines = new HashSet<>(point.getStopLines());
 		this.nextStops = new HashMap<String, PublicTransportPoint>(point.getNextStops());
 	}
-	
-	public Set<String[]> getLines() {
-		return lines;
+
+	public Set<String[]> getStopLines() {
+		return stopLines;
 	}
 
-	public void setLines(Set<String[]> lines) {
-		this.lines = lines;
+	public void setStopLines(Set<String[]> stopLine) {
+		this.stopLines = stopLine;
 	}
 
 	public Map<String, PublicTransportPoint> getNextStops() {

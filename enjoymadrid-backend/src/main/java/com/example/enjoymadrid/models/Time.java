@@ -19,9 +19,7 @@ public class Time extends Schedule {
 	@Column(name = "TIMES")
 	private Map<String, LocalTime[]> dayTimes = new HashMap<>();
 	
-	public Time() {
-		super();
-	}
+	public Time() {}
 	
 	public Time(Map<String, LocalTime[]> dayTimes) {
 		super();

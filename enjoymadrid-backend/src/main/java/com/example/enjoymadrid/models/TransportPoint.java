@@ -12,9 +12,7 @@ public class TransportPoint extends Point implements Comparable<TransportPoint> 
 		
 	private String type;
 					
-	public TransportPoint() {
-		super();
-	}
+	public TransportPoint() {}
 	
 	public TransportPoint(String name, Double longitude, Double latitude, String type) {
 		super(name, longitude, latitude);

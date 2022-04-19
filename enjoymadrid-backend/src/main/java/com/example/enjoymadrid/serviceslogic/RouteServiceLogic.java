@@ -232,7 +232,7 @@ public class RouteServiceLogic implements RouteService {
 		if (neighbors.isEmpty() || directNeighbors) {
 			// Get lines of point if it's public transport stop
 			Set<String> linesPoint = point instanceof PublicTransportPoint ? 
-					((PublicTransportPoint) point).getLines().stream()
+					((PublicTransportPoint) point).getStopLines().stream()
 					.map(line -> line[0] + " [" + line[1] + "]")
 					.collect(Collectors.toSet())
 					: new HashSet<>();
@@ -246,11 +246,11 @@ public class RouteServiceLogic implements RouteService {
 						if (neighbor instanceof PublicTransportPoint 
 								&& (((PublicTransportPoint) neighbor).getType().equals(((TransportPoint) point).getType()))) {
 							PublicTransportPoint neighborCopy = new PublicTransportPoint((PublicTransportPoint) neighbor);
-							Set<String[]> linesNeighbor = neighborCopy.getLines().stream()
+							Set<String[]> linesNeighbor = neighborCopy.getStopLines().stream()
 									.filter(line -> linesPoint.contains(line[0] + " [" + line[1] + "]"))
 									.collect(Collectors.toSet());
 							linesNeighbor.forEach(line -> {
-								neighborCopy.getLines().remove(line);
+								neighborCopy.getStopLines().remove(line);
 								neighborCopy.getNextStops().remove(line[0] + " [" + line[1] + "]");
 							});
 							return (P) neighborCopy;
@@ -259,7 +259,7 @@ public class RouteServiceLogic implements RouteService {
 					})
 					.filter(neighbor -> {
 						if (neighbor instanceof PublicTransportPoint 
-								&& ((PublicTransportPoint) neighbor).getLines().isEmpty()) {
+								&& ((PublicTransportPoint) neighbor).getStopLines().isEmpty()) {
 							return false;
 						}
 						return true;
@@ -390,7 +390,7 @@ public class RouteServiceLogic implements RouteService {
 				.map(point -> {
 					if (point instanceof PublicTransportPoint) {						
 						PublicTransportPoint publicTransportPoint = (PublicTransportPoint) point;
-						Set<String[]> lines = new HashSet<>(publicTransportPoint.getLines());
+						Set<String[]> lines = new HashSet<>(publicTransportPoint.getStopLines());
 						for (String[] line: lines) {
 							PublicTransportLine publicTransportLine = lineStops.get(point.getType() + "_" + line[0] + " [" + line[1] + "]");
 							
@@ -422,7 +422,7 @@ public class RouteServiceLogic implements RouteService {
 							// Different approach depending on wether the end time is after or before midnight
 							if ( scheduleNull || ( startTime.isBefore(endTime) && ( currentLocalTime.isBefore(startTime) || currentLocalTime.isAfter(endTime) ) ) 
 									|| ( startTime.isAfter(endTime) && (currentLocalTime.isBefore(startTime) && currentLocalTime.isAfter(endTime) ) ) ) {
-								publicTransportPoint.getLines().remove(line);
+								publicTransportPoint.getStopLines().remove(line);
 								publicTransportPoint.getNextStops().remove(line[0] + " [" + line[1] + "]");
 							}
 							
@@ -430,7 +430,7 @@ public class RouteServiceLogic implements RouteService {
 					}
 					return point;
 				}).filter(point -> {
-					if (point instanceof PublicTransportPoint && ((PublicTransportPoint) point).getLines().isEmpty()) {
+					if (point instanceof PublicTransportPoint && ((PublicTransportPoint) point).getStopLines().isEmpty()) {
 						// Remove public transport stop if there aren't any line that operate currently
 						return false;
 					} else if (point instanceof BicycleTransportPoint 
@@ -643,7 +643,7 @@ public class RouteServiceLogic implements RouteService {
 						}
 					}
 				} else {
-					String orderLine = ((PublicTransportPoint) points.get(0)).getLines().stream()
+					String orderLine = ((PublicTransportPoint) points.get(0)).getStopLines().stream()
 							.filter(lineStop -> lineStop[0].equals(line) && lineStop[1].equals(direction))
 							.map(lineStop -> lineStop[2])
 							.findFirst()
@@ -659,7 +659,7 @@ public class RouteServiceLogic implements RouteService {
 				// For public transport stops, except bus add the corresponding info
 				for (int k = 0; k < points.size(); k++) {
 					if (k == 0) continue;
-					int orderLine = ((PublicTransportPoint) points.get(k)).getLines().stream()
+					int orderLine = ((PublicTransportPoint) points.get(k)).getStopLines().stream()
 							.filter(lineStop -> lineStop[0].equals(line) && lineStop[1].equals(direction))
 							.map(lineStop -> Integer.parseInt(lineStop[2]))
 							.findFirst()

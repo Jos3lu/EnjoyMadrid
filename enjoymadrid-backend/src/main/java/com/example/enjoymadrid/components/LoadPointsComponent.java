@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
@@ -50,6 +51,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.example.enjoymadrid.models.repositories.AirQualityPointRepository;
 import com.example.enjoymadrid.models.repositories.PublicTransportLineRepository;
+import com.example.enjoymadrid.models.repositories.RefreshTokenRepository;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.models.repositories.TransportPointRepository;
 import com.example.enjoymadrid.models.AirQualityPoint;
@@ -72,13 +74,16 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private final PublicTransportLineRepository publicTransportLineRepository;
 	private final AirQualityPointRepository airQualityPointRepository;
 	private final TouristicPointRepository touristicPointRepository;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 	public LoadPointsComponent(TransportPointRepository transportPointRepository, PublicTransportLineRepository publicTransportLineRepository,
-			AirQualityPointRepository airQualityPointRepository, TouristicPointRepository touristicPointRepository) {
+			AirQualityPointRepository airQualityPointRepository, TouristicPointRepository touristicPointRepository, 
+			RefreshTokenRepository refreshTokenRepository) {
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;
 		this.airQualityPointRepository = airQualityPointRepository;
 		this.touristicPointRepository = touristicPointRepository;
+		this.refreshTokenRepository = refreshTokenRepository;
 	}
 
 	@Override
@@ -88,6 +93,17 @@ public class LoadPointsComponent implements CommandLineRunner {
 		loadDataTouristicPoints();
 		loadDataTransportPoints();
 				
+	}
+	
+	/**
+	 * This method is executed Mondays at 5am
+	 * Purge expired refresh tokens. 
+	 * cron: Seconds, Minutes, Hour, Day of the month, Month, Day of the week
+	 */
+	@Scheduled(cron = "0 0 5 * * 0", zone = "Europe/Madrid")
+	private void purgeExpiredTokens() {
+		Instant now = Instant.now();
+		this.refreshTokenRepository.deleteByExpiryDateLessThan(now);
 	}
 
 	/**
@@ -475,7 +491,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				// If point already in DB 
 				PublicTransportPoint publicTransportPoint = publicTransportPointsDB.get(name + "-" + longitude + "-" + latitude);
 				if (publicTransportPoint != null) {
-					stopLines = new HashSet<>(publicTransportPoint.getLines());
+					stopLines = new HashSet<>(publicTransportPoint.getStopLines());
 				} else {
 					// Init Set with the lines of stop
 					stopLines = new HashSet<>();
@@ -539,8 +555,12 @@ public class LoadPointsComponent implements CommandLineRunner {
 							if (stopPolylines == null) {
 								stopPolylines = new HashMap<>();
 							}
+							
 							// Duration in seconds
-							Double duration = distance / (speed * (1000.0 / 3600.0));
+							Double duration = 0.0;
+							if (speed != 0.0) {
+								duration = distance / (speed * (1000.0 / 3600.0));
+							}
 							stopPolylines.put(order, new Polyline(duration, coordinates));
 							polylinesPublicTransportPoints.put(lineName + " [" + direction + "]", stopPolylines);
 						}
@@ -563,7 +583,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 			for (PublicTransportPoint transportPoint : publicTransportPoints) {
 				Map<String, PublicTransportPoint> nextStops = new HashMap<>();
 				// Get the neighboring points of the current
-				transportPoint.getLines().forEach(line -> {
+				transportPoint.getStopLines().forEach(line -> {
 					String lineNextStop = line[0] + "_" + line[1] + "_" + (Integer.parseInt(line[2]) + 1);
 					PublicTransportPoint nextStop = linePublicTransportPoints.get(lineNextStop);
 					if (nextStop != null)

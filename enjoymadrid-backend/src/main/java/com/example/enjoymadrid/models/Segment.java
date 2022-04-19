@@ -5,10 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -16,13 +12,7 @@ import javax.validation.constraints.NotNull;
 import com.example.enjoymadrid.models.interfaces.SegmentInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
-@Entity
 public class Segment {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonView(SegmentInterfaces.BasicData.class)
-	private Long id;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
 	@NotNull(message = "Source cannot be null")
@@ -70,14 +60,6 @@ public class Segment {
 		this.source = source;
 		this.target = target;
 		this.transportMode = transportMode;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Integer getSource() {

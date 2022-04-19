@@ -54,9 +54,7 @@ public class TouristicPoint extends Point {
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> images = new ArrayList<>();
 
-	public TouristicPoint() {
-		super();
-	}
+	public TouristicPoint() {}
 
 	public TouristicPoint(String name, Double longitude, Double latitude) {
 		super(name, longitude, latitude);

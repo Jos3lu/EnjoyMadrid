@@ -21,9 +21,7 @@ public class Frequency extends Schedule {
 	
 	private LocalTime endSchedule;
 	
-	public Frequency() {
-		super();
-	}
+	public Frequency() {}
 	
 	public Frequency(Map<String, Integer> dayFrequencies, LocalTime startSchedule, LocalTime endSchedule) {
 		super();

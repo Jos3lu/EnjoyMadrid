@@ -15,9 +15,7 @@ public class BicycleTransportPoint extends TransportPoint {
 	private Boolean no_available;
 	private Integer reservations;
 	
-	public BicycleTransportPoint() {
-		super();
-	}
+	public BicycleTransportPoint() {}
 	
 	public BicycleTransportPoint(String stationNumber, String name, Double longitude, Double latitude, String type) {
 		super(name, longitude, latitude, type);

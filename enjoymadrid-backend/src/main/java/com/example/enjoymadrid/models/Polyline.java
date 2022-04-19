@@ -23,8 +23,7 @@ public class Polyline {
 	@ElementCollection
 	private List<Double[]> coordinates = new ArrayList<>();
 	
-	public Polyline() {
-	}
+	public Polyline() {}
 
 	public Polyline(Double duration, List<Double[]> coordinates) {
 		this.duration = duration;
