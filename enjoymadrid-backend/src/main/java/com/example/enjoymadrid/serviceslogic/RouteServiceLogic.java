@@ -3,6 +3,8 @@ package com.example.enjoymadrid.serviceslogic;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -95,8 +97,14 @@ public class RouteServiceLogic implements RouteService {
 		this.routeRepository.delete(route);
 	}
 	
+	Instant start;
+	Instant end;
+	Duration time;
+	
 	@Override
 	public RouteResultDto createRoute(Route route, Long userId) {
+		
+		start = Instant.now();
 		
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
@@ -109,7 +117,7 @@ public class RouteServiceLogic implements RouteService {
 		Map<String, Integer> preferences = route.getPreferences();
 		
 		// Map with lines of the public transport stops
-		Map<String, PublicTransportLine> lineStops = publicTransportLineRepository.findAll().stream()
+		Map<String, PublicTransportLine> lineStops = this.publicTransportLineRepository.findAll().stream()
 				.collect(Collectors.toMap(line -> line.getTransportType() + "_" + line.getLine() + " [" + line.getDirection() + "]", line -> line));
 		// Get all the transport points selected by user
 		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports(), lineStops);
@@ -118,9 +126,17 @@ public class RouteServiceLogic implements RouteService {
 		if (routePoints == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST , "No se ha podido crear la ruta con estos parámetros de entrada");
 		}
+		
+		end = Instant.now();
+		time = Duration.between(start, end);
+		System.out.println("Antes de segmentos " + time.toMillis() + " Millis");
 				
 		RouteResultDto routeResultDto = setSegments(routePoints, route.getName(), lineStops);
 
+		end = Instant.now();
+		time = Duration.between(start, end);
+		System.out.println("Despues de segmentos " + time.toMillis() + " Millis");
+		
 		// If user logged in store route in DB
 		if (userId != null && route.getId() == null) {
 			User user = this.userService.getUser(userId);
@@ -144,9 +160,9 @@ public class RouteServiceLogic implements RouteService {
 		Set<P> bestPointsFound = new HashSet<>();
 
 		// Get the air quality measuring stations (that AQI levels are currently available)
-		List<AirQualityPoint> airQualityPoints = airQualityPointRepository.findByAqiIsNotNull();
+		List<AirQualityPoint> airQualityPoints = this.airQualityPointRepository.findByAqiIsNotNull();
 		// Get all the touristic points
-		List<TouristicPoint> touristicPoints = touristicPointRepository.findAll();
+		List<TouristicPoint> touristicPoints = this.touristicPointRepository.findAll();
 		// Get only bicycle stations from DB if selected by user
 		Set<P> bicyclePoints = transportPoints.stream()
 				.filter(stop -> stop instanceof BicycleTransportPoint)
@@ -384,8 +400,12 @@ public class RouteServiceLogic implements RouteService {
 		DayOfWeek currentDayOfWeek = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate().getDayOfWeek();
 				
 		// Query to get the points in order to create the route
-		List<TransportPoint> transportPoints = transportPointRepository.findByTypeIn(transports);
+		List<TransportPoint> transportPoints = this.transportPointRepository.findByTypeIn(transports);
 		
+		end = Instant.now();
+		time = Duration.between(start, end);
+		System.out.println("Despues de BD antes de filtrar puntos " + time.toMillis() + " Millis");
+				
 		transportPoints = transportPoints.stream()
 				.map(point -> {
 					if (point instanceof PublicTransportPoint) {						
@@ -441,6 +461,10 @@ public class RouteServiceLogic implements RouteService {
 					return true;
 				})
 				.toList();	
+		
+		end = Instant.now();
+		time = Duration.between(start, end);
+		System.out.println("Despues de filtrar puntos " + time.toMillis() + " Millis");
 								
 		return transportPoints;
 	}

@@ -1,7 +1,9 @@
 package com.example.enjoymadrid.components;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.Instant;
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
@@ -124,8 +127,13 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 		Document document = null;
 		try {
-			File stationsCoord = new ClassPathResource("static/qualityair/estaciones_calidad_aire.geo").getFile();
-			document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stationsCoord);
+			// For jar file, instead of getting getFile use getInputStream and transform into file
+			InputStream stationsCoordStream = new ClassPathResource("static/qualityair/estaciones_calidad_aire.geo").getInputStream();
+			File stationsCoordFile = File.createTempFile("estaciones_calidad_aire", "geo");
+			stationsCoordFile.deleteOnExit();
+			FileOutputStream outputStream = new FileOutputStream(stationsCoordFile);
+			IOUtils.copy(stationsCoordStream, outputStream);
+			document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stationsCoordFile);
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			logger.error(e.getMessage());
 			return;
@@ -478,9 +486,14 @@ public class LoadPointsComponent implements CommandLineRunner {
 			// Map with each line associated to the stops and its polylines
 			Map<String, Map<Integer, Polyline>> polylinesPublicTransportPoints = new HashMap<>();
 			
-			// Transform json file to tree model
-			File stopsFile = new ClassPathResource(stopsPath).getFile();
+			// For jar file, instead of getting getFile use getInputStream and transform into file
+			InputStream stopsStream = new ClassPathResource(stopsPath).getInputStream();			
+			File stopsFile = File.createTempFile("stops", "geojson");
+			stopsFile.deleteOnExit();
+			FileOutputStream outputStream = new FileOutputStream(stopsFile);
+			IOUtils.copy(stopsStream, outputStream);
 			
+			// Transform json file to tree model
 			JsonNode stops = objectMapper.readTree(stopsFile).get("data");
 			for (JsonNode stop: stops) {
 				String name = stop.get("name").asText();
@@ -587,9 +600,14 @@ public class LoadPointsComponent implements CommandLineRunner {
 				this.transportPointRepository.save(transportPoint);
 			}
 			
-			// Transform json file to tree model
-			File linesFile = new ClassPathResource(linesPath).getFile();
+			// For jar file, instead of getting getFile use getInputStream and transform into file
+			InputStream linesStream = new ClassPathResource(linesPath).getInputStream();
+			File linesFile = File.createTempFile("lines", "json");
+			stopsFile.deleteOnExit();
+			outputStream = new FileOutputStream(linesFile);
+			IOUtils.copy(linesStream, outputStream);
 			
+			// Transform json file to tree model
 			JsonNode lines = objectMapper.readTree(linesFile).get("data");
 			for (JsonNode line: lines) {
 				String lineName = line.get("line").asText();
@@ -717,9 +735,14 @@ public class LoadPointsComponent implements CommandLineRunner {
 					.map(BicycleTransportPoint::getStationNumber)
 					.collect(Collectors.toSet());
 
-			// Transform json file to tree model
-			File stopsFile = new ClassPathResource(stopsPath).getFile();
+			// For jar file, instead of getting getFile use getInputStream and transform into file
+			InputStream stopsStream = new ClassPathResource(stopsPath).getInputStream();
+			File stopsFile = File.createTempFile("stops", "gejson");
+			stopsFile.deleteOnExit();
+			FileOutputStream outputStream = new FileOutputStream(stopsFile);
+			IOUtils.copy(stopsStream, outputStream);
 			
+			// Transform json file to tree model
 			JsonNode stops = objectMapper.readTree(stopsFile).get("data");
 			for (JsonNode stop: stops) {
 				String name = stop.get("name").asText();
