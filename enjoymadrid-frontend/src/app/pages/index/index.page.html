@@ -112,7 +112,7 @@
             </ion-col>
           </ion-row>
           <div class="ion-margin-top flex-div ion-align-items-center ion-align-self-end ion-justify-content-end">
-            <ion-button fill="clear" (click)="closeRoute()">Cancelar</ion-button>
+            <ion-button [disabled]="loadingRoute" fill="clear" (click)="closeRoute()">Cancelar</ion-button>
             <ion-button fill="clear" (click)="createRoute()">OK</ion-button>
             <ion-spinner *ngIf="loadingRoute" name="crescent"></ion-spinner>
           </div>

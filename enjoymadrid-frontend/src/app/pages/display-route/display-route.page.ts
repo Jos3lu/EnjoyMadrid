@@ -260,7 +260,7 @@ export class DisplayRoutePage implements OnInit {
 
     // Polyline of the whole route
     multiPolyline = L.polyline(coordinates);
-    this.map.fitBounds(multiPolyline.getBounds(), { paddingTopLeft: [this.showSideMenu ? 300 : 0, 0] });
+    this.map.fitBounds(multiPolyline.getBounds(), { paddingTopLeft: [this.showSideMenu ? 350 : 0, 0] });
 
     // Remove highlighted polyline if 
     this.map.on('zoomend', () => this.closeStep());
