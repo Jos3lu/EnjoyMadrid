@@ -764,7 +764,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		} 
 		
 		// Add availability of each Bike station
-		//updateBiciMADStations();
+		updateBiciMADStations();
 		
 		try {
 			waitToEnd.await();

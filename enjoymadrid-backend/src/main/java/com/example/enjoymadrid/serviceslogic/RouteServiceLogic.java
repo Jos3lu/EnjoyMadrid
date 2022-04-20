@@ -3,8 +3,6 @@ package com.example.enjoymadrid.serviceslogic;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -97,15 +95,9 @@ public class RouteServiceLogic implements RouteService {
 		this.routeRepository.delete(route);
 	}
 	
-	Instant start;
-	Instant end;
-	Duration time;
-	
 	@Override
 	public RouteResultDto createRoute(Route route, Long userId) {
-		
-		start = Instant.now();
-		
+				
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
 		TransportPoint destination = route.getDestination();
@@ -126,16 +118,8 @@ public class RouteServiceLogic implements RouteService {
 		if (routePoints == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST , "No se ha podido crear la ruta con estos parámetros de entrada");
 		}
-		
-		end = Instant.now();
-		time = Duration.between(start, end);
-		System.out.println("Antes de segmentos " + time.toMillis() + " Millis");
-				
+						
 		RouteResultDto routeResultDto = setSegments(routePoints, route.getName(), lineStops);
-
-		end = Instant.now();
-		time = Duration.between(start, end);
-		System.out.println("Despues de segmentos " + time.toMillis() + " Millis");
 		
 		// If user logged in store route in DB
 		if (userId != null && route.getId() == null) {
@@ -401,11 +385,7 @@ public class RouteServiceLogic implements RouteService {
 				
 		// Query to get the points in order to create the route
 		List<TransportPoint> transportPoints = this.transportPointRepository.findByTypeIn(transports);
-		
-		end = Instant.now();
-		time = Duration.between(start, end);
-		System.out.println("Despues de BD antes de filtrar puntos " + time.toMillis() + " Millis");
-				
+						
 		transportPoints = transportPoints.stream()
 				.map(point -> {
 					if (point instanceof PublicTransportPoint) {						
@@ -461,11 +441,7 @@ public class RouteServiceLogic implements RouteService {
 					return true;
 				})
 				.toList();	
-		
-		end = Instant.now();
-		time = Duration.between(start, end);
-		System.out.println("Despues de filtrar puntos " + time.toMillis() + " Millis");
-								
+										
 		return transportPoints;
 	}
 	
