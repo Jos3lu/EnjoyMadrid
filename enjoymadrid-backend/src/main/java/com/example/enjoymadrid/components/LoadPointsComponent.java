@@ -112,10 +112,15 @@ public class LoadPointsComponent implements CommandLineRunner {
 	 */
 	private void loadDataAirQualityPoints() {
 		
-		// Query to get air quality points from DB
-		Set<String> airQualityPointsDB = airQualityPointRepository.findAll().stream()
-				.map(AirQualityPoint::getName)
-				.collect(Collectors.toSet());
+		// Query to get number of air quality points from DB
+		long airQualityPointsDB = this.airQualityPointRepository.count();
+		
+		if (airQualityPointsDB > 0) {
+			// Update the air quality data
+			updateAqiPoints();
+			
+			return;
+		}
 
 		Document document = null;
 		try {
@@ -140,12 +145,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Double longitude = tryParseDouble(element.getElementsByTagName("geo:long").item(0).getTextContent());
 				Double latitude = tryParseDouble(element.getElementsByTagName("geo:lat").item(0).getTextContent());
 
-				// Search if station already exists in DB
-				boolean airQualityPointDB = airQualityPointsDB.contains(name);
-				if (!airQualityPointDB) {
-					airQualityPointRepository.save(new AirQualityPoint(name, longitude, latitude));
-				}
-
+				// Save air quality point in DB
+				this.airQualityPointRepository.save(new AirQualityPoint(name, longitude, latitude));
 			}
 		}
 
@@ -246,7 +247,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		}
 
 		// Query to get air quality points from DB and transform into map
-		Map<String, AirQualityPoint> airQualityPointsDB = airQualityPointRepository.findAll().stream()
+		Map<String, AirQualityPoint> airQualityPointsDB = this.airQualityPointRepository.findAll().stream()
 				.collect(Collectors.toMap(point -> point.getName().toLowerCase(), point -> point));
 		
 		// Iterate over the air quality stations
@@ -260,7 +261,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 			}
 
 			airQualityPointDB.setAqi(airQualityPoint.getValue());
-			airQualityPointRepository.save(airQualityPointDB);
+			this.airQualityPointRepository.save(airQualityPointDB);
 		}
 
 		logger.info("Air quality stations updated");
@@ -274,9 +275,10 @@ public class LoadPointsComponent implements CommandLineRunner {
 	@Scheduled(cron = "0 0 0 1 * *", zone = "Europe/Madrid")
 	private void loadDataTouristicPoints() {
 		// Query to get touristic points from DB
-		List<TouristicPoint> touristicPointsDB = touristicPointRepository.findAll();
+		List<TouristicPoint> touristicPointsDB = this.touristicPointRepository.findAll();
 		Map<String, TouristicPoint> touristicPointsDBMap = touristicPointsDB.stream()
-				.collect(Collectors.toMap(point -> point.getName() + "-" + point.getLongitude() + "-" + point.getLatitude(), point -> point));
+				.collect(Collectors.toMap(
+						point -> point.getName() + "-" + point.getLongitude() + "-" + point.getLatitude() + "-" + point.getType(), point -> point));
 		// Points extracted from the Madrid city hall page
 		List<TouristicPoint> touristicPoints = Collections.synchronizedList(new ArrayList<>());
 		
@@ -303,7 +305,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 
 		// Delete points not found anymore on the Madrid city hall page
 		touristicPointsDB.removeAll(touristicPoints);
-		touristicPointsDB.forEach(point -> touristicPointRepository.delete(point));
+		touristicPointsDB.forEach(point -> this.touristicPointRepository.delete(point));
 
 		logger.info("Touristic points updated");
 	}
@@ -340,13 +342,14 @@ public class LoadPointsComponent implements CommandLineRunner {
 				String name = element.getElementsByTagName("name").item(0).getTextContent();
 				Double longitude = tryParseDouble(element.getElementsByTagName("longitude").item(0).getTextContent());
 				Double latitude = tryParseDouble(element.getElementsByTagName("latitude").item(0).getTextContent());
+				String type = element.getElementsByTagName("extradata").item(0).getChildNodes().item(1).getTextContent();
 
 				// To delete the points that are removed from the page of Madrid
 				touristicPoints.add(new TouristicPoint(name, longitude, latitude));
 
 				// If point is already in database and has been updated or it's not in the
 				// database we update/add the point in the DB
-				TouristicPoint pointDB = touristicPointsDB.get(name + "-" + longitude + "-" + latitude);
+				TouristicPoint pointDB = touristicPointsDB.get(name + "-" + longitude + "-" + latitude + "-" + type);
 				LocalDate updateDate = LocalDate.parse(element.getAttribute("fechaActualizacion"));
 				if (pointDB != null && Period.between(updateDate, currentDate).getDays() > 30) {
 					continue;
@@ -359,7 +362,6 @@ public class LoadPointsComponent implements CommandLineRunner {
 				String email = element.getElementsByTagName("email").item(0).getTextContent();
 				String paymentServices = "";
 				String horary = "";
-				String type = "";
 				List<String> categories = new ArrayList<>();
 				List<String> subcategories = new ArrayList<>();
 				List<String> images = new ArrayList<>();
@@ -374,10 +376,6 @@ public class LoadPointsComponent implements CommandLineRunner {
 						switch (elementItem.getAttribute("name")) {
 						case "Horario":
 							horary = elementItem.getTextContent();
-							break;
-
-						case "Tipo":
-							type = elementItem.getTextContent();
 							break;
 
 						case "Servicios de pago":
@@ -412,7 +410,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				}
 
 				// Save the point in the database
-				touristicPointRepository.save(point);
+				this.touristicPointRepository.save(point);
 			}
 		}
 
@@ -453,19 +451,23 @@ public class LoadPointsComponent implements CommandLineRunner {
 	}
 	
 	private void loadDataPublicTransportPoints(String type, String stopsPath, String linesPath, CyclicBarrier waitToEnd) {
+		
+		// Query to get number of entities in DB
+		long publicTransportPointsDB = this.transportPointRepository.findByType(type).size();
+		
+		if (publicTransportPointsDB > 0) {
+			try {
+				waitToEnd.await();
+			} catch (InterruptedException | BrokenBarrierException e) {
+				logger.error(e.getMessage());
+			}
+			
+			return;
+		}
+		
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		try {
-					
-			// Query to get subway, bus & commuter points from DB and transform into map
-			Map<String, PublicTransportPoint> publicTransportPointsDB = transportPointRepository.findByType(type).stream()
-					.map(transportPoint -> (PublicTransportPoint) transportPoint)
-					.collect(Collectors.toMap(point -> point.getName() + "-" + point.getLongitude() + "-" + point.getLatitude(), point -> point));
-			
-			// Query to get lines of public transports 
-			Set<String> publicTransportLinesDB = publicTransportLineRepository.findAll().stream()
-					.map(line -> line.getLine() + " [" + line.getDirection() + "]")
-					.collect(Collectors.toSet());
 
 			// Set with the stops
 			Set<PublicTransportPoint> publicTransportPoints = new HashSet<>();
@@ -486,91 +488,83 @@ public class LoadPointsComponent implements CommandLineRunner {
 				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
 				
 				// Store lines of the stop
-				Set<String[]> stopLines;
-				
-				// If point already in DB 
-				PublicTransportPoint publicTransportPoint = publicTransportPointsDB.get(name + "-" + longitude + "-" + latitude);
-				if (publicTransportPoint != null) {
-					stopLines = new HashSet<>(publicTransportPoint.getStopLines());
-				} else {
-					// Init Set with the lines of stop
-					stopLines = new HashSet<>();
-					// Get the lines of the stop in the file
-					JsonNode lines = stop.get("lines");
-					for (JsonNode line: lines) {
-						String lineName = line.get("line").asText();
-						String direction = line.get("direction").asText();
-						Integer order = line.get("order").asInt();
-						// Distance in meters
-						Double distance = line.get("distance_previous_segment").asDouble();
-						// Speed in kilometers/hour
-						Double speed = line.get("speed_previous_segment").asDouble();
-						
-						stopLines.add(new String[] {lineName, direction, Integer.toString(order)});
-						
-						JsonNode stopTimes = line.get("stop_times");
-						if (!stopTimes.isNull()) {
-							// Map with arrival times of the stop (in a line)
-							Map<String, LocalTime[]> daysArrivalTimes = new HashMap<>();
-							
-							for (JsonNode arrivalTimesWeek: stopTimes) {
-								// Get days of the week
-								List<String> daysList = getDaysWeek(arrivalTimesWeek);
-								
-								List<LocalTime> lineTimes = new ArrayList<>();
-								JsonNode arrivalTimes = arrivalTimesWeek.get("arrival_times");
-								for (JsonNode arrivalTime: arrivalTimes) {
-									LocalTime time = LocalTime.parse(arrivalTime.asText());
-									lineTimes.add(time);
-								}
-								
-								// Store frequencies in a map
-								for (String dayArrivalTimes : daysList) {
-									daysArrivalTimes.put(dayArrivalTimes, lineTimes.toArray(new LocalTime[0]));
-								}
-								
-							}
-							
-							// Put the arrival times
-							Map<String, Schedule> stopTimesMap = timesPublicTransportPoints.get(lineName + " [" + direction + "]");
-							if (stopTimesMap == null) {
-								stopTimesMap = new HashMap<>();
-							}
-							stopTimesMap.put(Integer.toString(order), new Time(daysArrivalTimes));
-							timesPublicTransportPoints.put(lineName + " [" + direction + "]", stopTimesMap);
-							
-						}
-						
-						JsonNode polyline = line.get("geometry");
-						if (!polyline.isNull()) {
-							JsonNode polylineCoords = polyline.get("coordinates");
-							List<Double[]> coordinates = new ArrayList<>();
-							for (JsonNode point: polylineCoords) {
-								Double longitudePoint = point.get(0).asDouble();
-								Double latitudePoint = point.get(1).asDouble();
-								coordinates.add(new Double[] {latitudePoint, longitudePoint});
-							}
-							
-							Map<Integer, Polyline> stopPolylines = polylinesPublicTransportPoints.get(lineName + " [" + direction + "]");
-							if (stopPolylines == null) {
-								stopPolylines = new HashMap<>();
-							}
-							
-							// Duration in seconds
-							Double duration = 0.0;
-							if (speed != 0.0) {
-								duration = distance / (speed * (1000.0 / 3600.0));
-							}
-							stopPolylines.put(order, new Polyline(duration, coordinates));
-							polylinesPublicTransportPoints.put(lineName + " [" + direction + "]", stopPolylines);
-						}
-					}
-					// Save stop in DB
-					publicTransportPoint = transportPointRepository.save(new PublicTransportPoint(name, longitude, latitude, type, stopLines));
+				Set<String[]> stopLines = new HashSet<>();
+				// Get the lines of the stop in the file
+				JsonNode lines = stop.get("lines");
+				for (JsonNode line: lines) {
+					String lineName = line.get("line").asText();
+					String direction = line.get("direction").asText();
+					Integer order = line.get("order").asInt();
+					// Distance in meters
+					Double distance = line.get("distance_previous_segment").asDouble();
+					// Speed in kilometers/hour
+					Double speed = line.get("speed_previous_segment").asDouble();
 					
-					// Store transport points
-					publicTransportPoints.add(publicTransportPoint);
+					stopLines.add(new String[] {lineName, direction, Integer.toString(order)});
+					
+					JsonNode stopTimes = line.get("stop_times");
+					if (!stopTimes.isNull()) {
+						// Map with arrival times of the stop (in a line)
+						Map<String, LocalTime[]> daysArrivalTimes = new HashMap<>();
+						
+						for (JsonNode arrivalTimesWeek: stopTimes) {
+							// Get days of the week
+							List<String> daysList = getDaysWeek(arrivalTimesWeek);
+							
+							List<LocalTime> lineTimes = new ArrayList<>();
+							JsonNode arrivalTimes = arrivalTimesWeek.get("arrival_times");
+							for (JsonNode arrivalTime: arrivalTimes) {
+								LocalTime time = LocalTime.parse(arrivalTime.asText());
+								lineTimes.add(time);
+							}
+							
+							// Store frequencies in a map
+							for (String dayArrivalTimes : daysList) {
+								daysArrivalTimes.put(dayArrivalTimes, lineTimes.toArray(new LocalTime[0]));
+							}
+							
+						}
+						
+						// Put the arrival times
+						Map<String, Schedule> stopTimesMap = timesPublicTransportPoints.get(lineName + " [" + direction + "]");
+						if (stopTimesMap == null) {
+							stopTimesMap = new HashMap<>();
+						}
+						stopTimesMap.put(Integer.toString(order), new Time(daysArrivalTimes));
+						timesPublicTransportPoints.put(lineName + " [" + direction + "]", stopTimesMap);
+						
+					}
+					
+					JsonNode polyline = line.get("geometry");
+					if (!polyline.isNull()) {
+						JsonNode polylineCoords = polyline.get("coordinates");
+						List<Double[]> coordinates = new ArrayList<>();
+						for (JsonNode point: polylineCoords) {
+							Double longitudePoint = point.get(0).asDouble();
+							Double latitudePoint = point.get(1).asDouble();
+							coordinates.add(new Double[] {latitudePoint, longitudePoint});
+						}
+						
+						Map<Integer, Polyline> stopPolylines = polylinesPublicTransportPoints.get(lineName + " [" + direction + "]");
+						if (stopPolylines == null) {
+							stopPolylines = new HashMap<>();
+						}
+						
+						// Duration in seconds
+						Double duration = 0.0;
+						if (speed != 0.0) {
+							duration = distance / (speed * (1000.0 / 3600.0));
+						}
+						stopPolylines.put(order, new Polyline(duration, coordinates));
+						polylinesPublicTransportPoints.put(lineName + " [" + direction + "]", stopPolylines);
+					}
 				}
+				// Save stop in DB
+				PublicTransportPoint publicTransportPoint = 
+						this.transportPointRepository.save(new PublicTransportPoint(name, longitude, latitude, type, stopLines));
+				
+				// Store transport points
+				publicTransportPoints.add(publicTransportPoint);
 								
 				// Set in the map each line associated to its point
 				for (String[] line: stopLines) {
@@ -590,7 +584,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 						nextStops.put(line[0] + " [" + line[1] + "]", nextStop);
 				});
 				transportPoint.setNextStops(nextStops);
-				transportPointRepository.save(transportPoint);
+				this.transportPointRepository.save(transportPoint);
 			}
 			
 			// Transform json file to tree model
@@ -602,11 +596,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 				String direction = line.get("direction").asText();
 				String lineHeadsign = line.get("line_headsign").asText();
 				String lineColor = line.get("line_color").asText();
-				
-				if (publicTransportLinesDB.contains(lineName + " [" + direction + "]")) {
-					continue;
-				}
-				
+								
 				// Map with day associated to the start/end of line service
 				Map<String, LocalTime> startSchedules = new HashMap<>();
 				Map<String, LocalTime> endSchedules = new HashMap<>();
@@ -667,7 +657,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 						lineFrequencies : timesPublicTransportPoints.get(lineName + " [" + direction + "]");
 				Character scheduleType = timesPublicTransportPoints.isEmpty() ? 'F' : 'T';
 				
-				publicTransportLineRepository.save(
+				this.publicTransportLineRepository.save(
 						new PublicTransportLine(type, lineName, direction, lineHeadsign, lineColor, scheduleType, stopPolylines, stopSchedules));
 				
 			}
@@ -722,7 +712,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		try {
 			
 			// Query to get bicycle stations from DB with the number of the station as the key
-			Set<String> bicycleTransportPointsDB = transportPointRepository.findByType(type).stream()
+			Set<String> bicycleTransportPointsDB = this.transportPointRepository.findByType(type).stream()
 					.map(transportPoint -> (BicycleTransportPoint) transportPoint)
 					.map(BicycleTransportPoint::getStationNumber)
 					.collect(Collectors.toSet());
@@ -739,7 +729,9 @@ public class LoadPointsComponent implements CommandLineRunner {
 				
 				if (!bicycleTransportPointsDB.contains(stationNumber)) {
 					// Save it in the DB
-					transportPointRepository.save(new BicycleTransportPoint(stationNumber, name, longitude, latitude, type));	
+					this.transportPointRepository.save(
+							new BicycleTransportPoint(stationNumber, name, longitude, latitude, type, 
+									0, 0, 0, false, true, 0));	
 				}
 										
 			}
@@ -749,7 +741,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		} 
 		
 		// Add availability of each Bike station
-		updateBiciMADStations();
+		//updateBiciMADStations();
 		
 		try {
 			waitToEnd.await();
@@ -768,16 +760,16 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private void updateBiciMADStations() {
 		
 		// Query to get bicycle stations from DB with the number of the station as the key
-		Map<String, BicycleTransportPoint> bicycleTransportPointsDB = transportPointRepository.findByType("BiciMAD").stream()
+		Map<String, BicycleTransportPoint> bicycleTransportPointsDB = this.transportPointRepository.findByType("BiciMAD").stream()
 				.map(transportPoint -> (BicycleTransportPoint) transportPoint)
 				.collect(Collectors.toMap(BicycleTransportPoint::getStationNumber, point -> point));
 		
 		// Web page EMT api
 		WebClient client = WebClient.create(
-				"https://openapi.emtmadrid.es");
+				"https://openapi.emtmadrid.es/v1/transport/bicimad/stations/");
 
 		ObjectNode response = client.get()
-				.uri("/v1/transport/bicimad/stations/")
+				//.uri("/v1/transport/bicimad/stations/")
 				.retrieve()
 				.bodyToMono(ObjectNode.class)
 				.block();
@@ -807,7 +799,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 			bicycleTransportPointDB.setFreeBases(free_bases);
 			bicycleTransportPointDB.setReservations(reservations_count);
 			
-			transportPointRepository.save(bicycleTransportPointDB);
+			this.transportPointRepository.save(bicycleTransportPointDB);
 		}
 		
 	}

@@ -60,74 +60,78 @@ export class DisplayRoutePage implements OnInit {
   }
 
   ngOnInit() {
-    // Get width of device to show side menu or sheet modal
-    this.platform.ready().then(() => {
-      this.showSideMenu = this.platform.width() >= 768;
-    });
+  }
 
-    // Different icon for the mode of transport
-    let iconTransport: Map<string, string> = new Map<string, string>([['A pie', 'walk.png'], ['Metro', 'subway.png'],
-    ['Bus', 'bus.png'], ['BiciMAD', 'bicycle.png'], ['Cercanías', 'commuter.png']]);
-    // Map with line zones associated to general line
-    let linesZone: Map<string, string> = new Map<string, string>([["6-1", "6"], ["6-2", "6"], ["7a", "7"], ["7b", "7"],
-    ["9A", "9"], ["9B", "9"], ["10a", "10"], ["10b","10"], ["12-1", "12"], ["12-2", "12"]]);
-    // Init segmentsSteps
-    this.segmentsSteps = new Map<number, string>();
-    // Init segmentsVisual
-    this.segmentsVisual = [];
-
-    this.routeResult = this.sharedService.getRoute();
-    this.sharedService.setRoute(undefined);
-    if (!this.routeResult) {
-      this.sharedService.showToast('No se ha podido obtener la ruta', 3000);
-      this.router.navigate(['/']);
-    }
-
-    // Iterate over the segments of the route
-    this.routeResult.segments.forEach((segment, index) => {
-      // Transform some lines to unify zones in one line
-      if (linesZone.has(segment.line)) {
-        segment.line = linesZone.get(segment.line);
-      }
-
-      // Insert the steps if applicable
-      if (segment.steps && segment.steps.length) {
-        // Init list for the steps
-        let steps = [];
-        segment.steps.forEach((step: string) => {
-          // Split way-points & instruction
-          let parts = step.split(':', 2);
-          // Get the source/target point & the instruction
-          let wayPoints = parts[0].split('-', 2);
-          let first = wayPoints[0];
-          let last = wayPoints[1];
-          let instruction = parts[1];
-          steps.push({ first: first, last: last, instruction: instruction });
+  ionViewWillEnter() {
+        // Get width of device to show side menu or sheet modal
+        this.platform.ready().then(() => {
+          this.showSideMenu = this.platform.width() >= 768;
         });
-        this.segmentsSteps.set(index, steps);
-      }
-
-      // Dash pattern for the segment (for walk segments)
-      let dashedSegment = segment.transportMode === 'A pie';
-      // Icon (mode of transport) for the segment
-      let iconSegment = iconTransport.get(segment.transportMode);
-      // Type of transport (has instructions walk/bike or intermediate stations)
-      let stepSegment = segment.transportMode === 'A pie' || segment.transportMode === 'BiciMAD';
-
-      // Store some features of the segments
-      this.segmentsVisual.push({ dashed: dashedSegment, icon: iconSegment, steps: stepSegment });
-    });
-
-    // Get start & end time of route
-    this.startTime = new Date();
-    this.endTime = new Date(this.startTime.getTime());
-    this.endTime.setMinutes(this.startTime.getMinutes() + this.routeResult.duration);
+    
+        // Different icon for the mode of transport
+        let iconTransport: Map<string, string> = new Map<string, string>([['A pie', 'walk.png'], ['Metro', 'subway.png'],
+        ['Bus', 'bus.png'], ['BiciMAD', 'bicycle.png'], ['Cercanías', 'commuter.png']]);
+        // Map with line zones associated to general line
+        let linesZone: Map<string, string> = new Map<string, string>([["6-1", "6"], ["6-2", "6"], ["7a", "7"], ["7b", "7"],
+        ["9A", "9"], ["9B", "9"], ["10a", "10"], ["10b","10"], ["12-1", "12"], ["12-2", "12"]]);
+        // Init segmentsSteps
+        this.segmentsSteps = new Map<number, string>();
+        // Init segmentsVisual
+        this.segmentsVisual = [];
+    
+        this.routeResult = this.sharedService.getRoute();
+        this.sharedService.setRoute(undefined);
+        if (!this.routeResult) {
+          this.sharedService.showToast('No se ha podido obtener la ruta', 3000);
+          this.router.navigate(['/']);
+        }
+    
+        // Iterate over the segments of the route
+        this.routeResult.segments.forEach((segment, index) => {
+          // Transform some lines to unify zones in one line
+          if (linesZone.has(segment.line)) {
+            segment.line = linesZone.get(segment.line);
+          }
+    
+          // Insert the steps if applicable
+          if (segment.steps && segment.steps.length) {
+            // Init list for the steps
+            let steps = [];
+            segment.steps.forEach((step: string) => {
+              // Split way-points & instruction
+              let parts = step.split(':', 2);
+              // Get the source/target point & the instruction
+              let wayPoints = parts[0].split('-', 2);
+              let first = wayPoints[0];
+              let last = wayPoints[1];
+              let instruction = parts[1];
+              steps.push({ first: first, last: last, instruction: instruction });
+            });
+            this.segmentsSteps.set(index, steps);
+          }
+    
+          // Dash pattern for the segment (for walk segments)
+          let dashedSegment = segment.transportMode === 'A pie';
+          // Icon (mode of transport) for the segment
+          let iconSegment = iconTransport.get(segment.transportMode);
+          // Type of transport (has instructions walk/bike or intermediate stations)
+          let stepSegment = segment.transportMode === 'A pie' || segment.transportMode === 'BiciMAD';
+    
+          // Store some features of the segments
+          this.segmentsVisual.push({ dashed: dashedSegment, icon: iconSegment, steps: stepSegment });
+        });
+    
+        // Get start & end time of route
+        this.startTime = new Date();
+        this.endTime = new Date(this.startTime.getTime());
+        this.endTime.setMinutes(this.startTime.getMinutes() + this.routeResult.duration);
   }
 
   ionViewDidLeave() {
     // Close sheet modal if open
     if (!this.showSideMenu) this.modalController.dismiss();
   }
+  
 
   ionViewDidEnter() {
     // For side menu, starts open

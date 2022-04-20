@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -36,7 +37,8 @@ export class IndexPage implements OnInit {
     private storageService: StorageService,
     private authService: AuthService,
     private routeService: RouteService,
-    private router: Router
+    private router: Router,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -95,6 +97,7 @@ export class IndexPage implements OnInit {
     // Store route response to be used in display route page & close modal with route information
     this.sharedService.setRoute(route);
     // Hide modal with route information
+    this.modalController.dismiss();
     this.openModal = false;
     // Display route
     this.router.navigate(['/display-route']);

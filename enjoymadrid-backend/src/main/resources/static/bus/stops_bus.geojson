@@ -1995,7 +1995,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.76386296127663, 40.451617599543 ] } 
 	},
 	{ 
-		"id": 104, "name": "Joaquín Costa-Velázquez", "number": 4999, "address": "null", 
+		"id": 104, "name": "Joaquín Costa-Velázquez", "number": 4999, "address": "Joaquín Costa 43", 
 		"lines": [ 
 			{ 
 				"line": "C2", "direction": "2", "order": 23, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -2003,7 +2003,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.682958346325387, 40.44311452699079 ] } 
 	},
 	{ 
 		"id": 105, "name": "Buenos Aires", "number": 1009, "address": "Avda de la Albufera 179", 
@@ -3296,7 +3296,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.7187116983537, 40.4343166579269 ] } 
 	},
 	{ 
-		"id": 160, "name": "Sevilla", "number": 3689, "address": "null", 
+		"id": 160, "name": "Sevilla", "number": 3689, "address": "Alcalá 35", 
 		"lines": [ 
 			{ 
 				"line": "002", "direction": "2", "order": 13, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -3329,7 +3329,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.697887600644805, 40.418503513697175 ] } 
 	},
 	{ 
 		"id": 161, "name": "Pi y Margall-Alcalá Zamora", "number": 5400, "address": "Avda de Francisco Pi y Margall 7 B", 
@@ -3688,7 +3688,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.61363019436121, 40.3803531434371 ] } 
 	},
 	{ 
-		"id": 182, "name": "Sevilla", "number": 3698, "address": "null", 
+		"id": 182, "name": "Sevilla", "number": 3698, "address": "Alcalá 29-31", 
 		"lines": [ 
 			{ 
 				"line": "51", "direction": "1", "order": 1, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -3701,7 +3701,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.6982768978321063, 40.41847993775621 ] } 
 	},
 	{ 
 		"id": 183, "name": "Barrio Peñagrande", "number": 3699, "address": "Calle de las Islas Aleutianas 5", 
@@ -6222,7 +6222,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.7146477980719, 40.4296526210192 ] } 
 	},
 	{ 
-		"id": 341, "name": "Duque de Pastrana", "number": 207, "address": "null", 
+		"id": 341, "name": "Duque de Pastrana", "number": 207, "address": "Mateo Inurria con Pº de la Habana", 
 		"lines": [ 
 			{ 
 				"line": "70", "direction": "1", "order": 5, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -6240,7 +6240,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.679626345769001, 40.46762228813374 ] } 
 	},
 	{ 
 		"id": 342, "name": "Santa Cruz Marcenado", "number": 4138, "address": "Calle de Santa Cruz de Marcenado 29", 
@@ -6812,7 +6812,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.6113381761164023, 40.43481211468098 ] } 
 	},
 	{ 
 		"id": 379, "name": "Cordel de Pavones-Pinillas", "number": 5490, "address": "Calle de Cordel de Pavones 34 E", 
@@ -9975,7 +9975,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.65959214711067, 40.4050107171402 ] } 
 	},
 	{ 
-		"id": 544, "name": "Sierra Elvira-Sierra Toledana", "number": 1986, "address": "null", 
+		"id": 544, "name": "Sierra Elvira-Sierra Toledana", "number": 1986, "address": "Sierra Toledana 48", 
 		"lines": [ 
 			{ 
 				"line": "8", "direction": "1", "order": 19, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -9988,7 +9988,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [-3.659426314671438, 40.40430728591974 ] } 
 	},
 	{ 
 		"id": 545, "name": "Avenida de la Hispanidad-Dique Sur", "number": 1985, "address": "Calle de Ariadna SN", 
@@ -18620,7 +18620,12 @@
 				"line": "27", "direction": "1", "order": 25, "distance_previous_segment": null, "speed_previous_segment": null, 
 				"stop_times": null, 
 				"geometry": null 
-			}, 
+			},
+			{ 
+				"line": "5", "direction": "1", "order": 24, "distance_previous_segment": null, "speed_previous_segment": null, 
+				"stop_times": null, 
+				"geometry": null 
+			}, 			
 			{ 
 				"line": "147", "direction": "1", "order": 23, "distance_previous_segment": null, "speed_previous_segment": null, 
 				"stop_times": null, 
@@ -19765,7 +19770,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68868499349503, 40.4357964397659 ] } 
 	},
 	{ 
-		"id": 1034, "name": "Castellana-Rubén Darío", "number": 59, "address": "null", 
+		"id": 1034, "name": "Castellana-Rubén Darío", "number": 59, "address": "Pº de la Castellana 33", 
 		"lines": [ 
 			{ 
 				"line": "5", "direction": "2", "order": 21, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -19808,7 +19813,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.6889640938407755, 40.43369625194992 ] } 
 	},
 	{ 
 		"id": 1035, "name": "Castellana-Rubén Darío", "number": 60, "address": "Paseo de la Castellana 38", 
@@ -38804,7 +38809,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68802622641627, 40.4359445001246 ] } 
 	},
 	{ 
-		"id": 2093, "name": "República Dominicana", "number": 4467, "address": "null", 
+		"id": 2093, "name": "República Dominicana", "number": 4467, "address": "C/ Costa Rica 8", 
 		"lines": [ 
 			{ 
 				"line": "87", "direction": "1", "order": 1, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -38817,7 +38822,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.675968713618143, 40.45845186934494 ] } 
 	},
 	{ 
 		"id": 2094, "name": "San Aquilino", "number": 5798, "address": "Calle de San Aquilino 6", 
@@ -41059,7 +41064,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67969558410542, 40.4399937009884 ] } 
 	},
 	{ 
-		"id": 2228, "name": "Francisco Silvela-Príncipe de Vergara", "number": 2700, "address": "null", 
+		"id": 2228, "name": "Francisco Silvela-Príncipe de Vergara", "number": 2700, "address": "Francisco Silvela 95", 
 		"lines": [ 
 			{ 
 				"line": "C1", "direction": "1", "order": 10, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -41067,7 +41072,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.6793908844696706, 40.43909881064388 ] } 
 	},
 	{ 
 		"id": 2229, "name": "Marqués de Comillas", "number": 2709, "address": "Plaza del Marqués de Comillas 3", 
@@ -43153,7 +43158,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.68676256270121, 40.351757638327 ] } 
 	},
 	{ 
-		"id": 2347, "name": "Pinos Baja-Blanco Argibay", "number": 5809, "address": "null", 
+		"id": 2347, "name": "Pinos Baja-Blanco Argibay", "number": 5809, "address": "Pinos Baja 18", 
 		"lines": [ 
 			{ 
 				"line": "177", "direction": "2", "order": 4, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -43161,7 +43166,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.704082850449199, 40.46724444448513 ] } 
 	},
 	{ 
 		"id": 2348, "name": "Martínez Seco-Benita López", "number": 1443, "address": "Calle de Juan José Martínez Seco 7", 
@@ -43570,7 +43575,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.72500622462319, 40.4134170225474 ] } 
 	},
 	{ 
-		"id": 2379, "name": "Pinos Baja-Arroyo", "number": 5810, "address": "null", 
+		"id": 2379, "name": "Pinos Baja-Arroyo", "number": 5810, "address": "Pinos Baja 60", 
 		"lines": [ 
 			{ 
 				"line": "177", "direction": "2", "order": 5, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -43578,7 +43583,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.7019669737063814, 40.46925007363522 ] } 
 	},
 	{ 
 		"id": 2380, "name": "Pinos Baja-Molina", "number": 5811, "address": "Calle de Pinos Baja 85", 
@@ -47078,7 +47083,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.62605412702632, 40.4760348104062 ] } 
 	},
 	{ 
-		"id": 2592, "name": "Camarena-Illescas", "number": 629, "address": "null", 
+		"id": 2592, "name": "Camarena-Illescas", "number": 629, "address": "Camarena frente al Nº 105", 
 		"lines": [ 
 			{ 
 				"line": "25", "direction": "1", "order": 22, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -47091,7 +47096,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.755780847382922, 40.39230961160212 ] } 
 	},
 	{ 
 		"id": 2593, "name": "Villablanca-Lago Van", "number": 4559, "address": "Calle de Villablanca 20", 
@@ -47214,7 +47219,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.69510498790088, 40.4564021968642 ] } 
 	},
 	{ 
-		"id": 2603, "name": "Camarena-Illescas", "number": 630, "address": "null", 
+		"id": 2603, "name": "Camarena-Illescas", "number": 630, "address": "Camarena 105", 
 		"lines": [ 
 			{ 
 				"line": "25", "direction": "2", "order": 9, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -47227,7 +47232,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.755640401740472, 40.39230961160212 ] } 
 	},
 	{ 
 		"id": 2604, "name": "Orense-San Germán", "number": 3238, "address": "Calle del General Yagüe 26", 
@@ -50364,7 +50369,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.67601269064178, 40.423154868355 ] } 
 	},
 	{ 
-		"id": 2783, "name": "Francisco de Rojas", "number": 5044, "address": "null", 
+		"id": 2783, "name": "Francisco de Rojas", "number": 5044, "address": "Francisco de Rojas 10", 
 		"lines": [ 
 			{ 
 				"line": "37", "direction": "2", "order": 16, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -50377,7 +50382,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.6996605680989543, 40.42969891703262 ] } 
 	},
 	{ 
 		"id": 2784, "name": "Avenida de los Poblados-Tolosa Latour", "number": 5045, "address": "Avda de los Poblados 150", 
@@ -50837,7 +50842,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.71237599280285, 40.4075674584144 ] } 
 	},
 	{ 
-		"id": 2811, "name": "Motrico", "number": 5071, "address": "null", 
+		"id": 2811, "name": "Motrico", "number": 5071, "address": "Motrico 11", 
 		"lines": [ 
 			{ 
 				"line": "162", "direction": "1", "order": 19, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -50845,7 +50850,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.8104117737956393, 40.47032786056535 ] } 
 	},
 	{ 
 		"id": 2812, "name": "Berrocal-Canchal", "number": 5072, "address": "Calle del Canchal 17", 
@@ -51133,7 +51138,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.74064743746724, 40.3675249355368 ] } 
 	},
 	{ 
-		"id": 2832, "name": "Mar de Cristal", "number": 5090, "address": "null", 
+		"id": 2832, "name": "Mar de Cristal", "number": 5090, "address": "Arequipa S/N con Gta.Mar de Cristal y C/ Los Emigrantes", 
 		"lines": [ 
 			{ 
 				"line": "SE767", "direction": "1", "order": 3, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -51146,10 +51151,10 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.6392209476523734, 40.4689782055977 ] } 
 	},
 	{ 
-		"id": 2833, "name": "Felipe II", "number": 5091, "address": "null", 
+		"id": 2833, "name": "Felipe II", "number": 5091, "address": "Av. Felipe II 6", 
 		"lines": [ 
 			{ 
 				"line": "152", "direction": "1", "order": 1, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -51162,10 +51167,10 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.6766115680097875, 40.42411889086365 ] } 
 	},
 	{ 
-		"id": 2834, "name": "Felipe II", "number": 5092, "address": "null", 
+		"id": 2834, "name": "Felipe II", "number": 5092, "address": "Av. Felipe II 10", 
 		"lines": [ 
 			{ 
 				"line": "30", "direction": "1", "order": 1, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -51178,10 +51183,10 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.676352267733878, 40.4240595992482 ] } 
 	},
 	{ 
-		"id": 2835, "name": "Felipe II", "number": 5093, "address": "null", 
+		"id": 2835, "name": "Felipe II", "number": 5093, "address": "Av. Felipe II 12", 
 		"lines": [ 
 			{ 
 				"line": "15", "direction": "1", "order": 6, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -51199,7 +51204,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.675700060584156, 40.42373825396933 ] } 
 	},
 	{ 
 		"id": 2836, "name": "Laguna", "number": 5094, "address": "Calle de la Alhambra 56", 
@@ -56325,7 +56330,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.63786253811411, 40.3986954273162 ] } 
 	},
 	{ 
-		"id": 3144, "name": "Marqués de Salamanca", "number": 731, "address": "null", 
+		"id": 3144, "name": "Marqués de Salamanca", "number": 731, "address": "José Ortega y Gasset 34", 
 		"lines": [ 
 			{ 
 				"line": "1", "direction": "1", "order": 21, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -56338,7 +56343,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.680811806922885, 40.43010269561583 ] } 
 	},
 	{ 
 		"id": 3145, "name": "Las Cortes", "number": 2004, "address": "Calle de Cedaceros 11", 
@@ -59690,15 +59695,10 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.74421150654511, 40.3976419650653 ] } 
 	},
 	{ 
-		"id": 3314, "name": "Hermanos García Noblejas-Miguel Fleta", "number": 5101, "address": "null", 
+		"id": 3314, "name": "Ascao-Julián Camarillo", "number": 243, "address": "Hermanos García Noblejas 35 (Julián Camarillo)", 
 		"lines": [ 
 			{ 
 				"line": "4", "direction": "2", "order": 24, "distance_previous_segment": null, "speed_previous_segment": null, 
-				"stop_times": null, 
-				"geometry": null 
-			}, 
-			{ 
-				"line": "5", "direction": "1", "order": 24, "distance_previous_segment": null, "speed_previous_segment": null, 
 				"stop_times": null, 
 				"geometry": null 
 			}, 
@@ -59718,7 +59718,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.633947264892195, 40.43247243821803 ] } 
 	},
 	{ 
 		"id": 3315, "name": "Juan de Borbón-Ribera del Sena", "number": 5102, "address": "Gta de S.A.R. Don Juan de Borbón y Battemberg 1", 
@@ -61216,7 +61216,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.76060203822784, 40.4036255794756 ] } 
 	},
 	{ 
-		"id": 3395, "name": "Camarena-Centro de Salud", "number": 5178, "address": "null", 
+		"id": 3395, "name": "Camarena-Centro de Salud", "number": 5178, "address": "Camarena frente a Nº 57", 
 		"lines": [ 
 			{ 
 				"line": "25", "direction": "1", "order": 21, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -61229,10 +61229,10 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.7552909536771812, 40.395447714083396 ] } 
 	},
 	{ 
-		"id": 3396, "name": "Camarena-Centro de Salud", "number": 5179, "address": "null", 
+		"id": 3396, "name": "Camarena-Centro de Salud", "number": 5179, "address": "Camarena 57", 
 		"lines": [ 
 			{ 
 				"line": "25", "direction": "2", "order": 10, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -61245,7 +61245,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.754968579550498, 40.395487089412995 ] } 
 	},
 	{ 
 		"id": 3397, "name": "Seseña-Valmojado", "number": 5184, "address": "Calle de Seseña 2 A", 
@@ -65714,7 +65714,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6897371876692, 40.3574112200995 ] } 
 	},
 	{ 
-		"id": 3648, "name": "Sevilla", "number": 3411, "address": "null", 
+		"id": 3648, "name": "Sevilla", "number": 3411, "address": "Alcalá 37", 
 		"lines": [ 
 			{ 
 				"line": "9", "direction": "1", "order": 1, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -65727,7 +65727,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.697565287010112, 40.41858695005287 ] } 
 	},
 	{ 
 		"id": 3649, "name": "Gregorio Marañón", "number": 810, "address": "Calle de José Abascal 58", 
@@ -68928,7 +68928,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.81577732625033, 40.4730514612202 ] } 
 	},
 	{ 
-		"id": 3847, "name": "Felipe II", "number": 2153, "address": "null", 
+		"id": 3847, "name": "Felipe II", "number": 2153, "address": "FELIPE II (C/ Narváez)", 
 		"lines": [ 
 			{ 
 				"line": "63", "direction": "1", "order": 1, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -68941,7 +68941,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.6756959037394625, 40.423740443353736 ] } 
 	},
 	{ 
 		"id": 3848, "name": "Resina-San Erasmo", "number": 3484, "address": "Calle de la Resina 38", 
@@ -70718,7 +70718,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.59137240084932, 40.4619378606324 ] } 
 	},
 	{ 
-		"id": 3942, "name": "Plaza de España-Terminal", "number": 5205, "address": "null", 
+		"id": 3942, "name": "Plaza de España-Terminal", "number": 5205, "address": "Reyes, 23", 
 		"lines": [ 
 			{ 
 				"line": "25", "direction": "1", "order": 1, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -70731,7 +70731,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.7103002681413173, 40.42367022596308 ] } 
 	},
 	{ 
 		"id": 3943, "name": "Plaza de España-Terminal", "number": 5206, "address": "Calle del Maestro Guerrero 6", 
@@ -74955,7 +74955,7 @@
 		"geometry": { "type": "Point", "coordinates": [ -3.6762284853949, 40.4163652938901 ] } 
 	},
 	{ 
-		"id": 4209, "name": "Félix Candela-Gutiérrez Mellado", "number": 3545, "address": "null", 
+		"id": 4209, "name": "Félix Candela-Gutiérrez Mellado", "number": 3545, "address": "Felix Candela con C/ Gutierrez Mellado", 
 		"lines": [ 
 			{ 
 				"line": "171", "direction": "2", "order": 3, "distance_previous_segment": null, "speed_previous_segment": null, 
@@ -74968,7 +74968,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.6198916874252594, 40.49692085028202 ] } 
 	},
 	{ 
 		"id": 4210, "name": "Estafeta-Carabelos", "number": 940, "address": "Plaza de la Torre del Oro 1", 
@@ -84216,7 +84216,7 @@
 				"geometry": null 
 			} 
 		], 
-		"geometry": { "type": "Point", "coordinates": [ null, null ] } 
+		"geometry": { "type": "Point", "coordinates": [ -3.7183624252797873, 40.38496276375335 ] } 
 	},
 	{ 
 		"id": 4728, "name": "Pi y Margall-Ana de Austria", "number": 3604, "address": "Avda de Francisco Pi y Margall 91", 

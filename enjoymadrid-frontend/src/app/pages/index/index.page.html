@@ -101,7 +101,7 @@
             <ion-col>
               <ion-label>
                 <h3><span class="route-title-info route-info">Preferencias</span></h3>
-                <div class="" *ngFor="let preference of routeModal?.preferences | keyvalue">
+                <div *ngFor="let preference of routeModal?.preferences | keyvalue">
                   <h3 class="ion-text-wrap" [class.not-selected]="preference.value === 0">
                     <span style="vertical-align: middle;">{{preference.key.split('_')[1]}} </span>
                     <ion-icon style="vertical-align: bottom;" *ngIf="preference.value === 0" name="close-outline"></ion-icon>

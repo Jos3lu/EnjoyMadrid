@@ -17,9 +17,16 @@ public class BicycleTransportPoint extends TransportPoint {
 	
 	public BicycleTransportPoint() {}
 	
-	public BicycleTransportPoint(String stationNumber, String name, Double longitude, Double latitude, String type) {
+	public BicycleTransportPoint(String stationNumber, String name, Double longitude, Double latitude, String type, 
+			Integer totalBases, Integer dockBases, Integer freeBases, Boolean activate, Boolean no_available, Integer reservations) {
 		super(name, longitude, latitude, type);
 		this.stationNumber = stationNumber;
+		this.totalBases = totalBases;
+		this.dockBases = dockBases;
+		this.freeBases = freeBases;
+		this.activate = activate;
+		this.no_available = no_available;
+		this.reservations = reservations;
 	}
 	
 	public String getStationNumber() {
