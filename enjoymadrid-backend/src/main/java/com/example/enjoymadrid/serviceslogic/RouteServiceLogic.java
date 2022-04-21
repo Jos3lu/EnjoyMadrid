@@ -340,6 +340,7 @@ public class RouteServiceLogic implements RouteService {
 			}, (p1, p2) -> p1 + p2);
 		}
 		
+		if (aqi == 0) aqi = 1;
 		if (interestPlaces == 0.0) interestPlaces = 1.0;
 		
 		return (minDistanceToDestination * aqi) / interestPlaces;
