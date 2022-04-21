@@ -74,14 +74,15 @@ export class UpdateUserPage implements OnInit {
                 _ => {
                   this.user.password = '';
                   this.user.oldPassword = '';
+                  this.router.navigateByUrl('/');
                 }
               );
             }
           );
         } else {
           this.authService.getUserAuth().name = user.name;
+          this.router.navigateByUrl('/');
         }
-        this.router.navigateByUrl('/');
       },
       error => this.sharedService.onError(error, 5000));
   }
