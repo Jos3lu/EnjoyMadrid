@@ -19,7 +19,7 @@ public class EnjoymadridBackendApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-				.allowedOrigins("http://localhost:8100", "capacitor://localhost", "ionic://localhost")
+				.allowedOrigins("http://localhost:8100", "capacitor://localhost", "ionic://localhost", "https://enjoy-madrid-d18ed.web.app")
 				.allowedMethods("GET", "PUT", "POST", "DELETE");
 			}
 		};
