@@ -59,12 +59,40 @@ export class SelectPointPage implements OnInit {
     // Add search bar
     this.searchControl = GeoSearchControl({
       provider: new OpenStreetMapProvider(),
+      position: 'topleft',
       style: 'bar',
       autoCompleteDelay: 500,
       showMarker: false,
       retainZoomLevel: true,
       searchLabel: 'Buscar o clicar mapa',
       notFoundMessage: 'No se ha podido encontrar la dirección',
+      showPopup: false,
+      popupFormat: ({ result }) => `${result.label}`,
+      resultFormat: ({ result }) => `${result.label}`,
+      marker: {
+        icon: L && L.Icon ? new L.Icon.Default() : undefined,
+        draggable: false,
+      },
+      maxMarkers: 1,
+      maxSuggestions: 5,
+      animateZoom: true,
+      messageHideDelay: 3000,
+      zoomLevel: 18,
+      classNames: {
+        container: 'leaflet-bar leaflet-control leaflet-control-geosearch',
+        button: 'leaflet-bar-part leaflet-bar-part-single',
+        resetButton: 'reset',
+        msgbox: 'leaflet-bar message',
+        form: '',
+        input: '',
+        resultlist: '',
+        item: '',
+        notfound: 'leaflet-bar-notfound',
+      },
+      autoComplete: true,
+      autoClose: false,
+      keepResult: false,
+      updateMap: true,
     });
 
     // Create map
