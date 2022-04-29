@@ -471,8 +471,7 @@ public class RouteServiceLogic implements RouteService {
 		DayOfWeek currentDayOfWeek = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate().getDayOfWeek();
 		
 		// Return a route between two or more locations for a selected profile
-		WebClient client = WebClient.create("https://api.openrouteservice.org");
-		//WebClient client = WebClient.create("http://localhost:8088/ors");
+		WebClient client = WebClient.create("http://localhost:8088/ors");
 		for (int i = 0; i < routePoints.size(); i++) {	
 			
 			// Index of first of segment
@@ -568,7 +567,6 @@ public class RouteServiceLogic implements RouteService {
 				// Get response
 				ObjectNode response = client.post()
 						.uri("/v2/directions/" + modeTransports.get(transportMode) + "/geojson")
-						.header(HttpHeaders.AUTHORIZATION, "5b3ce3597851110001cf6248079a826553c748d0aed309710623ce33")
 						.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE, "application/geo+json")
 						.contentType(MediaType.APPLICATION_JSON)
 						.body(BodyInserters.fromValue(
