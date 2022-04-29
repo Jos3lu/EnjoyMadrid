@@ -20,6 +20,9 @@ export class UpdateUserPage implements OnInit {
   showPasswordCurrent: boolean;
   showPasswordNew: boolean;
 
+  // If modify password is selected
+  passwordSelected: boolean;
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -47,7 +50,7 @@ export class UpdateUserPage implements OnInit {
     this.showPasswordNew = !this.showPasswordNew;
   }
 
-  loadProfilePicture(event: { target: { files: File[]; }; }) {
+  loadProfilePicture(event: any) {
     // Update photo independently of other user's information
     this.imageUser = event.target.files[0];
     if (this.imageUser) {
