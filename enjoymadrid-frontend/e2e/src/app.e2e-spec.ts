@@ -6,9 +6,9 @@ describe('new App', () => {
   beforeEach(() => {
     page = new AppPage();
   });
-  describe('default screen', () => {
-    beforeEach(() => {
-      page.navigateTo('/home');
-    });
+
+  it('should display welcome message', () => {
+    page.navigateTo();
+    expect(page.getPageTitle()).toContain('Tab 1');
   });
 });
