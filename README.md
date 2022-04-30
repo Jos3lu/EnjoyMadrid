@@ -26,52 +26,52 @@
 
 #### 1. User sign up: 
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/sign_up.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/sign_up.gif" alt="Sign up">
 </p>
 
 #### 2. User sign in: 
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/sign_in.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/sign_in.gif" alt="Sign up">
 </p>
 
 #### 3. User update profile:
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/update_user.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/update_user.gif" alt="Sign up">
 </p>
 
 #### 4. User delete account:
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/delete_user.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/delete_user.gif" alt="Sign up">
 </p>
 
 #### 5. Explore places in Madrid:
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/find_places.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/find_places.gif" alt="Sign up">
 </p>
 
 #### 6. Find information about the place you want to visit:
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/select_places.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/select_places.gif" alt="Sign up">
 </p>
 
 #### 7. Create route:
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/create_route.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/create_route.gif" alt="Sign up">
 </p>
 
 #### 8. View the route itinerary:
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/display_route.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/display_route.gif" alt="Sign up">
 </p>
 
 #### 9. Retrieve stored routes:
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/routes_user.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/routes_user.gif" alt="Sign up">
 </p>
 
 #### 10. Delete the route you no longer need:
 <p align="center">
-  <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/delete_route.gif" alt="Sign up">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/delete_route.gif" alt="Sign up">
 </p>
 
 <a name="setting-up"></a>
