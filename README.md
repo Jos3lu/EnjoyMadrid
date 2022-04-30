@@ -28,76 +28,79 @@
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/sign_up.gif" alt="Sign up">
 </p>
-<br>
 
 #### 2. User sign in: 
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/sign_in.gif" alt="Sign up">
 </p>
-<br>
 
 #### 3. User update profile:
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/update_user.gif" alt="Sign up">
 </p>
-<br>
 
 #### 4. User delete account:
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/delete_user.gif" alt="Sign up">
 </p>
-<br>
 
 #### 5. Explore places in Madrid:
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/find_places.gif" alt="Sign up">
 </p>
-<br>
 
 #### 6. Find information about the place you want to visit:
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/select_places.gif" alt="Sign up">
 </p>
-<br>
 
 #### 7. Create route:
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/create_route.gif" alt="Sign up">
 </p>
-<br>
 
 #### 8. View the route itinerary:
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/display_route.gif" alt="Sign up">
 </p>
-<br>
 
-#### 9. Retrieve store routes:
+#### 9. Retrieve stored routes:
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/routes_user.gif" alt="Sign up">
 </p>
-<br>
 
 #### 10. Delete the route you no longer need:
 <p align="center">
   <img height="350px" src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/delete_route.gif" alt="Sign up">
 </p>
-<br>
 
 <a name="setting-up"></a>
 ## Setting Up 
 
-To run the server (is implemented as a REST API) download and run the jar file as follows (the jar file is located in Releases).\
-`java -jar enjoymadrid-backend-0.0.1-SNAPSHOT.jar`\
-Where enjoymadrid-backend-0.0.1-SNAPSHOT.jar is the path to the jar file on your file system.
-Server needs a MariaDB database running. When you create the database call it enjoy_madrid.
+### Docker
+
+You can build the docker serve image with the following command:\
+`docker build .`\
+You can also download the image from Docker Hub:\
+`docker pull jos3lu/enjoy-madrid:latest`\
+Here is the link to Docker Hub: <https://hub.docker.com/r/jos3lu/enjoy-madrid>\
+You can run a docker compose with the image and a mariaDB database, by going to the docker directory inside the enjoymadrid-backend directory and running the following command:\
+`docker-compose up`\
+The server will run in port 8080.
+
+### JAR File
+
+If you want to run the application standalone, download and run the jar file with the following command (the jar file is located in Releases).\
+`java -jar enjoymadrid-backend-0.0.1.jar`\
+Where enjoymadrid-backend-0.0.1.jar is the path to the jar file on your file system.
+
+Server needs a MariaDB database running (Offical page of MariaDB: <https://mariadb.org/>). When you create the database call it enjoy_madrid.
 ```
 Database access credentials:
 	Username: root
 	Password: 1234
 ```
 
-Finally, download the openrouteservice-master folder, navigate to the docker directory and execute the following command:\
-`docker-compose up`
+### Web Page
 
 Page can be found here: [https://enjoy-madrid-d18ed.web.app/](https://enjoy-madrid-d18ed.web.app/)
