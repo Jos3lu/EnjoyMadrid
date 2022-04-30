@@ -9,8 +9,8 @@
 <hr>
 
 ## List of Contents
-1. [Introduction](introduction)
-2. [App Walkthrough](app-walkthrough)
+1. [Introduction](#introduction)
+2. [App Walkthrough](#app-walkthrough)
 3. [Setting Up](#setting-up)
 
 <a name="introduction"></a>
