@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+    db:
+        image: mariadb:latest
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - ./mariadb:/var/lib/mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${SPRING_DATASOURCE_USERNAME}
+            MYSQL_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+        ports:
+            - "${DB_PORT}:${DB_PORT}"
+        networks:
+            - backend
+    app:
+        image: jos3lu/enjoy-madrid:latest
+        links:
+            - db
+        depends_on:
+            - db
+        env_file:
+            - .env
+        ports:
+            - "${SERVER_PORT}:${SERVER_PORT}"
+        restart: always
+        networks:
+            - backend     
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - "9000:8080"
+            
+networks:
+  backend: {}
