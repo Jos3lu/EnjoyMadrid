@@ -9,10 +9,11 @@
 <hr>
 
 ## List of Contents
-1. [Introduction](README.md#introduction)
-2. [App Walkthrough](README.md#app-walkthrough)
-3. [Setting Up](README.md#setting-up)
+1. [Introduction](introduction)
+2. [App Walkthrough](app-walkthrough)
+3. [Setting Up](#setting-up)
 
+<a name="introduction"></a>
 ## Introduction
 
 - User can create, modify or delete an account.
@@ -20,6 +21,7 @@
 - Routes are associated to the user if he/she is logged in, otherwise routes are stored in local storage.
 - User can explore places in Madrid according to category.
 
+<a name="app-walkthrough"></a>
 ## App Walkthrough
 
 #### 1. User sign up: 
@@ -82,6 +84,7 @@
 </p>
 <br>
 
+<a name="setting-up"></a>
 ## Setting Up 
 
 To run the server (is implemented as a REST API) download and run the jar file as follows (the jar file is located in Releases).\
