@@ -92,7 +92,7 @@ The server will run in port 8080.
 
 If you want to run the application standalone, download and run the jar file with the following command (the jar file is located in Releases).\
 `java -jar enjoymadrid-backend-0.0.1.jar`\
-Where enjoymadrid-backend-0.0.1.jar is the path to the jar file on your file system.
+Where **enjoymadrid-backend-0.0.1.jar** is the path to the jar file on your file system.
 
 Server needs a MariaDB database running (Offical page of MariaDB: <https://mariadb.org/>). When you create the database call it enjoy_madrid.
 ```
