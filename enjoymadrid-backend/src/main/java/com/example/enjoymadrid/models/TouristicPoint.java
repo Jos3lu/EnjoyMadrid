@@ -3,6 +3,7 @@ package com.example.enjoymadrid.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -51,6 +52,7 @@ public class TouristicPoint extends Point {
 	private List<String> subcategories = new ArrayList<>();
 
 	@ElementCollection
+	@Column(columnDefinition = "LONGTEXT")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> images = new ArrayList<>();
 
