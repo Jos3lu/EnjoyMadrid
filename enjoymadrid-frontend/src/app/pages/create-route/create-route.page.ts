@@ -80,9 +80,9 @@ export class CreateRoutePage implements OnInit {
       { category: 'C', name: 'Instalaciones culturales', value: 0 }, 
       { category: 'C', name: 'Parques y jardines', value: 0 }, 
       { category: 'C', name: 'Escuelas de cocina y catas de vinos y aceites', value: 0 },
-      { category: 'C', name: 'Empresas de guías Turísticas', value: 0 },
+      { category: 'C', name: 'Empresas de guías turísticos', value: 0 },
       { category: 'C', name: 'Edificios y monumentos', value : 0 },
-      { category: 'C', name: 'Centros de ocio', value: 0 },
+      { category: 'C', name: 'Parques y centros de ocio', value: 0 },
       { category: 'D', name: 'Deportes', value: 0 },
       { category: 'T', name: 'Tiendas', value: 0 },
       { category: 'R', name: 'Restauración', value: 0 }
