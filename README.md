@@ -18,7 +18,7 @@
 
 - User can create, modify or delete an account.
 - When creating a route the user sets the name, the origin and destination, the tourist preferences, the walking distance between transports, and the transports he/she wants to use.
-- Routes are associated to the user if he/she is logged in, otherwise routes are stored in local storage.
+- Routes are associated to the user if he/she is logged in, otherwise routes are stored in local storage or IndexedDB.
 - User can explore places in Madrid according to category.
 
 <a name="app-walkthrough"></a>
