@@ -116,9 +116,7 @@ export class AppComponent implements OnDestroy {
           handler: () => {
             this.signOut();
             this.userService.deleteUser(this.userLogged.id).subscribe(
-              _ => {
-                this.sharedService.showToast('Cuenta borrada con éxito', 3000);
-              },
+              _ => this.sharedService.showToast('Cuenta borrada con éxito', 3000),
               error => this.sharedService.onError(error, 5000)
             );
           }
