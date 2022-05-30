@@ -30,8 +30,6 @@ export class IndexPage implements OnInit {
   // Show/hide modal to show information of route
   openModal: boolean;
 
-  // Momento de obtener las rutas comprobar que el token del usuario no ha caducado
-
   constructor(
     private sharedService: SharedService,
     private storageService: StorageService,
@@ -45,8 +43,11 @@ export class IndexPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    // Get store routes
     this.routes = this.sharedService.getRoutes();
+    // Set images for routes
     this.selectImage(this.routes.length);
+    // Init var values
     this.openModal = false;
     this.loadingRoute = false;
   }

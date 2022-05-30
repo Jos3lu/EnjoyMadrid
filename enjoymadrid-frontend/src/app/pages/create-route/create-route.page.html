@@ -26,10 +26,10 @@
               <ion-item *ngFor="let preference of preferences; let i = index">
                 <ion-label [ngClass]="{ 'ion-text-wrap' : !ratingSelected(i) }">{{preference.name}}</ion-label>
                 <div slot="start">
-                  <ion-icon class="clear-button ion-padding-end" [hidden]="!ratingSelected(i)" (click)="clearRating(i)" color="danger"
-                    name="heart-dislike-outline"></ion-icon>
-                  <ion-icon class="color-star" name="star" *ngFor="let n of [1,2,3,4,5]" [ngStyle]="{'color': changeColor(n, i)}"
-                    (click)="onRating(n, i)">
+                  <ion-icon class="clear-button ion-padding-end" [hidden]="!ratingSelected(i)" (click)="clearRating(i)"
+                    color="danger" name="heart-dislike-outline"></ion-icon>
+                  <ion-icon class="color-star" name="star" *ngFor="let n of [1,2,3,4,5]"
+                    [ngStyle]="{'color': changeColor(n, i)}" (click)="onRating(n, i)">
                   </ion-icon>
                 </div>
               </ion-item>
@@ -38,24 +38,31 @@
           <ion-list lines="none">
             <ion-list-header>Distancia máxima andando hasta el siguiente modo de transporte</ion-list-header>
             <ion-item>
-              <ion-range color="secondary" step="100" name="points" [(ngModel)]="maxDistance" min="300" max="2000"
-                pin>
+              <!-- For km -->
+              <ion-range *ngIf="distanceUnit === 'kilometers'" color="secondary" step="100" name="points"
+                [(ngModel)]="maxDistance" min="300" max="2000" pin>
                 <ion-label class="ion-text-wrap" slot="start">300 m</ion-label>
                 <ion-label class="ion-text-wrap" slot="end">2 km</ion-label>
               </ion-range>
+              <!-- For miles -->
+              <ion-range *ngIf="distanceUnit === 'miles'" color="secondary" step="6" name="points"
+                [(ngModel)]="maxDistance" min="18" max="124" pin>
+                <ion-label class="ion-text-wrap" slot="start">0.18 mi</ion-label>
+                <ion-label class="ion-text-wrap" slot="end">1.24 mi</ion-label>
+              </ion-range>
             </ion-item>
-          </ion-list> 
+          </ion-list>
           <ion-list>
             <ion-list-header>Origen y Destino</ion-list-header>
             <ion-item>
               <ion-label position="stacked">Localización de origen</ion-label>
-              <ion-input type="text" [(ngModel)]="route.origin.name" placeholder="Elige un punto de origen" (ionFocus)="selectOrigin()" name="origin"
-                required></ion-input>
+              <ion-input type="text" [(ngModel)]="route.origin.name" placeholder="Elige un punto de origen"
+                (ionFocus)="selectOrigin()" name="origin" required></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="stacked">Localización de destino</ion-label>
-              <ion-input type="text" [(ngModel)]="route.destination.name" placeholder="Elige un punto de destino" (ionFocus)="selectDestination()"
-                name="destination" required></ion-input> 
+              <ion-input type="text" [(ngModel)]="route.destination.name" placeholder="Elige un punto de destino"
+                (ionFocus)="selectDestination()" name="destination" required></ion-input>
             </ion-item>
           </ion-list>
           <ion-list lines="none">
@@ -63,7 +70,8 @@
             <ion-item-group>
               <ion-item *ngFor="let transport of transports">
                 <ion-label>{{transport.mode}}</ion-label>
-                <ion-checkbox name="{{transport.mode}" slot="start" (ionChange)="onChange(transports)" [(ngModel)]="transport.isChecked">
+                <ion-checkbox name="{{transport.mode}" slot="start" (ionChange)="onChange(transports)"
+                  [(ngModel)]="transport.isChecked">
                 </ion-checkbox>
               </ion-item>
             </ion-item-group>

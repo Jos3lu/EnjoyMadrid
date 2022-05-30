@@ -33,6 +33,8 @@ export class CreateRoutePage implements OnInit {
   disabled: boolean;
   // Show/hide loading route spinner
   loadingRoute: boolean;
+  // Distance unit for route
+  distanceUnit: string;
 
   constructor(
     private authService: AuthService,
@@ -74,7 +76,11 @@ export class CreateRoutePage implements OnInit {
       this.sharedService.setDestination(undefined, true);
     }
 
-    this.maxDistance = 1000;
+    // Miles or km
+    this.distanceUnit = this.sharedService.getDistanceUnit();
+    // Set default distance
+    if (this.distanceUnit === 'kilometers') this.maxDistance = 1000;
+    else this.maxDistance = 62;
 
     this.preferences = [
       { category: 'C', name: 'Instalaciones culturales', value: 0 }, 
@@ -116,6 +122,7 @@ export class CreateRoutePage implements OnInit {
   }
 
   clearRating(index: number) {
+    // Set default value
     this.preferences[index].value = 0;
   }
 
@@ -186,7 +193,9 @@ export class CreateRoutePage implements OnInit {
     }, []);
     
     // Meters -> Kilometers (max distance walking)
-    this.route.maxDistance = this.maxDistance / 1000;
+    if (this.distanceUnit === 'kilometers') this.route.maxDistance = this.maxDistance / 1000;
+    // Miles to kilometers
+    else this.route.maxDistance = (this.maxDistance / 100) * 1.609344;
 
     // Get actual date
     const date = new Date();
