@@ -67,6 +67,7 @@ export class AuthService {
         // Clear data of user
         this.setUserAuth(null);
         this.tokenService.setToken(null);
+        this.tokenService.setRefreshToken(null);
         this.storageService.get('routes').then(routes => {
           if (!routes) {
             routes = [];
