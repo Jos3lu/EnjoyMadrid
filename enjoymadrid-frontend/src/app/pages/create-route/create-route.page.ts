@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { PointModel } from 'src/app/models/point.model';
 import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -81,7 +82,7 @@ export class CreateRoutePage implements OnInit {
     // Set default distance
     if (this.distanceUnit === 'kilometers') this.maxDistance = 1000;
     else this.maxDistance = 1128;
-
+    
     this.preferences = [
       { category: 'C', name: 'Instalaciones culturales', value: 0 }, 
       { category: 'C', name: 'Parques y jardines', value: 0 }, 
@@ -128,40 +129,36 @@ export class CreateRoutePage implements OnInit {
 
   async selectOrigin() {
     // Get origin point
-    const modal = await this.modalController.create({
-      component: SelectPointPage,
-      cssClass: 'my-modal',
-      componentProps: {
-        'isOrigin': true,
-        'pointEmpty': this.originEmpty,
-        'point': this.route.origin
-      }
+    this.selectPoint(true, this.originEmpty, this.route.origin).then(location => {
+      if (!location.data) return;
+      this.originEmpty = false;
+      this.route.origin = location.data.point;
     });
-    modal.present();
-
-    const location = await modal.onWillDismiss();
-    if (!location.data) return;
-    this.originEmpty = false;
-    this.route.origin = location.data.point;
   }
 
   async selectDestination() {
     // Get destination point
+    this.selectPoint(false, this.destinationEmpty, this.route.destination).then(location => {
+      if (!location.data) return;
+      this.destinationEmpty = false;
+      this.route.destination = location.data.point;
+    });
+  }
+
+  async selectPoint(isOrigin: boolean, pointEmpty: boolean, point: PointModel) {
+    // Get point
     const modal = await this.modalController.create({
       component: SelectPointPage,
       cssClass: 'my-modal',
       componentProps: {
-        'isOrigin': false,
-        'pointEmpty': this.destinationEmpty,
-        'point': this.route.destination
+        'isOrigin': isOrigin,
+        'pointEmpty': pointEmpty,
+        'point': point
       }
     });
     modal.present();
 
-    const location = await modal.onWillDismiss();
-    if (!location.data) return;
-    this.destinationEmpty = false;
-    this.route.destination = location.data.point;
+    return await modal.onWillDismiss();
   }
 
   onChange(transports: any) {
