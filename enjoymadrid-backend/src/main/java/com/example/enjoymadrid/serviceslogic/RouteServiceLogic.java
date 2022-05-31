@@ -200,6 +200,9 @@ public class RouteServiceLogic implements RouteService {
 				// & previous point
 				else if (distanceFromOrigin < neighborWrapper.getDistanceFromOrigin()) {
 					openList.remove(neighborWrapper);
+					// Modify Point of PointWrapper in case lines have changed (subway, commuter & bus)
+					neighborWrapper.setPoint(neighbor);
+					// Update previous point, distance from start & if is a direct neighbor
 					neighborWrapper.setDirectNeighbor(directNeighbor);
 					neighborWrapper.setDistanceFromOrigin(distanceFromOrigin);
 					neighborWrapper.setPrevious(pointWrapper);
@@ -229,7 +232,7 @@ public class RouteServiceLogic implements RouteService {
 			neighbors = new HashSet<>(bicyclePoints);
 		}
 		
-		if (neighbors.isEmpty() || directNeighbors) {
+		if (directNeighbors || (neighbors.isEmpty() && !(point instanceof PublicTransportPoint))) {
 			// Get lines of point if it's public transport stop
 			Set<String> linesPoint = point instanceof PublicTransportPoint ? 
 					((PublicTransportPoint) point).getStopLines().stream()

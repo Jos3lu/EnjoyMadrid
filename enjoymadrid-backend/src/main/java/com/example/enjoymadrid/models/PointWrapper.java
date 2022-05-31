@@ -2,7 +2,7 @@ package com.example.enjoymadrid.models;
 
 public class PointWrapper<P extends Comparable<P>> implements Comparable<PointWrapper<P>>{
 
-	private final P point;
+	private P point;
 	private PointWrapper<P> previous;
 	private double distanceFromOrigin;
 	private final double costHeuristic;
@@ -41,6 +41,10 @@ public class PointWrapper<P extends Comparable<P>> implements Comparable<PointWr
 
 	public P getPoint() {
 		return point;
+	}
+	
+	public void setPoint(P point) {
+		this.point = point;
 	}
 
 	public double getCostHeuristic() {

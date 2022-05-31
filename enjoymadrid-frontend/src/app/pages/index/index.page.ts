@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { Subject } from 'rxjs';
 import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -30,6 +31,11 @@ export class IndexPage implements OnInit {
   // Show/hide modal to show information of route
   openModal: boolean;
 
+  // Distance unit & BehaviorSubject to subscribe when value is modified in sidemenu
+  distanceUnit: string;
+  distanceUnitChange: Subject<string>;
+
+
   constructor(
     private sharedService: SharedService,
     private storageService: StorageService,
@@ -50,6 +56,11 @@ export class IndexPage implements OnInit {
     // Init var values
     this.openModal = false;
     this.loadingRoute = false;
+    // Get initial value of distance unit & subscribe to changes
+    this.distanceUnit = this.sharedService.getDistanceUnit();
+    this.sharedService.getDistanceUnitChange().subscribe(distanceUnit => 
+      this.distanceUnit = distanceUnit
+    );
   }
 
   @HostListener('window:popstate', ['$event'])

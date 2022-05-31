@@ -80,7 +80,7 @@ export class CreateRoutePage implements OnInit {
     this.distanceUnit = this.sharedService.getDistanceUnit();
     // Set default distance
     if (this.distanceUnit === 'kilometers') this.maxDistance = 1000;
-    else this.maxDistance = 62;
+    else this.maxDistance = 1128;
 
     this.preferences = [
       { category: 'C', name: 'Instalaciones culturales', value: 0 }, 
@@ -194,8 +194,8 @@ export class CreateRoutePage implements OnInit {
     
     // Meters -> Kilometers (max distance walking)
     if (this.distanceUnit === 'kilometers') this.route.maxDistance = this.maxDistance / 1000;
-    // Miles to kilometers
-    else this.route.maxDistance = (this.maxDistance / 100) * 1.609344;
+    // Yards to kilometers
+    else this.route.maxDistance = this.maxDistance * 0.000914;
 
     // Get actual date
     const date = new Date();

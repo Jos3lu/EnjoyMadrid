@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { toastController } from '@ionic/core';
-import { throwError } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import { PointModel } from 'src/app/models/point.model';
 import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
@@ -27,10 +27,13 @@ export class SharedService {
 
   // Distance unit for routes
   private distanceUnit: string;
+  private distanceUnitChange: Subject<string>;
 
   constructor(
     private eventBusService: EventBusService
-  ) { }
+  ) { 
+    this.distanceUnitChange = new Subject<string>();
+  }
 
   getRoute() {
     return this.routeResult;
@@ -63,10 +66,15 @@ export class SharedService {
 
   setDistanceUnit(distanceUnit: string) {
     this.distanceUnit = distanceUnit;
+    this.distanceUnitChange.next(distanceUnit);
   }
 
   getDistanceUnit() {
     return this.distanceUnit;
+  }
+
+  getDistanceUnitChange() {
+    return this.distanceUnitChange;
   }
 
   getApiUrl() {

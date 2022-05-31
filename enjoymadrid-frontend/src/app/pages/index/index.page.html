@@ -82,11 +82,11 @@
             <ion-col class="margin-col" size-xs="12" size-md="auto">
               <ion-label>
                 <p class="route-title-info route-info">Distancia máxima andando</p> 
-                <h3>
-                  {{ ( routeModal?.maxDistance >= 1 
-                    ? routeModal.maxDistance + ' km' 
-                    : (routeModal.maxDistance * 1000 + ' m') ) 
-                  }}
+                <h3 *ngIf="distanceUnit === 'kilometers'"> 
+                  {{ ( routeModal?.maxDistance >= 1 ? routeModal.maxDistance + ' km' : (routeModal.maxDistance * 1000 + ' m') ) }}
+                </h3>
+                <h3 *ngIf="distanceUnit === 'miles'">
+                  {{ (routeModal?.maxDistance * 0.6213711922).toFixed(3) + ' mi' }}
                 </h3>
               </ion-label>
             </ion-col>

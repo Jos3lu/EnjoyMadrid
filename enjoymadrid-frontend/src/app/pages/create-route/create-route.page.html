@@ -45,10 +45,10 @@
                 <ion-label class="ion-text-wrap" slot="end">2 km</ion-label>
               </ion-range>
               <!-- For miles -->
-              <ion-range *ngIf="distanceUnit === 'miles'" color="secondary" step="6" name="points"
-                [(ngModel)]="maxDistance" min="18" max="124" pin>
-                <ion-label class="ion-text-wrap" slot="start">0.18 mi</ion-label>
-                <ion-label class="ion-text-wrap" slot="end">1.24 mi</ion-label>
+              <ion-range *ngIf="distanceUnit === 'miles'" color="secondary" step="100" name="points"
+                [(ngModel)]="maxDistance" min="328" max="2187" pin>
+                <ion-label class="ion-text-wrap" slot="start">328 yd</ion-label>
+                <ion-label class="ion-text-wrap" slot="end">2187 yd</ion-label>
               </ion-range>
             </ion-item>
           </ion-list>

@@ -96,7 +96,7 @@
                     'Alrededor de ' + formatDuration(segment.duration) + ' ('
                     + ( distanceUnit === 'kilometers' 
                       ? (segment.distance < 1 ? segment.distance * 1000 + ' m)' : segment.distance + ' km)' ) 
-                      : (segment.distance * 0.6213711922 + ' mi)') ) 
+                      : ( (segment.distance * 0.6213711922).toFixed(3) + ' mi)') ) 
                     }}
                   </ion-label>
                 </ion-item>
