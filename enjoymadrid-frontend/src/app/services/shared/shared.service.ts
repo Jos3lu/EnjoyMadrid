@@ -35,7 +35,7 @@ export class SharedService {
     this.distanceUnitChange = new Subject<string>();
   }
 
-  getRoute() {
+  getRoute(): RouteResultModel {
     return this.routeResult;
   }
 
@@ -43,7 +43,7 @@ export class SharedService {
     this.routeResult = routeResult;
   }
 
-  getRoutes() {
+  getRoutes(): RouteModel[] {
     return this.routes;
   }
 
@@ -51,7 +51,7 @@ export class SharedService {
     this.routes = routes;
   }
 
-  isDestinationEmpty() {
+  isDestinationEmpty(): boolean {
     return this.destinationEmpty;
   }
 
@@ -60,7 +60,7 @@ export class SharedService {
     this.destination = destination;
   }
 
-  getDestination() {
+  getDestination(): PointModel {
     return this.destination;
   }
 
@@ -69,15 +69,15 @@ export class SharedService {
     this.distanceUnitChange.next(distanceUnit);
   }
 
-  getDistanceUnit() {
+  getDistanceUnit(): string {
     return this.distanceUnit;
   }
 
-  getDistanceUnitChange() {
+  getDistanceUnitChange(): Subject<string> {
     return this.distanceUnitChange;
   }
 
-  getApiUrl() {
+  getApiUrl(): string {
     return this.API_URL;
   }
 

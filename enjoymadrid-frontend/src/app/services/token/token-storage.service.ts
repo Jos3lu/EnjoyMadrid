@@ -19,7 +19,7 @@ export class TokenStorageService {
     this.tokenJwt.next(token);
   }
 
-  getToken() {
+  getToken(): string {
     return this.tokenJwt.value;
   }
 
@@ -27,7 +27,7 @@ export class TokenStorageService {
     this.refreshTokenJwt.next(refreshToken);
   }
 
-  getRefreshToken() {
+  getRefreshToken(): string {
     return this.refreshTokenJwt.value;
   }
 

@@ -19,14 +19,14 @@ export class UserService {
     private sharedService: SharedService
   ) { }
 
-  updateUser(id: number, user: UserModel): Observable<any> {
-    return this.httpClient.put(this.sharedService.getApiUrl() + 'users/' + id, user, headerOptions).pipe(
+  updateUser(id: number, user: UserModel): Observable<UserModel> {
+    return this.httpClient.put<UserModel>(this.sharedService.getApiUrl() + 'users/' + id, user, headerOptions).pipe(
       catchError(this.sharedService.handleError)
     );
   }
 
-  updateUserPictureProfile(id: number, imageForm: FormData): Observable<any> {
-    return this.httpClient.put(this.sharedService.getApiUrl() + 'users/' + id + '/picture', imageForm).pipe(
+  updateUserPictureProfile(id: number, imageForm: FormData): Observable<UserModel> {
+    return this.httpClient.put<UserModel>(this.sharedService.getApiUrl() + 'users/' + id + '/picture', imageForm).pipe(
       catchError(this.sharedService.handleError)
     );
   }

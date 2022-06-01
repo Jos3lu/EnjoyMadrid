@@ -97,7 +97,9 @@ export class AppComponent implements OnDestroy {
         // Clear user data, go to sign page
         this.userLogged = null;
         this.isUserLogged = false;
+        // Navigate to sign page
         this.router.navigateByUrl('/sign');
+        // Show confirmation message
         this.sharedService.showToast('Se ha cerrado la sesión del usuario', 2000);
       },
       _ => this.sharedService.showToast('Algo ha salido mal al cerrar la sesión', 3000)

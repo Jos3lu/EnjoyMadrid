@@ -28,7 +28,7 @@ public class User {
 	@JsonView(UserInterfaces.BasicData.class)
 	private Long id;
 	
-	@JsonView(UserInterfaces.BasicData.class)
+	@JsonView(UserInterfaces.UserData.class)
 	@NotBlank(message = "El nombre no puede estar vacío")
 	@Size(max = 50, message = "El nombre debe tener menos de 50 caracteres")
 	private String name;

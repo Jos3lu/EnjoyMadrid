@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
 import { SharedService } from '../shared/shared.service';
 
@@ -23,20 +24,20 @@ export class RouteService {
     private sharedService: SharedService
   ) { }
 
-  getUserRoutes(userId: number): Observable<any> {
-    return this.httpClient.get(this.sharedService.getApiUrl() + 'users/' + userId + '/routes').pipe(
+  getUserRoutes(userId: number): Observable<RouteModel[]> {
+    return this.httpClient.get<RouteModel[]>(this.sharedService.getApiUrl() + 'users/' + userId + '/routes').pipe(
       catchError(this.sharedService.handleError)
     );
   }
 
-  createRouteUserNotLoggedIn(route: RouteModel): Observable<any> {
-    return this.httpClient.post(this.sharedService.getApiUrl() + 'routes', route, headerOptionsCreateRoute).pipe(
+  createRouteUserNotLoggedIn(route: RouteModel): Observable<RouteResultModel> {
+    return this.httpClient.post<RouteResultModel>(this.sharedService.getApiUrl() + 'routes', route, headerOptionsCreateRoute).pipe(
       catchError(this.sharedService.handleError)
     );
   }
 
-  createRouteUserLoggedIn(route: RouteModel, userId: number) {
-    return this.httpClient.post(this.sharedService.getApiUrl() + 'users/' + userId + '/routes', route, headerOptionsCreateRoute).pipe(
+  createRouteUserLoggedIn(route: RouteModel, userId: number): Observable<RouteResultModel> {
+    return this.httpClient.post<RouteResultModel>(this.sharedService.getApiUrl() + 'users/' + userId + '/routes', route, headerOptionsCreateRoute).pipe(
       catchError(this.sharedService.handleError)
     );
   }
@@ -47,8 +48,8 @@ export class RouteService {
     )
   }
 
-  getAddressFromCoordinates(latitude: number, longitude: number) {
-    return this.httpClient.get('https://api.openrouteservice.org/geocode/reverse?' + 
+  getAddressFromCoordinates(latitude: number, longitude: number): Observable<any> {
+    return this.httpClient.get<any>('https://api.openrouteservice.org/geocode/reverse?' + 
       'api_key=5b3ce3597851110001cf6248079a826553c748d0aed309710623ce33' + 
       '&point.lon=' + longitude + '&point.lat=' + latitude + '&size=1', headerOptionsGetAddress)
   }

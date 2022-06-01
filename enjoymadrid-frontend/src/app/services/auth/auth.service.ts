@@ -74,8 +74,6 @@ export class AuthService {
             this.storageService.set('routes',routes);
           }
           this.sharedService.setRoutes(routes);
-          // Navigate to sign page
-          this.router.navigateByUrl('/sign');
         }).catch(error => {
           console.log(error);
         });
@@ -84,8 +82,8 @@ export class AuthService {
     );
   }
 
-  refreshToken(token: string) {
-    return this.httpClient.post(this.sharedService.getApiUrl() + 'refreshtoken', { refreshToken: token }, headerOptions)
+  refreshToken(token: string): Observable<any> {
+    return this.httpClient.post<any>(this.sharedService.getApiUrl() + 'refreshtoken', { refreshToken: token }, headerOptions)
   }
 
 }

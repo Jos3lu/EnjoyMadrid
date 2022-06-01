@@ -272,12 +272,12 @@ export class DisplayRoutePage implements OnInit {
   }
 
   // Format time
-  formatTime(date: Date) {
+  formatTime(date: Date): string {
     return date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute: '2-digit'})
   }
 
   // Format duration of segment/route
-  formatDuration(duration: number) {
+  formatDuration(duration: number): string {
     return (duration < 60 ? duration : Math.floor(duration / 60) + ' h ' + duration % 60) + ' min';
   }
 
@@ -314,12 +314,12 @@ export class DisplayRoutePage implements OnInit {
   }
 
   // Check if there are intermediate stops in a segment route
-  checkIntermediateStops(segment: any) {
+  checkIntermediateStops(segment: any): boolean {
     return (segment.target - segment.source) > 1;
   }
 
   // Return names of the intermediate stops 
-  intermediateStopsNames(start: number, end: number) {
+  intermediateStopsNames(start: number, end: number): string[] {
     let names = [];
     for (let i = start + 1; i < end; i++) {
       names.push(this.routeResult.points[i].name);
