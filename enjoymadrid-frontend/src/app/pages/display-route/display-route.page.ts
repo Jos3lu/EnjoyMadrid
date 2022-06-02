@@ -75,7 +75,7 @@ export class DisplayRoutePage implements OnInit {
         let linesZone: Map<string, string> = new Map<string, string>([["6-1", "6"], ["6-2", "6"], ["7a", "7"], ["7b", "7"],
         ["9A", "9"], ["9B", "9"], ["10a", "10"], ["10b","10"], ["12-1", "12"], ["12-2", "12"]]);
         // Init segmentsSteps
-        this.segmentsSteps = new Map<number, string>();
+        this.segmentsSteps = new Map<number, any[]>();
         // Init segmentsVisual
         this.segmentsVisual = [];
     
