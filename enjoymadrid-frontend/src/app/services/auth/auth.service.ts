@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { UserModel } from 'src/app/models/user.model';
@@ -24,8 +23,7 @@ export class AuthService {
     private httpClient: HttpClient, 
     private sharedService: SharedService,
     private tokenService: TokenStorageService,
-    private storageService: StorageService,
-    private router: Router
+    private storageService: StorageService
   ) {
     this.currentUser = new BehaviorSubject<UserModel>(null);
   }

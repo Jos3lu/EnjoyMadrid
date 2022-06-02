@@ -127,7 +127,7 @@ export class CreateRoutePage implements OnInit {
     this.preferences[index].value = 0;
   }
 
-  async selectOrigin() {
+  selectOrigin() {
     // Get origin point
     this.selectPoint(true, this.originEmpty, this.route.origin).then(location => {
       if (!location.data) return;
@@ -136,7 +136,7 @@ export class CreateRoutePage implements OnInit {
     });
   }
 
-  async selectDestination() {
+  selectDestination() {
     // Get destination point
     this.selectPoint(false, this.destinationEmpty, this.route.destination).then(location => {
       if (!location.data) return;
