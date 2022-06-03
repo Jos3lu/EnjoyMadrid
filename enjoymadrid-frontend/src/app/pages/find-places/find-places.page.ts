@@ -189,7 +189,7 @@ export class FindPlacesPage implements OnInit {
         this.infiniteScroll.disabled = false;
         this.content.scrollToPoint(0, document.getElementById('results').offsetTop, 500);
       },
-      error => this.sharedService.showToast(error.error?.message, 3000)
+      error => this.sharedService.onError(error, 3000)
     );
   }
 
