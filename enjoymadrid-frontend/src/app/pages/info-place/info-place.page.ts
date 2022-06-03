@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PointModel } from 'src/app/models/point.model';
@@ -34,8 +34,7 @@ export class InfoPlacePage implements OnInit {
   constructor(
     private modalController: ModalController,
     private router: Router,
-    private sharedService: SharedService,
-    private sanitizer: DomSanitizer
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
@@ -59,9 +58,9 @@ export class InfoPlacePage implements OnInit {
     this.router.navigateByUrl('/create-route');
   }
 
-  sanitizeHtml(innerHTMl: string) {
+  sanitizeHtml(innerHTMl: string): SafeHtml {
     // Sanitize html
-    return this.sanitizer.bypassSecurityTrustHtml(innerHTMl);
+    return this.sharedService.sanitizeHtml(innerHTMl);
   }
 
   async onError(event: any) {

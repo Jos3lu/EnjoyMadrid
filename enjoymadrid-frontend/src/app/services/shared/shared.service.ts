@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { toastController } from '@ionic/core';
 import { Subject, throwError } from 'rxjs';
 import { PointModel } from 'src/app/models/point.model';
@@ -30,7 +31,8 @@ export class SharedService {
   private distanceUnitChange: Subject<string>;
 
   constructor(
-    private eventBusService: EventBusService
+    private eventBusService: EventBusService,
+    private sanitizer: DomSanitizer
   ) { 
     this.distanceUnitChange = new Subject<string>();
   }
@@ -79,6 +81,11 @@ export class SharedService {
 
   getApiUrl(): string {
     return this.API_URL;
+  }
+
+  sanitizeHtml(innerHTMl: string): SafeHtml {
+    // Sanitize html
+    return this.sanitizer.bypassSecurityTrustHtml(innerHTMl);
   }
 
   // Show alerts to user

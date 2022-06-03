@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { SafeHtml } from '@angular/platform-browser';
 import { IonContent, IonInfiniteScroll, ModalController, Platform } from '@ionic/angular';
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
 import { SharedService } from 'src/app/services/shared/shared.service';
@@ -207,6 +208,11 @@ export class FindPlacesPage implements OnInit {
   async onError(event: any) {
     // Reload image if error loading it
     this.sharedService.reloadImage(event, 'data-retry', 'data-max-retry', 'assets/flag.png');
+  }
+
+  sanitizeHtml(innerHTMl: string): SafeHtml {
+    // Sanitize html
+    return this.sharedService.sanitizeHtml(innerHTMl);
   }
 
 }

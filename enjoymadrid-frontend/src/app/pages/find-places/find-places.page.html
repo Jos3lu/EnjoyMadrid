@@ -45,7 +45,7 @@
                 (error)="onError($event)">
             </ion-avatar>
             <ion-label class="ion-text-wrap">
-              <h2 class="title-route" [innerHTML]="place?.name"></h2>
+              <h2 class="title-route" [innerHTML]="sanitizeHtml(place?.name)"></h2>
               <h4>Dirección: {{place?.address}}, {{place?.zipcode}} Madrid</h4>
               <p *ngIf="place.categories.length > 0">
                 Categorías: 
