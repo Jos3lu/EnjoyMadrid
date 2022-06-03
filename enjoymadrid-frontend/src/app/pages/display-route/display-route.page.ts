@@ -273,7 +273,7 @@ export class DisplayRoutePage implements OnInit {
 
   // Format time
   formatTime(date: Date): string {
-    return date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute: '2-digit'})
+    return date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute: '2-digit'});
   }
 
   // Format duration of segment/route
