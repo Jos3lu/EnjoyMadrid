@@ -13,4 +13,6 @@ public interface RefreshTokenService {
 	
 	public void verifyExpiration(RefreshToken token);
 	
+	public void purgeExpiredTokens();
+	
 }

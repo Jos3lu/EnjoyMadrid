@@ -48,4 +48,10 @@ public class RefreshTokenServiceLogic implements RefreshTokenService {
 		}
 	}
 
+	@Override
+	public void purgeExpiredTokens() {
+		Instant now = Instant.now();
+		this.refreshTokenRepository.deleteByExpiryDateLessThan(now);
+	}
+
 }
