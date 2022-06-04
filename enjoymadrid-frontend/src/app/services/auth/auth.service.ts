@@ -40,6 +40,10 @@ export class AuthService {
     return this.currentUser.value;
   }
 
+  getUserAuthChange(): BehaviorSubject<UserModel> {
+    return this.currentUser;
+  }
+
   signIn(userSignIn: UserModel): Observable<any> {
     return this.httpClient.post<any>(this.sharedService.getApiUrl() + "signin", userSignIn, headerOptions).pipe(
       tap(data => {

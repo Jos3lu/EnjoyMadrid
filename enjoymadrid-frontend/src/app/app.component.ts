@@ -41,12 +41,24 @@ export class AppComponent implements OnDestroy {
     private toastController: ToastController,
     private eventBusService: EventBusService
   ) {
+    // Set color scheme preference of user
     this.selectDarkOrLightTheme();
+    // Set stored routes
     this.setRoutesUser();
+    // Set default unit distance
     this.distanceUnit = 'kilometers';
     this.setDistanceUnit();
+    // When user's session expires
     this.eventBusSub = this.eventBusService.on('logout', () => {
       this.signOut();
+    });
+    // Subscribe to changes when user information updates
+    this.authService.getUserAuthChange().subscribe(user => {
+      // If null user logged out
+      if (user) this.isUserLogged = true;
+      else this.isUserLogged = false;
+      // Get user data
+      this.userLogged = user;
     });
   }
 
@@ -83,20 +95,9 @@ export class AppComponent implements OnDestroy {
     }
   }
 
-  checkIfUserLogged() {
-    // When side menu is opened check if user logged in
-    if (this.authService.isUserLoggedIn()) {
-      this.userLogged = this.authService.getUserAuth();
-      this.isUserLogged = true;
-    }
-  }
-
   signOut() {
     this.authService.signOut().subscribe(
       _ => {
-        // Clear user data, go to sign page
-        this.userLogged = null;
-        this.isUserLogged = false;
         // Navigate to sign page
         this.router.navigateByUrl('/sign');
         // Show confirmation message
