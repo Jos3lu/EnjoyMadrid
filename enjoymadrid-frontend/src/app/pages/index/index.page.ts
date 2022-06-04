@@ -31,9 +31,8 @@ export class IndexPage implements OnInit {
   // Show/hide modal to show information of route
   openModal: boolean;
 
-  // Distance unit & BehaviorSubject to subscribe when value is modified in sidemenu
+  // Distance unit
   distanceUnit: string;
-  distanceUnitChange: Subject<string>;
 
 
   constructor(
@@ -56,8 +55,9 @@ export class IndexPage implements OnInit {
     // Init var values
     this.openModal = false;
     this.loadingRoute = false;
-    // Get initial value of distance unit & subscribe to changes
+    // Get initial value of distance unit
     this.distanceUnit = this.sharedService.getDistanceUnit();
+    // Subscribe when value is modified in sidemenu
     this.sharedService.getDistanceUnitChange().subscribe(distanceUnit => 
       this.distanceUnit = distanceUnit
     );
