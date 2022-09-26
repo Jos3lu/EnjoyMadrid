@@ -96,7 +96,7 @@ public class LoadDataAirQualityServiceLogic implements LoadDataAirQualityService
 		/*
 		 * Pages ->
 		 * 1.
-		 * https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_6~~TEMP_UNIT_c~~WIND_UNIT_kmh~
+		 * https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_4~~TEMP_UNIT_c~~WIND_UNIT_kmh~
 		 * 2.
 		 * https://website-api.airvisual.com/v1/stations/by/cityID/igp7hSLYmouA2JFhu?AQI=US&language=es
 		 */
@@ -123,7 +123,7 @@ public class LoadDataAirQualityServiceLogic implements LoadDataAirQualityService
 		try {
 			// Web page https://www.eltiempo.es
 			org.jsoup.nodes.Document page = Jsoup
-					.connect("https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_6~~TEMP_UNIT_c~~WIND_UNIT_kmh~")
+					.connect("https://www.eltiempo.es/calidad-aire/madrid~ROW_NUMBER_4~~TEMP_UNIT_c~~WIND_UNIT_kmh~")
 					.get();
 
 			org.jsoup.nodes.Element tableMadrid = page.select("table").stream()
