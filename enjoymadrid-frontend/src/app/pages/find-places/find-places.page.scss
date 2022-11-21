@@ -1,4 +1,7 @@
 @media only screen and (min-width: 768px) {
+    .margin-web {
+        margin: 0px 10px;
+      }
     .results {
       margin-left: 25px;
     }
@@ -11,11 +14,6 @@
 
 .results ion-item {
     cursor: pointer;
-}
-
-.categories-title {
-    font-weight: bold;
-    font-style: oblique;
 }
 
 .align-icon {
@@ -39,4 +37,4 @@ ion-item-group ion-label {
 .title-route {
     font-weight: bold;
     margin-bottom: 10px;
-  }
+}

@@ -30,6 +30,9 @@ export class FindPlacesPage implements OnInit {
   // Show/hide button to  scroll to top
   showScrollTopButton: boolean;
 
+  // Search query
+  searchQuery: string;
+
   constructor(
     private touristicPointService: TouristicPointService,
     private sharedService: SharedService,
@@ -139,6 +142,11 @@ export class FindPlacesPage implements OnInit {
       }
     ];
 
+  }
+
+  search() {
+    // Process query
+    console.log(this.searchQuery);
   }
 
   loadData(event: any) {
