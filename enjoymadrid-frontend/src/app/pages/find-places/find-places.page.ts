@@ -145,7 +145,7 @@ export class FindPlacesPage implements OnInit {
   }
 
   search() {
-    // Process query
+    // Process search query
     console.log(this.searchQuery);
   }
 
