@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -111,6 +112,8 @@ public class LoadDataTouristicServiceLogic implements LoadDataTouristicService {
 				Element element = (Element) node;
 
 				String name = element.getElementsByTagName("name").item(0).getTextContent();
+				// Unescapes a string containing entity escapes to a string containing the actual Unicode characters
+				name = StringEscapeUtils.unescapeHtml4(name);
 				Double longitude = tryParseDouble(element.getElementsByTagName("longitude").item(0).getTextContent());
 				Double latitude = tryParseDouble(element.getElementsByTagName("latitude").item(0).getTextContent());
 				String type = element.getElementsByTagName("extradata").item(0).getChildNodes().item(1).getTextContent();
@@ -192,6 +195,8 @@ public class LoadDataTouristicServiceLogic implements LoadDataTouristicService {
 		}
 		
 	}
+	
+	
 	
 	private Double tryParseDouble(String parseString) {
 		// Try to parse to Double if not possible then return null
