@@ -8,8 +8,10 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 
 import com.example.enjoymadrid.models.interfaces.TouristicPointInterfaces;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
@@ -55,6 +57,10 @@ public class TouristicPoint extends Point {
 	@Column(columnDefinition = "LONGTEXT")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private List<String> images = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "touristicPoints")
+	private List<User> users = new ArrayList<>();
 
 	public TouristicPoint() {}
 
@@ -167,4 +173,12 @@ public class TouristicPoint extends Point {
 		this.images = images;
 	}
 
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+	
 }

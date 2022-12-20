@@ -11,5 +11,7 @@ public class UserInterfaces {
 	public static interface UserData extends BasicData {}
 	
 	public static interface RouteData extends RouteInterfaces.RouteData {}
+	
+	public static interface TouristicPointData extends TouristicPointInterfaces.BasicData {}
 
 }

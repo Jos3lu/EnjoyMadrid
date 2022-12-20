@@ -34,6 +34,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/display-route/display-route.module').then( m => m.DisplayRoutePageModule)
   },
   {
+    path: 'store-places',
+    loadChildren: () => import('./pages/store-places/store-places.module').then( m => m.StorePlacesPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/page-not-found/page-not-found.module').then( m => m.PageNotFoundPageModule)
   }

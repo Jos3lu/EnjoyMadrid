@@ -181,6 +181,7 @@ public class LoadDataTouristicServiceLogic implements LoadDataTouristicService {
 
 				if (pointDB != null) {
 					point.setId(pointDB.getId());
+					point.setUsers(pointDB.getUsers());
 				}
 
 				// Save the point in the database

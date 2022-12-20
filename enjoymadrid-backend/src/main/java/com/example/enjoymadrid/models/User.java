@@ -10,7 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -53,6 +55,14 @@ public class User {
 	@JoinColumn(name = "user_id")
 	@JsonView(UserInterfaces.RouteData.class)
 	private List<Route> routes = new ArrayList<>();
+	
+	@ManyToMany
+	@JoinTable(
+			  name = "user_point", 
+			  joinColumns = @JoinColumn(name = "student_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "touristic_point_id"))
+	@JsonView(UserInterfaces.TouristicPointData.class)
+	private List<TouristicPoint> touristicPoints = new ArrayList<>();
 	
 	public User() {}
 
@@ -111,6 +121,14 @@ public class User {
 
 	public void setRoutes(List<Route> routes) {
 		this.routes = routes;
+	}
+
+	public List<TouristicPoint> getTouristicPoints() {
+		return touristicPoints;
+	}
+
+	public void setTouristicPoints(List<TouristicPoint> touristicPoints) {
+		this.touristicPoints = touristicPoints;
 	}
 	
 }

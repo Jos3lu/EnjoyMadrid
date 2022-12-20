@@ -20,8 +20,8 @@ public class PublicTransportPoint extends TransportPoint {
 	private Set<String[]> stopLines = new HashSet<>();
 	
 	@ManyToMany
-	@MapKeyColumn(name = "LINE")
-	@Column(name = "NEXT_POINT")
+	@MapKeyColumn(name = "line")
+	@Column(name = "next_point")
 	private Map<String, PublicTransportPoint> nextStops = new HashMap<>();
 	
 	public PublicTransportPoint() {}

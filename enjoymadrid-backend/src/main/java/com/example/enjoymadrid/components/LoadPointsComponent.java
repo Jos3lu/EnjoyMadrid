@@ -38,11 +38,11 @@ public class LoadPointsComponent implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// Add air quality stations if not already in DB and then update the air quality data
-		this.loadDataAirQualityService.loadDataAirQualityPoints();
+		//this.loadDataAirQualityService.loadDataAirQualityPoints();
 		// Add places from Madrid city hall
 		this.loadDataTouristicService.loadDataTouristicPoints();
 		// Load the information of all the transport points to DB if not already
-		this.loadDataTransportService.loadDataTransportPoints();
+		//this.loadDataTransportService.loadDataTransportPoints();
 	}
 	
 	/**
