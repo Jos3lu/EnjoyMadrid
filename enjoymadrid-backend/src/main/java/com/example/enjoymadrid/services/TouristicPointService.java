@@ -11,4 +11,10 @@ public interface TouristicPointService {
 
 	public List<TouristicPoint> getTouristicPointsByCategory(String category);
 	
+	public List<TouristicPoint> getUserTouristicPoints(Long userId);
+	
+	public void addTouristicPointToUser(Long userId, Long touristPointId);
+	
+	public void deleteUserTouristicPoint(Long userId, Long touristPointId);
+	
 }

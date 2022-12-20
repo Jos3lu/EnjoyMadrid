@@ -51,7 +51,7 @@ public class RouteController {
 		return new ResponseEntity<RouteResultDto>(this.routeService.createRoute(route, userId), HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("users/{userId}/routes/{routeId}")
+	@DeleteMapping("/users/{userId}/routes/{routeId}")
 	public ResponseEntity<Void> deleteRoute(@PathVariable Long userId, @PathVariable Long routeId) {
 		this.routeService.deleteRoute(routeId, userId);
 		return ResponseEntity.ok().build();
