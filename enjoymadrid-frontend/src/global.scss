@@ -55,6 +55,23 @@
     white-space: normal;
 }
 
+// Title for items in a list
+h2.item-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+// Title for info items in a list
+.item-title-info {
+    font-weight: bold; 
+    color: #737577;
+}
+
+// Font size small for info items in a list
+span.item-size-info, p.item-size-info {
+    font-size: small;
+}
+
 // Style for invalid input in forms
 .invalid-input {
     font-size: small;

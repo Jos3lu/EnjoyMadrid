@@ -22,10 +22,10 @@
             <img alt="route-{{i}}" src="{{'./assets/madrid' + indexImages[i] + '.jpg'}}">
           </ion-avatar>
           <ion-label class="ion-text-nowrap">
-            <h2 class="title-route">{{route?.name}}</h2>
-            <h3><span class="route-title-info route-info">Inicio</span> {{route?.origin?.name}}</h3>
-            <h3><span class="route-title-info route-info">Fin</span> {{route?.destination?.name}}</h3>
-            <p class="route-info"><ion-icon class="route-icon" name="calendar"></ion-icon> {{route?.date}}</p>
+            <h2 class="item-title">{{route?.name}}</h2>
+            <h3><span class="item-title-info item-size-info">Inicio</span> {{route?.origin?.name}}</h3>
+            <h3><span class="item-title-info item-size-info">Fin</span> {{route?.destination?.name}}</h3>
+            <p class="item-size-info"><ion-icon class="route-icon" name="calendar"></ion-icon> {{route?.date}}</p>
           </ion-label>
           <ion-fab-button title="Borrar" size="small" (click)="removeRoute(route, i)" class="remove-button ion-align-self-center" color="danger" slot="end">
             <ion-icon class="route-icon" name="trash-outline"></ion-icon>
@@ -61,13 +61,13 @@
           <ion-row>
             <ion-col class="margin-col" size-xs="12" size-md="auto">
               <ion-label>
-                <p class="route-title-info route-info">Inicio</p> 
+                <p class="item-title-info item-size-info">Inicio</p> 
                 <h3>{{routeModal?.origin?.name}}</h3>
               </ion-label>
             </ion-col>
             <ion-col class="margin-col" size-xs="12" size-md="auto">
               <ion-label>
-                <p class="route-title-info route-info">Fin</p>
+                <p class="item-title-info item-size-info">Fin</p>
                 <h3>{{routeModal?.destination?.name}}</h3>
               </ion-label>
             </ion-col>
@@ -75,13 +75,13 @@
           <ion-row>
             <ion-col class="margin-col" size-xs="12" size-md="auto">
               <ion-label>
-                <p class="route-title-info route-info">Creada el</p>
+                <p class="item-title-info item-size-info">Creada el</p>
                 <h3>{{routeModal?.date}}</h3>
               </ion-label>
             </ion-col>
             <ion-col class="margin-col" size-xs="12" size-md="auto">
               <ion-label>
-                <p class="route-title-info route-info">Distancia máxima andando</p> 
+                <p class="item-title-info item-size-info">Distancia máxima andando</p> 
                 <h3 *ngIf="distanceUnit === 'kilometers'"> 
                   {{ ( routeModal?.maxDistance >= 1 ? routeModal.maxDistance + ' km' : (routeModal.maxDistance * 1000 + ' m') ) }}
                 </h3>
@@ -92,7 +92,7 @@
             </ion-col>
             <ion-col class="margin-col" size-xs="12" size-md="auto">
               <ion-label>
-                <span class="route-title-info route-info">Transportes</span>
+                <span class="item-title-info item-size-info">Transportes</span>
                 <h3>{{formatArray(routeModal?.transports)}}</h3>
               </ion-label>
             </ion-col>
@@ -100,7 +100,7 @@
           <ion-row>
             <ion-col>
               <ion-label>
-                <h3><span class="route-title-info route-info">Preferencias</span></h3>
+                <h3><span class="item-title-info item-size-info">Preferencias</span></h3>
                 <div *ngFor="let preference of routeModal?.preferences | keyvalue">
                   <h3 class="ion-text-wrap" [class.not-selected]="preference.value === 0">
                     <span style="vertical-align: middle;">{{preference.key.split('_')[1]}} </span>

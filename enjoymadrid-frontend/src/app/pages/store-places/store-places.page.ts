@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SafeHtml } from '@angular/platform-browser';
+import { SharedService } from 'src/app/services/shared/shared.service';
 
 @Component({
   selector: 'app-store-places',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StorePlacesPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private sharedService: SharedService
+  ) { }
 
   ngOnInit() {
+  }
+
+  async onError(event: any) {
+    // Reload image if error loading it
+    this.sharedService.reloadImage(event, 'data-retry', 'data-max-retry', 'assets/flag.png');
+  }
+
+  sanitizeHtml(innerHTMl: string): SafeHtml {
+    // Sanitize html
+    return this.sharedService.sanitizeHtml(innerHTMl);
   }
 
 }

@@ -51,16 +51,16 @@
                 (error)="onError($event)">
             </ion-avatar>
             <ion-label class="ion-text-wrap">
-              <h2 class="title-place" [innerHTML]="sanitizeHtml(place?.name)"></h2>
-              <h4><span class="title-place-info place-info">Dirección</span> {{place?.address}}, {{place?.zipcode}} Madrid</h4>
+              <h2 class="item-title" [innerHTML]="sanitizeHtml(place?.name)"></h2>
+              <h4><span class="item-title-info item-size-info">Dirección</span> {{place?.address}}, {{place?.zipcode}} Madrid</h4>
               <p *ngIf="place.categories.length > 0">
-                <span class="title-place-info place-info">Categorías</span> 
+                <span class="item-title-info item-size-info">Categorías</span> 
                 <span *ngFor="let category of place.categories">
                   {{category}}.
                 </span>
               </p>
               <p *ngIf="place.subcategories.length > 0">
-                <span class="title-place-info place-info">Subcategorías</span>
+                <span class="item-title-info item-size-info">Subcategorías</span>
                 <span *ngFor="let subcategory of place.subcategories">
                   {{subcategory}}.
                 </span>
