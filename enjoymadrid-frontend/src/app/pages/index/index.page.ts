@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { Subject } from 'rxjs';
 import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
