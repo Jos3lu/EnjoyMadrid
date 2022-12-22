@@ -55,15 +55,15 @@
               <h4><span class="item-title-info item-size-info">Dirección</span> {{place?.address}}, {{place?.zipcode}} Madrid</h4>
               <p *ngIf="place.categories.length > 0">
                 <span class="item-title-info item-size-info">Categorías</span> 
-                <span *ngFor="let category of place.categories">
-                  {{category}}.
-                </span>
+                <ion-chip outline color="dark" *ngFor="let category of place.categories">
+                  <ion-label>{{category}}</ion-label>
+                </ion-chip>
               </p>
               <p *ngIf="place.subcategories.length > 0">
                 <span class="item-title-info item-size-info">Subcategorías</span>
-                <span *ngFor="let subcategory of place.subcategories">
-                  {{subcategory}}.
-                </span>
+                <ion-chip outline color="medium" *ngFor="let subcategory of place.subcategories">
+                  <ion-label>{{subcategory}}</ion-label>
+                </ion-chip>
               </p>
             </ion-label>
           </ion-item>

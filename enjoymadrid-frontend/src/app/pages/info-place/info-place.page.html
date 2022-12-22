@@ -11,70 +11,88 @@
 
 <ion-content>
   <div id="margin-info">
-      <h1 class="ion-text-center" [innerHTML]="sanitizeHtml(place?.name)"></h1>
-      <swiper [config]="optionsSlider">
-        <ng-template *ngFor="let image of place?.images" swiperSlide>
-          <img [src]="image ? image : 'assets/imageNotFound.png'" data-max-retry="3" data-retry="0" (error)="onError($event)">
-        </ng-template>
-      </swiper>
+    <h1 class="ion-text-center" [innerHTML]="sanitizeHtml(place?.name)"></h1>
+    <swiper [config]="optionsSlider">
+      <ng-template *ngFor="let image of place?.images" swiperSlide>
+        <img [src]="image ? image : 'assets/imageNotFound.png'" data-max-retry="3" data-retry="0"
+          (error)="onError($event)">
+      </ng-template>
+    </swiper>
 
-      <div class="ion-text-center ion-margin-top">
-        <ion-button (click)="createRoute()" class="ion-text-center ion-text-wrap" fill="outline">
-          <ion-icon slot="start" name="navigate-circle-outline"></ion-icon>
-          Ir a la ubicación
-        </ion-button>
-      </div>
-
-      <div *ngIf="place.address">
-        <h3>Dirección</h3>
-        <p>
-          <ion-icon name="location-outline"></ion-icon>
-          <span [innerHTML]="sanitizeHtml(place.address)"></span>
-          <span *ngIf="place.zipcode">, {{place.zipcode}}</span>
-          <span> Madrid</span>
-        </p>
-      </div>
-
-      <div *ngIf="place.phone || place.email">
-        <h3>Contacto</h3>
-        <p *ngIf="place.phone">
-          <ion-icon name="call-outline"></ion-icon>
-          {{place.phone}}
-        </p>
-        <p *ngIf="place.email">
-          <ion-icon name="mail-outline"></ion-icon>
-          {{place.email}}
-        </p>
-      </div>
-
-      <div *ngIf="place.paymentServices">
-        <h3>Precio</h3>
-        <p [innerHTML]="sanitizeHtml(place?.paymentServices)"></p>
-      </div>
-
-      <div *ngIf="place.horary">
-        <h3>Horario</h3>
-        <p [innerHTML]="sanitizeHtml(place.horary)"></p>
-      </div>
-
-      <div *ngIf="place.categories.length > 0">
-        <h3>Categorías</h3>
-        <ion-chip *ngFor="let category of place.categories">
-          <ion-label>{{category}}</ion-label>
-        </ion-chip>
-      </div>
-
-      <div *ngIf="place.subcategories.length > 0">
-        <h3>Subcategorías</h3>
-        <ion-chip *ngFor="let subcategory of place.subcategories">
-          <ion-label>{{subcategory}}</ion-label>
-        </ion-chip>
-      </div>
-
-      <div *ngIf="place.description">
-        <h3>Conoce el lugar</h3>
-        <p [innerHTML]="sanitizeHtml(place.description)"></p>
-      </div>
-
+    <div class="ion-text-center ion-margin-top">
+      <ion-button (click)="createRoute()" class="ion-text-center ion-text-wrap" fill="outline">
+        <ion-icon slot="start" name="navigate-circle-outline"></ion-icon>
+        Ir a la ubicación
+      </ion-button>
+      <ion-button fill="clear" color="danger" slot="icon-only" (click)="addFavourite()">
+        <ion-icon name="bookmark-outline"></ion-icon> Favorito
+      </ion-button>
     </div>
+
+    <ion-grid>
+      <!-- Row for address, contact & payment -->
+      <ion-row class="ion-text-center">
+        <ion-col size-xs="12" size-md="4" *ngIf="place.address">
+          <h3>Dirección</h3>
+          <p>
+            <ion-icon name="location-outline"></ion-icon>
+            <span [innerHTML]="sanitizeHtml(place.address)"></span>
+            <span *ngIf="place.zipcode">, {{place.zipcode}}</span>
+            <span> Madrid</span>
+          </p>
+        </ion-col>
+        <ion-col size-xs="12" size-md="4">
+          <h3>Contacto</h3>
+          <p *ngIf="place.phone">
+            <ion-icon name="call-outline"></ion-icon>
+            {{place.phone}}
+          </p>
+          <p *ngIf="place.email">
+            <ion-icon name="mail-outline"></ion-icon>
+            {{place.email}}
+          </p>
+          <p *ngIf="!place.phone && !place.email">No disponible</p>
+        </ion-col>
+        <ion-col size-xs="12" size-md="4">
+          <h3>Precio</h3>
+          <p *ngIf="place.paymentServices" [innerHTML]="sanitizeHtml(place?.paymentServices)"></p>
+          <p *ngIf="!place.paymentServices">No disponible</p>
+        </ion-col>
+      </ion-row>
+
+      <!-- Row for horary, categories & subcategories -->
+      <ion-row class="ion-text-center">
+        <ion-col size-xs="12" size-md="4">
+          <h3>Horario</h3>
+          <p *ngIf="place.horary" [innerHTML]="sanitizeHtml(place.horary)"></p>
+          <p *ngIf="!place.horary">No disponible</p>
+        </ion-col>
+
+        <ion-col size-xs="12" size-md="4">
+          <h3>Categorías</h3>
+          <ion-chip outline color="dark" *ngFor="let category of place.categories">
+            <ion-label>{{category}}</ion-label>
+          </ion-chip>
+          <p *ngIf="place.categories.length == 0">No disponible</p>
+        </ion-col>
+
+        <ion-col size-xs="12" size-md="4">
+          <h3>Subcategorías</h3>
+          <ion-chip outline color="medium" *ngFor="let subcategory of place.subcategories">
+            <ion-label>{{subcategory}}</ion-label>
+          </ion-chip>
+          <p *ngIf="place.subcategories.length == 0">No disponible</p>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <!-- Row for description -->
+        <ion-col *ngIf="place.description">
+          <h3>Conoce el lugar</h3>
+          <p [innerHTML]="sanitizeHtml(place.description)"></p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
 </ion-content>

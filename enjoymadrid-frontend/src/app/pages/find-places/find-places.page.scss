@@ -33,3 +33,7 @@
 ion-item-group ion-label {
     cursor: pointer;
 }
+
+ion-chip {
+    pointer-events: none;
+}

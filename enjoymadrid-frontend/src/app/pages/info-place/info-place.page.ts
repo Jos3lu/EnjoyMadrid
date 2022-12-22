@@ -58,6 +58,10 @@ export class InfoPlacePage implements OnInit {
     this.router.navigateByUrl('/create-route');
   }
 
+  addFavourite() {
+    this.sharedService.showToast('Añadido a favoritos',3000);
+  }
+
   sanitizeHtml(innerHTMl: string): SafeHtml {
     // Sanitize html
     return this.sharedService.sanitizeHtml(innerHTMl);
