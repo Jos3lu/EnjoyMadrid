@@ -1,11 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ModalController } from '@ionic/angular';
 import { toastController } from '@ionic/core';
 import { Subject, throwError } from 'rxjs';
 import { PointModel } from 'src/app/models/point.model';
 import { RouteResultModel } from 'src/app/models/route-result.model';
 import { RouteModel } from 'src/app/models/route.model';
+import { TouristicPointModel } from 'src/app/models/touristic-point.model';
+import { InfoPlacePage } from 'src/app/pages/info-place/info-place.page';
 import { EventBusService } from '../event-bus/event-bus.service';
 
 @Injectable({
@@ -26,12 +29,16 @@ export class SharedService {
   // Store routes of user in memory
   private routes: RouteModel[];
 
+  // Store touristic/interest points in memory
+  private touristicPoints: TouristicPointModel[];
+
   // Distance unit for routes
   private distanceUnit: string;
   private distanceUnitChange: Subject<string>;
 
   constructor(
     private eventBusService: EventBusService,
+    private modalContrall: ModalController,
     private sanitizer: DomSanitizer
   ) { 
     this.distanceUnitChange = new Subject<string>();
@@ -51,6 +58,14 @@ export class SharedService {
 
   setRoutes(routes: RouteModel[]) {
     this.routes = routes;
+  }
+
+  getTouristicPoints() {
+    return this.touristicPoints;
+  }
+
+  setTouristicPoints(touristicPoints: TouristicPointModel[]) {
+    this.touristicPoints = touristicPoints;
   }
 
   isDestinationEmpty(): boolean {
@@ -81,6 +96,18 @@ export class SharedService {
 
   getApiUrl(): string {
     return this.API_URL;
+  }
+
+  async placeSelected(place: TouristicPointModel) {
+    // Open modal with point information
+    const modal = await this.modalContrall.create({
+      cssClass: 'my-modal',
+      component: InfoPlacePage,
+      componentProps: {
+        'place': place
+      }
+    });
+    await modal.present();
   }
 
   sanitizeHtml(innerHTMl: string): SafeHtml {

@@ -4,7 +4,10 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PointModel } from 'src/app/models/point.model';
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { SharedService } from 'src/app/services/shared/shared.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { TouristicPointService } from 'src/app/services/touristic-point/touristic-point.service';
 import SwiperCore, { Autoplay, Navigation, Pagination, SwiperOptions, EffectCoverflow } from 'swiper';
 
 SwiperCore.use([ Autoplay, Pagination, Navigation, EffectCoverflow]);
@@ -34,7 +37,10 @@ export class InfoPlacePage implements OnInit {
   constructor(
     private modalController: ModalController,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private touristicPointService: TouristicPointService,
+    private authService: AuthService,
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {
@@ -59,6 +65,33 @@ export class InfoPlacePage implements OnInit {
   }
 
   addFavourite() {
+    // Check if interest point is already in favourites
+    if (this.sharedService.getTouristicPoints().includes(this.place)) {
+      // Show toast notifying place is already added to favourites
+      this.sharedService.showToast('Punto de interés ya añadido a favoritos',3000);
+      return;
+    }
+    // Add touristic point
+    if (this.authService.isUserLoggedIn()) {
+      // Add touristic point for logged in user
+      const userId = this.authService.getUserAuth().id;
+      const touristPointId = this.place.id;
+      this.touristicPointService.addTouristicPointToUser(userId, touristPointId).subscribe(
+        _ => this.onSuccessAddTouristicPointToUser(),
+        error => this.sharedService.onError(error, 5000)
+      );
+    } else {
+      // Add touristic point for not logged in user
+      this.onSuccessAddTouristicPointToUser();
+      // Set touristic points in local storage
+      this.storageService.set('touristicPoints', this.sharedService.getTouristicPoints());
+    }
+  }
+
+  onSuccessAddTouristicPointToUser() {
+    // Store interest point information in list of user's touristic points
+    this.sharedService.getTouristicPoints().push(this.place);
+    // Show toast notifying place is added to favourites
     this.sharedService.showToast('Añadido a favoritos',3000);
   }
 

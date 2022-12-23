@@ -58,7 +58,7 @@ public class User {
 	
 	@ManyToMany
 	@JoinTable(
-			  name = "user_point", 
+			  name = "user_touristic_point", 
 			  joinColumns = @JoinColumn(name = "student_id"), 
 			  inverseJoinColumns = @JoinColumn(name = "touristic_point_id"))
 	@JsonView(UserInterfaces.TouristicPointData.class)

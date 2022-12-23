@@ -3,6 +3,7 @@ package com.example.enjoymadrid.models.dtos;
 import java.util.List;
 
 import com.example.enjoymadrid.models.Route;
+import com.example.enjoymadrid.models.TouristicPoint;
 
 public class SignInResponseDto {
 	
@@ -13,8 +14,10 @@ public class SignInResponseDto {
 	private String username;
 	private byte[] photo;
 	private List<Route> routes;
+	private List<TouristicPoint> touristicPoints;
 		
-	public SignInResponseDto(String token, String refreshToken, Long id, String name, String username, byte[] photo, List<Route> routes) {
+	public SignInResponseDto(String token, String refreshToken, Long id, String name, String username, byte[] photo,
+			List<Route> routes, List<TouristicPoint> touristicPoints) {
 		this.token = token;
 		this.refreshToken = refreshToken;
 		this.id = id;
@@ -22,6 +25,7 @@ public class SignInResponseDto {
 		this.username = username;
 		this.photo = photo;
 		this.routes = routes;
+		this.touristicPoints = touristicPoints;
 	}
 
 	public String getToken() {
@@ -78,6 +82,14 @@ public class SignInResponseDto {
 
 	public void setRoutes(List<Route> routes) {
 		this.routes = routes;
+	}
+
+	public List<TouristicPoint> getTouristicPoints() {
+		return touristicPoints;
+	}
+
+	public void setTouristicPoints(List<TouristicPoint> touristicPoints) {
+		this.touristicPoints = touristicPoints;
 	}
 	
 }

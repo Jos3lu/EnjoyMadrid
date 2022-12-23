@@ -33,7 +33,6 @@ export class IndexPage implements OnInit {
   // Distance unit
   distanceUnit: string;
 
-
   constructor(
     private sharedService: SharedService,
     private storageService: StorageService,
@@ -47,7 +46,7 @@ export class IndexPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    // Get store routes
+    // Get stored routes
     this.routes = this.sharedService.getRoutes();
     // Set images for routes
     this.selectImage(this.routes.length);

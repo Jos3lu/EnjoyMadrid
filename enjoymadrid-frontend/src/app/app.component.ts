@@ -8,6 +8,7 @@ import { EventBusService } from './services/event-bus/event-bus.service';
 import { RouteService } from './services/route/route.service';
 import { SharedService } from './services/shared/shared.service';
 import { StorageService } from './services/storage/storage.service';
+import { TouristicPointService } from './services/touristic-point/touristic-point.service';
 import { UserService } from './services/user/user.service';
 
 @Component({
@@ -35,6 +36,7 @@ export class AppComponent implements OnDestroy {
     private authService: AuthService,
     private userService: UserService,
     private routeService: RouteService,
+    private touristicPointService: TouristicPointService,
     private storageService: StorageService,
     private sharedService: SharedService,
     private router: Router,
@@ -44,7 +46,7 @@ export class AppComponent implements OnDestroy {
     // Set color scheme preference of user
     this.selectDarkOrLightTheme();
     // Set stored routes
-    this.setRoutesUser();
+    this.setStorageInfoUser();
     // Set default unit distance
     this.distanceUnit = 'kilometers';
     this.setDistanceUnit();
@@ -68,11 +70,13 @@ export class AppComponent implements OnDestroy {
     }
   }
 
-  async setRoutesUser() {
+  async setStorageInfoUser() {
+    // Init local storage
     await this.storageService.init();
-    // Get routes from DB (user's routes) or from local storage
+
     if (this.authService.isUserLoggedIn()) {
       let userId = this.authService.getUserAuth().id;
+      // Get routes from DB (user's routes)
       this.routeService.getUserRoutes(userId).subscribe(
         routes => this.sharedService.setRoutes(routes),
         error => {
@@ -80,8 +84,18 @@ export class AppComponent implements OnDestroy {
           this.sharedService.setRoutes([]);
         }
       );
+      // Get touristic points from DB (user's interest points)
+      this.touristicPointService.getUserTouristicPoints(userId).subscribe(
+        touristicPoints => this.sharedService.setTouristicPoints(touristicPoints),
+        error => {
+          this.sharedService.onError(error, 5000);
+          this.sharedService.setTouristicPoints([]);
+        }
+      );
+      
       this.isUserLogged = true;
     } else {
+      // Get routes from local storage
       this.storageService.get('routes').then(routes => {
         if (!routes) {
           routes = [];
@@ -91,6 +105,15 @@ export class AppComponent implements OnDestroy {
       }).catch(error => {
         console.log(error);
       });
+      // Get interest points from local storage
+      this.storageService.get('touristicPoints').then(touristicPoints => {
+        if (!touristicPoints) {
+          touristicPoints = [];
+          this.storageService.set('touristicPoints', touristicPoints);
+        }
+        this.sharedService.setTouristicPoints(touristicPoints);
+      });
+
       this.isUserLogged = false;
     }
   }

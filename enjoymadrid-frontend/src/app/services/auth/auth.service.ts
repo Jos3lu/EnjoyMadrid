@@ -52,6 +52,7 @@ export class AuthService {
         this.tokenService.setRefreshToken(data.refreshToken);
         this.setUserAuth({ id: data.id, name: data.name, username: data.username, photo: data.photo });
         this.sharedService.setRoutes(data.routes);
+        this.sharedService.setTouristicPoints(data.touristicPoints)
       }),
       catchError(this.sharedService.handleError)
     );
@@ -70,6 +71,7 @@ export class AuthService {
         this.setUserAuth(null);
         this.tokenService.setToken(null);
         this.tokenService.setRefreshToken(null);
+        // Set routes of local storage
         this.storageService.get('routes').then(routes => {
           if (!routes) {
             routes = [];
@@ -78,6 +80,14 @@ export class AuthService {
           this.sharedService.setRoutes(routes);
         }).catch(error => {
           console.log(error);
+        });
+        // Set interest points of local storage
+        this.storageService.get('touristicPoints').then(touristicPoints => {
+          if (!touristicPoints) {
+            touristicPoints = [];
+            this.storageService.set('touristicPoints', touristicPoints);
+          }
+          this.sharedService.setTouristicPoints(touristicPoints);
         });
       }),
       catchError(this.sharedService.handleError)

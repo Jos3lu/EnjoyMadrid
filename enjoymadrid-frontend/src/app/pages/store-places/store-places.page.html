@@ -16,28 +16,31 @@
         </ion-label>
       </ion-list-header>
 
-      <ion-item-group>
-        <ion-item>
+      <ion-item-group class="favourites">
+        <ion-item *ngFor="let place of interestPlaces; let i = index" (click)="placeSelected(i)">
           <ion-avatar slot="start">
-            <img src="https://media.timeout.com/images/105835727/750/422/image.jpg" data-max-retry="3" data-retry="0"
+            <img [src]="place?.images[0] ? place.images[0] : 'assets/flag.png'" data-max-retry="3" data-retry="0"
               (error)="onError($event)">
           </ion-avatar>
           <ion-label class="ion-text-wrap">
-            <h2 class="item-title" >El Retiro</h2>
-            <h4><span class="item-title-info item-size-info">Dirección</span> de la Independencia, 7, 28001 Madrid</h4>
-            <p>
+            <h2 class="item-title" [innerHTML]="sanitizeHtml(place?.name)"></h2>
+            <h4><span class="item-title-info item-size-info">Dirección</span> {{place?.address}}, {{place?.zipcode}} Madrid</h4>
+            <p *ngIf="place.categories.length > 0">
               <span class="item-title-info item-size-info">Categorías</span> 
-              <ion-chip outline color="dark">
-                <ion-label>categoria</ion-label>
+              <ion-chip outline color="dark" *ngFor="let category of place.categories">
+                <ion-label>{{category}}</ion-label>
               </ion-chip>
             </p>
-            <p>
+            <p *ngIf="place.subcategories.length > 0">
               <span class="item-title-info item-size-info">Subcategorías</span>
-              <ion-chip outline color="medium">
-                <ion-label>subcategoria</ion-label>
+              <ion-chip outline color="medium" *ngFor="let subcategory of place.subcategories">
+                <ion-label>{{subcategory}}</ion-label>
               </ion-chip>
             </p>
           </ion-label>
+          <ion-fab-button title="Borrar" size="small" (click)="removePlace(place, i)" class="remove-button ion-align-self-center" color="danger" slot="end">
+            <ion-icon class="route-icon" name="trash-outline"></ion-icon>
+          </ion-fab-button>
         </ion-item>
     </ion-item-group>
 

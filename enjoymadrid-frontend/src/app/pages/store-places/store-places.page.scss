@@ -1,3 +1,15 @@
 ion-chip {
     pointer-events: none;
 }
+
+.remove-button {
+    --box-shadow: none;
+}
+
+.route-icon {
+    pointer-events: none;
+}
+
+.favourites ion-item {
+    cursor: pointer;
+}

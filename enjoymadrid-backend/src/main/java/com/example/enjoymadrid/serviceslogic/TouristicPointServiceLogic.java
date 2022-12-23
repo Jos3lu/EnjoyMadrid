@@ -40,8 +40,8 @@ public class TouristicPointServiceLogic implements TouristicPointService {
 		User user = this.userRepository.findById(userId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 		TouristicPoint touristicPoint = this.touristicPointRepository.findById(touristPointId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sitio turístico no encontrado"));
-		
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Punto de interés no encontrado"));
+				
 		touristicPoint.getUsers().add(user);
 		user.getTouristicPoints().add(touristicPoint);
 		
@@ -54,7 +54,7 @@ public class TouristicPointServiceLogic implements TouristicPointService {
 		User user = this.userRepository.findById(userId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 		TouristicPoint touristicPoint = this.touristicPointRepository.findById(touristPointId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sitio turístico no encontrado"));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Punto de interés no encontrado"));
 		
 		touristicPoint.getUsers().remove(user);
 		user.getTouristicPoints().remove(touristicPoint);

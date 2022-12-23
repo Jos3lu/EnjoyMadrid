@@ -21,4 +21,22 @@ export class TouristicPointService {
     );
   }
 
+  getUserTouristicPoints(userId: number): Observable<TouristicPointModel[]> {
+    return this.httpClient.get<TouristicPointModel[]>(this.sharedService.getApiUrl() + 'users/' + userId + '/tourist-points' ).pipe(
+      catchError(this.sharedService.handleError)
+    );
+  }
+
+  addTouristicPointToUser(userId: number, touristPointId: number): Observable<any> {
+    return this.httpClient.post<any>(this.sharedService.getApiUrl() + 'users/' + userId + '/tourist-points/' + touristPointId, []).pipe(
+      catchError(this.sharedService.handleError)
+    );
+  } 
+
+  deleteUserTouristicPoint(userId: number, touristPointId: number): Observable<any> {
+    return this.httpClient.delete<any>(this.sharedService.getApiUrl() + 'users/' + userId + '/tourist-points/' + touristPointId).pipe(
+      catchError(this.sharedService.handleError)
+    );
+  }
+
 }

@@ -203,14 +203,7 @@ export class FindPlacesPage implements OnInit {
 
   async placeSelected(index: number) {
     // Open modal with point information
-    const modal = await this.modalContrall.create({
-      cssClass: 'my-modal',
-      component: InfoPlacePage,
-      componentProps: {
-        'place': this.places[index]
-      }
-    });
-    await modal.present();
+    this.sharedService.placeSelected(this.places[index]);
   }
 
   async onError(event: any) {
