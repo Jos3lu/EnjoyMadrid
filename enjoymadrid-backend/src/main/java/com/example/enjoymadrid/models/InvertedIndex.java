@@ -16,27 +16,18 @@ public class InvertedIndex {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	// Word to map to documents
+	// Word/term to map to documents
 	private String term;
-	
-	// Number of documents the term appears
-	private Integer nDocumentsTerm;
-	
-	// Touristic place (documents) ID -> raw count of term
+			
+	// Touristic place ID (documents) -> score/weight of term 
 	@ElementCollection
-	private Map<Integer, Integer> termOccurrences = new HashMap<>();
-	
-	// Number of occurrences of term in the collection
-	private Integer nCollectionTerm;
+	private Map<Integer, Double> weightDoc = new HashMap<>();
 	
 	public InvertedIndex() {}
 
-	public InvertedIndex(String term, Integer nDocumentsTerm, Map<Integer, Integer> termOccurrences,
-			Integer nCollectionTerm) {
+	public InvertedIndex(String term, Map<Integer, Double> weightDoc) {
 		this.term = term;
-		this.nDocumentsTerm = nDocumentsTerm;
-		this.termOccurrences = termOccurrences;
-		this.nCollectionTerm = nCollectionTerm;
+		this.weightDoc = weightDoc;
 	}
 
 	public Long getId() {
@@ -55,28 +46,12 @@ public class InvertedIndex {
 		this.term = term;
 	}
 
-	public Integer getnDocumentsTerm() {
-		return nDocumentsTerm;
+	public Map<Integer, Double> getWeightDoc() {
+		return weightDoc;
 	}
 
-	public void setnDocumentsTerm(Integer nDocumentsTerm) {
-		this.nDocumentsTerm = nDocumentsTerm;
-	}
-
-	public Map<Integer, Integer> getTermOccurrences() {
-		return termOccurrences;
-	}
-
-	public void setTermOccurrences(Map<Integer, Integer> termOccurrences) {
-		this.termOccurrences = termOccurrences;
-	}
-	
-	public Integer getnCollectionTerm() {
-		return nCollectionTerm;
-	}
-
-	public void setnCollectionTerm(Integer nCollectionTerm) {
-		this.nCollectionTerm = nCollectionTerm;
+	public void setWeightDoc(Map<Integer, Double> weightDoc) {
+		this.weightDoc = weightDoc;
 	}
 
 }
