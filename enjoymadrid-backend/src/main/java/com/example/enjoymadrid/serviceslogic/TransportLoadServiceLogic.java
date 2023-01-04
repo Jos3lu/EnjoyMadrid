@@ -34,27 +34,27 @@ import com.example.enjoymadrid.models.Schedule;
 import com.example.enjoymadrid.models.Time;
 import com.example.enjoymadrid.models.repositories.PublicTransportLineRepository;
 import com.example.enjoymadrid.models.repositories.TransportPointRepository;
-import com.example.enjoymadrid.services.LoadDataTransportService;
+import com.example.enjoymadrid.services.TransportLoadService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
-public class LoadDataTransportServiceLogic implements LoadDataTransportService {
+public class TransportLoadServiceLogic implements TransportLoadService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(LoadDataTransportService.class);
+	private static final Logger logger = LoggerFactory.getLogger(TransportLoadService.class);
 	
 	private final TransportPointRepository transportPointRepository;
 	private final PublicTransportLineRepository publicTransportLineRepository;
 	
-	public LoadDataTransportServiceLogic(TransportPointRepository transportPointRepository, 
+	public TransportLoadServiceLogic(TransportPointRepository transportPointRepository, 
 			PublicTransportLineRepository publicTransportLineRepository) {
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;
 	}
 
 	@Override
-	public void loadDataTransportPoints() {
+	public void loadTransportPoints() {
 		// Data sources
 		String[][] publicTransportTypes = {
 				{"Metro", "static/subway/stops_subway.geojson", "static/subway/lines_subway.json"}, 
@@ -69,12 +69,12 @@ public class LoadDataTransportServiceLogic implements LoadDataTransportService {
 		CyclicBarrier waitToEnd = new CyclicBarrier(publicTransportTypes.length + 1);
 		
 		for (String[] publicTransport : publicTransportTypes) {
-			ex.execute(() -> loadDataPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2], waitToEnd));
+			ex.execute(() -> loadPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2], waitToEnd));
 		}	
 		ex.shutdown();
 		
 		// Main working at the same time as threads
-		loadDataBiciMADPoints("BiciMAD", "static/bicycle/stops_bicycle.geojson", waitToEnd);
+		loadBiciMADPoints("BiciMAD", "static/bicycle/stops_bicycle.geojson", waitToEnd);
 		
 		logger.info("Transport points updated");
 	}
@@ -125,7 +125,7 @@ public class LoadDataTransportServiceLogic implements LoadDataTransportService {
 		}	
 	}
 	
-	private void loadDataPublicTransportPoints(String type, String stopsPath, String linesPath, CyclicBarrier waitToEnd) {
+	private void loadPublicTransportPoints(String type, String stopsPath, String linesPath, CyclicBarrier waitToEnd) {
 		
 		// Query to get number of entities in DB
 		long publicTransportPointsDB = this.transportPointRepository.findByType(type).size();
@@ -359,7 +359,7 @@ public class LoadDataTransportServiceLogic implements LoadDataTransportService {
 		
 	}
 	
-	private void loadDataBiciMADPoints(String type, String stopsPath, CyclicBarrier waitToEnd) {
+	private void loadBiciMADPoints(String type, String stopsPath, CyclicBarrier waitToEnd) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		// Transform json file to tree model

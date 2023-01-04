@@ -3,8 +3,8 @@ package com.example.enjoymadrid.services;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface LoadDataTouristicService {
+public interface TouristicLoadService {
 	
-	public void loadDataTouristicPoints();
+	public void loadTouristicPoints();
 
 }

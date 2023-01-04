@@ -9,9 +9,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.example.enjoymadrid.services.LoadDataAirQualityService;
-import com.example.enjoymadrid.services.LoadDataTouristicService;
-import com.example.enjoymadrid.services.LoadDataTransportService;
+import com.example.enjoymadrid.services.AirQualityLoadService;
+import com.example.enjoymadrid.services.TouristicLoadService;
+import com.example.enjoymadrid.services.TransportLoadService;
 import com.example.enjoymadrid.services.RefreshTokenService;
 
 @Component
@@ -19,30 +19,30 @@ import com.example.enjoymadrid.services.RefreshTokenService;
 public class LoadPointsComponent implements CommandLineRunner {
 
 	private final RefreshTokenService refreshTokenService;
-	private final LoadDataAirQualityService loadDataAirQualityService;
-	private final LoadDataTouristicService loadDataTouristicService;
-	private final LoadDataTransportService loadDataTransportService;
+	private final AirQualityLoadService airQualityLoadService;
+	private final TouristicLoadService touristicLoadService;
+	private final TransportLoadService transportLoadService;
 	
 	public LoadPointsComponent(
 			RefreshTokenService refreshTokenService,
-			LoadDataAirQualityService loadDataAirQualityService,
-			LoadDataTouristicService loadDataTouristicService,
-			LoadDataTransportService loadDataTransportService
+			AirQualityLoadService airQualityLoadService,
+			TouristicLoadService touristicLoadService,
+			TransportLoadService transportLoadService
 	) {
 		this.refreshTokenService = refreshTokenService;
-		this.loadDataAirQualityService = loadDataAirQualityService;
-		this.loadDataTouristicService = loadDataTouristicService;
-		this.loadDataTransportService = loadDataTransportService;
+		this.airQualityLoadService = airQualityLoadService;
+		this.touristicLoadService = touristicLoadService;
+		this.transportLoadService = transportLoadService;
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
 		// Add air quality stations if not already in DB and then update the air quality data
-		//this.loadDataAirQualityService.loadDataAirQualityPoints();
+		//this.airQualityLoadService.loadAirQualityPoints();
 		// Add places from Madrid city hall
-		this.loadDataTouristicService.loadDataTouristicPoints();
+		this.touristicLoadService.loadTouristicPoints();
 		// Load the information of all the transport points to DB if not already
-		//this.loadDataTransportService.loadDataTransportPoints();
+		//this.transportLoadService.loadTransportPoints();
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 		Integer minuteExecuteUpdate = 1 + new Random().nextInt(59);
 		ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
 
-		ex.schedule(() -> this.loadDataAirQualityService.updateAqiData(), minuteExecuteUpdate, TimeUnit.MINUTES);
+		ex.schedule(() -> this.airQualityLoadService.updateAqiData(), minuteExecuteUpdate, TimeUnit.MINUTES);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 	 */
 	@Scheduled(cron = "0 0 0 1 * *", zone = "Europe/Madrid")
 	private void loadDataTouristicPoints() {
-		this.loadDataTouristicService.loadDataTouristicPoints();
+		this.touristicLoadService.loadTouristicPoints();
 	}
 		
 	/**
@@ -91,6 +91,6 @@ public class LoadPointsComponent implements CommandLineRunner {
 	 */
 	@Scheduled(cron = "0 0/30 * * * ?", zone = "Europe/Madrid")
 	private void updateBicyclePoints() {
-		this.loadDataTransportService.updateBiciMADPoints();
+		this.transportLoadService.updateBiciMADPoints();
 	}
 }

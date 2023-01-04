@@ -3,9 +3,9 @@ package com.example.enjoymadrid.services;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface LoadDataTransportService {
+public interface TransportLoadService {
 
-	public void loadDataTransportPoints();
+	public void loadTransportPoints();
 	
 	public void updateBiciMADPoints();
 	

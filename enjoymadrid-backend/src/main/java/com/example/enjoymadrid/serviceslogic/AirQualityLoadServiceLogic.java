@@ -27,23 +27,23 @@ import org.xml.sax.SAXException;
 
 import com.example.enjoymadrid.models.AirQualityPoint;
 import com.example.enjoymadrid.models.repositories.AirQualityPointRepository;
-import com.example.enjoymadrid.services.LoadDataAirQualityService;
+import com.example.enjoymadrid.services.AirQualityLoadService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 @Service
-public class LoadDataAirQualityServiceLogic implements LoadDataAirQualityService {
+public class AirQualityLoadServiceLogic implements AirQualityLoadService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(LoadDataAirQualityService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AirQualityLoadService.class);
 	
 	private final AirQualityPointRepository airQualityPointRepository;
 	
-	public LoadDataAirQualityServiceLogic(AirQualityPointRepository airQualityPointRepository) {
+	public AirQualityLoadServiceLogic(AirQualityPointRepository airQualityPointRepository) {
 		this.airQualityPointRepository = airQualityPointRepository;
 	}
 
 	@Override
-	public void loadDataAirQualityPoints() {
+	public void loadAirQualityPoints() {
 		// Query to get number of air quality points from DB
 		long airQualityPointsDB = this.airQualityPointRepository.count();
 		
