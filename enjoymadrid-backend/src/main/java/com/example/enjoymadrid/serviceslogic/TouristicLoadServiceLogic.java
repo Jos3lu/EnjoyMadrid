@@ -31,6 +31,7 @@ import org.xml.sax.SAXException;
 
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
+import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.services.TermLoadService;
 import com.example.enjoymadrid.services.TouristicLoadService;
 
@@ -40,10 +41,13 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 	private static final Logger logger = LoggerFactory.getLogger(TouristicLoadService.class);
 		
 	private final TouristicPointRepository touristicPointRepository;
+	private final UserRepository userRepository;
 	private final TermLoadService termLoadService;
 	
-	public TouristicLoadServiceLogic(TouristicPointRepository touristicPointRepository, TermLoadService termLoadService) {
+	public TouristicLoadServiceLogic(TouristicPointRepository touristicPointRepository, UserRepository userRepository,
+			TermLoadService termLoadService) {
 		this.touristicPointRepository = touristicPointRepository;
+		this.userRepository = userRepository;
 		this.termLoadService = termLoadService;
 	}
 
@@ -82,7 +86,14 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 		touristicPointsDB.removeAll(touristicPoints);		
 		// Delete points from terms in InvertedIndex & in TouristicPoint entity
 		touristicPointsDB.forEach(point -> {
+			// Delete terms in InvertedIndex
 			this.termLoadService.deleteTerms(point);
+			// Delete point in associated users
+			point.getUsers().forEach(user -> {
+				user.getTouristicPoints().remove(point);
+				this.userRepository.save(user);
+			});
+			// Delete point
 			this.touristicPointRepository.delete(point);
 		});
 
