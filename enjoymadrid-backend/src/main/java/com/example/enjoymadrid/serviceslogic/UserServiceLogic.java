@@ -1,6 +1,9 @@
 package com.example.enjoymadrid.serviceslogic;
 
 import java.io.IOException;
+import java.util.Iterator;
+
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.enjoymadrid.models.repositories.UserRepository;
+import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.services.UserService;
 
@@ -78,6 +82,12 @@ public class UserServiceLogic implements UserService {
 	public void deleteUser(Long userId) {
 		User user = getUser(userId);
 		this.userRepository.delete(user);
+	}
+
+	@Override
+	public void deleteTouristicPointOfUser(User user, TouristicPoint point) {
+		user.getTouristicPoints().remove(point);
+		this.userRepository.save(user);
 	}
 			
 }

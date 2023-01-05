@@ -9,12 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.MapKeyJoinColumn;
 
 @Entity
-public class InvertedIndex {
+public class Dictionary {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,20 +20,18 @@ public class InvertedIndex {
 	
 	// Word/term to map to documents
 	private String term;
-			
+		
 	// Touristic place (documents) -> score/weight of term 
 	@ElementCollection
-	@JoinTable(name = "terms_touristic_point",
-			joinColumns = @JoinColumn(name = "term_id"))
 	@MapKeyJoinColumn(name = "touristic_point_id")
 	@Column(name = "weight")
-	private Map<TouristicPoint, Double> weightDoc = new HashMap<>();
+	private Map<TouristicPoint, Double> weights = new HashMap<>();
 	
-	public InvertedIndex() {}
+	public Dictionary() {}
 
-	public InvertedIndex(String term, Map<TouristicPoint, Double> weightDoc) {
+	public Dictionary(String term, Map<TouristicPoint, Double> weights) {
 		this.term = term;
-		this.weightDoc = weightDoc;
+		this.weights = weights;
 	}
 
 	public Long getId() {
@@ -54,12 +50,12 @@ public class InvertedIndex {
 		this.term = term;
 	}
 
-	public Map<TouristicPoint, Double> getWeightDoc() {
-		return weightDoc;
+	public Map<TouristicPoint, Double> getWeights() {
+		return weights;
 	}
 
-	public void setWeightDoc(Map<TouristicPoint, Double> weightDoc) {
-		this.weightDoc = weightDoc;
+	public void setWeights(Map<TouristicPoint, Double> weights) {
+		this.weights = weights;
 	}
 
 }

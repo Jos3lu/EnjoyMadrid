@@ -31,9 +31,9 @@ import org.xml.sax.SAXException;
 
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
-import com.example.enjoymadrid.models.repositories.UserRepository;
-import com.example.enjoymadrid.services.TermLoadService;
+import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.TouristicLoadService;
+import com.example.enjoymadrid.services.UserService;
 
 @Service
 public class TouristicLoadServiceLogic implements TouristicLoadService {
@@ -41,14 +41,14 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 	private static final Logger logger = LoggerFactory.getLogger(TouristicLoadService.class);
 		
 	private final TouristicPointRepository touristicPointRepository;
-	private final UserRepository userRepository;
-	private final TermLoadService termLoadService;
+	private final UserService userService;
+	private final DictionaryService dictionaryService;
 	
-	public TouristicLoadServiceLogic(TouristicPointRepository touristicPointRepository, UserRepository userRepository,
-			TermLoadService termLoadService) {
+	public TouristicLoadServiceLogic(TouristicPointRepository touristicPointRepository, UserService userService,
+			DictionaryService dictionaryService) {
 		this.touristicPointRepository = touristicPointRepository;
-		this.userRepository = userRepository;
-		this.termLoadService = termLoadService;
+		this.userService = userService;
+		this.dictionaryService = dictionaryService;
 	}
 
 	@Override
@@ -84,15 +84,12 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 
 		// Delete points not found anymore on the Madrid city hall page
 		touristicPointsDB.removeAll(touristicPoints);		
-		// Delete points from terms in InvertedIndex & in TouristicPoint entity
+		// Delete points from terms in Dictionary & TouristicPoint entity
 		touristicPointsDB.forEach(point -> {
-			// Delete terms in InvertedIndex
-			this.termLoadService.deleteTerms(point);
+			// Delete point in associated keywords (Dictionary entity)
+			point.getKeywords().forEach(term -> this.dictionaryService.deleteTouristicPointOfTerm(term, point));
 			// Delete point in associated users
-			point.getUsers().forEach(user -> {
-				user.getTouristicPoints().remove(point);
-				this.userRepository.save(user);
-			});
+			point.getUsers().forEach(user -> this.userService.deleteTouristicPointOfUser(user, point));
 			// Delete point
 			this.touristicPointRepository.delete(point);
 		});
@@ -207,7 +204,7 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 				point = this.touristicPointRepository.save(point);
 				
 				// Get description of each place and store terms (& weight) associated in DB
-				this.termLoadService.loadTerms(point);
+				this.dictionaryService.loadTerms(point);
 			}
 		}
 

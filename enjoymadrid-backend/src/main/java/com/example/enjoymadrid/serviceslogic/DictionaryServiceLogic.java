@@ -7,15 +7,16 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.example.enjoymadrid.models.Dictionary;
 import com.example.enjoymadrid.models.TouristicPoint;
-import com.example.enjoymadrid.models.repositories.InvertedIndexRepository;
-import com.example.enjoymadrid.services.TermLoadService;
+import com.example.enjoymadrid.models.repositories.DictionaryRepository;
+import com.example.enjoymadrid.services.DictionaryService;
 
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
 import opennlp.tools.stemmer.snowball.SnowballStemmer.ALGORITHM;
 
 @Service
-public class TermLoadServiceLogic implements TermLoadService {
+public class DictionaryServiceLogic implements DictionaryService {
 	
 	// Symbols to filter
 	private static final String[] SYMBOLS_VALUES = new String[] {
@@ -56,14 +57,14 @@ public class TermLoadServiceLogic implements TermLoadService {
 	};
 	private static final Set<String> STOP_WORDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(STOP_WORDS_VALUES)));
 	
-	private final InvertedIndexRepository invertedIndexRepository;
+	private final DictionaryRepository dictionaryRepository;
 	
-	public TermLoadServiceLogic(InvertedIndexRepository invertedIndexRepository) {
-		this.invertedIndexRepository = invertedIndexRepository;
+	public DictionaryServiceLogic(DictionaryRepository dictionaryRepository) {
+		this.dictionaryRepository = dictionaryRepository;
 	}
 
 	@Override
-	public void loadTerms(TouristicPoint touristicPoint) {
+	public void loadTerms(TouristicPoint point) {
 		// Filter symbols, lower case, stop words
 		
 		// Create stemmer for the terms to be stored
@@ -71,9 +72,9 @@ public class TermLoadServiceLogic implements TermLoadService {
 	}
 
 	@Override
-	public void deleteTerms(TouristicPoint touristicPoint) {
-		// TODO Auto-generated method stub
-		
+	public void deleteTouristicPointOfTerm(Dictionary term, TouristicPoint point) {
+		term.getWeights().remove(point);
+		dictionaryRepository.save(term);
 	}
 
 }
