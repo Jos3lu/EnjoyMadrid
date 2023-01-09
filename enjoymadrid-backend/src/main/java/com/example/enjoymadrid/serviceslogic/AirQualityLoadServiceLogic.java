@@ -181,8 +181,13 @@ public class AirQualityLoadServiceLogic implements AirQualityLoadService {
 		logger.info("Air quality stations updated");
 	}
 	
+	/**
+	 * Try to parse to Double if not possible then return null
+	 * 
+	 * @param parseString String to parse to Double
+	 * @return Double or null if not possible
+	 */
 	private Double tryParseDouble(String parseString) {
-		// Try to parse to Double if not possible then return null
 		try {
 			return Double.parseDouble(parseString);
 		} catch (NumberFormatException e) {
@@ -190,6 +195,12 @@ public class AirQualityLoadServiceLogic implements AirQualityLoadService {
 		}
 	}
 	
+	/**
+	 * Try to parse to Integer if not possible then return null
+	 * 
+	 * @param parseString String to parse to Integer 
+	 * @return Integer or null if not possible
+	 */
 	private Integer tryParseInteger(String parseString) {
 		// Try to parse to Integer if not possible then return null
 		try {

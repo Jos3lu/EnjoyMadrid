@@ -8,8 +8,6 @@ import com.example.enjoymadrid.models.TouristicPoint;
 @Service
 public interface DictionaryService {
 
-	public void loadTerms(TouristicPoint point);
-	
 	public void deleteTouristicPointOfTerm(Dictionary term, TouristicPoint point);
 	
 }

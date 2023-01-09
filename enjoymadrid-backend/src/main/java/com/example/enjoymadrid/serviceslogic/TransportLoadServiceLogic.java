@@ -125,6 +125,14 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 		}	
 	}
 	
+	/**
+	 * Load for each data source the transport points
+	 * 
+	 * @param type Transport mode
+	 * @param stopsPath Path of point's data source
+	 * @param linesPath Path of lines' data source
+	 * @param waitToEnd Synchronization aid
+	 */
 	private void loadPublicTransportPoints(String type, String stopsPath, String linesPath, CyclicBarrier waitToEnd) {
 		
 		// Query to get number of entities in DB
@@ -359,6 +367,13 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 		
 	}
 	
+	/**
+	 * Load Bicycle points from BiciMAD
+	 * 
+	 * @param type Transport mode
+	 * @param stopsPath Path of stations' data source
+	 * @param waitToEnd Synchronization aid
+	 */
 	private void loadBiciMADPoints(String type, String stopsPath, CyclicBarrier waitToEnd) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
@@ -410,8 +425,13 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 		
 	}
 	
+	/**
+	 * Get the days for the arrival times / frequencies in a time slot
+	 * 
+	 * @param scheduleDay Days on which transport methods operate
+	 * @return Days for the arrival times / frequencies in a time slot
+	 */
 	private List<String> getDaysWeek(JsonNode scheduleDay) {
-		// Get the days for the arrival times / frequencies in a time slot
 		String timeDay = scheduleDay.get("week_day").asText();
 		String[] days = timeDay.split("-");
 		

@@ -31,6 +31,7 @@ import org.xml.sax.SAXException;
 
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
+import com.example.enjoymadrid.services.DictionaryLoadService;
 import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.TouristicLoadService;
 import com.example.enjoymadrid.services.UserService;
@@ -42,12 +43,14 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 		
 	private final TouristicPointRepository touristicPointRepository;
 	private final UserService userService;
+	private final DictionaryLoadService dictionaryLoadService;
 	private final DictionaryService dictionaryService;
 	
 	public TouristicLoadServiceLogic(TouristicPointRepository touristicPointRepository, UserService userService,
-			DictionaryService dictionaryService) {
+			DictionaryLoadService dictionaryLoadService, DictionaryService dictionaryService) {
 		this.touristicPointRepository = touristicPointRepository;
 		this.userService = userService;
+		this.dictionaryLoadService = dictionaryLoadService;
 		this.dictionaryService = dictionaryService;
 	}
 
@@ -98,6 +101,14 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 		logger.info("Touristic points updated");
 	}
 	
+	/**
+	 * Load for each data source the different points in DB
+	 * 
+	 * @param typeTourism Data source to consult
+	 * @param waitToEnd Synchronization aid
+	 * @param touristicPointsDB Tourist points already stored in DB
+	 * @param touristicPoints List to store tourist points
+	 */
 	private void loadTouristicPoints(String typeTourism, CyclicBarrier waitToEnd, Map<String, TouristicPoint> touristicPointsDB,
 			List<TouristicPoint> touristicPoints) {
 
@@ -145,10 +156,12 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 					continue;
 				}
 
+				String description = element.getElementsByTagName("body").item(0).getTextContent();
+				// Unescapes a string containing entity escapes to a string containing the actual Unicode characters
+				description = StringEscapeUtils.unescapeHtml4(description);
 				String address = element.getElementsByTagName("address").item(0).getTextContent();
 				Integer zipcode = tryParseInteger(element.getElementsByTagName("zipcode").item(0).getTextContent());
 				String phone = element.getElementsByTagName("phone").item(0).getTextContent();
-				String description = element.getElementsByTagName("body").item(0).getTextContent();
 				String email = element.getElementsByTagName("email").item(0).getTextContent();
 				String paymentServices = "";
 				String horary = "";
@@ -204,7 +217,7 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 				point = this.touristicPointRepository.save(point);
 				
 				// Get description of each place and store terms (& weight) associated in DB
-				this.dictionaryService.loadTerms(point);
+				this.dictionaryLoadService.loadTerms(point);
 			}
 		}
 
@@ -215,7 +228,13 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 		}
 		
 	}
-		
+	
+	/**
+	 * Try to parse to Double if not possible then return null
+	 * 
+	 * @param parseString String to parse to Double
+	 * @return Double or null if not possible
+	 */
 	private Double tryParseDouble(String parseString) {
 		// Try to parse to Double if not possible then return null
 		try {
@@ -225,6 +244,12 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 		}
 	}
 	
+	/**
+	 * Try to parse to Integer if not possible then return null
+	 * 
+	 * @param parseString String to parse to Integer 
+	 * @return Integer or null if not possible
+	 */
 	private Integer tryParseInteger(String parseString) {
 		// Try to parse to Integer if not possible then return null
 		try {

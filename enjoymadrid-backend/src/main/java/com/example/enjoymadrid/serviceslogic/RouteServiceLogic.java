@@ -133,6 +133,17 @@ public class RouteServiceLogic implements RouteService {
 		return routeResultDto;
 	}
 			
+	/**
+	 * Find the best route using A* algorithm
+	 * 
+	 * @param <P> Type inference
+	 * @param origin Origin point of route
+	 * @param destination Destination point of route
+	 * @param maxDistance Maximum distance to walk between points of route
+	 * @param transportPoints Transport points filtered by user's chosen transport mode
+	 * @param preferences User's tourist preferences
+	 * @return Complete route
+	 */
 	private <P extends Comparable<P>> List<P> findBestRoute(P origin, P destination, Double maxDistance,
 			List<P> transportPoints, Map<String, Integer> preferences) {
 
@@ -216,6 +227,17 @@ public class RouteServiceLogic implements RouteService {
 		return null;
 	}
 	
+	/**
+	 * Get neighboring points to actual point
+	 * 
+	 * @param <P> Type Inference
+	 * @param pointWrapper Wrapper of point with info of previous point or estimated cost to destination
+	 * @param point Info of current point
+	 * @param transportPoints Selected transports by user
+	 * @param bicyclePoints Set with all the bicycle stations
+	 * @param maxDistance Maximum distance to walk between points
+	 * @return Set of neighboring points to current point
+	 */
 	@SuppressWarnings("unchecked")
 	private <P extends Comparable<P>> Set<P> getNeighbors(PointWrapper<P> pointWrapper, P point, List<P> transportPoints, 
 			Set<P> bicyclePoints, Double maxDistance) {
@@ -274,6 +296,15 @@ public class RouteServiceLogic implements RouteService {
 		return neighbors;
 	}
 	
+	/**
+	 * Points are directly connected
+	 * 
+	 * @param <P> Type inference
+	 * @param previous Previous point of actual in A* algorithm
+	 * @param point Info of point
+	 * @param includeBicycle If bicycle stations are considered
+	 * @return If previous point & actual point are neighbors (e.g. same subway/bus line & directly connected)
+	 */
 	private <P extends Comparable<P>> boolean isDirectNeighbor(P previous, P point, boolean includeBicycle) {
 		
 		if (previous != null && point != null) {
@@ -288,6 +319,19 @@ public class RouteServiceLogic implements RouteService {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * Get heuristic from current point to destination:
+	 * (min distance to destination * air quality index) / user's tourist preferences
+	 * 
+	 * @param <P> Type inference
+	 * @param point Info point
+	 * @param destination Destination point
+	 * @param airQualityPoints Air quality stations in Madrid
+	 * @param touristicPoints Tourist places in Madrid
+	 * @param preferences User preferences
+	 * @return Heuristic
+	 */
 	private <P extends Comparable<P>> double calculateHeuristic(P point, P destination,
 			List<AirQualityPoint> airQualityPoints, List<TouristicPoint> touristicPoints,
 			Map<String, Integer> preferences) {
@@ -349,6 +393,14 @@ public class RouteServiceLogic implements RouteService {
 		return (minDistanceToDestination * aqi) / interestPlaces;
 	}
 		
+	/**
+	 * Calculate haversine formula via latitude & longitude
+	 * 
+	 * @param <P> Type inference
+	 * @param origin Source point
+	 * @param destination Target point
+	 * @return Haversine formula
+	 */
 	private <P extends Comparable<P>> double calculateDistance(P origin, P destination) {
 		Point source = (Point) origin;
 		Point target = (Point) destination;
@@ -357,8 +409,9 @@ public class RouteServiceLogic implements RouteService {
 	
 	/**
 	 * Calculate distance between two points on Earth
-	 * @param lat1/lon1 start point latitude/longitude
-	 * @param lat2/lat2 end point latitude/longitude
+	 * 
+	 * @param lat1/lon1 Start point latitude/longitude
+	 * @param lat2/lat2 End point latitude/longitude
 	 * @return Distance in kilometers
 	 */
 	private double haversine(double lat1, double lon1, double lat2, double lon2) {
@@ -381,6 +434,13 @@ public class RouteServiceLogic implements RouteService {
 		return R * c;
 	}
 	
+	/**
+	 * Get transport points (subway, bus, biciMAD, Commuter) selected by user & filter by current time or station availability
+	 * 
+	 * @param transports Transport methods
+	 * @param lineStops Bus, underground & suburban lines
+	 * @return Transport points
+	 */
 	private List<TransportPoint> getTransportPoints(List<String> transports, Map<String, PublicTransportLine> lineStops) {
 		
 		// Get actual time & day of week
@@ -423,7 +483,7 @@ public class RouteServiceLogic implements RouteService {
 								}
 							}
 							
-							// Different approach depending on wether the end time is after or before midnight
+							// Different approach depending on whether the end time is after or before midnight
 							if ( scheduleNull || ( startTime.isBefore(endTime) && ( currentLocalTime.isBefore(startTime) || currentLocalTime.isAfter(endTime) ) ) 
 									|| ( startTime.isAfter(endTime) && (currentLocalTime.isBefore(startTime) && currentLocalTime.isAfter(endTime) ) ) ) {
 								publicTransportPoint.getStopLines().remove(line);
@@ -449,6 +509,14 @@ public class RouteServiceLogic implements RouteService {
 		return transportPoints;
 	}
 	
+	/**
+	 * Create the segments that make up the route (e.g. get coordinates, duration, distance...)
+	 * 
+	 * @param routePoints Points that make up the route
+	 * @param name Name of route
+	 * @param lineStops Lines of the public transport stops
+	 * @return Formed route
+	 */
 	private RouteResultDto setSegments(List<TransportPoint> routePoints, String name, Map<String, PublicTransportLine> lineStops) {
 		
 		// List of Segments that create the route

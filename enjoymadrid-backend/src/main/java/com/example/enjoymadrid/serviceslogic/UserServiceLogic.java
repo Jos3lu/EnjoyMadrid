@@ -1,9 +1,6 @@
 package com.example.enjoymadrid.serviceslogic;
 
 import java.io.IOException;
-import java.util.Iterator;
-
-import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
