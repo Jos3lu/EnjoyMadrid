@@ -85,18 +85,8 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 		// Keep the Main busy
 		loadTouristicPoints(dataOrigins[originLast], waitToEnd, touristicPointsDBMap, touristicPoints);
 
-		// Delete points not found anymore on the Madrid city hall page
-		touristicPointsDB.removeAll(touristicPoints);		
-		// Delete points from terms in Dictionary & TouristicPoint entity
-		touristicPointsDB.forEach(point -> {
-			// Delete point in associated keywords (Dictionary entity)
-			point.getKeywords().forEach(term -> this.dictionaryService.deleteTouristicPointOfTerm(term, point));
-			// Delete point in associated users
-			point.getUsers().forEach(user -> this.userService.deleteTouristicPointOfUser(user, point));
-			// Delete point
-			this.touristicPointRepository.delete(point);
-		});
-
+		// Delete out of date tourist points
+		deleteOutdatedTouristicPoints(touristicPointsDB, touristicPoints);
 		
 		logger.info("Touristic points updated");
 	}
@@ -229,6 +219,27 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 		
 	}
 	
+	/**
+	 * Delete tourist points not found anymore on the Madrid City Hall page
+	 * 
+	 * @param touristicPointsDB Tourist points from DB
+	 * @param touristicPoints Tourist points from Madrid City Hall page
+	 */
+	private void deleteOutdatedTouristicPoints(List<TouristicPoint> touristicPointsDB,
+			List<TouristicPoint> touristicPoints) {
+		// Delete points not outdated
+		touristicPointsDB.removeAll(touristicPoints);		
+		// Delete points from terms in Dictionary & TouristicPoint entity
+		touristicPointsDB.forEach(point -> {
+			// Delete point in associated keywords (Dictionary entity)
+			point.getKeywords().forEach(term -> this.dictionaryService.deleteTouristicPointOfTerm(term, point));
+			// Delete point in associated users
+			point.getUsers().forEach(user -> this.userService.deleteTouristicPointOfUser(user, point));
+			// Delete point
+			this.touristicPointRepository.delete(point);
+		});
+	}
+		
 	/**
 	 * Try to parse to Double if not possible then return null
 	 * 

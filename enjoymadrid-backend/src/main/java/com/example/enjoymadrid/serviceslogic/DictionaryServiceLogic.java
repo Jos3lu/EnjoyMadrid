@@ -23,7 +23,7 @@ public class DictionaryServiceLogic implements DictionaryService {
 	@Override
 	public void deleteTouristicPointOfTerm(Dictionary term, TouristicPoint point) {
 		term.getWeights().remove(point);
-		dictionaryRepository.save(term);
+		this.dictionaryRepository.save(term);
 	}
 
 }
