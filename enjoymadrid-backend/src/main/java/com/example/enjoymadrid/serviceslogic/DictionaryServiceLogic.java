@@ -67,7 +67,7 @@ public class DictionaryServiceLogic implements DictionaryService {
 	 * @return Stemmed word
 	 */
 	@Override
-	public String stem(String term) {
+	public synchronized String stem(String term) {
 		spanishStemmer.setCurrent(term);
 		spanishStemmer.stem();
 		return spanishStemmer.getCurrent();

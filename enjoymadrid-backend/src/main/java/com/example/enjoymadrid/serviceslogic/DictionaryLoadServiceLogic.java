@@ -3,6 +3,7 @@ package com.example.enjoymadrid.serviceslogic;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.lucene.analysis.StopFilter;
@@ -47,9 +48,20 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 			"última","últimas","último","últimos"
 	};
 
-	// Frequencies of terms in the collection
-	private static Map<String, Integer> freqCollection = new HashMap<>();
+	// Term frequencies
+	private static Map<String, Map<TouristicPoint, Integer>> termFreq = new HashMap<>();
+	// Max term frequencies
+	private static Map<TouristicPoint, Integer> maxTermFreq = new HashMap<>();
+	// Total number of documents/touristic points
+	private static int totalDocs = 0;
+	// Number of documents where the term t appears
+	private static Map<String, Integer> nTermDocs = new HashMap<>();
+	// Length of the document D in words
+	private static Map<TouristicPoint, Integer> docsLength = new HashMap<>();
+	// Length of the collection C in words
+	private static long collectionLength = 0;
 		
+	// Dependency injection
 	private final DictionaryRepository dictionaryRepository;
 	private final DictionaryService dictionaryService;
 	
@@ -73,12 +85,38 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 				.map(term -> this.dictionaryService.stem(term))
 				.collect(Collectors.toList());
 				
-		// Total terms in text
-		String text2 = text.toString().replaceAll("[^a-zA-Z0-9 ]", "");
-		int totalTerms = text.toString().split("\\s+").length;
+		// Total terms in text/document		
+		int docLength = text.toString().replaceAll("[^a-zA-Z0-9 ]", "").split("\\s+").length;
+		// Doc -> doc length
+		docsLength.put(point, docLength);
+		// Add terms count to collection
+		collectionLength += docLength;
+		// Add doc to total
+		totalDocs++;
 		
-		logger.info("Terms from descriptions of tourist points updated");
+		// List with terms to Map with (term, frequency)
+		Map<String, Long> termFreqDocs = resultTerms.stream()
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 		
+		// Add term frequencies & max term frequency in document
+		int maxFreq = 0;
+		for (Map.Entry<String, Long> entry : termFreqDocs.entrySet()) {
+			// Term -> (Document -> Frequency)
+			Map<TouristicPoint, Integer> docTermFreq = termFreq.get(entry.getKey());
+			if (docTermFreq == null) docTermFreq = new HashMap<>();
+			docTermFreq.put(point, entry.getValue().intValue());
+			termFreq.put(entry.getKey(), docTermFreq);
+			// Get max term from document
+			if (entry.getValue() > maxFreq) maxFreq = entry.getValue().intValue();
+			// Increase occurrences of the term in documents 
+			Integer termOcurrences = nTermDocs.get(entry.getKey());
+			if (termOcurrences == null) termOcurrences = 0;
+			termOcurrences++;
+			nTermDocs.put(entry.getKey(), termOcurrences);
+		}
+		
+		// Set max term frequency in document
+		maxTermFreq.put(point, maxFreq);
 	}
 			
 	/**
