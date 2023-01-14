@@ -9,4 +9,6 @@ public interface DictionaryLoadService {
 
 	public void loadTerms(TouristicPoint point);
 	
+	public void calculateScoreTerms();
+	
 }

@@ -1,8 +1,12 @@
 package com.example.enjoymadrid.serviceslogic;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -49,17 +53,17 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	};
 
 	// Term frequencies
-	private static Map<String, Map<TouristicPoint, Integer>> termFreq = new HashMap<>();
+	private static Map<String, Map<TouristicPoint, AtomicInteger>> termFreq = Collections.synchronizedMap(new HashMap<>());
 	// Max term frequencies
-	private static Map<TouristicPoint, Integer> maxTermFreq = new HashMap<>();
+	private static ConcurrentHashMap<TouristicPoint, AtomicInteger> maxTermFreq = new ConcurrentHashMap<>();
 	// Total number of documents/touristic points
-	private static int totalDocs = 0;
+	private static AtomicInteger totalDocs = new AtomicInteger();
 	// Number of documents where the term t appears
-	private static Map<String, Integer> nTermDocs = new HashMap<>();
+	private static Map<String, AtomicInteger> nTermDocs = Collections.synchronizedMap(new HashMap<>());
 	// Length of the document D in words
-	private static Map<TouristicPoint, Integer> docsLength = new HashMap<>();
+	private static ConcurrentHashMap<TouristicPoint, AtomicInteger> docsLength = new ConcurrentHashMap<>();
 	// Length of the collection C in words
-	private static long collectionLength = 0;
+	private static AtomicLong collectionLength = new AtomicLong();
 		
 	// Dependency injection
 	private final DictionaryRepository dictionaryRepository;
@@ -79,44 +83,48 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 						
 		// Tokenize string, lowercase tokens, filter symbols/stop words & stemming
 		List<String> resultTerms = this.dictionaryService.analyze(text.toString(), new StandardAnalyzer(StopFilter.makeStopSet(STOP_WORDS))); 
-		// Remove numbers & words of 1 character length
-		resultTerms = resultTerms.stream()
+		// Remove numbers & words of 1 character length, then group by frequency in Map
+		Map<String, Long> termFreqDocs = resultTerms.stream()
 				.filter(term -> term.matches("[a-z]+") && term.length() > 1)
 				.map(term -> this.dictionaryService.stem(term))
-				.collect(Collectors.toList());
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 				
 		// Total terms in text/document		
 		int docLength = text.toString().replaceAll("[^a-zA-Z0-9 ]", "").split("\\s+").length;
 		// Doc -> doc length
-		docsLength.put(point, docLength);
+		docsLength.put(point, new AtomicInteger(docLength));
 		// Add terms count to collection
-		collectionLength += docLength;
+		collectionLength.addAndGet(docLength);
 		// Add doc to total
-		totalDocs++;
-		
-		// List with terms to Map with (term, frequency)
-		Map<String, Long> termFreqDocs = resultTerms.stream()
-				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-		
+		totalDocs.incrementAndGet();
+				
 		// Add term frequencies & max term frequency in document
-		int maxFreq = 0;
+		AtomicInteger maxFreq = new AtomicInteger();
 		for (Map.Entry<String, Long> entry : termFreqDocs.entrySet()) {
 			// Term -> (Document -> Frequency)
-			Map<TouristicPoint, Integer> docTermFreq = termFreq.get(entry.getKey());
-			if (docTermFreq == null) docTermFreq = new HashMap<>();
-			docTermFreq.put(point, entry.getValue().intValue());
-			termFreq.put(entry.getKey(), docTermFreq);
+			synchronized (termFreq) {
+				Map<TouristicPoint, AtomicInteger> docTermFreq = termFreq.getOrDefault(entry.getKey(), new HashMap<>());
+				docTermFreq.put(point, new AtomicInteger(entry.getValue().intValue()));
+				termFreq.put(entry.getKey(), docTermFreq);
+			}
 			// Get max term from document
-			if (entry.getValue() > maxFreq) maxFreq = entry.getValue().intValue();
-			// Increase occurrences of the term in documents 
-			Integer termOcurrences = nTermDocs.get(entry.getKey());
-			if (termOcurrences == null) termOcurrences = 0;
-			termOcurrences++;
-			nTermDocs.put(entry.getKey(), termOcurrences);
+			if (entry.getValue() > maxFreq.get()) maxFreq.set(entry.getValue().intValue());
+			// Increase occurrences of the term in documents
+			synchronized (nTermDocs) {
+				AtomicInteger termOcurrences = nTermDocs.getOrDefault(entry.getKey(), new AtomicInteger());
+				termOcurrences.incrementAndGet();
+				nTermDocs.put(entry.getKey(), termOcurrences);
+			}
 		}
 		
 		// Set max term frequency in document
 		maxTermFreq.put(point, maxFreq);
+	}
+	
+	@Override
+	public void calculateScoreTerms() {
+		
+		logger.info("Terms from descriptions of tourist points updated");
 	}
 			
 	/**
