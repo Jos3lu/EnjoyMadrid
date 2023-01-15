@@ -10,5 +10,7 @@ public interface TransportPointRepository extends PointRepository<TransportPoint
 	List<TransportPoint> findByType(String type);
 	
 	List<TransportPoint> findByTypeIn(Collection<String> types);
+	
+	boolean existsByType(String type);
 			
 }

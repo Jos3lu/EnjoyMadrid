@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.example.enjoymadrid.models.BicycleTransportPoint;
 import com.example.enjoymadrid.models.Frequency;
@@ -38,6 +39,8 @@ import com.example.enjoymadrid.services.TransportLoadService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import reactor.core.publisher.Mono;
 
 @Service
 public class TransportLoadServiceLogic implements TransportLoadService {
@@ -87,14 +90,40 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 				.collect(Collectors.toMap(BicycleTransportPoint::getStationNumber, point -> point));
 		
 		// Web page EMT api
-		WebClient client = WebClient.create(
-				"https://openapi.emtmadrid.es/v1/transport/bicimad/stations/");
-
+		WebClient client = WebClient.create("https://openapi.emtmadrid.es");
+		
+		// Web page EMT login to get accessToken
 		ObjectNode response = client.get()
-				//.uri("/v1/transport/bicimad/stations/")
+				.uri("/v?/mobilitylabs/user/login/")
+				.headers(httpHeaders -> {
+					httpHeaders.set("email", "enjoymadrid1@gmail.com");
+					httpHeaders.set("password", "EnjoyMadrid123");
+				})
 				.retrieve()
 				.bodyToMono(ObjectNode.class)
+				.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
 				.block();
+		
+		if (response == null) {
+			logger.error("Could not update the information of the bicycle stations");
+			return;	
+		}
+		// Get accessToken for the api requests
+		String accessToken = response.get("data").get("accessToken").asText();
+		
+		// Web page EMT api for stations
+		response = client.get()
+				.uri("/v1/transport/bicimad/stations/")
+				.header("accessToken", accessToken)
+				.retrieve()
+				.bodyToMono(ObjectNode.class)
+				.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
+				.block();
+		
+		if (response == null) {
+			logger.error("Could not update the information of the bicycle stations");
+			return;
+		}
 		
 		JsonNode stations = response.get("data");
 		
@@ -123,6 +152,17 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 			
 			this.transportPointRepository.save(bicycleTransportPointDB);
 		}	
+		
+		// Web page EMT to logout
+		response = client.get()
+				.uri("/v1/mobilitylabs/user/logout/")
+				.header("accessToken", accessToken)
+				.retrieve()
+				.bodyToMono(ObjectNode.class)
+				.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
+				.block();
+		
+		if (response == null) logger.error("Could not logout from EMT API correctly");
 	}
 	
 	/**
@@ -136,9 +176,9 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 	private void loadPublicTransportPoints(String type, String stopsPath, String linesPath, CyclicBarrier waitToEnd) {
 		
 		// Query to get number of entities in DB
-		long publicTransportPointsDB = this.transportPointRepository.findByType(type).size();
+		boolean publicTransportPointsDB = this.transportPointRepository.existsByType(type);
 		
-		if (publicTransportPointsDB > 0) {
+		if (publicTransportPointsDB) {
 			try {
 				waitToEnd.await();
 			} catch (InterruptedException | BrokenBarrierException e) {
@@ -375,17 +415,28 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 	 * @param waitToEnd Synchronization aid
 	 */
 	private void loadBiciMADPoints(String type, String stopsPath, CyclicBarrier waitToEnd) {
+		
+		// Query to get number of entities in DB
+		boolean bicycleTransportPointsDB = this.transportPointRepository.existsByType(type);
+		
+		if (bicycleTransportPointsDB) {
+			// Add availability of each Bike station
+			updateBiciMADPoints();
+			
+			try {
+				waitToEnd.await();
+			} catch (InterruptedException | BrokenBarrierException e) {
+				logger.error(e.getMessage());
+			}
+			
+			return;
+		}
+		
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		// Transform json file to tree model
 		try {
 			
-			// Query to get bicycle stations from DB with the number of the station as the key
-			Set<String> bicycleTransportPointsDB = this.transportPointRepository.findByType(type).stream()
-					.map(transportPoint -> (BicycleTransportPoint) transportPoint)
-					.map(BicycleTransportPoint::getStationNumber)
-					.collect(Collectors.toSet());
-
 			// For jar file, instead of getting getFile use getInputStream and transform into file
 			InputStream stopsStream = new ClassPathResource(stopsPath).getInputStream();
 			File stopsFile = File.createTempFile("stops", "gejson");
@@ -400,13 +451,10 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 				String stationNumber = stop.get("number").asText();
 				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
 				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
-				
-				if (!bicycleTransportPointsDB.contains(stationNumber)) {
-					// Save it in the DB
-					this.transportPointRepository.save(
-							new BicycleTransportPoint(stationNumber, name, longitude, latitude, type, 
-									0, 0, 0, false, true, 0));	
-				}
+
+				// Save it in the DB
+				this.transportPointRepository.save(new BicycleTransportPoint(stationNumber, name, longitude, latitude,
+						type, 0, 0, 0, false, true, 0));
 										
 			}
 

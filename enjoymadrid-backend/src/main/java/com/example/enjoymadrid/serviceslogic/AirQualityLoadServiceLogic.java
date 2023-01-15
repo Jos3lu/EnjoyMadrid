@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,6 +31,8 @@ import com.example.enjoymadrid.models.repositories.AirQualityPointRepository;
 import com.example.enjoymadrid.services.AirQualityLoadService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import reactor.core.publisher.Mono;
 
 @Service
 public class AirQualityLoadServiceLogic implements AirQualityLoadService {
@@ -112,8 +115,11 @@ public class AirQualityLoadServiceLogic implements AirQualityLoadService {
 				.uri("/v1/stations/by/cityID/igp7hSLYmouA2JFhu?AQI=US&language=es")
 				.retrieve()
 				.bodyToMono(ArrayNode.class)
+				.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
 				.block();
-
+		
+		if (response == null) response = new ArrayNode(null);
+		
 		for (JsonNode point : response) {
 			String name = point.get("name").asText();
 			Integer aqi = point.get("aqi").asInt();
