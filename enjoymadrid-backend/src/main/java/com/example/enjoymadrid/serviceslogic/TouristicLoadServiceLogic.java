@@ -131,9 +131,10 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) node;
 
+				// Get point info
 				String name = element.getElementsByTagName("name").item(0).getTextContent();
-				// Unescapes a string containing entity escapes to a string containing the actual Unicode characters
-				name = StringEscapeUtils.unescapeHtml4(name);
+				// Unescape a string containing entity escapes to a string containing the actual Unicode characters
+				name = StringEscapeUtils.unescapeHtml4(name);		
 				Double longitude = tryParseDouble(element.getElementsByTagName("longitude").item(0).getTextContent());
 				Double latitude = tryParseDouble(element.getElementsByTagName("latitude").item(0).getTextContent());
 				String type = element.getElementsByTagName("extradata").item(0).getChildNodes().item(1).getTextContent();
@@ -146,12 +147,15 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 				TouristicPoint pointDB = touristicPointsDB.get(name + "-" + longitude + "-" + latitude + "-" + type);
 				LocalDate updateDate = LocalDate.parse(element.getAttribute("fechaActualizacion"));
 				if (pointDB != null && Period.between(updateDate, currentDate).getDays() > 30) {
+					// Get description of each place and store terms (& weight) associated in DB
+					this.dictionaryLoadService.loadTerms(pointDB);
+					// Go to next point
 					continue;
 				}
-
+				
 				String description = element.getElementsByTagName("body").item(0).getTextContent();
-				// Unescapes a string containing entity escapes to a string containing the actual Unicode characters
-				description = StringEscapeUtils.unescapeHtml4(description);
+				// Unescape a string containing entity escapes to a string containing the actual Unicode characters
+				description = StringEscapeUtils.unescapeHtml4(description);		
 				String address = element.getElementsByTagName("address").item(0).getTextContent();
 				Integer zipcode = tryParseInteger(element.getElementsByTagName("zipcode").item(0).getTextContent());
 				String phone = element.getElementsByTagName("phone").item(0).getTextContent();

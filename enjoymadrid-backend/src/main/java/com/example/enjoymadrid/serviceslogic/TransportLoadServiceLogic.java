@@ -47,6 +47,9 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TransportLoadService.class);
 	
+	// AccessToken for EMT API (get information about BiciMad stations), auto-extend each the API is invoked
+	private static String accessToken;
+	
 	private final TransportPointRepository transportPointRepository;
 	private final PublicTransportLineRepository publicTransportLineRepository;
 	
@@ -81,23 +84,20 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 		
 		logger.info("Transport points updated");
 	}
-
-	@Override
-	public void updateBiciMADPoints() {
-		// Query to get bicycle stations from DB with the number of the station as the key
-		Map<String, BicycleTransportPoint> bicycleTransportPointsDB = this.transportPointRepository.findByType("BiciMAD").stream()
-				.map(transportPoint -> (BicycleTransportPoint) transportPoint)
-				.collect(Collectors.toMap(BicycleTransportPoint::getStationNumber, point -> point));
-		
+	
+	private void loginEMTApi() {
 		// Web page EMT api
 		WebClient client = WebClient.create("https://openapi.emtmadrid.es");
 		
 		// Web page EMT login to get accessToken
 		ObjectNode response = client.get()
-				.uri("/v?/mobilitylabs/user/login/")
+				.uri("/v1/mobilitylabs/user/login/")
 				.headers(httpHeaders -> {
-					httpHeaders.set("email", "enjoymadrid1@gmail.com");
+					httpHeaders.set("email", "enjoymadridapp1@gmail.com");
 					httpHeaders.set("password", "EnjoyMadrid123");
+					//httpHeaders.set("X-ClientId", "c49496a8-53bf-4b86-bb2a-66b3ecbdc494");
+					//httpHeaders.set("passKey",
+					//		"FD89F93FAE0DB64EE23E7B0D2B8B719EF1EF06FC5F88E5AB9CF2000EF8133799CD44F59380BC194475E526BA2B6EA5E5676E340B87C4BBF3AF4DC1D681E");
 				})
 				.retrieve()
 				.bodyToMono(ObjectNode.class)
@@ -109,10 +109,21 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 			return;	
 		}
 		// Get accessToken for the api requests
-		String accessToken = response.get("data").get("accessToken").asText();
+		accessToken = response.get("data").get(0).get("accessToken").asText();
+	}
+
+	@Override
+	public void updateBiciMADPoints() {
+		// Query to get bicycle stations from DB with the number of the station as the key
+		Map<String, BicycleTransportPoint> bicycleTransportPointsDB = this.transportPointRepository.findByType("BiciMAD").stream()
+				.map(transportPoint -> (BicycleTransportPoint) transportPoint)
+				.collect(Collectors.toMap(BicycleTransportPoint::getStationNumber, point -> point));
 		
+		// Web page EMT api
+		WebClient client = WebClient.create("https://openapi.emtmadrid.es");
+				
 		// Web page EMT api for stations
-		response = client.get()
+		ObjectNode response = client.get()
 				.uri("/v1/transport/bicimad/stations/")
 				.header("accessToken", accessToken)
 				.retrieve()
@@ -153,16 +164,6 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 			this.transportPointRepository.save(bicycleTransportPointDB);
 		}	
 		
-		// Web page EMT to logout
-		response = client.get()
-				.uri("/v1/mobilitylabs/user/logout/")
-				.header("accessToken", accessToken)
-				.retrieve()
-				.bodyToMono(ObjectNode.class)
-				.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
-				.block();
-		
-		if (response == null) logger.error("Could not logout from EMT API correctly");
 	}
 	
 	/**
@@ -421,6 +422,7 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 		
 		if (bicycleTransportPointsDB) {
 			// Add availability of each Bike station
+			loginEMTApi();
 			updateBiciMADPoints();
 			
 			try {
@@ -463,6 +465,7 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 		} 
 		
 		// Add availability of each Bike station
+		loginEMTApi();
 		updateBiciMADPoints();
 		
 		try {
