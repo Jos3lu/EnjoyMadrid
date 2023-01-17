@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.example.enjoymadrid.models.TouristicPoint;
-import com.example.enjoymadrid.models.repositories.DictionaryRepository;
 import com.example.enjoymadrid.services.DictionaryLoadService;
 import com.example.enjoymadrid.services.DictionaryService;
 
@@ -53,7 +52,10 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	};
 
 	// Term frequencies
-	private static Map<String, Map<TouristicPoint, AtomicInteger>> termFreq = Collections.synchronizedMap(new HashMap<>());
+	private static Map<String, Map<TouristicPoint, AtomicInteger>> termFreq = Collections
+			.synchronizedMap(new HashMap<>());
+	// Term frequencies in collection
+	private static Map<String, AtomicInteger> termFreqCollection = Collections.synchronizedMap(new HashMap<>());
 	// Max term frequencies
 	private static ConcurrentHashMap<TouristicPoint, AtomicInteger> maxTermFreq = new ConcurrentHashMap<>();
 	// Total number of documents/touristic points
@@ -66,12 +68,12 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	private static AtomicLong collectionLength = new AtomicLong();
 		
 	// Dependency injection
-	private final DictionaryRepository dictionaryRepository;
 	private final DictionaryService dictionaryService;
+	private final PNormModelServiceLogic pNormModelServiceLogic;
 	
-	public DictionaryLoadServiceLogic(DictionaryRepository dictionaryRepository, DictionaryService dictionaryService) {
-		this.dictionaryRepository = dictionaryRepository;
+	public DictionaryLoadServiceLogic(DictionaryService dictionaryService, PNormModelServiceLogic pNormModelServiceLogic) {
 		this.dictionaryService = dictionaryService;
+		this.pNormModelServiceLogic = pNormModelServiceLogic;
 	}
 
 	@Override
@@ -107,6 +109,12 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 				docTermFreq.put(point, new AtomicInteger(entry.getValue().intValue()));
 				termFreq.put(entry.getKey(), docTermFreq);
 			}
+			// Term -> Frequency collection
+			synchronized (termFreqCollection) {
+				AtomicInteger termFreqCollectionValue = termFreqCollection.getOrDefault(entry.getKey(), new AtomicInteger());
+				termFreqCollectionValue.getAndAdd(entry.getValue().intValue());
+				termFreqCollection.put(entry.getKey(), termFreqCollectionValue);
+			}
 			// Get max term from document
 			if (entry.getValue() > maxFreq.get()) maxFreq.set(entry.getValue().intValue());
 			// Increase occurrences of the term in documents
@@ -123,10 +131,20 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	
 	@Override
 	public void calculateScoreTerms() {
+		// Model to use for documents score
+		this.pNormModelServiceLogic.calculateScore(termFreq, maxTermFreq, totalDocs, nTermDocs);
+		
+		// Reset variables
+		termFreq.clear();
+		maxTermFreq.clear();
+		totalDocs.set(0);
+		nTermDocs.clear();
+		docsLength.clear();
+		collectionLength.set(0);
 		
 		logger.info("Terms from descriptions of tourist points updated");
 	}
-			
+				
 	/**
 	 * Parse html into normalized, combined text
 	 * 
