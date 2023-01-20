@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.enjoymadrid.models.Dictionary;
+import com.example.enjoymadrid.models.DictionaryScoreSpec;
 import com.example.enjoymadrid.services.ModelService;
 
 @Service
@@ -15,7 +16,7 @@ public class DirichletSmoothingModelServiceLogic implements ModelService {
 	public DirichletSmoothingModelServiceLogic() {}
 	
 	@Override
-	public List<Dictionary> rankDocuments() {
+	public List<Dictionary> rank() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -28,7 +29,8 @@ public class DirichletSmoothingModelServiceLogic implements ModelService {
 	 * @param collectionLength Length of the collection C in words
 	 * @return Score/weight of term T associated with document D
 	 */
-	public double calculateScore(int tf, int tfCollection, int docLength, int collectionLength) {
+	@Override
+	public double calculateScore(DictionaryScoreSpec dictionaryScoreSpec) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

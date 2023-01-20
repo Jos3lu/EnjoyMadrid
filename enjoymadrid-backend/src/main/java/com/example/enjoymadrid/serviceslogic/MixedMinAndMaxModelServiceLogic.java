@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.enjoymadrid.models.Dictionary;
+import com.example.enjoymadrid.models.DictionaryScoreSpec;
 import com.example.enjoymadrid.services.ModelService;
 
 @Service
@@ -12,7 +13,7 @@ public class MixedMinAndMaxModelServiceLogic implements ModelService {
 	
 	// Smoothing parameter in logarithmically scaled tf (term-frequency)
 	private final double k;
-	
+	 
 	//private final DictionaryRepository dictionaryRepository;
 	
 	public MixedMinAndMaxModelServiceLogic() {
@@ -24,7 +25,7 @@ public class MixedMinAndMaxModelServiceLogic implements ModelService {
 	}
 
 	@Override
-	public List<Dictionary> rankDocuments() {
+	public List<Dictionary> rank() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -34,10 +35,11 @@ public class MixedMinAndMaxModelServiceLogic implements ModelService {
 	 * 
 	 * @param tf Term frequencies in documents/tourist points
 	 * @param totalDocs Total number of documents/tourist points
-	 * @param nTermDocs Number of documents where the term T appears
+	 * @param docFreq Number of documents where the term T appears
 	 * @return Score/weight of term T associated with document D
 	 */
-	public double calculateScore(int tf, int totalDocs, int nTermDocs) {
+	@Override
+	public double calculateScore(DictionaryScoreSpec dictionaryScoreSpec) {
 		return 0;
 	}
 

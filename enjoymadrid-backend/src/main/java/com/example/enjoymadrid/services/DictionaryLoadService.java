@@ -1,5 +1,7 @@
 package com.example.enjoymadrid.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.enjoymadrid.models.TouristicPoint;
@@ -9,6 +11,6 @@ public interface DictionaryLoadService {
 
 	public void loadTerms(TouristicPoint point);
 	
-	public void calculateScoreTerms();
+	public void calculateScoreTerms(List<TouristicPoint> touristicPoints);
 	
 }
