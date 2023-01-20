@@ -63,11 +63,9 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	private static ConcurrentHashMap<String, ConcurrentHashMap<TouristicPoint, Integer>> termFreq = new ConcurrentHashMap<>();
 	// Term frequencies in collection
 	private static ConcurrentHashMap<String, LongAdder> termFreqCollection = new ConcurrentHashMap<>();
-	// Max term frequencies
-	private static ConcurrentHashMap<TouristicPoint, Integer> maxTermFreq = new ConcurrentHashMap<>();
 	// Total number of documents/touristic points
 	private static LongAdder totalDocs = new LongAdder();
-	// Number of documents where the term t appears
+	// Number of documents where the term T appears
 	private static ConcurrentHashMap<String, LongAdder> nTermDocs = new ConcurrentHashMap<>();
 	// Length of the document D in words
 	private static ConcurrentHashMap<TouristicPoint, Integer> docsLength = new ConcurrentHashMap<>();
@@ -122,22 +120,16 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 		// Add doc to total
 		totalDocs.increment();
 				
-		// Add term frequencies & max term frequency in document
-		int maxFreq = 0;
+		// Add term frequencies in document & increment number of documents where term appears
 		for (Map.Entry<String, Long> entry : termFreqDocs.entrySet()) {
 			// Term -> (Document -> Frequency)
 			termFreq.computeIfAbsent(entry.getKey(), v -> new ConcurrentHashMap<TouristicPoint, Integer>())
 				.put(point, entry.getValue().intValue());
 			// Term -> Frequency collection
 			termFreqCollection.computeIfAbsent(entry.getKey(), v -> new LongAdder()).add(entry.getValue().longValue());
-			// Get max term from document
-			if (entry.getValue() > maxFreq) maxFreq = entry.getValue().intValue();
 			// Increase occurrences of the term in documents
 			nTermDocs.computeIfAbsent(entry.getKey(), v -> new LongAdder()).increment();;
 		}
-		
-		// Set max term frequency in document
-		maxTermFreq.put(point, maxFreq);
 	}
 	
 	@Override
@@ -152,12 +144,12 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 				int tf = entryPoint.getValue().intValue();
 				
 				// Model to use for documents score
-				double score = this.mixedMinAndMaxModelServiceLogic.calculateScore(tf, maxTermFreq.get(touristicPoint).intValue(), 
-						totalDocs.intValue(), nTermDocs.get(term).intValue());
-//				double score1 = this.vectorialModelServiceLogic.calculateScore(tf, totalDocs.intValue(), nTermDocs.get(term).intValue());
-//				double score2 = this.bm25ModelServiceLogic.calculateScore(tf, totalDocs.intValue(), nTermDocs.get(term).intValue(), 
+//				double score = this.mixedMinAndMaxModelServiceLogic.calculateScore(tf, maxTermFreq.get(touristicPoint).intValue(), 
+//						totalDocs.intValue(), nTermDocs.get(term).intValue());
+				double score = this.vectorialModelServiceLogic.calculateScore(tf, totalDocs.intValue(), nTermDocs.get(term).intValue());
+//				double score = this.bm25ModelServiceLogic.calculateScore(tf, totalDocs.intValue(), nTermDocs.get(term).intValue(), 
 //						docsLength.get(touristicPoint).intValue());
-//				double score3 = this.dirichletSmoothingModelServiceLogic.calculateScore(tf, termFreqCollection.get(term).intValue(), 
+//				double score = this.dirichletSmoothingModelServiceLogic.calculateScore(tf, termFreqCollection.get(term).intValue(), 
 //						docsLength.get(touristicPoint).intValue(), collectionLength.intValue());
 				
 				// Save the score associated to the tourist point (document)
@@ -169,7 +161,6 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 		
 		// Reset variables
 		termFreq.clear();
-		maxTermFreq.clear();
 		totalDocs.reset();
 		nTermDocs.clear();
 		docsLength.clear();

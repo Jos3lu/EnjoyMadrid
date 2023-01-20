@@ -26,7 +26,7 @@ public class DirichletSmoothingModelServiceLogic implements ModelService {
 	 * @param tfCollection Term frequencies in collection
 	 * @param docLength Length of the document D in words
 	 * @param collectionLength Length of the collection C in words
-	 * @return
+	 * @return Score/weight of term T associated with document D
 	 */
 	public double calculateScore(int tf, int tfCollection, int docLength, int collectionLength) {
 		// TODO Auto-generated method stub

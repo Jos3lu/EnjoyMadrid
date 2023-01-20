@@ -23,7 +23,7 @@ public class DictionaryServiceLogic implements DictionaryService {
 	private static final Logger logger = LoggerFactory.getLogger(DictionaryService.class);
 	
 	// Word stemming
-	private static final SpanishStemmer spanishStemmer = new SpanishStemmer();
+	private final SpanishStemmer spanishStemmer = new SpanishStemmer();
 	
 	private DictionaryRepository dictionaryRepository;
 	

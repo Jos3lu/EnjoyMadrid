@@ -25,10 +25,12 @@ public class VectorialModelServiceLogic implements ModelService {
 	 * 
 	 * @param tf Term frequencies in documents/tourist points
 	 * @param totalDocs Total number of documents/tourist points
-	 * @param nTermDocs Number of documents where the term t appears
+	 * @param nTermDocs Number of documents where the term T appears
+	 * @return Score/weight of term T associated with document D
 	 */
 	public double calculateScore(int tf, int totalDocs, int nTermDocs) {
-		// TODO Auto-generated method stub
+		double query_weight = Math.log(totalDocs/nTermDocs);
+		double doc_weight = 0;
 		return 0;
 	}
 

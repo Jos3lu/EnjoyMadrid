@@ -24,9 +24,9 @@ public class BM25ModelServiceLogic implements ModelService {
 	 * 
 	 * @param tf Term frequencies in documents/tourist points
 	 * @param totalDocs Total number of documents/tourist points
-	 * @param nTermDocs Number of documents where the term t appears
+	 * @param nTermDocs Number of documents where the term T appears
 	 * @param docLength Length of the document D in words
-	 * @return
+	 * @return Score/weight of term T associated with document D
 	 */
 	public double calculateScore(int tf, int totalDocs, int nTermDocs, int docLength) {
 		// TODO Auto-generated method stub
