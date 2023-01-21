@@ -11,11 +11,13 @@ import com.example.enjoymadrid.services.ModelService;
 @Service
 public class BM25ModelServiceLogic implements ModelService {
 	
-	// Free parameter, normally k1 = 1.2 or k1 = 2.0
+	// Free parameter, normally k1 = [1.2,2.0]
 	private final double k1;
-	// Freee parameter, normally b = 0.75
+	// Free parameter, normally b = 0.75
 	private final double b;
 	// Used in BM25+. In BM25 term frequency normalization by document length is not properly lower-bounded. 
+	// Minimizing the chances of over-penalizing those very long documents
+	// Normally delta = 1
 	private final double delta;
 
 	//private final DictionaryRepository dictionaryRepository;
@@ -49,6 +51,9 @@ public class BM25ModelServiceLogic implements ModelService {
 	}
 
 	/**
+	 * tf = term_frequency * (k1 + 1) / (term_frequency + k1 * (1 - b + b * document_length / average_document_length))
+	 * idf = log((total_docs - doc_frequency) / (doc_frequency  + 0.5) + 1)
+	 * Score = tf * idf
 	 * 
 	 * @param tf Term frequencies in documents/tourist points
 	 * @param totalDocs Total number of documents/tourist points
@@ -58,9 +63,14 @@ public class BM25ModelServiceLogic implements ModelService {
 	 * @return Score/weight of term T associated with document D
 	 */
 	@Override
-	public double calculateScore(DictionaryScoreSpec dictionaryScoreSpec) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calculateScore(DictionaryScoreSpec scoreSpec) {
+		if (scoreSpec.getTf() <= 0) return 0.0;
+		
+		double tf = scoreSpec.getTf() * (k1 + 1)
+				/ (scoreSpec.getTf() + k1 * (1 - b + b * scoreSpec.getDocLength() / scoreSpec.getAvgDoc()));
+		double idf = Math.log10((scoreSpec.getTotalDocs() - scoreSpec.getDocFreq() + 0.5) / (scoreSpec.getDocFreq() + 0.5) + 1);
+		
+		return (tf + delta) * idf;
 	}
 
 }

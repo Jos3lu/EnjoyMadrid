@@ -22,7 +22,10 @@ public class VectorSpaceModelServiceLogic implements ModelService {
 	}
 	
 	/**
-	 * Calculate the score of a document/tourist point using the Vectorial Model
+	 * Calculate the score of a document/tourist point using the Vector Space Model
+	 * Query: (1 + log(term_frequency_query)) * log(total_docs / doc_frequency)
+	 * Document: (1 + log(term_frency_doc)) / √∑(1 + log(term_frequency_doc_i))^2
+	 * Score = Query * Document
 	 * 
 	 * @param tf Term frequencies in documents/tourist points
 	 * @param totalDocs Total number of documents/tourist points
@@ -30,10 +33,17 @@ public class VectorSpaceModelServiceLogic implements ModelService {
 	 * @return Score/weight of term T associated with document D
 	 */
 	@Override
-	public double calculateScore(DictionaryScoreSpec dictionaryScoreSpec) {
-		double query_weight = Math.log(dictionaryScoreSpec.getTotalDocs()/dictionaryScoreSpec.getDocFreq());
-		double doc_weight = 0;
-		return 0;
+	public double calculateScore(DictionaryScoreSpec scoreSpec) {
+		if (scoreSpec.getTf() <= 0) return 0.0;
+		
+		// Document
+		double tfDoc = 1 + Math.log10(scoreSpec.getTf()); 
+		double cosNormDoc = tfDoc / scoreSpec.getTfSumDoc();
+		
+		// Query [(1 + log(term_frequency_query)) of query will be calculated in rank() function
+		double idfQuery = Math.log10(scoreSpec.getTotalDocs() / scoreSpec.getDocFreq());
+		
+		return cosNormDoc * idfQuery;
 	}
 
 }
