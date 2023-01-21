@@ -93,7 +93,7 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 		deleteOutdatedTouristicPoints(touristicPointsDB, touristicPoints);
 		
 		// Calculate score of terms depending on the model used
-		this.dictionaryLoadService.calculateScoreTerms(touristicPoints);
+		this.dictionaryLoadService.calculateScoreTerms();
 		
 		logger.info("Touristic points updated");
 	}

@@ -5,16 +5,25 @@ public class DictionaryScoreSpec {
 	private int tf;
 	private int totalDocs;
 	private int docFreq;
+	private double tfSumDoc;
 	private double avgDoc;
 	private int docLength;
 	private int tfCollection;
 	private long collectionLength;
 	
-	// MMM & Vector Space Model Constructor
+	// MMM Constructor
 	public DictionaryScoreSpec(int tf, int totalDocs, int docFreq) {
 		this.tf = tf;
 		this.totalDocs = totalDocs;
 		this.docFreq = docFreq;
+	}
+	
+	// Vector Space Model Constructor
+	public DictionaryScoreSpec(int tf, int totalDocs, int docFreq, double tfSumDoc) {
+		this.tf = tf;
+		this.totalDocs = totalDocs;
+		this.docFreq = docFreq;
+		this.tfSumDoc = tfSumDoc;
 	}
 	
 	// BM25 Model Constructor
@@ -56,6 +65,14 @@ public class DictionaryScoreSpec {
 
 	public void setDocFreq(int docFreq) {
 		this.docFreq = docFreq;
+	}
+	
+	public double getTfSumDoc() {
+		return tfSumDoc;
+	}
+
+	public void setTfSumDoc(double tfSumDoc) {
+		this.tfSumDoc = tfSumDoc;
 	}
 
 	public double getAvgDoc() {

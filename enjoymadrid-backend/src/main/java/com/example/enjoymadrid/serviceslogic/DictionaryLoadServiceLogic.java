@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
@@ -63,6 +64,8 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 
 	// Term frequencies
 	private ConcurrentHashMap<String, ConcurrentHashMap<TouristicPoint, Integer>> termFreq = new ConcurrentHashMap<>();
+	// Square root of the sum of the squared term frequencies in a document D 
+	private ConcurrentHashMap<TouristicPoint, Double> tfSumDoc = new ConcurrentHashMap<>();
 	// Term frequencies in collection
 	private ConcurrentHashMap<String, LongAdder> termFreqCollection = new ConcurrentHashMap<>();
 	// Total number of documents/touristic points
@@ -123,8 +126,10 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 		collectionLength.add(docLength.longValue());
 		// Add doc to total
 		totalDocs.increment();
-				
-		// Add term frequencies in document & increment number of documents where term appears
+		
+		// Sum of the squared frequency terms (logarithmically scaled) in a document D 
+		double tfSum = 0.0;
+		
 		for (Map.Entry<String, Long> entry : termFreqDocs.entrySet()) {
 			// Term -> (Document -> Frequency)
 			termFreq.computeIfAbsent(entry.getKey(), v -> new ConcurrentHashMap<TouristicPoint, Integer>())
@@ -132,15 +137,25 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 			// Term -> Frequency collection
 			termFreqCollection.computeIfAbsent(entry.getKey(), v -> new LongAdder()).add(entry.getValue().longValue());
 			// Increase occurrences of the term in documents
-			docFreq.computeIfAbsent(entry.getKey(), v -> new LongAdder()).increment();;
+			docFreq.computeIfAbsent(entry.getKey(), v -> new LongAdder()).increment();
+			// Add squared tf (logarithmically scaled) for each term T in the document D
+			tfSum += Math.pow(1 + Math.log10(entry.getValue().intValue()), 2);
 		}
+		// Set square root of tfSum into document/point
+		tfSumDoc.put(point, Math.sqrt(tfSum));
 	}
 	
 	@Override
-	public void calculateScoreTerms(List<TouristicPoint> touristicPoints) {
-		// Fill in terms -> document with 0 frequency (Dirichlet Smoohting)
-		
-		// Iterate over: terms -> (Tourist points -> frequency)
+	public void calculateScoreTerms() {
+		// Fill in terms -> document with 0 frequency (BM25 & Dirichlet Smoohting)
+		termFreq.entrySet().parallelStream().forEach(entry -> {
+			String term = entry.getKey();
+			Set<TouristicPoint> termPoints = entry.getValue().keySet();
+			for (TouristicPoint point : docsLength.keySet()) {
+				if (!termPoints.contains(point)) termFreq.get(term).put(point, 0);
+			}
+		});
+		// Iterate over: terms -> (Tourist points -> frequency) to calculate score
 		termFreq.entrySet().parallelStream().forEach(entryTerm -> {
 			String term = entryTerm.getKey();
 			Map<TouristicPoint, Double> scores = new HashMap<>();
@@ -152,15 +167,17 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 				// Model to use for documents score
 				double score = this.mixedMinAndMaxModelServiceLogic.calculateScore(
 						new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue()));
-				double score1 = this.vectorSpaceModelServiceLogic.calculateScore(
-						new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue()));
+				double score1 = this.vectorSpaceModelServiceLogic
+						.calculateScore(new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(),
+								tfSumDoc.get(touristicPoint)));
 				double score2 = this.bm25ModelServiceLogic
 						.calculateScore(new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(),
-								docsLength.get(term).intValue(), collectionLength.longValue() / totalDocs.intValue()));
+								docsLength.get(touristicPoint).intValue(), collectionLength.longValue() / totalDocs.intValue()));
 				double score3 = this.dirichletSmoothingModelServiceLogic
 						.calculateScore(new DictionaryScoreSpec(tf, termFreqCollection.get(term).intValue(),
 								docsLength.get(touristicPoint).intValue(), collectionLength.longValue()));
 				
+				// Don't store a score = 0
 				if (score == 0) continue;
 				// Save the score associated to the tourist point (document)
 				scores.put(touristicPoint, score);
@@ -171,6 +188,8 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 		
 		// Reset variables
 		termFreq.clear();
+		tfSumDoc.clear();
+		termFreqCollection.clear();
 		totalDocs.reset();
 		docFreq.clear();
 		docsLength.clear();
