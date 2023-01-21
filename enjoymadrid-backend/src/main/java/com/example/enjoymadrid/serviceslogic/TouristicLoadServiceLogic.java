@@ -8,8 +8,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -57,12 +59,14 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 	@Override
 	public void loadTouristicPoints() {
 		// Query to get touristic points from DB
-		List<TouristicPoint> touristicPointsDB = this.touristicPointRepository.findAll();
+		Set<TouristicPoint> touristicPointsDB = new HashSet<>(this.touristicPointRepository.findAll());
 		Map<String, TouristicPoint> touristicPointsDBMap = touristicPointsDB.stream()
-				.collect(Collectors.toMap(
-						point -> point.getName() + "-" + point.getLongitude() + "-" + point.getLatitude() + "-" + point.getType(), point -> point));
+				.collect(Collectors.collectingAndThen(
+						Collectors.toMap(point -> point.getName() + "-" + point.getLongitude() + "-"
+								+ point.getLatitude() + "-" + point.getType(), point -> point),
+						Collections::unmodifiableMap));
 		// Points extracted from the Madrid city hall page
-		List<TouristicPoint> touristicPoints = Collections.synchronizedList(new ArrayList<>());
+		Set<TouristicPoint> touristicPoints = Collections.synchronizedSet(new HashSet<>());
 		
 		// Data sources
 		String[] dataOrigins = { "turismo_v1_es.xml", "deporte_v1_es.xml", "tiendas_v1_es.xml", "noche_v1_es.xml",
@@ -103,7 +107,7 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 	 * @param touristicPoints List to store tourist points
 	 */
 	private void loadTouristicPoints(String typeTourism, CyclicBarrier waitToEnd, Map<String, TouristicPoint> touristicPointsDB,
-			List<TouristicPoint> touristicPoints) {
+			Set<TouristicPoint> touristicPoints) {
 
 		Document document = null;
 		try {
@@ -232,8 +236,8 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 	 * @param touristicPointsDB Tourist points from DB
 	 * @param touristicPoints Tourist points from Madrid City Hall page
 	 */
-	private void deleteOutdatedTouristicPoints(List<TouristicPoint> touristicPointsDB,
-			List<TouristicPoint> touristicPoints) {
+	private void deleteOutdatedTouristicPoints(Set<TouristicPoint> touristicPointsDB,
+			Set<TouristicPoint> touristicPoints) {
 		// Delete points not outdated
 		touristicPointsDB.removeAll(touristicPoints);		
 		// Delete points from terms in Dictionary & TouristicPoint entity
