@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
@@ -76,7 +77,7 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	private ConcurrentHashMap<TouristicPoint, Integer> docsLength = new ConcurrentHashMap<>();
 	// Length of the collection C in words
 	private LongAdder collectionLength = new LongAdder();
-		
+	
 	// Dependency injection
 	private final DictionaryRepository dictionaryRepository;
 	private final ModelService modelService;
@@ -105,9 +106,11 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	@Override
 	public void loadTerms(TouristicPoint point) {
 		// Get title & description from point
-		StringBuilder text = new StringBuilder(point.getName());
-		text.append(' ');
-		text.append(parseHtml(point.getDescription()));
+		StringJoiner text = new StringJoiner(" ");
+		text.add(getStringIfNotNull(point.getName()));
+		text.add(getStringIfNotNull(point.getAddress()));
+		text.add(getStringIfNotNull(point.getZipcode()));
+		text.add(getStringIfNotNull(parseHtml(point.getDescription())));
 		
 		// Tokenize string, lowercase tokens, filter symbols/stop words
 		List<String> resultTerms = this.dictionaryService.analyze(text.toString(), new StandardAnalyzer(StopFilter.makeStopSet(STOP_WORDS))); 
@@ -115,7 +118,7 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 		LongAdder docLength = new LongAdder();
 		// Remove numbers, stemming, then group by frequency in Map
 		Map<String, Long> termFreqDocs = resultTerms.stream()
-				.filter(term -> !term.matches("[0-9]+"))
+				//.filter(term -> !term.matches("[0-9]+"))
 				.map(term -> this.dictionaryService.stem(term))
 				.peek(term -> docLength.increment())
 				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
@@ -147,6 +150,7 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	
 	@Override
 	public void calculateScoreTerms() {
+				
 		// Fill in terms -> document with 0 frequency (BM25 & Dirichlet Smoohting)
 		termFreq.entrySet().parallelStream().forEach(entry -> {
 			String term = entry.getKey();
@@ -206,6 +210,16 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	 */
 	private String parseHtml(String html) {
 		return Jsoup.parse(html).text();
+	}
+	
+	/**
+	 * Check if object not null & then get string
+	 * 
+	 * @param object Object to check
+	 * @return Get string if not null, otherwise return empty string
+	 */
+	private String getStringIfNotNull(Object object) {
+		return object == null ? "" : object.toString();
 	}
 	
 }
