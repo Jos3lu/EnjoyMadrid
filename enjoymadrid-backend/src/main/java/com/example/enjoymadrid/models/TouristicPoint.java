@@ -7,8 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
@@ -64,14 +62,6 @@ public class TouristicPoint extends Point {
 	@ManyToMany(mappedBy = "touristicPoints")
 	private List<User> users = new ArrayList<>();
 	
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(
-			  name = "touristic_point_dictionary", 
-			  joinColumns = @JoinColumn(name = "touristic_point_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "keyword_id"))
-	private List<Dictionary> keywords  = new ArrayList<>();
-
 	public TouristicPoint() {}
 
 	public TouristicPoint(String name, Double longitude, Double latitude) {
@@ -189,14 +179,6 @@ public class TouristicPoint extends Point {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
-	}
-
-	public List<Dictionary> getKeywords() {
-		return keywords;
-	}
-
-	public void setKeywords(List<Dictionary> keywords) {
-		this.keywords = keywords;
 	}
 	
 }

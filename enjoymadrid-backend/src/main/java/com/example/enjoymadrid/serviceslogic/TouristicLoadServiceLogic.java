@@ -243,7 +243,7 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 		// Delete points from terms in Dictionary & TouristicPoint entity
 		touristicPointsDB.forEach(point -> {
 			// Delete point in associated keywords (Dictionary entity)
-			point.getKeywords().forEach(term -> this.dictionaryService.deleteTouristicPointOfTerm(term, point));
+			this.dictionaryService.deleteTouristicPointOfTerm(point);
 			// Delete point in associated users
 			point.getUsers().forEach(user -> this.userService.deleteTouristicPointOfUser(user, point));
 			// Delete point

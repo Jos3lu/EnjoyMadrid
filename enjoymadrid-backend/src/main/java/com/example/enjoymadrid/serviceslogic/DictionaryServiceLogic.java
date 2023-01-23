@@ -3,6 +3,7 @@ package com.example.enjoymadrid.serviceslogic;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -32,18 +33,15 @@ public class DictionaryServiceLogic implements DictionaryService {
 	}
 	
 	@Override
-	public void deleteTouristicPointOfTerm(Dictionary term, TouristicPoint point) {
-		term.getWeights().remove(point);
-		this.dictionaryRepository.save(term);
+	public void deleteTouristicPointOfTerm(TouristicPoint point) {
+		List<Dictionary> keywords = this.dictionaryRepository.findByWeightsTouristicPoint(point);
+		for (Dictionary dictionary : keywords) {
+			Map<TouristicPoint, Double> weights = dictionary.getWeights();
+			weights.remove(point);
+			this.dictionaryRepository.save(dictionary);
+		}
 	}
 
-	/**
-	 * Tokenize & filter
-	 * 
-	 * @param text Text to tokenize and analyze
-	 * @param analyzer Analyzer to use
-	 * @return List with analyzed tokens
-	 */
 	@Override
 	public List<String> analyze(String text, Analyzer analyzer) {
 		List<String> result = new ArrayList<>();
@@ -60,12 +58,6 @@ public class DictionaryServiceLogic implements DictionaryService {
 		return result;
 	}
 
-	/**
-	 * Word stemming using Snowball algorithm
-	 * 
-	 * @param term Word to stem
-	 * @return Stemmed word
-	 */
 	@Override
 	public synchronized String stem(String term) {
 		spanishStemmer.setCurrent(term);
