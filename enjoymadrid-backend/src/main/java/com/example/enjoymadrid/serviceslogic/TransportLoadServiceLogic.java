@@ -85,6 +85,9 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 		logger.info("Transport points updated");
 	}
 	
+	/**
+	 * Login in the EMT API & get access token 
+	 */
 	private void loginEMTApi() {
 		// Web page EMT api
 		WebClient client = WebClient.create("https://openapi.emtmadrid.es");

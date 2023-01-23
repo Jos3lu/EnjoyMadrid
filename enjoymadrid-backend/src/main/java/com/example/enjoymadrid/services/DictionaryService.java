@@ -28,8 +28,9 @@ public interface DictionaryService {
 	public String stem(String term); 
 	
 	/**
+	 * Remove the score of a term associated to a tourist point
 	 * 
-	 * @param point
+	 * @param point Tourist point to remove from scores of term
 	 */
 	public void deleteTouristicPointOfTerm(TouristicPoint point);
 	
