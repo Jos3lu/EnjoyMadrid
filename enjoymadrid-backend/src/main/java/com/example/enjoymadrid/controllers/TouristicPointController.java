@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.enjoymadrid.models.interfaces.TouristicPointInterfaces;
 import com.example.enjoymadrid.models.TouristicPoint;
+import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.TouristicPointService;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -20,21 +21,23 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class TouristicPointController {
 
 	private final TouristicPointService touristicPointService;
+	private final DictionaryService dictionaryService;
 	
-	public TouristicPointController(TouristicPointService touristicPointService) {
+	public TouristicPointController(TouristicPointService touristicPointService, DictionaryService dictionaryService) {
 		this.touristicPointService = touristicPointService;
+		this.dictionaryService = dictionaryService;
 	}
 	
-	@GetMapping("/tourist-points")
+	@GetMapping("/tourist-points/search-category")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	public ResponseEntity<List<TouristicPoint>> getTouristicPointsByCategory(@RequestParam(defaultValue = "") String category) {
 		return ResponseEntity.ok(this.touristicPointService.getTouristicPointsByCategory(category));
 	}
 	
-	@GetMapping("/tourist-points")
+	@GetMapping("/tourist-points/search-query")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	public ResponseEntity<List<TouristicPoint>> getTouristicPointsByQuery(@RequestParam(defaultValue = "") String query) {
-		return null;
+		return ResponseEntity.ok(this.dictionaryService.getTouristicPoints(query));
 	}
 	
 	@GetMapping("/users/{userId}/tourist-points")

@@ -16,13 +16,13 @@ export class TouristicPointService {
   ) { }
 
   getTouristicPointsByCategory(category: string): Observable<TouristicPointModel[]> {
-    return this.httpClient.get<TouristicPointModel[]>(this.sharedService.getApiUrl() + 'tourist-points?category=' + category).pipe(
+    return this.httpClient.get<TouristicPointModel[]>(this.sharedService.getApiUrl() + 'tourist-points/search-category?category=' + category).pipe(
       catchError(this.sharedService.handleError)
     );
   }
 
   getTouristicPointsByQuery(query: string): Observable<TouristicPointModel[]> {
-    return this.httpClient.get<TouristicPointModel[]>(this.sharedService.getApiUrl() + 'tourist-points?query=' + query).pipe(
+    return this.httpClient.get<TouristicPointModel[]>(this.sharedService.getApiUrl() + 'tourist-points/search-query?query=' + query).pipe(
       catchError(this.sharedService.handleError)
     );
   }

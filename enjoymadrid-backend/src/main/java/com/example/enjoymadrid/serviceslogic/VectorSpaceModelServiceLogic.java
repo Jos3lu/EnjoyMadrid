@@ -1,24 +1,61 @@
 package com.example.enjoymadrid.serviceslogic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+
+
+import java.util.Map.Entry;
 
 import org.springframework.stereotype.Service;
 
 import com.example.enjoymadrid.models.Dictionary;
 import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TouristicPoint;
+import com.example.enjoymadrid.models.repositories.DictionaryRepository;
 import com.example.enjoymadrid.services.ModelService;
 
 @Service
 public class VectorSpaceModelServiceLogic implements ModelService {
 	
-	//private final DictionaryRepository dictionaryRepository;
+	private final DictionaryRepository dictionaryRepository;
 	
-	public VectorSpaceModelServiceLogic() {}
+	public VectorSpaceModelServiceLogic(DictionaryRepository dictionaryRepository) {
+		this.dictionaryRepository = dictionaryRepository;
+	}
 
 	@Override
-	public List<Dictionary> rank() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TouristicPoint> rank(Map<String, Long> terms) {
+		// Score of each tourist point
+		//ConcurrentHashMap<TouristicPoint, DoubleAdder> scores = new ConcurrentHashMap<>();
+		Map<TouristicPoint, Double> scores = new HashMap<>();
+		
+		// Iterate over terms of query
+		terms.entrySet().forEach(entryTerm -> {
+			Optional<Dictionary> optDict = this.dictionaryRepository.findByTerm(entryTerm.getKey());
+			if (optDict.isEmpty()) return;
+			Dictionary dict = optDict.get();
+			dict.getWeights().forEach((point, scorePoint) -> {
+				// Get accumulative score of point
+				// scores.computeIfAbsent(point, v -> new DoubleAdder()).add(scorePoint * (1 + Math.log10(entryTerm.getValue())));
+				Double score = scores.getOrDefault(point, Double.valueOf(0.0)) + (scorePoint * (1 + Math.log10(entryTerm.getValue())));
+				scores.put(point, score);
+			});
+		});
+				
+		// Order scores
+		List<Entry<TouristicPoint, Double>> termEntries = new ArrayList<>(scores.entrySet());
+		Collections.sort(termEntries, Collections.reverseOrder(Entry.comparingByValue()));
+		// Get only Tourist points
+		List<TouristicPoint> points = termEntries.stream()
+				.map(entry -> entry.getKey())
+				.toList();
+		
+		return points;
 	}
 	
 	/**
@@ -40,7 +77,7 @@ public class VectorSpaceModelServiceLogic implements ModelService {
 		double tfDoc = 1 + Math.log10(scoreSpec.getTf()); 
 		double cosNormDoc = tfDoc / scoreSpec.getTfSumDoc();
 		
-		// Query [(1 + log(term_frequency_query)) of query will be calculated in rank() function
+		// Query: [(1 + log(term_frequency_query)) of query is calculated in rank() function]
 		double idfQuery = Math.log10(scoreSpec.getTotalDocs() / scoreSpec.getDocFreq());
 		
 		return cosNormDoc * idfQuery;

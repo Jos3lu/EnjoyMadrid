@@ -1,11 +1,12 @@
 package com.example.enjoymadrid.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.example.enjoymadrid.models.Dictionary;
 import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TouristicPoint;
 
 @Service
 public interface ModelService {
@@ -15,7 +16,7 @@ public interface ModelService {
 	 * 
 	 * @return Ranked tourist points
 	 */
-	public List<Dictionary> rank();
+	public List<TouristicPoint> rank(Map<String, Long> terms);
 	
 	/**
 	 * Get score of a term associated to a document depending of the IR Model used
