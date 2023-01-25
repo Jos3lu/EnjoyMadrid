@@ -85,15 +85,13 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	
 	public DictionaryLoadServiceLogic(DictionaryRepository dictionaryRepository,
 			DictionaryService dictionaryService, 
-			MixedMinAndMaxModelServiceLogic mixedMinAndMaxModelServiceLogic, 
 			VectorSpaceModelServiceLogic vectorSpaceModelServiceLogic, 
 			BM25ModelServiceLogic bm25ModelServiceLogic, 
 			DirichletSmoothingModelServiceLogic dirichletSmoothingModelServiceLogic
 	) {
 		this.dictionaryRepository = dictionaryRepository;
 		this.dictionaryService = dictionaryService;
-		this.modelService = mixedMinAndMaxModelServiceLogic;
-//		this.modelService = vectorSpaceModelServiceLogic;
+		this.modelService = vectorSpaceModelServiceLogic;
 //		this.modelService = bm25ModelServiceLogic;
 //		this.modelService = dirichletSmoothingModelServiceLogic;
 	}
@@ -161,13 +159,10 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 				// Get data to calculate score
 				TouristicPoint touristicPoint = entryPoint.getKey();
 				int tf = entryPoint.getValue().intValue();
-								
-				// Mixex Min and Max Model
-				DictionaryScoreSpec scoreSpecMMM = new DictionaryScoreSpec(tf, totalDocs.intValue(),
-						docFreq.get(term).intValue());
+				
 				// Vector Space Model
-//				DictionaryScoreSpec scoreSpecVS = new DictionaryScoreSpec(tf, totalDocs.intValue(),
-//						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
+				DictionaryScoreSpec scoreSpecVS = new DictionaryScoreSpec(tf, totalDocs.intValue(),
+						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
 				// BM25 Model
 //				DictionaryScoreSpec scoreSpecBM25 = new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
 //						docsLength.get(touristicPoint).intValue(), collectionLength.longValue() / totalDocs.intValue());
@@ -176,7 +171,7 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 //						docsLength.get(touristicPoint).intValue(), collectionLength.longValue());
 				
 				// Model to use for documents score
-				double score = this.modelService.calculateScore(scoreSpecMMM);
+				double score = this.modelService.calculateScore(scoreSpecVS);
 								
 				// Don't store a score = 0
 				if (score == 0) continue;

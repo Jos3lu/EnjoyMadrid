@@ -33,9 +33,16 @@ public class DictionaryServiceLogic implements DictionaryService {
 	private final ModelService modelService;
 	private final DictionaryRepository dictionaryRepository;
 	
-	public DictionaryServiceLogic(ModelService modelService, DictionaryRepository dictionaryRepository) {
-		this.modelService = modelService;
+	public DictionaryServiceLogic(
+			DictionaryRepository dictionaryRepository,
+			VectorSpaceModelServiceLogic vectorSpaceModelServiceLogic, 
+			BM25ModelServiceLogic bm25ModelServiceLogic,
+			DirichletSmoothingModelServiceLogic dirichletSmoothingModelServiceLogic
+	) {
 		this.dictionaryRepository = dictionaryRepository;
+		this.modelService = vectorSpaceModelServiceLogic;
+//		this.modelService = bm25ModelServiceLogic;
+//		this.modelService = dirichletSmoothingModelServiceLogic;
 	}
 	
 	@Override

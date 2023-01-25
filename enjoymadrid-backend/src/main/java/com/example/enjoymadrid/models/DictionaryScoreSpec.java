@@ -10,14 +10,7 @@ public class DictionaryScoreSpec {
 	private int docLength;
 	private int tfCollection;
 	private long collectionLength;
-	
-	// MMM Constructor
-	public DictionaryScoreSpec(int tf, int totalDocs, int docFreq) {
-		this.tf = tf;
-		this.totalDocs = totalDocs;
-		this.docFreq = docFreq;
-	}
-	
+		
 	// Vector Space Model Constructor
 	public DictionaryScoreSpec(int tf, int totalDocs, int docFreq, double tfSumDoc) {
 		this.tf = tf;
