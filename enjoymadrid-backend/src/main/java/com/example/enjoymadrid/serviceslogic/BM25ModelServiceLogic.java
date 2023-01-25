@@ -68,8 +68,8 @@ public class BM25ModelServiceLogic implements ModelService {
 			Dictionary dict = optDict.get();
 			dict.getWeights().forEach((point, scorePoint) -> {
 				// Get accumulative score of point
-				// scores.computeIfAbsent(point, v -> new DoubleAdder()).add(scorePoint * (1 + Math.log10(freq)));
-				Double score = scores.getOrDefault(point, Double.valueOf(0.0)) + scorePoint;
+				// scores.computeIfAbsent(point, v -> new DoubleAdder()).add(scorePoint * freq);
+				Double score = scores.getOrDefault(point, Double.valueOf(0.0)) + (scorePoint * freq);
 				scores.put(point, score);
 			});
 		});
