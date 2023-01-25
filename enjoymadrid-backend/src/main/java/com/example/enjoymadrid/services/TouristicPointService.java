@@ -18,6 +18,14 @@ public interface TouristicPointService {
 	public List<TouristicPoint> getTouristicPointsByCategory(String category);
 	
 	/**
+	 * Get tourist points in order of relevance by a means of a query
+	 * 
+	 * @param query Query to rank tourist points
+	 * @return Tourist points
+	 */
+	public List<TouristicPoint> getTouristicPointsByQuery(String query);
+	
+	/**
 	 * Get the tourist points associated to a user
 	 * 
 	 * @param userId ID of a user

@@ -21,6 +21,12 @@ export class TouristicPointService {
     );
   }
 
+  getTouristicPointsByQuery(query: string): Observable<TouristicPointModel[]> {
+    return this.httpClient.get<TouristicPointModel[]>(this.sharedService.getApiUrl() + 'tourist-points?query=' + query).pipe(
+      catchError(this.sharedService.handleError)
+    );
+  }
+
   getUserTouristicPoints(userId: number): Observable<TouristicPointModel[]> {
     return this.httpClient.get<TouristicPointModel[]>(this.sharedService.getApiUrl() + 'users/' + userId + '/tourist-points' ).pipe(
       catchError(this.sharedService.handleError)

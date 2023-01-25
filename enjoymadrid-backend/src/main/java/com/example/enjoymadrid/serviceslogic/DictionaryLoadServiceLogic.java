@@ -82,10 +82,6 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	private final DictionaryRepository dictionaryRepository;
 	private final ModelService modelService;
 	private final DictionaryService dictionaryService;
-	private final MixedMinAndMaxModelServiceLogic mixedMinAndMaxModelServiceLogic;
-	private final VectorSpaceModelServiceLogic vectorSpaceModelServiceLogic;
-	private final BM25ModelServiceLogic bm25ModelServiceLogic;
-	private final DirichletSmoothingModelServiceLogic dirichletSmoothingModelServiceLogic;
 	
 	public DictionaryLoadServiceLogic(DictionaryRepository dictionaryRepository,
 			DictionaryService dictionaryService, 
@@ -97,10 +93,9 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 		this.dictionaryRepository = dictionaryRepository;
 		this.dictionaryService = dictionaryService;
 		this.modelService = mixedMinAndMaxModelServiceLogic;
-		this.mixedMinAndMaxModelServiceLogic = mixedMinAndMaxModelServiceLogic;
-		this.vectorSpaceModelServiceLogic = vectorSpaceModelServiceLogic;
-		this.bm25ModelServiceLogic = bm25ModelServiceLogic;
-		this.dirichletSmoothingModelServiceLogic = dirichletSmoothingModelServiceLogic;
+//		this.modelService = vectorSpaceModelServiceLogic;
+//		this.modelService = bm25ModelServiceLogic;
+//		this.modelService = dirichletSmoothingModelServiceLogic;
 	}
 
 	@Override
@@ -116,7 +111,7 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 		List<String> resultTerms = this.dictionaryService.analyze(text.toString(), new StandardAnalyzer(StopFilter.makeStopSet(STOP_WORDS))); 
 		// Total terms in text/document
 		LongAdder docLength = new LongAdder();
-		// Remove numbers, stemming, then group by frequency in Map
+		// Stemming then group by frequency in Map
 		Map<String, Long> termFreqDocs = resultTerms.stream()
 				//.filter(term -> !term.matches("[0-9]+"))
 				.map(term -> this.dictionaryService.stem(term))
@@ -150,8 +145,7 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	
 	@Override
 	public void calculateScoreTerms() {
-				
-		// Fill in terms -> document with 0 frequency (BM25 & Dirichlet Smoohting)
+		// Fill in terms -> document with 0 frequency
 		termFreq.entrySet().parallelStream().forEach(entry -> {
 			String term = entry.getKey();
 			Set<TouristicPoint> termPoints = entry.getValue().keySet();
@@ -167,20 +161,23 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 				// Get data to calculate score
 				TouristicPoint touristicPoint = entryPoint.getKey();
 				int tf = entryPoint.getValue().intValue();
+								
+				// Mixex Min and Max Model
+				DictionaryScoreSpec scoreSpecMMM = new DictionaryScoreSpec(tf, totalDocs.intValue(),
+						docFreq.get(term).intValue());
+				// Vector Space Model
+//				DictionaryScoreSpec scoreSpecVS = new DictionaryScoreSpec(tf, totalDocs.intValue(),
+//						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
+				// BM25 Model
+//				DictionaryScoreSpec scoreSpecBM25 = new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
+//						docsLength.get(touristicPoint).intValue(), collectionLength.longValue() / totalDocs.intValue());
+				// Dirichlet Smoothing Model
+//				DictionaryScoreSpec scoreSpecDS = new DictionaryScoreSpec(tf, termFreqCollection.get(term).intValue(),
+//						docsLength.get(touristicPoint).intValue(), collectionLength.longValue());
 				
 				// Model to use for documents score
-				double score = this.mixedMinAndMaxModelServiceLogic.calculateScore(
-						new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue()));
-				double score1 = this.vectorSpaceModelServiceLogic
-						.calculateScore(new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(),
-								tfSumDoc.get(touristicPoint)));
-				double score2 = this.bm25ModelServiceLogic
-						.calculateScore(new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(),
-								docsLength.get(touristicPoint).intValue(), collectionLength.longValue() / totalDocs.intValue()));
-				double score3 = this.dirichletSmoothingModelServiceLogic
-						.calculateScore(new DictionaryScoreSpec(tf, termFreqCollection.get(term).intValue(),
-								docsLength.get(touristicPoint).intValue(), collectionLength.longValue()));
-				
+				double score = this.modelService.calculateScore(scoreSpecMMM);
+								
 				// Don't store a score = 0
 				if (score == 0) continue;
 				// Save the score associated to the tourist point (document)

@@ -10,6 +10,7 @@ import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.User;
+import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.TouristicPointService;
 
 @Service
@@ -17,15 +18,23 @@ public class TouristicPointServiceLogic implements TouristicPointService {
 
 	private final TouristicPointRepository touristicPointRepository;
 	private final UserRepository userRepository;
+	private final DictionaryService dictionaryService;
 	
-	public TouristicPointServiceLogic(TouristicPointRepository touristicPointRepository, UserRepository userRepository) {
+	public TouristicPointServiceLogic(TouristicPointRepository touristicPointRepository, UserRepository userRepository, 
+			DictionaryService dictionaryService) {
 		this.touristicPointRepository = touristicPointRepository;
 		this.userRepository = userRepository;
+		this.dictionaryService = dictionaryService;
 	}
 	
 	@Override
 	public List<TouristicPoint> getTouristicPointsByCategory(String category) {
 		return this.touristicPointRepository.findByCategory(category);
+	}
+	
+	@Override
+	public List<TouristicPoint> getTouristicPointsByQuery(String query) {
+		return this.dictionaryService.getTouristicPoints(query);
 	}
 
 	@Override

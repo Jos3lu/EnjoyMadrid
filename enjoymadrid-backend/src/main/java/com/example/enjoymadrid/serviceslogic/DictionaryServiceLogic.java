@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import com.example.enjoymadrid.models.Dictionary;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.DictionaryRepository;
 import com.example.enjoymadrid.services.DictionaryService;
+import com.example.enjoymadrid.services.ModelService;
 
 @Service
 public class DictionaryServiceLogic implements DictionaryService {
@@ -26,10 +30,21 @@ public class DictionaryServiceLogic implements DictionaryService {
 	// Word stemming
 	private final SpanishStemmer spanishStemmer = new SpanishStemmer();
 	
-	private DictionaryRepository dictionaryRepository;
+	private final ModelService modelService;
+	private final DictionaryRepository dictionaryRepository;
 	
-	public DictionaryServiceLogic(DictionaryRepository dictionaryRepository) {
+	public DictionaryServiceLogic(ModelService modelService, DictionaryRepository dictionaryRepository) {
+		this.modelService = modelService;
 		this.dictionaryRepository = dictionaryRepository;
+	}
+	
+	@Override
+	public List<TouristicPoint> getTouristicPoints(String query) {
+		// Tokenize string, lowercase tokens & stemming
+		Map<String, Long> terms = analyze(query, new StandardAnalyzer()).stream()
+				.map(term -> stem(term))
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())); 
+		return this.modelService.rank(terms);
 	}
 	
 	@Override

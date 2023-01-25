@@ -31,11 +31,17 @@ public class TouristicPointController {
 		return ResponseEntity.ok(this.touristicPointService.getTouristicPointsByCategory(category));
 	}
 	
+	@GetMapping("/tourist-points")
+	@JsonView(TouristicPointInterfaces.BasicData.class)
+	public ResponseEntity<List<TouristicPoint>> getTouristicPointsByQuery(@RequestParam(defaultValue = "") String query) {
+		return null;
+	}
+	
 	@GetMapping("/users/{userId}/tourist-points")
 	public ResponseEntity<List<TouristicPoint>> getUserTouristicPoints(@PathVariable Long userId) {
 		return ResponseEntity.ok(this.touristicPointService.getUserTouristicPoints(userId));
 	}
-	
+		
 	@PostMapping("/users/{userId}/tourist-points/{touristPointId}")
 	public ResponseEntity<Void> addTouristicPointToUser(@PathVariable Long userId, @PathVariable Long touristPointId) {
 		this.touristicPointService.addTouristicPointToUser(userId, touristPointId);

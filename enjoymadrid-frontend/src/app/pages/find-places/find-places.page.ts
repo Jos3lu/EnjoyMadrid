@@ -4,7 +4,6 @@ import { IonContent, IonInfiniteScroll, ModalController, Platform } from '@ionic
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { TouristicPointService } from 'src/app/services/touristic-point/touristic-point.service';
-import { InfoPlacePage } from '../info-place/info-place.page';
 
 @Component({
   selector: 'app-find-places',
@@ -36,8 +35,7 @@ export class FindPlacesPage implements OnInit {
   constructor(
     private touristicPointService: TouristicPointService,
     private sharedService: SharedService,
-    private platform: Platform,
-    private modalContrall: ModalController
+    private platform: Platform
   ) { }
 
   ngOnInit() {
@@ -144,11 +142,6 @@ export class FindPlacesPage implements OnInit {
 
   }
 
-  search() {
-    // Process search query
-    console.log(this.searchQuery);
-  }
-
   loadData(event: any) {
     // Load 10 touristic points when bottom page reached
     if (this.lastIndex + 10 > this.places.length) {
@@ -190,15 +183,25 @@ export class FindPlacesPage implements OnInit {
   subcategorySelected(subcategory: string) {
     // Get touristic points associated to category & subcategory
     this.touristicPointService.getTouristicPointsByCategory(subcategory).subscribe(
-      places => {
-        this.places = places;
-        this.lastIndex = 10;
-        this.totalResults = places.length;
-        this.infiniteScroll.disabled = false;
-        this.content.scrollToPoint(0, document.getElementById('results').offsetTop, 500);
-      },
+      places => this.getPlaces(places),
       error => this.sharedService.onError(error, 3000)
     );
+  }
+
+  search() {
+    // Process search query
+    this.touristicPointService.getTouristicPointsByQuery(this.searchQuery).subscribe(
+      places => this.getPlaces(places),
+      error => this.sharedService.onError(error, 3000)
+    );
+  }
+
+  getPlaces(places: TouristicPointModel[]) {
+    this.places = places;
+    this.lastIndex = 10;
+    this.totalResults = places.length;
+    this.infiniteScroll.disabled = false;
+    this.content.scrollToPoint(0, document.getElementById('results').offsetTop, 500);
   }
 
   async placeSelected(index: number) {
