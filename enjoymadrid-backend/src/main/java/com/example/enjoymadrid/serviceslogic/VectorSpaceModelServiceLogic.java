@@ -35,14 +35,14 @@ public class VectorSpaceModelServiceLogic implements ModelService {
 		Map<TouristicPoint, Double> scores = new HashMap<>();
 		
 		// Iterate over terms of query
-		terms.entrySet().forEach(entryTerm -> {
-			Optional<Dictionary> optDict = this.dictionaryRepository.findByTerm(entryTerm.getKey());
+		terms.forEach((term, freq) -> {
+			Optional<Dictionary> optDict = this.dictionaryRepository.findByTerm(term);
 			if (optDict.isEmpty()) return;
 			Dictionary dict = optDict.get();
 			dict.getWeights().forEach((point, scorePoint) -> {
 				// Get accumulative score of point
-				// scores.computeIfAbsent(point, v -> new DoubleAdder()).add(scorePoint * (1 + Math.log10(entryTerm.getValue())));
-				Double score = scores.getOrDefault(point, Double.valueOf(0.0)) + (scorePoint * (1 + Math.log10(entryTerm.getValue())));
+				// scores.computeIfAbsent(point, v -> new DoubleAdder()).add(scorePoint * (1 + Math.log10(freq)));
+				Double score = scores.getOrDefault(point, Double.valueOf(0.0)) + (scorePoint * (1 + Math.log10(freq)));
 				scores.put(point, score);
 			});
 		});
