@@ -16,6 +16,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.example.enjoymadrid.models.Dictionary;
@@ -84,16 +85,12 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	private final DictionaryService dictionaryService;
 	
 	public DictionaryLoadServiceLogic(DictionaryRepository dictionaryRepository,
-			DictionaryService dictionaryService, 
-			VectorSpaceModelServiceLogic vectorSpaceModelServiceLogic, 
-			BM25ModelServiceLogic bm25ModelServiceLogic, 
-			DirichletSmoothingModelServiceLogic dirichletSmoothingModelServiceLogic
+			DictionaryService dictionaryService,
+			@Qualifier("bm25ModelService") ModelService modelService
 	) {
 		this.dictionaryRepository = dictionaryRepository;
 		this.dictionaryService = dictionaryService;
-		this.modelService = vectorSpaceModelServiceLogic;
-//		this.modelService = bm25ModelServiceLogic;
-//		this.modelService = dirichletSmoothingModelServiceLogic;
+		this.modelService = modelService;
 	}
 
 	@Override
@@ -161,17 +158,17 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 				int tf = entryPoint.getValue().intValue();
 				
 				// Vector Space Model
-				DictionaryScoreSpec scoreSpecVS = new DictionaryScoreSpec(tf, totalDocs.intValue(),
-						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
+//				DictionaryScoreSpec scoreSpecVS = new DictionaryScoreSpec(tf, totalDocs.intValue(),
+//						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
 				// BM25 Model
-//				DictionaryScoreSpec scoreSpecBM25 = new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
-//						docsLength.get(touristicPoint).intValue(), collectionLength.longValue() / totalDocs.intValue());
+				DictionaryScoreSpec scoreSpecBM25 = new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
+						docsLength.get(touristicPoint).intValue(), collectionLength.longValue() / totalDocs.intValue());
 				// Dirichlet Smoothing Model
 //				DictionaryScoreSpec scoreSpecDS = new DictionaryScoreSpec(tf, termFreqCollection.get(term).intValue(),
 //						docsLength.get(touristicPoint).intValue(), collectionLength.longValue());
 				
 				// Model to use for documents score
-				double score = this.modelService.calculateScore(scoreSpecVS);
+				double score = this.modelService.calculateScore(scoreSpecBM25);
 								
 				// Don't store a score = 0
 				if (score == 0) continue;

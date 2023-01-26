@@ -1,22 +1,21 @@
 package com.example.enjoymadrid.services;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Service;
 
 import com.example.enjoymadrid.models.DictionaryScoreSpec;
-import com.example.enjoymadrid.models.TouristicPoint;
 
 @Service
 public interface ModelService {
 
 	/**
-	 * Get tourist points ranked according to a query
+	 * Add current point score to an accumulated score of a query term
 	 * 
-	 * @return Ranked tourist points
+	 * @param score Accumulated score of query term
+	 * @param scorePoint Point score corresponding to a term
+	 * @param freq Frequency of query term
+	 * @return Sum of current point score & accumulate score of query term
 	 */
-	public List<TouristicPoint> rank(Map<String, Long> terms);
+	public double rank(double score, double scorePoint, int freq);
 	
 	/**
 	 * Get score of a term associated to a document depending of the IR Model used

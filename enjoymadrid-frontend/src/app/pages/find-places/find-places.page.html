@@ -13,7 +13,7 @@
       <ion-col size-md="7" size-xs="12">
         <h5>Búsqueda</h5>
         <ion-searchbar color="light" animated="true" spellcheck="true" placeholder="esculturas y pinturas" 
-        [(ngModel)]="searchQuery" (search)="search()"></ion-searchbar>
+        [(ngModel)]="searchQuery" (search)="search($event.target.value)"></ion-searchbar>
       </ion-col>
     </ion-row>
     <ion-row>

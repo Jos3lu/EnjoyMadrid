@@ -2,8 +2,12 @@ package com.example.enjoymadrid.serviceslogic;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -13,6 +17,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.tartarus.snowball.ext.SpanishStemmer;
 
@@ -35,14 +40,10 @@ public class DictionaryServiceLogic implements DictionaryService {
 	
 	public DictionaryServiceLogic(
 			DictionaryRepository dictionaryRepository,
-			VectorSpaceModelServiceLogic vectorSpaceModelServiceLogic, 
-			BM25ModelServiceLogic bm25ModelServiceLogic,
-			DirichletSmoothingModelServiceLogic dirichletSmoothingModelServiceLogic
+			@Qualifier("bm25ModelService") ModelService modelService
 	) {
 		this.dictionaryRepository = dictionaryRepository;
-		this.modelService = vectorSpaceModelServiceLogic;
-//		this.modelService = bm25ModelServiceLogic;
-//		this.modelService = dirichletSmoothingModelServiceLogic;
+		this.modelService = modelService;
 	}
 	
 	@Override
@@ -51,7 +52,38 @@ public class DictionaryServiceLogic implements DictionaryService {
 		Map<String, Long> terms = analyze(query, new StandardAnalyzer()).stream()
 				.map(term -> stem(term))
 				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())); 
-		return this.modelService.rank(terms);
+		
+		// Score of each tourist point
+		//ConcurrentHashMap<TouristicPoint, DoubleAdder> scores = new ConcurrentHashMap<>();
+		//ConcurrentHashMap<TouristicPoint, DoubleAccumulator> scores = new ConcurrentHashMap<>();
+		Map<TouristicPoint, Double> scores = new HashMap<>();
+		
+		// Iterate over terms of query
+		terms.forEach((term, freq) -> {
+			Optional<Dictionary> optDict = this.dictionaryRepository.findByTerm(term);
+			if (optDict.isEmpty()) return;
+			Dictionary dict = optDict.get();
+			dict.getWeights().forEach((point, scorePoint) -> {
+				// Get accumulative score of query
+				double score = scores.getOrDefault(point, Double.valueOf(0.0));
+				score = this.modelService.rank(score, scorePoint, freq.intValue());
+				scores.put(point, score);
+			});
+		});
+				
+		// Order scores
+		List<Entry<TouristicPoint, Double>> termEntries = new ArrayList<>(scores.entrySet());
+		Collections.sort(termEntries, Collections.reverseOrder(Entry.comparingByValue()));
+		// Get only Tourist points
+		List<TouristicPoint> points = termEntries.stream()
+				.map(entry -> entry.getKey())
+				.toList();
+				
+		if (this.modelService.getClass() == DirichletSmoothingModelServiceLogic.class) {
+			// Delimit result
+		}
+		
+		return points;
 	}
 	
 	@Override
