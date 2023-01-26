@@ -28,7 +28,7 @@ import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.ModelService;
 
 @Service
-public class DictionaryServiceLogic implements DictionaryService {
+public class DictionaryServiceImpl implements DictionaryService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DictionaryService.class);
 	
@@ -38,7 +38,7 @@ public class DictionaryServiceLogic implements DictionaryService {
 	private final ModelService modelService;
 	private final DictionaryRepository dictionaryRepository;
 	
-	public DictionaryServiceLogic(
+	public DictionaryServiceImpl(
 			DictionaryRepository dictionaryRepository,
 			@Qualifier("bm25ModelService") ModelService modelService
 	) {
@@ -79,7 +79,7 @@ public class DictionaryServiceLogic implements DictionaryService {
 				.map(entry -> entry.getKey())
 				.toList();
 				
-		if (this.modelService.getClass() == DirichletSmoothingModelServiceLogic.class) {
+		if (this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class) {
 			// Delimit result
 		}
 		

@@ -43,7 +43,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import reactor.core.publisher.Mono;
 
 @Service
-public class TransportLoadServiceLogic implements TransportLoadService {
+public class TransportLoadServiceImpl implements TransportLoadService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TransportLoadService.class);
 	
@@ -53,7 +53,7 @@ public class TransportLoadServiceLogic implements TransportLoadService {
 	private final TransportPointRepository transportPointRepository;
 	private final PublicTransportLineRepository publicTransportLineRepository;
 	
-	public TransportLoadServiceLogic(TransportPointRepository transportPointRepository, 
+	public TransportLoadServiceImpl(TransportPointRepository transportPointRepository, 
 			PublicTransportLineRepository publicTransportLineRepository) {
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;

@@ -1,10 +1,7 @@
 package com.example.enjoymadrid.services;
 
-import org.springframework.stereotype.Service;
-
 import com.example.enjoymadrid.models.DictionaryScoreSpec;
 
-@Service
 public interface ModelService {
 
 	/**

@@ -12,11 +12,11 @@ import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.models.User;
 
 @Service
-public class UserDetailsServiceLogic implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final UserRepository userRepository;
 	
-	public UserDetailsServiceLogic(UserRepository userRepository) {
+	public UserDetailsServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 	

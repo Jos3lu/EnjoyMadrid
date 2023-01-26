@@ -14,13 +14,13 @@ import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.TouristicPointService;
 
 @Service
-public class TouristicPointServiceLogic implements TouristicPointService {
+public class TouristicPointServiceImpl implements TouristicPointService {
 
 	private final TouristicPointRepository touristicPointRepository;
 	private final UserRepository userRepository;
 	private final DictionaryService dictionaryService;
 	
-	public TouristicPointServiceLogic(TouristicPointRepository touristicPointRepository, UserRepository userRepository, 
+	public TouristicPointServiceImpl(TouristicPointRepository touristicPointRepository, UserRepository userRepository, 
 			DictionaryService dictionaryService) {
 		this.touristicPointRepository = touristicPointRepository;
 		this.userRepository = userRepository;

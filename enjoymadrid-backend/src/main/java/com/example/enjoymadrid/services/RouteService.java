@@ -2,12 +2,9 @@ package com.example.enjoymadrid.services;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.example.enjoymadrid.models.Route;
 import com.example.enjoymadrid.models.dtos.RouteResultDto;
 
-@Service
 public interface RouteService {
 
 	/**

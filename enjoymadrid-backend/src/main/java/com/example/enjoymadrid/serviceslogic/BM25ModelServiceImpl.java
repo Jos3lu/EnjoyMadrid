@@ -9,7 +9,7 @@ import com.example.enjoymadrid.services.ModelService;
 
 @Service
 @Qualifier("bm25ModelService")
-public class BM25ModelServiceLogic implements ModelService {
+public class BM25ModelServiceImpl implements ModelService {
 	
 	// Free parameter, normally k1 = [1.2,2.0]
 	private final double k1;
@@ -21,11 +21,11 @@ public class BM25ModelServiceLogic implements ModelService {
 	private final double delta;
 	
 	@Autowired
-	public BM25ModelServiceLogic() {
+	public BM25ModelServiceImpl() {
 		this(1.2, 0.75, 1.0);
 	}
 	
-	public BM25ModelServiceLogic(double k1, double b, double delta) {
+	public BM25ModelServiceImpl(double k1, double b, double delta) {
 		if (k1 < 0) {
 			throw new IllegalArgumentException("Not valid k1 = " + k1);
 		}

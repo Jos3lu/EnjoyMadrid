@@ -13,14 +13,14 @@ import com.example.enjoymadrid.models.RefreshToken;
 import com.example.enjoymadrid.services.RefreshTokenService;
 
 @Service
-public class RefreshTokenServiceLogic implements RefreshTokenService {
+public class RefreshTokenServiceImpl implements RefreshTokenService {
 
 	private static final int JWT_REFRESH_EXPIRATION_MS = 12 * 60 * 60 * 1000; // 12 hour
 
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final UserRepository userRepository;
 
-	public RefreshTokenServiceLogic(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
+	public RefreshTokenServiceImpl(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
 		this.refreshTokenRepository = refreshTokenRepository;
 		this.userRepository = userRepository;
 	}

@@ -9,17 +9,17 @@ import com.example.enjoymadrid.services.ModelService;
 
 @Service
 @Qualifier("dirichletSmoothingModel")
-public class DirichletSmoothingModelServiceLogic implements ModelService {
+public class DirichletSmoothingModelServiceImpl implements ModelService {
 	
 	// Smoothing parameter. In IR literature, DS Model uses a fixed value of µ = 2000
 	private final double mu;
 	
 	@Autowired
-	public DirichletSmoothingModelServiceLogic() {
+	public DirichletSmoothingModelServiceImpl() {
 		this(2000);
 	}
 	
-	public DirichletSmoothingModelServiceLogic(double mu) {
+	public DirichletSmoothingModelServiceImpl(double mu) {
 		this.mu = mu;
 	}
 	

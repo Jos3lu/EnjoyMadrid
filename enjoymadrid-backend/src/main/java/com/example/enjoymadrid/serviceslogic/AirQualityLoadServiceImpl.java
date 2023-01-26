@@ -35,13 +35,13 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import reactor.core.publisher.Mono;
 
 @Service
-public class AirQualityLoadServiceLogic implements AirQualityLoadService {
+public class AirQualityLoadServiceImpl implements AirQualityLoadService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AirQualityLoadService.class);
 	
 	private final AirQualityPointRepository airQualityPointRepository;
 	
-	public AirQualityLoadServiceLogic(AirQualityPointRepository airQualityPointRepository) {
+	public AirQualityLoadServiceImpl(AirQualityPointRepository airQualityPointRepository) {
 		this.airQualityPointRepository = airQualityPointRepository;
 	}
 

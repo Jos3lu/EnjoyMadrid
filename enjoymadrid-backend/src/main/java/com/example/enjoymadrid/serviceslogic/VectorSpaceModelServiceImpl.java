@@ -8,9 +8,9 @@ import com.example.enjoymadrid.services.ModelService;
 
 @Service
 @Qualifier("vectorSpaceModelService")
-public class VectorSpaceModelServiceLogic implements ModelService {
+public class VectorSpaceModelServiceImpl implements ModelService {
 		
-	public VectorSpaceModelServiceLogic() {}
+	public VectorSpaceModelServiceImpl() {}
 
 	@Override
 	public double rank(double score, double scorePoint, int freq) {

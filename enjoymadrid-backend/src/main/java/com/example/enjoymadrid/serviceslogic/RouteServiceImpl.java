@@ -56,7 +56,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
-public class RouteServiceLogic implements RouteService {
+public class RouteServiceImpl implements RouteService {
 	
 	private final UserService userService;
 	private final UserRepository userRepository;
@@ -66,7 +66,7 @@ public class RouteServiceLogic implements RouteService {
 	private final TouristicPointRepository touristicPointRepository;
 	private final AirQualityPointRepository airQualityPointRepository;
 	
-	public RouteServiceLogic(RouteRepository routeRepository, UserRepository userRepository, UserService userService, 
+	public RouteServiceImpl(RouteRepository routeRepository, UserRepository userRepository, UserService userService, 
 			TransportPointRepository transportPointRepository, PublicTransportLineRepository publicTransportLineRepository, 
 			TouristicPointRepository touristicPointRepository, AirQualityPointRepository airQualityPointRepository) {
 		this.routeRepository = routeRepository;

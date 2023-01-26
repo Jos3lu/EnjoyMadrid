@@ -28,7 +28,7 @@ import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.ModelService;
 
 @Service
-public class DictionaryLoadServiceLogic implements DictionaryLoadService {
+public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DictionaryLoadService.class);
 		
@@ -84,7 +84,7 @@ public class DictionaryLoadServiceLogic implements DictionaryLoadService {
 	private final ModelService modelService;
 	private final DictionaryService dictionaryService;
 	
-	public DictionaryLoadServiceLogic(DictionaryRepository dictionaryRepository,
+	public DictionaryLoadServiceImpl(DictionaryRepository dictionaryRepository,
 			DictionaryService dictionaryService,
 			@Qualifier("bm25ModelService") ModelService modelService
 	) {

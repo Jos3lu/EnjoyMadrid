@@ -3,11 +3,9 @@ package com.example.enjoymadrid.services;
 import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.springframework.stereotype.Service;
 
 import com.example.enjoymadrid.models.TouristicPoint;
 
-@Service
 public interface DictionaryService {
 
 	/**

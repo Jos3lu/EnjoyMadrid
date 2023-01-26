@@ -39,7 +39,7 @@ import com.example.enjoymadrid.services.TouristicLoadService;
 import com.example.enjoymadrid.services.UserService;
 
 @Service
-public class TouristicLoadServiceLogic implements TouristicLoadService {
+public class TouristicLoadServiceImpl implements TouristicLoadService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TouristicLoadService.class);
 		
@@ -48,7 +48,7 @@ public class TouristicLoadServiceLogic implements TouristicLoadService {
 	private final DictionaryLoadService dictionaryLoadService;
 	private final DictionaryService dictionaryService;
 	
-	public TouristicLoadServiceLogic(TouristicPointRepository touristicPointRepository, UserService userService,
+	public TouristicLoadServiceImpl(TouristicPointRepository touristicPointRepository, UserService userService,
 			DictionaryLoadService dictionaryLoadService, DictionaryService dictionaryService) {
 		this.touristicPointRepository = touristicPointRepository;
 		this.userService = userService;

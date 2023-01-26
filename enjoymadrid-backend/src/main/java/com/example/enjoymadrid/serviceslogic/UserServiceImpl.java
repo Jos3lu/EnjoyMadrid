@@ -14,12 +14,12 @@ import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.services.UserService;
 
 @Service
-public class UserServiceLogic implements UserService {
+public class UserServiceImpl implements UserService {
 	
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	
-	public UserServiceLogic(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 	}
