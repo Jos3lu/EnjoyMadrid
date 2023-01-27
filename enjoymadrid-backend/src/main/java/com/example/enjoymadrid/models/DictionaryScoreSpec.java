@@ -8,8 +8,7 @@ public class DictionaryScoreSpec {
 	private double tfSumDoc;
 	private double avgDoc;
 	private int docLength;
-	private int tfCollection;
-	private long collectionLength;
+	private double probTermCol;
 		
 	// Vector Space Model Constructor
 	public DictionaryScoreSpec(int tf, int totalDocs, int docFreq, double tfSumDoc) {
@@ -29,11 +28,10 @@ public class DictionaryScoreSpec {
 	}
 	
 	// Dirichlet Model Constructor
-	public DictionaryScoreSpec(int tf, int tfCollection, int docLength, long collectionLength) {
+	public DictionaryScoreSpec(int tf, int docLength, double probTermCol) {
 		this.tf = tf;
-		this.tfCollection = tfCollection;
 		this.docLength = docLength;
-		this.collectionLength = collectionLength;
+		this.probTermCol = probTermCol;
 	}
 
 	public int getTf() {
@@ -84,20 +82,12 @@ public class DictionaryScoreSpec {
 		this.docLength = docLength;
 	}
 
-	public int getTfCollection() {
-		return tfCollection;
+	public double getProbTermCol() {
+		return probTermCol;
 	}
 
-	public void setTfCollection(int tfCollection) {
-		this.tfCollection = tfCollection;
-	}
-
-	public long getCollectionLength() {
-		return collectionLength;
-	}
-
-	public void setCollectionLength(long collectionLength) {
-		this.collectionLength = collectionLength;
+	public void setProbTermCol(double probTermCol) {
+		this.probTermCol = probTermCol;
 	}
 
 }

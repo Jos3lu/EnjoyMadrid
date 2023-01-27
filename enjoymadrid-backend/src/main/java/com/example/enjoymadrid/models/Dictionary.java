@@ -27,6 +27,9 @@ public class Dictionary {
 	@Column(name = "weight")
 	private Map<TouristicPoint, Double> weights = new HashMap<>();
 	
+	// Number of occurrences of term T in the Collection / total number tokens in the Collection
+	private Double probTermCol;
+	
 	public Dictionary() {}
 
 	public Dictionary(String term, Map<TouristicPoint, Double> weights) {
@@ -56,6 +59,14 @@ public class Dictionary {
 
 	public void setWeights(Map<TouristicPoint, Double> weights) {
 		this.weights = weights;
+	}
+
+	public Double getProbTermCol() {
+		return probTermCol;
+	}
+
+	public void setProbTermCol(Double probTermCol) {
+		this.probTermCol = probTermCol;
 	}
 
 }

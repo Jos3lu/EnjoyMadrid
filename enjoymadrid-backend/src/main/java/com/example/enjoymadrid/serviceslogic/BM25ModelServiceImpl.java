@@ -44,8 +44,8 @@ public class BM25ModelServiceImpl implements ModelService {
 	}
 	
 	@Override
-	public double rank(double score, double scorePoint, int freq) {
-		return score + (scorePoint * freq);
+	public double rank(double score, double weight, int freq) {
+		return score + (weight * freq);
 	}
 
 	/**

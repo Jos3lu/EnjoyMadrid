@@ -151,8 +151,11 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 				TouristicPoint pointDB = touristicPointsDB.get(name + "-" + longitude + "-" + latitude + "-" + type);
 				LocalDate updateDate = LocalDate.parse(element.getAttribute("fechaActualizacion"));
 				if (pointDB != null && Period.between(updateDate, currentDate).getDays() > 30) {
+					// Analyze text of point				
+					List<String> terms = this.dictionaryLoadService.analyzeText(name, pointDB.getAddress(),
+							pointDB.getZipcode(), pointDB.getDescription());
 					// Get description of each place and store terms (& weight) associated in DB
-					this.dictionaryLoadService.loadTerms(pointDB);
+					this.dictionaryLoadService.loadTerms(pointDB, terms);
 					// Go to next point
 					continue;
 				}
@@ -206,8 +209,11 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 					}
 				}
 
+				// Analyze text of point				
+				List<String> terms = this.dictionaryLoadService.analyzeText(name, address, zipcode, description);
+				// Create tourist point
 				TouristicPoint point = new TouristicPoint(name, longitude, latitude, address, zipcode, phone,
-						description, email, paymentServices, horary, type, categories, subcategories, images);
+						description, terms.size(), email, paymentServices, horary, type, categories, subcategories, images);
 
 				if (pointDB != null) {
 					point.setId(pointDB.getId());
@@ -218,7 +224,7 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 				point = this.touristicPointRepository.save(point);
 				
 				// Get description of each place and store terms (& weight) associated in DB
-				this.dictionaryLoadService.loadTerms(point);
+				this.dictionaryLoadService.loadTerms(point, terms);
 			}
 		}
 

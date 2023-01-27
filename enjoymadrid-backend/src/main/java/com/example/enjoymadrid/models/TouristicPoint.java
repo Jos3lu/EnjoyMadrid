@@ -30,6 +30,9 @@ public class TouristicPoint extends Point {
 	@Lob
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String description;
+	
+	@JsonIgnore
+	private Integer docLength;
 
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String email;
@@ -69,13 +72,14 @@ public class TouristicPoint extends Point {
 	}
 
 	public TouristicPoint(String name, Double longitude, Double latitude, String address, Integer zipcode, String phone,
-			String description, String email, String paymentServices, String horary, String type,
+			String description, Integer docLength, String email, String paymentServices, String horary, String type,
 			List<String> categories, List<String> subcategories, List<String> images) {
 		super(name, longitude, latitude);
 		this.address = address;
 		this.zipcode = zipcode;
 		this.phone = phone;
 		this.description = description;
+		this.docLength = docLength;
 		this.email = email;
 		this.paymentServices = paymentServices;
 		this.horary = horary;
@@ -117,6 +121,14 @@ public class TouristicPoint extends Point {
 		this.description = description;
 	}
 
+	public Integer getDocLength() {
+		return docLength;
+	}
+
+	public void setDocLength(Integer docLength) {
+		this.docLength = docLength;
+	}
+	
 	public String getEmail() {
 		return email;
 	}

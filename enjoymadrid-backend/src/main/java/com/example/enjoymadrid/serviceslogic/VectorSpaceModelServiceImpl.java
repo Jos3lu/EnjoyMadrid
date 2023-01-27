@@ -13,8 +13,8 @@ public class VectorSpaceModelServiceImpl implements ModelService {
 	public VectorSpaceModelServiceImpl() {}
 
 	@Override
-	public double rank(double score, double scorePoint, int freq) {
-		return score + (scorePoint * (1 + Math.log10(freq)));
+	public double rank(double score, double weight, int freq) {
+		return score + (weight * (1 + Math.log10(freq)));
 	}
 	
 	/**

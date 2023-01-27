@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
@@ -86,37 +85,38 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	
 	public DictionaryLoadServiceImpl(DictionaryRepository dictionaryRepository,
 			DictionaryService dictionaryService,
-			@Qualifier("bm25ModelService") ModelService modelService
-	) {
+			@Qualifier("dirichletSmoothingModel") ModelService modelService) {
 		this.dictionaryRepository = dictionaryRepository;
 		this.dictionaryService = dictionaryService;
 		this.modelService = modelService;
 	}
-
+	
 	@Override
-	public void loadTerms(TouristicPoint point) {
-		// Get title & description from point
+	public List<String> analyzeText(String name, String address, Integer zipcode, String description) {
+		// Get title, address & description from point
 		StringJoiner text = new StringJoiner(" ");
-		text.add(getStringIfNotNull(point.getName()));
-		text.add(getStringIfNotNull(point.getAddress()));
-		text.add(getStringIfNotNull(point.getZipcode()));
-		text.add(getStringIfNotNull(parseHtml(point.getDescription())));
+		text.add(getStringIfNotNull(name));
+		text.add(getStringIfNotNull(address));
+		text.add(getStringIfNotNull(zipcode));
+		text.add(getStringIfNotNull(parseHtml(description)));
 		
 		// Tokenize string, lowercase tokens, filter symbols/stop words
-		List<String> resultTerms = this.dictionaryService.analyze(text.toString(), new StandardAnalyzer(StopFilter.makeStopSet(STOP_WORDS))); 
-		// Total terms in text/document
-		LongAdder docLength = new LongAdder();
+		return this.dictionaryService.analyze(text.toString(), new StandardAnalyzer(StopFilter.makeStopSet(STOP_WORDS))); 
+	}
+
+	@Override
+	public void loadTerms(TouristicPoint point, List<String> terms) {
 		// Stemming then group by frequency in Map
-		Map<String, Long> termFreqDocs = resultTerms.stream()
+		Map<String, Long> termFreqDocs = terms.stream()
 				//.filter(term -> !term.matches("[0-9]+"))
 				.map(term -> this.dictionaryService.stem(term))
-				.peek(term -> docLength.increment())
 				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-				
+			
+		int docLength = terms.size();
 		// Doc -> doc length
-		docsLength.put(point, docLength.intValue());
+		docsLength.put(point, docLength);
 		// Add terms count to collection
-		collectionLength.add(docLength.longValue());
+		collectionLength.add(docLength);
 		// Add doc to total
 		totalDocs.increment();
 		
@@ -139,15 +139,7 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	}
 	
 	@Override
-	public void calculateScoreTerms() {
-		// Fill in terms -> document with 0 frequency
-		termFreq.entrySet().parallelStream().forEach(entry -> {
-			String term = entry.getKey();
-			Set<TouristicPoint> termPoints = entry.getValue().keySet();
-			for (TouristicPoint point : docsLength.keySet()) {
-				if (!termPoints.contains(point)) termFreq.get(term).put(point, 0);
-			}
-		});
+	public void calculateScoreTerms() {		
 		// Iterate over: terms -> (Tourist points -> frequency) to calculate score
 		termFreq.entrySet().parallelStream().forEach(entryTerm -> {
 			String term = entryTerm.getKey();
@@ -161,33 +153,32 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 //				DictionaryScoreSpec scoreSpecVS = new DictionaryScoreSpec(tf, totalDocs.intValue(),
 //						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
 				// BM25 Model
-				DictionaryScoreSpec scoreSpecBM25 = new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
-						docsLength.get(touristicPoint).intValue(), collectionLength.longValue() / totalDocs.intValue());
+//				DictionaryScoreSpec scoreSpecBM25 = new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
+//						docsLength.get(touristicPoint).intValue(), ((double) collectionLength.longValue()) / totalDocs.intValue());
 				// Dirichlet Smoothing Model
-//				DictionaryScoreSpec scoreSpecDS = new DictionaryScoreSpec(tf, termFreqCollection.get(term).intValue(),
-//						docsLength.get(touristicPoint).intValue(), collectionLength.longValue());
+				DictionaryScoreSpec scoreSpecDS = new DictionaryScoreSpec(tf, docsLength.get(touristicPoint).intValue(),
+						((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue());
 				
 				// Model to use for documents score
-				double score = this.modelService.calculateScore(scoreSpecBM25);
+				double score = this.modelService.calculateScore(scoreSpecDS);
 								
 				// Don't store a score = 0
 				if (score == 0) continue;
 				// Save the score associated to the tourist point (document)
 				scores.put(touristicPoint, score);
 			}
+			// Create term -> scores
+			Dictionary dict = new Dictionary(term, scores);
+			if (this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class) 
+				dict.setProbTermCol(((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue());
+			
 			// Save the term & scores in DB
-			this.dictionaryRepository.save(new Dictionary(term, scores));
+			this.dictionaryRepository.save(dict);
 		});
 		
-		// Reset variables
-		termFreq.clear();
-		tfSumDoc.clear();
-		termFreqCollection.clear();
-		totalDocs.reset();
-		docFreq.clear();
-		docsLength.clear();
-		collectionLength.reset();
-		
+		//Reset the variables for the next time the function is called
+		resetVariables();
+						
 		logger.info("Terms from descriptions of tourist points updated");
 	}
 				
@@ -209,6 +200,20 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	 */
 	private String getStringIfNotNull(Object object) {
 		return object == null ? "" : object.toString();
+	}
+	
+	/**
+	 * Reset all the variables of the class
+	 */
+	private void resetVariables() {
+		// Reset variables
+		termFreq.clear();
+		tfSumDoc.clear();
+		termFreqCollection.clear();
+		totalDocs.reset();
+		docFreq.clear();
+		docsLength.clear();
+		collectionLength.reset();
 	}
 	
 }

@@ -24,8 +24,8 @@ public class DirichletSmoothingModelServiceImpl implements ModelService {
 	}
 	
 	@Override
-	public double rank(double score, double scorePoint, int freq) {
-		return score * Math.pow(scorePoint, freq);
+	public double rank(double score, double weight, int freq) {
+		return score * Math.pow(weight, freq);
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class DirichletSmoothingModelServiceImpl implements ModelService {
 	 */
 	@Override
 	public double calculateScore(DictionaryScoreSpec scoreSpec) {
-		return (scoreSpec.getTf() + mu * scoreSpec.getTfCollection() / scoreSpec.getDocLength()) / (scoreSpec.getDocLength() + mu);
+		return (scoreSpec.getTf() + mu * scoreSpec.getProbTermCol()) / (scoreSpec.getDocLength() + mu);
 	}
 
 }

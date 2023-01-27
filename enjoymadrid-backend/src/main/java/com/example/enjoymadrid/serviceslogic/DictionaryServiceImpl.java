@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -22,8 +23,10 @@ import org.springframework.stereotype.Service;
 import org.tartarus.snowball.ext.SpanishStemmer;
 
 import com.example.enjoymadrid.models.Dictionary;
+import com.example.enjoymadrid.models.DictionaryScoreSpec;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.DictionaryRepository;
+import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.ModelService;
 
@@ -37,12 +40,14 @@ public class DictionaryServiceImpl implements DictionaryService {
 	
 	private final ModelService modelService;
 	private final DictionaryRepository dictionaryRepository;
+	private final TouristicPointRepository touristicPointRepository;
 	
 	public DictionaryServiceImpl(
 			DictionaryRepository dictionaryRepository,
-			@Qualifier("bm25ModelService") ModelService modelService
-	) {
+			TouristicPointRepository touristicPointRepository,
+			@Qualifier("dirichletSmoothingModel") ModelService modelService) {
 		this.dictionaryRepository = dictionaryRepository;
+		this.touristicPointRepository = touristicPointRepository;
 		this.modelService = modelService;
 	}
 	
@@ -54,41 +59,71 @@ public class DictionaryServiceImpl implements DictionaryService {
 				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())); 
 		
 		// Score of each tourist point
-		//ConcurrentHashMap<TouristicPoint, DoubleAdder> scores = new ConcurrentHashMap<>();
-		//ConcurrentHashMap<TouristicPoint, DoubleAccumulator> scores = new ConcurrentHashMap<>();
 		Map<TouristicPoint, Double> scores = new HashMap<>();
+		//ConcurrentHashMap<TouristicPoint, DoubleAccumulator> scores = new ConcurrentHashMap<>();
+		
+		// Tourist points (if Dirichlet Smoothing Model used get points from DB)
+		List<TouristicPoint> points = new ArrayList<>();
+		if (this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class) {
+			points = this.touristicPointRepository.findAll();
+		}
 		
 		// Iterate over terms of query
-		terms.forEach((term, freq) -> {
-			Optional<Dictionary> optDict = this.dictionaryRepository.findByTerm(term);
-			if (optDict.isEmpty()) return;
-			Dictionary dict = optDict.get();
-			dict.getWeights().forEach((point, scorePoint) -> {
-				// Get accumulative score of query
-				double score = scores.getOrDefault(point, Double.valueOf(0.0));
-				score = this.modelService.rank(score, scorePoint, freq.intValue());
-				scores.put(point, score);
-			});
-		});
-				
+		//terms.forEach((term, freq) -> {
+		for (Entry<String, Long> entry : terms.entrySet()) {
+			Optional<Dictionary> optDict = this.dictionaryRepository.findByTerm(entry.getKey());
+			if (optDict.isEmpty()) continue;
+			
+			// Get weights of term associated to the tourist points
+			Map<TouristicPoint, Double> weights = optDict.get().getWeights();
+			
+			// For DS Model (to take account of absent terms)
+			if (this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class) {
+				for (TouristicPoint point : points) {
+					Double weight = weights.get(point);
+					if (weight == null) {
+						// Calculate score for absent term
+						weight = this.modelService.calculateScore(
+								new DictionaryScoreSpec(0, point.getDocLength(), optDict.get().getProbTermCol()));
+					}
+					// Get accumulative score of query (DS Model)
+					calculateQueryScore(scores, point, 1.0, weight, entry.getValue().intValue());
+				}
+			} 
+			// For VS & BM25 Model
+			else {
+				for (Entry<TouristicPoint, Double> entryPoint : weights.entrySet()) {
+					// Get accumulative score of query (VS & BM25 Model)
+					calculateQueryScore(scores, entryPoint.getKey(), 0.0, entryPoint.getValue(), entry.getValue().intValue());
+				}
+			}			
+		}
+						
 		// Order scores
 		List<Entry<TouristicPoint, Double>> termEntries = new ArrayList<>(scores.entrySet());
 		Collections.sort(termEntries, Collections.reverseOrder(Entry.comparingByValue()));
 		// Get only Tourist points
-		List<TouristicPoint> points = termEntries.stream()
+		points = termEntries.stream()
 				.map(entry -> entry.getKey())
 				.toList();
 				
 		if (this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class) {
 			// Delimit result
+			points = points.subList(0, 100);
 		}
 		
 		return points;
 	}
 	
+	private void calculateQueryScore(Map<TouristicPoint, Double> scores, TouristicPoint point, double initValue, double weight, int freq) {
+		double score = scores.getOrDefault(point, initValue);
+		score = this.modelService.rank(score, weight, freq);
+		scores.put(point, score);
+	}
+	
 	@Override
 	public void deleteTouristicPointOfTerm(TouristicPoint point) {
-		List<Dictionary> keywords = this.dictionaryRepository.findByWeightsTouristicPoint(point);
+		Set<Dictionary> keywords = this.dictionaryRepository.findByWeightsTouristicPoint(point);
 		for (Dictionary dictionary : keywords) {
 			Map<TouristicPoint, Double> weights = dictionary.getWeights();
 			weights.remove(point);
