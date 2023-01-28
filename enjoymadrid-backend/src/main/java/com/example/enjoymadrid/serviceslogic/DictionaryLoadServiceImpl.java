@@ -100,6 +100,8 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	
 	@Override
 	public void calculateScoreTerms() {	
+		// Remove all the entities
+		this.dictionaryRepository.deleteAll();
 		// Iterate over: terms -> (Tourist points -> frequency) to calculate score
 		termFreq.entrySet().parallelStream().forEach(entryTerm -> {
 			String term = entryTerm.getKey();
