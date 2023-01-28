@@ -7,11 +7,7 @@ import java.util.Map.Entry;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
-import org.apache.lucene.analysis.StopFilter;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,39 +26,7 @@ import com.example.enjoymadrid.services.ModelService;
 public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DictionaryLoadService.class);
-		
-	// Stop words
-	private static final String[] STOP_WORDS = new String[] {
-			"a", "actualmente", "acá", "adelante", "ademas", "además", "afirmó", "agregó", "ahi", "ahora", "ahí", "al", "algo", "alguna", "algunas", "alguno", "algunos", "algún", "alli", "allí", "alrededor", "ambos", "ante", "anterior", "antes", 
-			"apenas", "aproximadamente", "aquel", "aquella", "aquellas", "aquello", "aquellos", "aqui", "aquél", "aquélla", "aquéllas", "aquéllos", "aquí", "arriba", "aseguró", "asi", "así", "atrás", "aun", "aunque", "ayer", "añadió", "aún", 
-			"b", "bastante", "bien", "c", "cada", "casi", "cierta", "ciertas", "cierto", "ciertos", "cinco", "comentó", "como", "con", "conmigo", "conocer", "conseguimos", "conseguir", "considera", "consideró", "consigo", "consigue", "consiguen", 
-			"consigues", "contigo", "contra", "creo", "cual", "cuales", "cualquier", "cuando", "cuanta", "cuantas", "cuanto", "cuantos", "cuatro", "cuenta", "cuál", "cuáles", "cuándo", "cuánta", "cuántas", "cuánto", "cuántos", "cómo", 
-			"d", "da", "dado", "dan", "dar", "de", "debajo", "debe", "deben", "debido", "decir", "dejó", "del", "delante", "demasiado", "demás", "dentro", "deprisa", "desde", "despacio", "despues", "después", "detras", "detrás", "dia", "dias", 
-			"dice", "dicen", "dicho", "dieron", "dijeron", "dijo", "dio", "disfrutar", "donde", "dos", "durante", "día", "días", "dónde", "e", "ejemplo", "el", "ella", "ellas", "ello", "ellos", "embargo", "empleais", "emplean", "emplear", 
-			"empleas", "empleo", "en", "encima", "encontrar", "encuentra", "encuentran", "enfrente", "enseguida", "entonces", "entre", "era", "erais", "eramos", "eran", "eras", "eres", "es", "esa", "esas", "ese", "eso", "esos", "esta", "estaba", 
-			"estabais", "estaban", "estabas", "estad", "estada", "estadas", "estado", "estados", "estais", "estamos", "estan", "estando", "estar", "estaremos", "estará", "estarán", "estarás", "estaré", "estaréis", "estaría", "estaríais", "estaríamos", 
-			"estarían", "estarías", "estas", "este", "estemos", "esto", "estos", "estoy", "estuve", "estuviera", "estuvierais", "estuvieran", "estuvieras", "estuvieron", "estuviese", "estuvieseis", "estuviesen", "estuvieses", "estuvimos", "estuviste", 
-			"estuvisteis", "estuviéramos", "estuviésemos", "estuvo", "está", "estábamos", "estáis", "están", "estás", "esté", "estéis", "estén", "estés", "etc", "ex", "excepto", "existe", "existen", "explicó", "expresó", "f", "fin", "fue", "fuera", 
-			"fuerais", "fueran", "fueras", "fueron", "fuese", "fueseis", "fuesen", "fueses", "fui", "fuimos", "fuiste", "fuisteis", "fuéramos", "fuésemos", "g", "gueno", "h", "ha", "haber", "habia", "habida", "habidas", "habido", "habidos", "habiendo", 
-			"habla", "hablan", "habremos", "habrá", "habrán", "habrás", "habré", "habréis", "habría", "habríais", "habríamos", "habrían", "habrías", "habéis", "había", "habíais", "habíamos", "habían", "habías", "hace", "haceis", "hacemos", "hacen", 
-			"hacer", "hacerlo", "haces", "hacia", "haciendo", "hago", "han", "has", "hasta", "hay", "haya", "hayamos", "hayan", "hayas", "hayáis", "he", "hecho", "hemos", "hicieron", "hizo", "horas", "hoy", "hube", "hubiera", "hubierais", "hubieran", 
-			"hubieras", "hubieron", "hubiese", "hubieseis", "hubiesen", "hubieses", "hubimos", "hubiste", "hubisteis", "hubiéramos", "hubiésemos", "hubo", "i", "incluso", "indicó", "informo", "informó", "intenta", "intentais", "intentamos", "intentan", 
-			"intentar", "intentas", "intento", "ir", "j", "junto", "k", "l", "la", "lado", "las", "le", "les", "llegó", "lleva", "llevar", "lo", "los", "luego", "lugar", "m", "mal", "manera", "manifestó", "mas", "me", "mediante", "mejor", "mencionó", 
-			"menos", "menudo", "mi", "mia", "mias", "mientras", "mio", "mios", "mis", "misma", "mismas", "mismo", "mismos", "modo", "momento", "mucha", "muchas", "mucho", "muchos", "muy", "más", "mí", "mía", "mías", "mío", "míos", "n", "nada", "nadie", 
-			"ni", "ninguna", "ningunas", "ninguno", "ningunos", "ningún", "no", "nos", "nosotras", "nosotros", "nuestra", "nuestras", "nuestro", "nuestros", "nunca", "o", "ocho", "ofrece", "ofrecen", "os", "otra", "otras", "otro", "otros", "p", "pais", 
-			"para", "parece", "parte", "partir", "peor", "pero", "pesar", "poca", "pocas", "poco", "pocos", "podeis", "podemos", "poder", "podria", "podriais", "podriamos", "podrian", "podrias", "podrá", "podrán", "podría", "podrían", "poner", "por", 
-			"porque", "posible", "primer", "primera", "primero", "primeros", "principalmente", "pronto", "propia", "propias", "propio", "propios", "proximo", "próximo", "próximos", "pudo", "pueda", "puede", "pueden", "puedo", "pues", "q", "que", "quedó", 
-			"queremos", "quien", "quienes", "quiere", "quiza", "quizas", "quizá", "quizás", "quién", "quiénes", "qué", "r", "raras", "realizado", "realizar", "realizó", "repente", "respecto", "s", "sabe", "sabeis", "sabemos", "saben", "saber", "sabes", 
-			"salvo", "se", "sea", "seamos", "sean", "seas", "segun", "segunda", "segundo", "según", "seis", "ser", "sera", "seremos", "será", "serán", "serás", "seré", "seréis", "sería", "seríais", "seríamos", "serían", "serías", "seáis", "señaló", "si", 
-			"sido", "siempre", "siendo", "siete", "sigue", "siguiente", "sin", "sino", "situada", "sobre", "sois", "sola", "solamente", "solas", "solo", "solos", "somos", "son", "soy", "su", "supuesto", "sus", "suya", "suyas", "suyo", "suyos", "sé", "sí", 
-			"sólo", "t", "tal", "tambien", "también", "tampoco", "tan", "tanto", "tarde", "te", "temprano", "tendremos", "tendrá", "tendrán", "tendrás", "tendré", "tendréis", "tendría", "tendríais", "tendríamos", "tendrían", "tendrías", "tened", "tenemos", 
-			"tener", "tenga", "tengamos", "tengan", "tengas", "tengo", "tengáis", "tenida", "tenidas", "tenido", "tenidos", "teniendo", "tenéis", "tenía", "teníais", "teníamos", "tenían", "tenías", "tercera", "ti", "tiene", "tienen", "tienes", "toda", "todas", 
-			"todavia", "todavía", "todo", "todos", "trabaja", "trabajais", "trabajamos", "trabajan", "trabajar", "trabajas", "trabajo", "tras", "trata", "través", "tres", "tu", "tus", "tuve", "tuviera", "tuvierais", "tuvieran", "tuvieras", "tuvieron", "tuviese", 
-			"tuvieseis", "tuviesen", "tuvieses", "tuvimos", "tuviste", "tuvisteis", "tuviéramos", "tuviésemos", "tuvo", "tuya", "tuyas", "tuyo", "tuyos", "tú", "u", "ultimo", "un", "una", "unas", "uno", "unos", "usa", "usais", "usamos", "usan", "usar", "usas", 
-			"uso", "usted", "ustedes", "v", "va", "vais", "vamos", "van", "varias", "varios", "vaya", "veces", "ver", "verdad", "verdadera", "verdadero", "vez", "vosotras", "vosotros", "voy", "vuestra", "vuestras", "vuestro", "vuestros", "w", "x", "y", "ya", "yo", 
-			"z", "él", "éramos", "ésa", "ésas", "ése", "ésos", "ésta", "éstas", "éste", "éstos", "última", "últimas", "último", "últimos"
-	};
-
+	
 	// Term frequencies
 	private ConcurrentHashMap<String, ConcurrentHashMap<TouristicPoint, Integer>> termFreq = new ConcurrentHashMap<>();
 	// Square root of the sum of the squared term frequencies in a document D 
@@ -82,35 +46,31 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	private final DictionaryRepository dictionaryRepository;
 	private final ModelService modelService;
 	private final DictionaryService dictionaryService;
-	
-	public DictionaryLoadServiceImpl(DictionaryRepository dictionaryRepository,
-			DictionaryService dictionaryService,
+
+	public DictionaryLoadServiceImpl(DictionaryRepository dictionaryRepository, DictionaryService dictionaryService,
 			@Qualifier("dirichletSmoothingModel") ModelService modelService) {
 		this.dictionaryRepository = dictionaryRepository;
 		this.dictionaryService = dictionaryService;
 		this.modelService = modelService;
 	}
-	
+
 	@Override
-	public List<String> analyzeText(String name, String address, Integer zipcode, String description) {
+	public List<String> analyzeText(TouristicPoint point) {
 		// Get title, address & description from point
 		StringJoiner text = new StringJoiner(" ");
-		text.add(getStringIfNotNull(name));
-		text.add(getStringIfNotNull(address));
-		text.add(getStringIfNotNull(zipcode));
-		text.add(getStringIfNotNull(parseHtml(description)));
+		text.add(getStringIfNotNull(point.getName()));
+		text.add(getStringIfNotNull(point.getAddress()));
+		text.add(getStringIfNotNull(point.getZipcode()));
+		text.add(getStringIfNotNull(parseHtml(point.getDescription())));
 		
 		// Tokenize string, lowercase tokens, filter symbols/stop words
-		return this.dictionaryService.analyze(text.toString(), new StandardAnalyzer(StopFilter.makeStopSet(STOP_WORDS))); 
+		return this.dictionaryService.analyze(text.toString()); 
 	}
 
 	@Override
 	public void loadTerms(TouristicPoint point, List<String> terms) {
 		// Stemming then group by frequency in Map
-		Map<String, Long> termFreqDocs = terms.stream()
-				//.filter(term -> !term.matches("[0-9]+"))
-				.map(term -> this.dictionaryService.stem(term))
-				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+		Map<String, Long> termFreqDocs = this.dictionaryService.stemAndGetFreq(terms);
 			
 		int docLength = terms.size();
 		// Doc -> doc length
@@ -139,28 +99,42 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	}
 	
 	@Override
-	public void calculateScoreTerms() {		
+	public void calculateScoreTerms() {	
 		// Iterate over: terms -> (Tourist points -> frequency) to calculate score
 		termFreq.entrySet().parallelStream().forEach(entryTerm -> {
 			String term = entryTerm.getKey();
+			// Map for scores
 			Map<TouristicPoint, Double> scores = new HashMap<>();
+			// Map for Models
+			Map<Class<?>, DictionaryScoreSpec> models;
 			for (Entry<TouristicPoint, Integer> entryPoint: entryTerm.getValue().entrySet()) {
 				// Get data to calculate score
 				TouristicPoint touristicPoint = entryPoint.getKey();
 				int tf = entryPoint.getValue().intValue();
 				
-				// Vector Space Model
-//				DictionaryScoreSpec scoreSpecVS = new DictionaryScoreSpec(tf, totalDocs.intValue(),
-//						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
-				// BM25 Model
-//				DictionaryScoreSpec scoreSpecBM25 = new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
-//						docsLength.get(touristicPoint).intValue(), ((double) collectionLength.longValue()) / totalDocs.intValue());
-				// Dirichlet Smoothing Model
-				DictionaryScoreSpec scoreSpecDS = new DictionaryScoreSpec(tf, docsLength.get(touristicPoint).intValue(),
-						((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue());
+				// Map with Models classes & associated information
+				models = Map.of(
+						// Vector Space Model
+						VectorSpaceModelServiceImpl.class, new DictionaryScoreSpec(tf, totalDocs.intValue(),
+								docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint)),
+						// BM25 Model
+						BM25ModelServiceImpl.class, new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
+								docsLength.get(touristicPoint).intValue(), ((double) collectionLength.longValue()) / totalDocs.intValue()),
+						// Dirichlet Smoothing Model
+						DirichletSmoothingModelServiceImpl.class, new DictionaryScoreSpec(tf, docsLength.get(touristicPoint).intValue(),
+								((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue())
+				);
+				// Select Model
+				DictionaryScoreSpec scoreSpec = null;
+				for (Entry<Class<?>, DictionaryScoreSpec> entry : models.entrySet()) {
+					if (this.modelService.getClass() == entry.getKey()) {
+						scoreSpec = entry.getValue();
+						break;
+					}
+				}
 				
 				// Model to use for documents score
-				double score = this.modelService.calculateScore(scoreSpecDS);
+				double score = this.modelService.calculateScore(scoreSpec);
 								
 				// Don't store a score = 0
 				if (score == 0) continue;

@@ -1,30 +1,28 @@
 package com.example.enjoymadrid.services;
 
 import java.util.List;
-
-import org.apache.lucene.analysis.Analyzer;
+import java.util.Map;
 
 import com.example.enjoymadrid.models.TouristicPoint;
 
 public interface DictionaryService {
 
 	/**
-	 * Tokenize & filter
+	 * Tokenize & filter text
 	 * 
-	 * @param text Text to tokenize and analyze
-	 * @param analyzer Analyzer to use
-	 * @return List with analyzed tokens
+	 * @param text Text to tokenize and filter
+	 * @return List with tokens
 	 */
-	public List<String> analyze(String text, Analyzer analyzer);
+	public List<String> analyze(String text);
 	
 	/**
-	 * Word stemming using Snowball algorithm
+	 * Stem & group the tokens by their frequencies
 	 * 
-	 * @param term Word to stem
-	 * @return Stemmed word
+	 * @param terms Tokens
+	 * @return Map with tokens stemmed & grouped by frequencies
 	 */
-	public String stem(String term); 
-	
+	public Map<String, Long> stemAndGetFreq(List<String> terms);
+		
 	/**
 	 * Get tourist points ranked by score
 	 * 

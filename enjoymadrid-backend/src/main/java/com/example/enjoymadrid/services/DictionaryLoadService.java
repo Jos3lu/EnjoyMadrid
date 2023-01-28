@@ -7,15 +7,12 @@ import com.example.enjoymadrid.models.TouristicPoint;
 public interface DictionaryLoadService {
 	
 	/**
-	 * Use analyzer to tokenize & filter text
+	 * Tokenize & filter text
 	 * 
-	 * @param name Name of point
-	 * @param address Address of point
-	 * @param zipcode Zipcode of point
-	 * @param description Description of point
+	 * @param point Point from which the text is extracted
 	 * @return Text split into tokens
 	 */
-	public List<String> analyzeText(String name, String address, Integer zipcode, String description);
+	public List<String> analyzeText(TouristicPoint point);
 	
 	/**
 	 * Load the terms of tourist points associated to its scores into DB

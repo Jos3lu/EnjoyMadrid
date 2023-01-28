@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
-import { IonContent, IonInfiniteScroll, ModalController, Platform } from '@ionic/angular';
+import { IonContent, IonInfiniteScroll, Platform } from '@ionic/angular';
 import { TouristicPointModel } from 'src/app/models/touristic-point.model';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { TouristicPointService } from 'src/app/services/touristic-point/touristic-point.service';
@@ -185,8 +185,9 @@ export class FindPlacesPage implements OnInit {
     );
   }
 
-  search(searchQuery: string) {
+  search(event: Event) {
     // Process search query
+    const searchQuery = (event.target as HTMLInputElement).value;
     this.touristicPointService.getTouristicPointsByQuery(searchQuery).subscribe(
       places => this.getPlaces(places),
       error => this.sharedService.onError(error, 3000)

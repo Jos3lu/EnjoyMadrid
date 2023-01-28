@@ -12,8 +12,8 @@
     <ion-row class="ion-justify-content-around search-bar-margin">
       <ion-col size-md="7" size-xs="12">
         <h5>Búsqueda</h5>
-        <ion-searchbar color="light" animated="true" spellcheck="true" placeholder="esculturas y pinturas" 
-        [(ngModel)]="searchQuery" (search)="search($event.target.value)"></ion-searchbar>
+        <ion-searchbar color="light" animated="true" spellcheck="true" placeholder="esculturas y pinturas"
+          (search)="search($event)"></ion-searchbar>
       </ion-col>
     </ion-row>
     <ion-row>
