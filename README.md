@@ -1,7 +1,7 @@
 # EnjoyMadrid
 
 <p align="justify">
-  Enjoy Madrid is a mobile and desktop application developed in Ionic and Spring Boot, created to recommend sustainable routes in the city of Madrid, is characterized by   including factors of air pollution in the creation of routes, in addition to taking into account the tourist preferences of users.
+  Enjoy Madrid is a mobile and desktop application developed in Ionic and Spring Boot. Created to recommend sustainable routes in the city of Madrid, it includes air pollution factors in the creation of routes, in addition to taking into account the tourist preferences of users. Users can also search for different places in Madrid by categories or a search bar (e.g. to search for hamburger joints).
 </p>
  
  ![Home page EnjoyMadrid](readme-resources/home_page.PNG)
@@ -19,7 +19,8 @@
 - User can create, modify or delete an account.
 - When creating a route the user sets the name, the origin and destination, the tourist preferences, the walking distance between transports, and the transports he/she wants to use.
 - Routes are associated to the user if he/she is logged in, otherwise routes are stored in local storage or IndexedDB.
-- User can explore places in Madrid according to category.
+- User can explore places in Madrid according to category or by search bar.
+- User can choose any place as favourite.
 
 <a name="app-walkthrough"></a>
 ## App Walkthrough
@@ -54,22 +55,27 @@
   <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/select_places.gif" alt="Sign up">
 </p>
 
-#### 7. Create route:
+### 7. Favourite place:
+<p align="center">
+  <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/favourite_place.gif" alt="Sign up">
+</p>
+
+#### 8. Create route:
 <p align="center">
   <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/create_route.gif" alt="Sign up">
 </p>
 
-#### 8. View the route itinerary:
+#### 9. View the route itinerary:
 <p align="center">
   <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/display_route.gif" alt="Sign up">
 </p>
 
-#### 9. Retrieve stored routes:
+#### 10. Retrieve stored routes:
 <p align="center">
   <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/routes_user.gif" alt="Sign up">
 </p>
 
-#### 10. Delete the route you no longer need:
+#### 11. Delete the route you no longer need:
 <p align="center">
   <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/delete_route.gif" alt="Sign up">
 </p>
