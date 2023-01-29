@@ -55,7 +55,7 @@
   <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/select_places.gif" alt="Sign up">
 </p>
 
-### 7. Favourite place:
+#### 7. Favourite place:
 <p align="center">
   <img src="https://github.com/Jos3lu/EnjoyMadrid/blob/main/readme-resources/favourite_place.gif" alt="Sign up">
 </p>
