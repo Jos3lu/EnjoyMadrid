@@ -24,6 +24,12 @@ public interface RouteService {
 	 */
 	public RouteResultDto createRoute(Route route, Long userId);
 	
+	/**
+	 * Delete route from user
+	 * 
+	 * @param routeId ID of route
+	 * @param userId ID of user
+	 */
 	public void deleteRoute(Long routeId, Long userId);
 	
 }
