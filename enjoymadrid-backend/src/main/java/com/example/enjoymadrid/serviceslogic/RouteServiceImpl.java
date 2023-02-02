@@ -21,6 +21,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -96,7 +98,7 @@ public class RouteServiceImpl implements RouteService {
 	}
 	
 	@Override
-	public RouteResultDto createRoute(Route route, Long userId) {
+	public RouteResultDto createRoute(@Valid Route route, Long userId) {
 				
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();

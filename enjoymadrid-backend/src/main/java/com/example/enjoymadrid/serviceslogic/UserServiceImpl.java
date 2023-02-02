@@ -2,6 +2,8 @@ package com.example.enjoymadrid.serviceslogic;
 
 import java.io.IOException;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createUser(User user) {
+	public void createUser(@Valid User user) {
 		if (this.userRepository.existsByUsername(user.getUsername())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se puede crear la cuenta, el nombre de usuario ya existe");
 		}
@@ -45,7 +47,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User updateUser(Long userId, User updatedUser, String oldPassword) {
+	public User updateUser(Long userId, @Valid User updatedUser, String oldPassword) {
 		User pastUser = getUser(userId);
 				
 		// Check if current password matches the password inserted in the form as current password
@@ -82,7 +84,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteTouristicPointOfUser(User user, TouristicPoint point) {
+	public void deleteTouristicPointOfUser(@Valid User user, TouristicPoint point) {
 		user.getTouristicPoints().remove(point);
 		this.userRepository.save(user);
 	}

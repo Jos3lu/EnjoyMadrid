@@ -1,7 +1,5 @@
 package com.example.enjoymadrid.services;
 
-import javax.validation.Valid;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.enjoymadrid.models.TouristicPoint;
@@ -30,7 +28,7 @@ public interface UserService {
 	 * 
 	 * @param user User information
 	 */
-	public void createUser(@Valid User user);
+	public void createUser(User user);
 	
 	/**
 	 * Update the information of a user
@@ -40,7 +38,7 @@ public interface UserService {
 	 * @param oldPassword Previous user password
 	 * @return Updated user information
 	 */
-	public User updateUser(Long userId, @Valid User updatedUser, String oldPassword);
+	public User updateUser(Long userId, User updatedUser, String oldPassword);
 	
 	/**
 	 * Update the picture of a user
@@ -64,6 +62,6 @@ public interface UserService {
 	 * @param user User
 	 * @param point Tourist point
 	 */
-	public void deleteTouristicPointOfUser(@Valid User user, @Valid TouristicPoint point);
+	public void deleteTouristicPointOfUser(User user, TouristicPoint point);
 		
 }
