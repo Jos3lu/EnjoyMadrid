@@ -31,20 +31,20 @@ public class User {
 	private Long id;
 	
 	@JsonView(UserInterfaces.UserData.class)
-	@NotBlank(message = "El nombre no puede estar vacío")
-	@Size(max = 50, message = "El nombre debe tener menos de 50 caracteres")
+	@NotBlank(message = "Nombre no puede estar vacío")
+	@Size(max = 50, message = "Nombre debe tener menos de 50 caracteres")
 	private String name;
 	
 	@JsonView(UserInterfaces.BasicData.class)
-	@NotBlank(message = "El nombre de usuario no puede estar vacío")
-	@Size(max = 50, message = "El nombre de usuario debe tener menos de 50 caracteres")
+	@NotBlank(message = "Nombre de usuario no puede estar vacío")
+	@Size(max = 50, message = "Nombre de usuario debe tener menos de 50 caracteres")
 	@Column(unique = true)
 	private String username;
 	
 	@JsonIgnore
-	@NotBlank(message = "La contraseña no puede estar vacía")
+	@NotBlank(message = "Contraseña no puede estar vacío")
 	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", 
-		message = "La contraseña debe incluir al menos un número, una minúscula, una mayúscula y al menos 7 caracteres")
+		message = "Contraseña debe incluir al menos un número, una minúscula, una mayúscula y al menos 7 caracteres")
 	private String password;
 	
 	@Lob
@@ -67,9 +67,9 @@ public class User {
 	public User() {}
 
 	public User(
-			@NotBlank(message = "El nombre no puede estar vacío") @Size(max = 50, message = "El nombre debe tener menos de 50 caracteres") String name,
-			@NotBlank(message = "El nombre de usuario no puede estar vacío") @Size(max = 50, message = "El nombre de usuario debe tener menos de 50 caracteres") String username,
-			@NotBlank(message = "La contraseña no puede estar vacía") @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", message = "La contraseña debe incluir al menos un número, una minúscula, una mayúscula y al menos 7 caracteres") String password) {
+			@NotBlank(message = "Nombre no puede estar vacío") @Size(max = 50, message = "Nombre debe tener menos de 50 caracteres") String name,
+			@NotBlank(message = "Nombre de usuario no puede estar vacío") @Size(max = 50, message = "Nombre de usuario debe tener menos de 50 caracteres") String username,
+			@NotBlank(message = "Contraseña no puede estar vacío") @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", message = "Contraseña debe incluir al menos un número, una minúscula, una mayúscula y al menos 7 caracteres") String password) {
 		this.name = name;
 		this.username = username;
 		this.password = password;

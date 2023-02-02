@@ -13,8 +13,6 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
@@ -169,7 +167,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 	}
 		
 	@Override
-	public void deleteTouristicPointOfTerm(@Valid TouristicPoint point) {
+	public void deleteTouristicPointOfTerm(TouristicPoint point) {
 		// Get Terms -> (points, scores) & remove obsolete points 
 		Set<Dictionary> keywords = this.dictionaryRepository.findByWeightsTouristicPoint(point);
 		for (Dictionary dictionary : keywords) {

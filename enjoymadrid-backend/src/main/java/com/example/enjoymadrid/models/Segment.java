@@ -15,22 +15,22 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Segment {
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
-	@NotNull(message = "Source cannot be null")
+	@NotNull(message = "Punto origen no puede estar vacío")
 	private Integer source;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
-	@NotNull(message = "Target cannot be null")
+	@NotNull(message = "Punto destino no puede estar vacío")
 	private Integer target;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
 	private Double distance;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
-	@NotNull(message = "Duration cannot be null")
+	@NotNull(message = "Duración no puede estar vacío")
 	private Double duration;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
-	@NotBlank(message = "Mode of transport cannot be empty")
+	@NotBlank(message = "Modo de transporte no puede estar vacío")
 	private String transportMode;
 	
 	@JsonView(SegmentInterfaces.BasicData.class)
@@ -54,9 +54,9 @@ public class Segment {
 		
 	public Segment() {}
 
-	public Segment(@NotNull(message = "Source cannot be null") Integer source,
-			@NotNull(message = "Target cannot be null") Integer target,
-			@NotBlank(message = "Mode of transport cannot be empty") String transportMode) {
+	public Segment(@NotNull(message = "Punto origen no puede estar vacío") Integer source,
+			@NotNull(message = "Punto destino no puede estar vacío") Integer target,
+			@NotBlank(message = "Modo de transporte no puede estar vacío") String transportMode) {
 		this.source = source;
 		this.target = target;
 		this.transportMode = transportMode;

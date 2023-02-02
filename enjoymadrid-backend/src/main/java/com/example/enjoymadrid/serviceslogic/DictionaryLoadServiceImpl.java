@@ -8,8 +8,6 @@ import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
 
-import javax.validation.Valid;
-
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +55,7 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	}
 
 	@Override
-	public List<String> analyzeText(@Valid TouristicPoint point) {
+	public List<String> analyzeText(TouristicPoint point) {
 		// Get title, address & description from point
 		StringJoiner text = new StringJoiner(" ");
 		text.add(getStringIfNotNull(point.getName()));
@@ -70,7 +68,7 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	}
 
 	@Override
-	public void loadTerms(@Valid TouristicPoint point, List<String> terms) {
+	public void loadTerms(TouristicPoint point, List<String> terms) {
 		// Stemming then group by frequency in Map
 		Map<String, Long> termFreqDocs = this.dictionaryService.stemAndGetFreq(terms);
 			

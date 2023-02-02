@@ -29,21 +29,21 @@ public class Route {
 	private Long id;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotBlank(message = "Name cannot be empty")
+	@NotBlank(message = "Nombre no puede estar vacío")
 	private String name;
 	
 	@JsonView(RouteInterfaces.PointsData.class)
-	@NotNull(message = "Origin cannot be null")
+	@NotNull(message = "Punto origen no puede estar vacío")
 	@OneToOne(cascade = CascadeType.ALL)
 	private TransportPoint origin;
 	
 	@JsonView(RouteInterfaces.PointsData.class)
-	@NotNull(message = "Destination cannot be null")
+	@NotNull(message = "Punto destino no puede estar vacío")
 	@OneToOne(cascade = CascadeType.ALL)
 	private TransportPoint destination;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
-	@NotNull(message = "Max distance cannot be null")
+	@NotNull(message = "Distancia máxima no puede estar vacío")
 	private Double maxDistance;
 	
 	@JsonView(RouteInterfaces.BasicData.class)
@@ -61,10 +61,10 @@ public class Route {
 							
 	public Route() {}
 	
-	public Route(@NotBlank(message = "Name cannot be empty") String name,
-			@NotNull(message = "Origin cannot be null") TransportPoint origin,
-			@NotNull(message = "Destination cannot be null") TransportPoint destination,
-			@NotNull(message = "Max distance cannot be null") Double maxDistance, List<String> transports,
+	public Route(@NotBlank(message = "Nombre no puede estar vacío") String name,
+			@NotNull(message = "Punto origen no puede estar vacío") TransportPoint origin,
+			@NotNull(message = "Punto destino no puede estar vacío") TransportPoint destination,
+			@NotNull(message = "Distancia máxima no puede estar vacío") Double maxDistance, List<String> transports,
 			Map<String, Integer> preferences, String date) {
 		this.name = name;
 		this.origin = origin;

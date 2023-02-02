@@ -26,22 +26,22 @@ public class Point {
 	private Long id;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	@NotEmpty(message = "Name cannot be empty")
+	@NotEmpty(message = "Nombre no puede estar vacío")
 	private String name;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	@NotNull(message = "Longitude cannot be null")
+	@NotNull(message = "Longitud no puede estar vacío")
 	private Double longitude;
 	
 	@JsonView(PointInterfaces.BasicData.class)
-	@NotNull(message = "Latitude cannot be null")
+	@NotNull(message = "Latitud no puede estar vacío")
 	private Double latitude;
 	
 	public Point() {}
 
-	public Point(@NotEmpty(message = "Name cannot be empty") String name,
-			@NotNull(message = "Longitude cannot be null") Double longitude,
-			@NotNull(message = "Latitude cannot be null") Double latitude) {
+	public Point(@NotEmpty(message = "Nombre no puede estar vacío") String name,
+			@NotNull(message = "Longitud no puede estar vacío") Double longitude,
+			@NotNull(message = "Latitud no puede estar vacío") Double latitude) {
 		this.name = name;
 		this.longitude = longitude;
 		this.latitude = latitude;

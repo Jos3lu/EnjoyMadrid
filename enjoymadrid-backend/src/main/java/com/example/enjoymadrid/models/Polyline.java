@@ -17,7 +17,7 @@ public class Polyline {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@NotNull(message = "Duration cannot be empty")
+	@NotNull(message = "Duración no puede estar vacío")
 	private Double duration;
 		
 	@ElementCollection
@@ -25,7 +25,8 @@ public class Polyline {
 	
 	public Polyline() {}
 
-	public Polyline(Double duration, List<Double[]> coordinates) {
+	public Polyline(@NotNull(message = "Duración no puede estar vacío") Double duration, 
+			List<Double[]> coordinates) {
 		this.duration = duration;
 		this.coordinates = coordinates;
 	}
