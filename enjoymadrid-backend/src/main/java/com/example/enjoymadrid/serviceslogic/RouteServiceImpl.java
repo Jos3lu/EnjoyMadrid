@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -706,7 +707,7 @@ public class RouteServiceImpl implements RouteService {
 				char typeSchedule = publicTransportLine.getScheduleType();
 				if (typeSchedule == 'F') {
 					Frequency frequency = (Frequency) publicTransportLine.getStopSchedules().get(currentDayOfWeek.toString());
-					for (var frequencyRanges: frequency.getDayFrequencies().entrySet()) {
+					for (Entry<String, Integer> frequencyRanges: frequency.getDayFrequencies().entrySet()) {
 						String[] frequencyTimes = frequencyRanges.getKey().split("-");
 						LocalTime startFrequency = LocalTime.parse(frequencyTimes[0]);
 						LocalTime endFrequency = LocalTime.parse(frequencyTimes[1]);
