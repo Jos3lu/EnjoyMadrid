@@ -56,8 +56,6 @@ import com.example.enjoymadrid.services.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import jakarta.validation.Valid;
-
 @Service
 public class RouteServiceImpl implements RouteService {
 	
@@ -99,7 +97,7 @@ public class RouteServiceImpl implements RouteService {
 	}
 	
 	@Override
-	public RouteResultDto createRoute(@Valid Route route, Long userId) {
+	public RouteResultDto createRoute(Route route, Long userId) {
 				
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();

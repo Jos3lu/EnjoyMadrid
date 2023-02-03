@@ -3,7 +3,6 @@ package com.example.enjoymadrid.serviceslogic;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.enjoymadrid.models.RefreshToken;
 import com.example.enjoymadrid.models.User;
@@ -42,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public SignInResponseDto signIn(@Valid @RequestBody SignInRequestDto loginDto) {
+	public SignInResponseDto signIn(SignInRequestDto loginDto) {
 		Authentication auth = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(auth);
@@ -68,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public RefreshTokenResponseDto refreshToken(@Valid @RequestBody RefreshTokenRequestDto refreshTokenRequest) {
+	public RefreshTokenResponseDto refreshToken(RefreshTokenRequestDto refreshTokenRequest) {
 		String refreshToken = refreshTokenRequest.getRefreshToken();
 		
 		RefreshToken refreshTokenClass = this.refreshTokenService.findByRefreshToken(refreshToken);
