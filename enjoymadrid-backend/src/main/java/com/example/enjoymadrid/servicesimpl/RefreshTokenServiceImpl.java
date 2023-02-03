@@ -1,4 +1,4 @@
-package com.example.enjoymadrid.serviceslogic;
+package com.example.enjoymadrid.servicesimpl;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

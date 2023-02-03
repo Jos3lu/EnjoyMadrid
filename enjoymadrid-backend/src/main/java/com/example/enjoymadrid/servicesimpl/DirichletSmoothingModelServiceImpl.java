@@ -1,4 +1,4 @@
-package com.example.enjoymadrid.serviceslogic;
+package com.example.enjoymadrid.servicesimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
