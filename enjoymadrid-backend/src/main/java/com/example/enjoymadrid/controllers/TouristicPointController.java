@@ -39,6 +39,7 @@ public class TouristicPointController {
 	}
 	
 	@GetMapping("/users/{userId}/tourist-points")
+	@JsonView(TouristicPointInterfaces.BasicData.class)
 	public ResponseEntity<List<TouristicPoint>> getUserTouristicPoints(@PathVariable Long userId) {
 		return ResponseEntity.ok(this.touristicPointService.getUserTouristicPoints(userId));
 	}

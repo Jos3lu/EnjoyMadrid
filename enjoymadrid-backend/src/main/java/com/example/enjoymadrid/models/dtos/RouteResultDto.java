@@ -3,10 +3,6 @@ package com.example.enjoymadrid.models.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-
 import com.example.enjoymadrid.models.Segment;
 import com.example.enjoymadrid.models.TransportPoint;
 import com.example.enjoymadrid.models.interfaces.RouteInterfaces;
@@ -15,29 +11,22 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class RouteResultDto {
 	
 	@JsonView(RouteInterfaces.BasicRouteResponseData.class)
-	@NotNull(message = "Id cannot be empty")
 	private Long id;
 
 	@JsonView(RouteInterfaces.BasicRouteResponseData.class)
-	@NotBlank(message = "Name cannot be empty")
 	private String name;
 					
 	@JsonView(RouteInterfaces.BasicRouteResponseData.class)
-	@NotNull(message = "Duration cannot be null")
 	private Double duration;
 	
 	@JsonView(RouteInterfaces.PointsData.class)
-	@NotEmpty(message = "Points cannot be empty")
 	private List<TransportPoint> points = new ArrayList<>();
 	
 	@JsonView(RouteInterfaces.SegmentData.class)
-	@NotEmpty(message = "Segments cannot be empty")
 	private List<Segment> segments = new ArrayList<>();
 	
-	public RouteResultDto(@NotBlank(message = "Name cannot be empty") String name,
-			@NotNull(message = "Duration cannot be null") Double duration,
-			@NotEmpty(message = "Points cannot be empty") List<TransportPoint> points,
-			@NotEmpty(message = "Segments cannot be empty") List<Segment> segments) {
+	public RouteResultDto(String name, Double duration, List<TransportPoint> points, 
+			List<Segment> segments) {
 		this.name = name;
 		this.duration = duration;
 		this.points = points;

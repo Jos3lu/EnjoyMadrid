@@ -19,12 +19,6 @@ public class UserCreateDto {
 		message = "La contraseña debe incluir al menos un número, una minúscula, una mayúscula y al menos 7 caracteres")
 	private String password;
 
-	public UserCreateDto(String name, String username, String password) {
-		this.name = name;
-		this.username = username;
-		this.password = password;
-	}
-
 	public String getName() {
 		return name;
 	}
