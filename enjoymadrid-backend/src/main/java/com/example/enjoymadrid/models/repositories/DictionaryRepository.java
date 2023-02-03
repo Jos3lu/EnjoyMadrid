@@ -5,10 +5,12 @@ import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.example.enjoymadrid.models.Dictionary;
 import com.example.enjoymadrid.models.TouristicPoint;
 
+@Repository
 public interface DictionaryRepository extends JpaRepository<Dictionary, Long> {
 	
 	@Query("SELECT d FROM Dictionary d JOIN FETCH d.weights p WHERE KEY(p) = :touristicPoint")
