@@ -4,19 +4,23 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "TIME_TABLE")
 public class Time extends Schedule {
 
 	@ElementCollection
 	@MapKeyColumn(name = "WEEK_DAY")
 	@Lob
 	@Column(name = "TIMES")
+	@CollectionTable(name = "DAY_TIMES_TABLE")
 	private Map<String, LocalTime[]> dayTimes = new HashMap<>();
 	
 	public Time() {}

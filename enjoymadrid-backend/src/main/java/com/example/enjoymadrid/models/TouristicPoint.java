@@ -3,12 +3,14 @@ package com.example.enjoymadrid.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 import com.example.enjoymadrid.models.interfaces.TouristicPointInterfaces;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @DiscriminatorValue("Touristic")
+@Table(name = "TOURISTIC_POINT_TABLE")
 public class TouristicPoint extends Point {
 
 	@JsonView(TouristicPointInterfaces.BasicData.class)
@@ -50,15 +53,18 @@ public class TouristicPoint extends Point {
 
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
+	@CollectionTable(name = "TOURISTIC_POINT_CATEGORIES_TABLE")
 	private List<String> categories = new ArrayList<>();
 
 	@ElementCollection
 	@JsonView(TouristicPointInterfaces.BasicData.class)
+	@CollectionTable(name = "TOURISTIC_POINT_SUBCATEGORIES_TABLE")
 	private List<String> subcategories = new ArrayList<>();
 
 	@ElementCollection
 	@Column(columnDefinition = "LONGTEXT")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
+	@CollectionTable(name = "TOURISTIC_POINT_IMAGES_TABLE")
 	private List<String> images = new ArrayList<>();
 	
 	@JsonIgnore

@@ -3,15 +3,17 @@ package com.example.enjoymadrid.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
-
 @Entity
+@Table(name = "POLYLINE_TABLE")
 public class Polyline {
 	
 	@Id
@@ -22,6 +24,7 @@ public class Polyline {
 	private Double duration;
 		
 	@ElementCollection
+	@CollectionTable(name = "POLYLINE_COORDINATES_TABLE")
 	private List<Double[]> coordinates = new ArrayList<>();
 	
 	public Polyline() {}

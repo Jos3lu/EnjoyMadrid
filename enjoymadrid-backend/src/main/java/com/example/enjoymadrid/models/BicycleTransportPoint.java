@@ -2,9 +2,11 @@ package com.example.enjoymadrid.models;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @DiscriminatorValue("BicycleTransport")
+@Table(name = "BICYCLE_TRANSPORT_POINT_TABLE")
 public class BicycleTransportPoint extends TransportPoint {
 	
 	private String stationNumber;

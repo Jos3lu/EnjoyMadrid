@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -23,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
+@Table(name = "USER_TABLE")
 public class User {
 	
 	@Id
@@ -52,15 +55,16 @@ public class User {
 	private byte[] photo;
 		
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "USER_ID")
 	@JsonView(UserInterfaces.RouteData.class)
+	@CollectionTable(name = "USER_ROUTES")
 	private List<Route> routes = new ArrayList<>();
 	
 	@ManyToMany
 	@JoinTable(
-			  name = "user_touristic_point", 
-			  joinColumns = @JoinColumn(name = "user_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "touristic_point_id"))
+			  name = "USER_TOURISTIC_POINT", 
+			  joinColumns = @JoinColumn(name = "USER_ID"), 
+			  inverseJoinColumns = @JoinColumn(name = "TOURISTIC_POINT_ID"))
 	@JsonView(UserInterfaces.TouristicPointData.class)
 	private List<TouristicPoint> touristicPoints = new ArrayList<>();
 	

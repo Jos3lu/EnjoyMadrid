@@ -4,10 +4,12 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
 @Entity
 @DiscriminatorValue("Transport")
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "TRANSPORT_POINT_TABLE")
 public class TransportPoint extends Point implements Comparable<TransportPoint> {
 		
 	private String type;

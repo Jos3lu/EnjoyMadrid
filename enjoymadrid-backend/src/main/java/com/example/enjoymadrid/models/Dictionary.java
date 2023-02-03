@@ -3,6 +3,7 @@ package com.example.enjoymadrid.models;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -10,8 +11,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MapKeyJoinColumn;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name ="DICTIONARY_TABLE")
 public class Dictionary {
 	
 	@Id
@@ -23,8 +26,9 @@ public class Dictionary {
 		
 	// Touristic place (documents) -> score/weight of term 
 	@ElementCollection
-	@MapKeyJoinColumn(name = "touristic_point_id")
-	@Column(name = "weight")
+	@MapKeyJoinColumn(name = "TOURISTIC_POINT_ID")
+	@Column(name = "WEIGHT")
+	@CollectionTable(name = "DICTIONARY_WEIGHTS_TABLE")
 	private Map<TouristicPoint, Double> weights = new HashMap<>();
 	
 	// Number of occurrences of term T in the Collection / total number tokens in the Collection

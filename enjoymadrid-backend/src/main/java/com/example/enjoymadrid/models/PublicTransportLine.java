@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,8 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "PUBLIC_TRANSPORT_LINE_TABLE")
 public class PublicTransportLine {
 
 	@Id
@@ -34,11 +37,13 @@ public class PublicTransportLine {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@MapKeyColumn(name = "STOP_ORDER")
 	@Column(name = "POLYLINE_ID")
+	@CollectionTable(name = "PUBLIC_TRANSPORT_LINE_POLYLINES_TABLE")
 	private Map<Integer, Polyline> stopPolylines = new HashMap<>();
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@MapKeyColumn(name = "SCHEDULE_KEY")
 	@Column(name = "SCHEDULE_VALUE")
+	@CollectionTable(name = "PUBLIC_TRANSPORT_LINE_SCHEDULES_TABLE")
 	private Map<String, Schedule> stopSchedules = new HashMap<>();
 		
 	public PublicTransportLine() {}

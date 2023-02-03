@@ -4,17 +4,21 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "FREQUENCY_TABLE")
 public class Frequency extends Schedule {
 	
 	@ElementCollection
 	@MapKeyColumn(name = "TIME_SLOT")
 	@Column(name = "FREQUENCY")
+	@CollectionTable(name = "DAY_FREQUENCIES_TABLE")
 	private Map<String, Integer> dayFrequencies = new HashMap<>();
 	
 	private LocalTime startSchedule;

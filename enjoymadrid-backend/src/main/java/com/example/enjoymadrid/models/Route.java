@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,6 +23,7 @@ import com.example.enjoymadrid.models.interfaces.RouteInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
+@Table(name = "ROUTE_TABLE")
 public class Route {
 
 	@Id
@@ -48,12 +51,14 @@ public class Route {
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@ElementCollection
+	@CollectionTable(name = "ROUTE_TRANSPORTS_TABLE")
 	private List<String> transports = new ArrayList<>();
 	
 	@JsonView(RouteInterfaces.BasicData.class)
 	@ElementCollection
 	@MapKeyColumn(name = "PREFERENCE")
 	@Column(name = "PREFRENCE_INTEREST")
+	@CollectionTable(name = "ROUTE_PREFERENCES_TABLE")
 	private Map<String, Integer> preferences = new HashMap<>();
 	
 	@JsonView(RouteInterfaces.BasicData.class)

@@ -5,23 +5,28 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.Table;
 
 @Entity
 @DiscriminatorValue("PublicTransport")
+@Table(name = "PUBLIC_TRANSPORT_POINT_TABLE")
 public class PublicTransportPoint extends TransportPoint {
 
 	@ElementCollection
+	@CollectionTable(name = "PUBLIC_TRANSPORT_POINT_LINES_TABLE")
 	private Set<String[]> stopLines = new HashSet<>();
 	
 	@ManyToMany
-	@MapKeyColumn(name = "line")
-	@Column(name = "next_point")
+	@MapKeyColumn(name = "LINE")
+	@Column(name = "NEXT_POINT")
+	@CollectionTable(name = "PUBLIC_TRANSPORT_POINT_NEXT_POINTS_TABLE")
 	private Map<String, PublicTransportPoint> nextStops = new HashMap<>();
 	
 	public PublicTransportPoint() {}
