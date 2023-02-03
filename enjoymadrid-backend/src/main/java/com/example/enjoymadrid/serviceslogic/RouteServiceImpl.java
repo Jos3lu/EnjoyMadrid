@@ -21,8 +21,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -56,6 +54,8 @@ import com.example.enjoymadrid.services.RouteService;
 import com.example.enjoymadrid.services.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import jakarta.validation.Valid;
 
 @Service
 public class RouteServiceImpl implements RouteService {

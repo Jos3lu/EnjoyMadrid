@@ -1,9 +1,5 @@
 package com.example.enjoymadrid.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +12,10 @@ import com.example.enjoymadrid.models.dtos.RefreshTokenResponseDto;
 import com.example.enjoymadrid.models.dtos.SignInRequestDto;
 import com.example.enjoymadrid.models.dtos.SignInResponseDto;
 import com.example.enjoymadrid.services.AuthService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")

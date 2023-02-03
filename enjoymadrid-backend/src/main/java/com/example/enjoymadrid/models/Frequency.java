@@ -4,10 +4,10 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.MapKeyColumn;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.MapKeyColumn;
 
 @Entity
 public class Frequency extends Schedule {

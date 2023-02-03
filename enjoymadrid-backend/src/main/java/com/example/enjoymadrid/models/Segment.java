@@ -3,11 +3,11 @@ package com.example.enjoymadrid.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.MapKeyColumn;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.MapKeyColumn;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import com.example.enjoymadrid.models.interfaces.SegmentInterfaces;
 import com.fasterxml.jackson.annotation.JsonView;

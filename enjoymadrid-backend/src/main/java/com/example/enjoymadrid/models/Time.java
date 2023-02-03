@@ -4,11 +4,11 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.MapKeyColumn;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.persistence.MapKeyColumn;
 
 @Entity
 public class Time extends Schedule {

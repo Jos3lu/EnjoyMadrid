@@ -1,7 +1,5 @@
 package com.example.enjoymadrid.controllers;
 
-import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +18,8 @@ import com.example.enjoymadrid.models.interfaces.UserInterfaces;
 import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")

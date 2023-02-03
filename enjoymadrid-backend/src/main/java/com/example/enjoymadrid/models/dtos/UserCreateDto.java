@@ -1,8 +1,8 @@
 package com.example.enjoymadrid.models.dtos;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class UserCreateDto {
 
@@ -18,6 +18,12 @@ public class UserCreateDto {
 	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,}", 
 		message = "La contraseña debe incluir al menos un número, una minúscula, una mayúscula y al menos 7 caracteres")
 	private String password;
+
+	public UserCreateDto(String name, String username, String password) {
+		this.name = name;
+		this.username = username;
+		this.password = password;
+	}
 
 	public String getName() {
 		return name;
