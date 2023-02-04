@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.enjoymadrid.models.interfaces.TouristicPointInterfaces;
+import com.example.enjoymadrid.models.interfaces.UserInterfaces;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.services.TouristicPointService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -39,7 +40,7 @@ public class TouristicPointController {
 	}
 	
 	@GetMapping("/users/{userId}/tourist-points")
-	@JsonView(TouristicPointInterfaces.BasicData.class)
+	@JsonView(UserInterfaces.TouristicPointData.class)
 	public ResponseEntity<List<TouristicPoint>> getUserTouristicPoints(@PathVariable Long userId) {
 		return ResponseEntity.ok(this.touristicPointService.getUserTouristicPoints(userId));
 	}

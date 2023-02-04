@@ -62,10 +62,10 @@ public class SecurityConfig {
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 		.authorizeHttpRequests()
-		.requestMatchers(HttpMethod.GET, "/api/users", "/api/users/*", "/api/users/*/routes").authenticated()
-		.requestMatchers(HttpMethod.POST, "/api/users/*/routes").authenticated()
+		.requestMatchers(HttpMethod.GET, "/api/users", "/api/users/*", "/api/users/*/routes", "/api/users/*/tourist-points").authenticated()
+		.requestMatchers(HttpMethod.POST, "/api/users/*/routes", "/api/users/*/tourist-points/*").authenticated()
 		.requestMatchers(HttpMethod.PUT, "/api/users/*", "/api/users/*/picture").authenticated()
-		.requestMatchers(HttpMethod.DELETE, "/api/users/*", "/api/users/*/routes/*").authenticated()
+		.requestMatchers(HttpMethod.DELETE, "/api/users/*", "/api/users/*/routes/*", "/api/users/*/tourist-points/*").authenticated()
 		.requestMatchers("/**").permitAll();
 		
 		http.headers().frameOptions().disable();
