@@ -45,7 +45,7 @@ public class UserController {
 		return ResponseEntity.ok(this.userService.updateUser(userId, updatedUser, updatedUserDto.getOldPassword()));
 	}
 	
-	@PutMapping("/users/{userId}/picture")
+	@PostMapping("/users/{userId}/picture")
 	@JsonView(UserInterfaces.PictureData.class)
 	public ResponseEntity<User> updateUserImage(@PathVariable Long userId, @RequestParam MultipartFile imageUser) {
 		return ResponseEntity.ok(this.userService.updateUserImage(userId, imageUser));

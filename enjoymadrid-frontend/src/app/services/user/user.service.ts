@@ -26,7 +26,7 @@ export class UserService {
   }
 
   updateUserPictureProfile(id: number, imageForm: FormData): Observable<UserModel> {
-    return this.httpClient.put<UserModel>(this.sharedService.getApiUrl() + 'users/' + id + '/picture', imageForm).pipe(
+    return this.httpClient.post<UserModel>(this.sharedService.getApiUrl() + 'users/' + id + '/picture', imageForm).pipe(
       catchError(this.sharedService.handleError)
     );
   }
