@@ -63,7 +63,7 @@ public class SecurityConfig {
 		.and()
 		.authorizeHttpRequests()
 		.requestMatchers(HttpMethod.GET, "/api/users", "/api/users/*", "/api/users/*/routes", "/api/users/*/tourist-points").authenticated()
-		.requestMatchers(HttpMethod.POST, "/api/users/*/routes", "/api/users/*/tourist-points/*").authenticated()
+		.requestMatchers(HttpMethod.POST, "/api/users/*/routes", "/api/users/*/tourist-points/*", "/api/signout", "/api/refreshtoken").authenticated()
 		.requestMatchers(HttpMethod.PUT, "/api/users/*", "/api/users/*/picture").authenticated()
 		.requestMatchers(HttpMethod.DELETE, "/api/users/*", "/api/users/*/routes/*", "/api/users/*/tourist-points/*").authenticated()
 		.requestMatchers("/**").permitAll();
