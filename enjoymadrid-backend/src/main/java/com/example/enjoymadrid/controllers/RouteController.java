@@ -54,7 +54,7 @@ public class RouteController {
 	@DeleteMapping("/users/{userId}/routes/{routeId}")
 	public ResponseEntity<Void> deleteRoute(@PathVariable Long userId, @PathVariable Long routeId) {
 		this.routeService.deleteRoute(routeId, userId);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 	
 	

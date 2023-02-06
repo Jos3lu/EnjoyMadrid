@@ -54,7 +54,7 @@ public class TouristicPointController {
 	@DeleteMapping("/users/{userId}/tourist-points/{touristPointId}")
 	public ResponseEntity<Void> deleteUserTouristicPoint(@PathVariable Long userId, @PathVariable Long touristPointId) {
 		this.touristicPointService.deleteUserTouristicPoint(userId, touristPointId);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 	
 }

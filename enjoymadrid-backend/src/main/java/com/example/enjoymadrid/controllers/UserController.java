@@ -47,13 +47,13 @@ public class UserController {
 	
 	@PostMapping("/users/{userId}/picture")
 	@JsonView(UserInterfaces.PictureData.class)
-	public ResponseEntity<User> updateUserImage(@PathVariable Long userId, @RequestParam MultipartFile imageUser) {
+	public ResponseEntity<User> updateUserImage(@PathVariable Long userId, @RequestParam("imageUser") MultipartFile imageUser) {
 		return ResponseEntity.ok(this.userService.updateUserImage(userId, imageUser));
 	}
 		
 	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
 		this.userService.deleteUser(userId);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 }
