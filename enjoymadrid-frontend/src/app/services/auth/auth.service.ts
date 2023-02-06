@@ -65,7 +65,7 @@ export class AuthService {
   }
 
   signOut(): Observable<any> {
-    return this.httpClient.get<any>(this.sharedService.getApiUrl() + 'signout').pipe(
+    return this.httpClient.post<any>(this.sharedService.getApiUrl() + 'signout', null).pipe(
       tap(_ => {
         // Clear data of user
         this.setUserAuth(null);
