@@ -32,7 +32,7 @@ public class AuthController {
 		return ResponseEntity.ok(this.authService.signIn(loginDto));
 	}
 
-	@GetMapping("/signout")
+	@PostMapping("/signout")
 	public ResponseEntity<Void> signOut(HttpServletRequest request, HttpServletResponse response) {
 		return new ResponseEntity<>(this.authService.signOut(request, response));
 	}
