@@ -545,6 +545,10 @@ public class RouteServiceImpl implements RouteService {
 		// Return a route between two or more locations for a selected profile
 		WebClient client = WebClient.create("https://api.openrouteservice.org");
 		//WebClient client = WebClient.create("http://localhost:8088/ors");
+		
+		if (client == null)
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"La ruta no se ha podido crear debido a un error del servidor");
 		for (int i = 0; i < routePoints.size(); i++) {	
 			
 			// Index of first of segment
