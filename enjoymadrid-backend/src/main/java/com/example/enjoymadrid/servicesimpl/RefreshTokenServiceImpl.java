@@ -1,15 +1,15 @@
 package com.example.enjoymadrid.servicesimpl;
 
+import java.time.Instant;
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.Instant;
-import java.util.UUID;
-
+import com.example.enjoymadrid.models.RefreshToken;
 import com.example.enjoymadrid.models.repositories.RefreshTokenRepository;
 import com.example.enjoymadrid.models.repositories.UserRepository;
-import com.example.enjoymadrid.models.RefreshToken;
 import com.example.enjoymadrid.services.RefreshTokenService;
 
 @Service

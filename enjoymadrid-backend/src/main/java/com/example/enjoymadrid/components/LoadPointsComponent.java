@@ -10,9 +10,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.example.enjoymadrid.services.AirQualityLoadService;
+import com.example.enjoymadrid.services.RefreshTokenService;
 import com.example.enjoymadrid.services.TouristicLoadService;
 import com.example.enjoymadrid.services.TransportLoadService;
-import com.example.enjoymadrid.services.RefreshTokenService;
 
 @Component
 @EnableScheduling

@@ -3,14 +3,14 @@ package com.example.enjoymadrid.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.enjoymadrid.models.interfaces.SegmentInterfaces;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
-import com.example.enjoymadrid.models.interfaces.SegmentInterfaces;
-import com.fasterxml.jackson.annotation.JsonView;
 
 public class Segment {
 	

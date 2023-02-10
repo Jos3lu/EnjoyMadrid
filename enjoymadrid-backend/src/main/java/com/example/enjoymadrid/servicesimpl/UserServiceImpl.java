@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.User;
+import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.services.UserService;
 
 @Service

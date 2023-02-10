@@ -1,9 +1,6 @@
 package com.example.enjoymadrid.servicesimpl;
 
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +19,9 @@ import com.example.enjoymadrid.security.jwt.JwtUtilityToken;
 import com.example.enjoymadrid.services.AuthService;
 import com.example.enjoymadrid.services.RefreshTokenService;
 import com.example.enjoymadrid.services.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class AuthServiceImpl implements AuthService {

@@ -3,6 +3,10 @@ package com.example.enjoymadrid.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.enjoymadrid.models.interfaces.TouristicPointInterfaces;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -11,10 +15,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-
-import com.example.enjoymadrid.models.interfaces.TouristicPointInterfaces;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @DiscriminatorValue("Touristic")

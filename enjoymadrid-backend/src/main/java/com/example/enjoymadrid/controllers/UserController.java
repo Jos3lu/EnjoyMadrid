@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.models.dtos.UserCreateDto;
 import com.example.enjoymadrid.models.dtos.UserUpdateDto;
 import com.example.enjoymadrid.models.interfaces.UserInterfaces;
-import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 

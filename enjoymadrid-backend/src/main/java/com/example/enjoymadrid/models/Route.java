@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.enjoymadrid.models.interfaces.RouteInterfaces;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -18,9 +21,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
-import com.example.enjoymadrid.models.interfaces.RouteInterfaces;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "ROUTE_TABLE")

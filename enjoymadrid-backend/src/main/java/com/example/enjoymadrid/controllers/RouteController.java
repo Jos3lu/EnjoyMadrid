@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.enjoymadrid.models.interfaces.RouteInterfaces;
-import com.example.enjoymadrid.models.interfaces.UserInterfaces;
 import com.example.enjoymadrid.models.Route;
 import com.example.enjoymadrid.models.dtos.RouteResultDto;
+import com.example.enjoymadrid.models.interfaces.RouteInterfaces;
+import com.example.enjoymadrid.models.interfaces.UserInterfaces;
 import com.example.enjoymadrid.services.RouteService;
 import com.fasterxml.jackson.annotation.JsonView;
 

@@ -1,6 +1,7 @@
 package com.example.enjoymadrid.controllers;
 
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.interfaces.TouristicPointInterfaces;
 import com.example.enjoymadrid.models.interfaces.UserInterfaces;
-import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.services.TouristicPointService;
 import com.fasterxml.jackson.annotation.JsonView;
 

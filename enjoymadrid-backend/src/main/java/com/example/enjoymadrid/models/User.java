@@ -3,6 +3,10 @@ package com.example.enjoymadrid.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.enjoymadrid.models.interfaces.UserInterfaces;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -19,10 +23,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
-import com.example.enjoymadrid.models.interfaces.UserInterfaces;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "USER_TABLE")

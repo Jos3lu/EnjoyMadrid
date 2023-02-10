@@ -6,10 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
-import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.User;
+import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
+import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.TouristicPointService;
 

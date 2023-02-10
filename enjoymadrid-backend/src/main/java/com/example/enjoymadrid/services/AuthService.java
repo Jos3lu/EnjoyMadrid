@@ -1,14 +1,14 @@
 package com.example.enjoymadrid.services;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.http.HttpStatus;
 
 import com.example.enjoymadrid.models.dtos.RefreshTokenRequestDto;
 import com.example.enjoymadrid.models.dtos.RefreshTokenResponseDto;
 import com.example.enjoymadrid.models.dtos.SignInRequestDto;
 import com.example.enjoymadrid.models.dtos.SignInResponseDto;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService {
 	
