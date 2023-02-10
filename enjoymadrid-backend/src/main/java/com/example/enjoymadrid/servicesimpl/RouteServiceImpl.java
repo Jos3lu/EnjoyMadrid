@@ -549,6 +549,7 @@ public class RouteServiceImpl implements RouteService {
 		if (client == null)
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
 					"La ruta no se ha podido crear debido a un error del servidor");
+		
 		for (int i = 0; i < routePoints.size(); i++) {	
 			
 			// Index of first of segment

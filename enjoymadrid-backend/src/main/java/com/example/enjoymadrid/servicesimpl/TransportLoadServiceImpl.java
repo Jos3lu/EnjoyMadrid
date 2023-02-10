@@ -252,7 +252,7 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 							
 							// Store frequencies in a map
 							for (String dayArrivalTimes : daysList) {
-								daysArrivalTimes.put(dayArrivalTimes, lineTimes.toArray(new LocalTime[0]));
+								daysArrivalTimes.put(dayArrivalTimes, lineTimes.toArray(new LocalTime[lineTimes.size()]));
 							}
 							
 						}
