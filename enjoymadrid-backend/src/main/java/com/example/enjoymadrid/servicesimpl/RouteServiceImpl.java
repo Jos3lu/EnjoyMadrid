@@ -28,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.enjoymadrid.models.AirQualityPoint;
@@ -55,6 +56,8 @@ import com.example.enjoymadrid.services.RouteService;
 import com.example.enjoymadrid.services.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import reactor.core.publisher.Mono;
 
 @Service
 public class RouteServiceImpl implements RouteService {
@@ -98,28 +101,49 @@ public class RouteServiceImpl implements RouteService {
 	
 	@Override
 	public RouteResultDto createRoute(Route route, Long userId) {
-				
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
 		TransportPoint destination = route.getDestination();
 		origin.setType("");
 		destination.setType("");
+		
 		// Walking distance to the next transport point
 		Double maxDistance = route.getMaxDistance() * 0.7;
+		
 		// User's interests
 		Map<String, Integer> preferences = route.getPreferences();
 		
 		// Map with lines of the public transport stops
 		Map<String, PublicTransportLine> lineStops = this.publicTransportLineRepository.findAll().stream()
-				.collect(Collectors.toMap(line -> line.getTransportType() + "_" + line.getLine() + " [" + line.getDirection() + "]", line -> line));
+				.collect(Collectors.toMap(line -> 
+					line.getTransportType() + "_" + line.getLine() + " [" + line.getDirection() + "]", 
+					line -> line));
+		
 		// Get all the transport points selected by user
 		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports(), lineStops);
 		
-		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transportPoints, preferences);
+		// Get the air quality measuring stations (that AQI levels are currently available)
+		List<AirQualityPoint> airQualityPoints = this.airQualityPointRepository.findByAqiIsNotNull();
+		
+		// Get all the touristic points
+		List<TouristicPoint> touristicPoints = this.touristicPointRepository.findAll();
+		
+		// Get only bicycle stations from DB if selected by user
+		Set<TransportPoint> bicyclePoints = route.getTransports().contains("BiciMAD") ? 
+				transportPoints.stream()
+					.filter(stop -> stop instanceof BicycleTransportPoint)
+					.collect(Collectors.toSet()) 
+				: new HashSet<>();
+		
+		// Find the best route
+		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transportPoints, 
+				preferences, airQualityPoints, touristicPoints, bicyclePoints);
 		if (routePoints == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST , "No se ha podido crear la ruta con estos parámetros de entrada");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"No se ha podido crear la ruta con estos parámetros de entrada");
 		}
-						
+					
+		// Set the different segments that form the route
 		RouteResultDto routeResultDto = setSegments(routePoints, route.getName(), lineStops);
 		
 		// If user logged in store route in DB
@@ -146,7 +170,8 @@ public class RouteServiceImpl implements RouteService {
 	 * @return Complete route
 	 */
 	private <P extends Comparable<P>> List<P> findBestRoute(P origin, P destination, Double maxDistance,
-			List<P> transportPoints, Map<String, Integer> preferences) {
+			List<P> transportPoints, Map<String, Integer> preferences, List<AirQualityPoint> airQualityPoints,
+			List<TouristicPoint> touristicPoints, Set<P> bicyclePoints) {
 
 		// Map that delivers the wrapper for a point
 		Map<P, PointWrapper<P>> points = new HashMap<>();
@@ -154,15 +179,6 @@ public class RouteServiceImpl implements RouteService {
 		TreeSet<PointWrapper<P>> openList = new TreeSet<>();
 		// Check if a point has already been processed
 		Set<P> bestPointsFound = new HashSet<>();
-
-		// Get the air quality measuring stations (that AQI levels are currently available)
-		List<AirQualityPoint> airQualityPoints = this.airQualityPointRepository.findByAqiIsNotNull();
-		// Get all the touristic points
-		List<TouristicPoint> touristicPoints = this.touristicPointRepository.findAll();
-		// Get only bicycle stations from DB if selected by user
-		Set<P> bicyclePoints = transportPoints.stream()
-				.filter(stop -> stop instanceof BicycleTransportPoint)
-				.collect(Collectors.toSet());
 
 		// Add origin point
 		PointWrapper<P> originWrapper = new PointWrapper<>(origin, null, false, 0.0,
@@ -214,7 +230,7 @@ public class RouteServiceImpl implements RouteService {
 					openList.remove(neighborWrapper);
 					// Modify Point of PointWrapper in case lines have changed (subway, commuter & bus)
 					neighborWrapper.setPoint(neighbor);
-					// Update previous point, distance from start & if is a direct neighbor
+					// Update previous point, distance from start & if it's a direct neighbor
 					neighborWrapper.setDirectNeighbor(directNeighbor);
 					neighborWrapper.setDistanceFromOrigin(distanceFromOrigin);
 					neighborWrapper.setPrevious(pointWrapper);
@@ -545,11 +561,6 @@ public class RouteServiceImpl implements RouteService {
 		// Return a route between two or more locations for a selected profile
 		WebClient client = WebClient.create("https://api.openrouteservice.org");
 		//WebClient client = WebClient.create("http://localhost:8088/ors");
-		
-		if (client == null)
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-					"La ruta no se ha podido crear debido a un error del servidor");
-		
 		for (int i = 0; i < routePoints.size(); i++) {	
 			
 			// Index of first of segment
@@ -628,7 +639,8 @@ public class RouteServiceImpl implements RouteService {
 			
 			// Store the coordinates that form the polyline
 			List<Double[]> polylineList = new ArrayList<>();
-			// Distance & duration of the segment
+			
+			// Duration of the segment
 			double durationSegment = 0.0;
 			
 			if (modeTransports.containsKey(transportMode)) {
@@ -654,46 +666,66 @@ public class RouteServiceImpl implements RouteService {
 								+ "\"preference\":\"shortest\""))
 						.retrieve()
 						.bodyToMono(ObjectNode.class)
+						.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
 						.block();
 				
-				// Get data of the response
-				JsonNode features = response.get("features");
-				JsonNode properties = features.findValue("properties");	
-				
-				// Get the points to draw the route
-				JsonNode polyline = features.findValue("geometry").findValue("coordinates");
-				for (JsonNode coordinatesNode: polyline) {
-					Double longitude = coordinatesNode.get(0).asDouble();
-					Double latitude = coordinatesNode.get(1).asDouble();
-					polylineList.add(new Double[] {latitude, longitude});
-				}
-				
-				// Get duration
-				durationSegment = properties.get("summary").get("duration").asDouble();
-								
-				// For bicycle & walk, the steps & distance of segment
-				if (!transportMode.equals("Bus")) {	
-					// Get distance
-					double distanceSegment = properties.get("summary").get("distance").asDouble();
-					// Adjust distance, add to segment
-					distanceSegment = BigDecimal.valueOf(distanceSegment / 1000).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
-					segment.setDistance(distanceSegment);
+				// Distance of the segment
+				double distanceSegment = 0.0;
+				if (response != null) {
+					// Get data of the response
+					JsonNode features = response.get("features");
+					JsonNode properties = features.findValue("properties");	
 					
-					// Handle the steps
-					List<String> stepsMap = new ArrayList<>();
-					List<JsonNode> stepsList = properties.get("segments").findValues("steps");
-					for (JsonNode steps : stepsList) {
-						for (JsonNode step : steps) {
-							JsonNode way_points = step.get("way_points");
-							Integer first = way_points.get(0).asInt();
-							Integer last = way_points.get(1).asInt();
-							String instruction = step.get("instruction").asText();
-							stepsMap.add(first + "-" + last + ":" + instruction);
-						}
+					// Get the points to draw the route
+					JsonNode polyline = features.findValue("geometry").findValue("coordinates");
+					for (JsonNode coordinatesNode: polyline) {
+						Double longitude = coordinatesNode.get(0).asDouble();
+						Double latitude = coordinatesNode.get(1).asDouble();
+						polylineList.add(new Double[] {latitude, longitude});
 					}
-					segment.setSteps(stepsMap);
+					
+					// Get duration
+					durationSegment = properties.get("summary").get("duration").asDouble();
+									
+					// For bicycle & walk, the steps & distance of segment
+					if (!transportMode.equals("Bus")) {	
+						// Get distance
+						distanceSegment = properties.get("summary").get("distance").asDouble() / 1000;
+						
+						// Handle the steps
+						List<String> stepsMap = new ArrayList<>();
+						List<JsonNode> stepsList = properties.get("segments").findValues("steps");
+						for (JsonNode steps : stepsList) {
+							for (JsonNode step : steps) {
+								JsonNode way_points = step.get("way_points");
+								Integer first = way_points.get(0).asInt();
+								Integer last = way_points.get(1).asInt();
+								String instruction = step.get("instruction").asText();
+								stepsMap.add(first + "-" + last + ":" + instruction);
+							}
+						}
+						segment.setSteps(stepsMap);
+					}
+				} else {
+					polylineList.addAll(points.stream()
+							.map(point -> new Double[] {point.getLatitude(), point.getLongitude()})
+							.collect(Collectors.toList())
+					);
+					Point sourcePoint = points.get(0);
+					Point targetPoint = points.get(points.size() - 1);
+					// Calculate distance using haversine formula 
+					distanceSegment = haversine(sourcePoint.getLatitude(), sourcePoint.getLongitude(),
+							targetPoint.getLatitude(), targetPoint.getLongitude());
+					// Get time using duration = distance / speed
+					double speed = transportMode.equals("A pie") ? 6.0 // Walking
+							: transportMode.equals("BiciMAD") ? 15.71 // BiciMAD
+							: 13.5; // EMT Bus
+					durationSegment = (double) (distanceSegment / speed) * 3600;	
 				}
-
+				
+				// Adjust distance, add to segment
+				distanceSegment = BigDecimal.valueOf(distanceSegment).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+				segment.setDistance(distanceSegment);
 			}
 			
 			// Color of polyline for the segment
