@@ -84,91 +84,7 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		
 		logger.info("Transport points updated");
 	}
-	
-	/**
-	 * Login in the EMT API & get access token 
-	 */
-	private void loginEMTApi() {
-		// Web page EMT api
-		WebClient client = WebClient.create("https://openapi.emtmadrid.es");
 		
-		// Web page EMT login to get accessToken
-		ObjectNode response = client.get()
-				.uri("/v1/mobilitylabs/user/login/")
-				.headers(httpHeaders -> {
-					httpHeaders.set("email", "enjoymadridapp1@gmail.com");
-					httpHeaders.set("password", "EnjoyMadrid123");
-					//httpHeaders.set("X-ClientId", "c49496a8-53bf-4b86-bb2a-66b3ecbdc494");
-					//httpHeaders.set("passKey",
-					//		"FD89F93FAE0DB64EE23E7B0D2B8B719EF1EF06FC5F88E5AB9CF2000EF8133799CD44F59380BC194475E526BA2B6EA5E5676E340B87C4BBF3AF4DC1D681E");
-				})
-				.retrieve()
-				.bodyToMono(ObjectNode.class)
-				.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
-				.block();
-		
-		if (response == null) {
-			logger.error("Could not update the information of the bicycle stations");
-			return;	
-		}
-		// Get accessToken for the api requests
-		accessToken = response.get("data").get(0).get("accessToken").asText();
-	}
-
-	@Override
-	public void updateBiciMADPoints() {
-		// Query to get bicycle stations from DB with the number of the station as the key
-		Map<String, BicycleTransportPoint> bicycleTransportPointsDB = this.transportPointRepository.findByType("BiciMAD").stream()
-				.map(transportPoint -> (BicycleTransportPoint) transportPoint)
-				.collect(Collectors.toMap(BicycleTransportPoint::getStationNumber, point -> point));
-		
-		// Web page EMT api
-		WebClient client = WebClient.create("https://openapi.emtmadrid.es");
-				
-		// Web page EMT api for stations
-		ObjectNode response = client.get()
-				.uri("/v1/transport/bicimad/stations/")
-				.header("accessToken", accessToken)
-				.retrieve()
-				.bodyToMono(ObjectNode.class)
-				.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
-				.block();
-		
-		if (response == null) {
-			logger.error("Could not update the information of the bicycle stations");
-			return;
-		}
-		
-		JsonNode stations = response.get("data");
-		
-		for (JsonNode station : stations) {
-			String stationNumber = station.get("number").asText();
-			
-			BicycleTransportPoint bicycleTransportPointDB = bicycleTransportPointsDB.get(stationNumber);
-			
-			if (bicycleTransportPointDB == null) {
-				continue;
-			}
-			
-			Integer activate = station.get("activate").asInt();
-			Integer no_available = station.get("no_available").asInt();
-			Integer total_bases = station.get("total_bases").asInt();
-			Integer dock_bikes = station.get("dock_bikes").asInt();
-			Integer free_bases = station.get("free_bases").asInt();
-			Integer reservations_count = station.get("reservations_count").asInt();
-			
-			bicycleTransportPointDB.setActivate(activate == 1 ? true : false);
-			bicycleTransportPointDB.setNo_available(no_available == 1 ? true : false);
-			bicycleTransportPointDB.setTotalBases(total_bases);
-			bicycleTransportPointDB.setDockBases(dock_bikes);
-			bicycleTransportPointDB.setFreeBases(free_bases);
-			bicycleTransportPointDB.setReservations(reservations_count);
-			
-			this.transportPointRepository.save(bicycleTransportPointDB);
-		}	
-		
-	}
-	
 	/**
 	 * Load for each data source the transport points
 	 * 
@@ -420,12 +336,14 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 	 */
 	private void loadBiciMADPoints(String type, String stopsPath, CyclicBarrier waitToEnd) {
 		
+		// Get accessToken for EMT Api
+		loginEMTApi();
+		
 		// Query to get number of entities in DB
 		boolean bicycleTransportPointsDB = this.transportPointRepository.existsByType(type);
 		
 		if (bicycleTransportPointsDB) {
 			// Add availability of each Bike station
-			loginEMTApi();
 			updateBiciMADPoints();
 			
 			try {
@@ -468,7 +386,6 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		} 
 		
 		// Add availability of each Bike station
-		loginEMTApi();
 		updateBiciMADPoints();
 		
 		try {
@@ -477,6 +394,89 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 			logger.error(e.getMessage());
 		}
 		
+	}
+	
+	@Override
+	public void updateBiciMADPoints() {
+		// Query to get bicycle stations from DB with the number of the station as the key
+		Map<String, BicycleTransportPoint> bicycleTransportPointsDB = this.transportPointRepository.findByType("BiciMAD").stream()
+				.map(transportPoint -> (BicycleTransportPoint) transportPoint)
+				.collect(Collectors.toMap(BicycleTransportPoint::getStationNumber, point -> point));
+		
+		// Web page EMT api
+		WebClient client = WebClient.create("https://openapi.emtmadrid.es");
+				
+		// Web page EMT api for stations
+		ObjectNode response = client.get()
+				.uri("/v1/transport/bicimad/stations/")
+				.header("accessToken", accessToken)
+				.retrieve()
+				.bodyToMono(ObjectNode.class)
+				.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
+				.block();
+		
+		if (response == null) {
+			logger.error("Could not update the information of the bicycle stations");
+			return;
+		}
+		
+		JsonNode stations = response.get("data");
+		
+		for (JsonNode station : stations) {
+			String stationNumber = station.get("number").asText();
+			
+			BicycleTransportPoint bicycleTransportPointDB = bicycleTransportPointsDB.get(stationNumber);
+			
+			if (bicycleTransportPointDB == null) {
+				continue;
+			}
+			
+			Integer activate = station.get("activate").asInt();
+			Integer no_available = station.get("no_available").asInt();
+			Integer total_bases = station.get("total_bases").asInt();
+			Integer dock_bikes = station.get("dock_bikes").asInt();
+			Integer free_bases = station.get("free_bases").asInt();
+			Integer reservations_count = station.get("reservations_count").asInt();
+			
+			bicycleTransportPointDB.setActivate(activate == 1 ? true : false);
+			bicycleTransportPointDB.setNo_available(no_available == 1 ? true : false);
+			bicycleTransportPointDB.setTotalBases(total_bases);
+			bicycleTransportPointDB.setDockBases(dock_bikes);
+			bicycleTransportPointDB.setFreeBases(free_bases);
+			bicycleTransportPointDB.setReservations(reservations_count);
+			
+			this.transportPointRepository.save(bicycleTransportPointDB);
+		}		
+	}
+	
+	/**
+	 * Login in the EMT API & get access token 
+	 */
+	private void loginEMTApi() {
+		// Web page EMT api
+		WebClient client = WebClient.create("https://openapi.emtmadrid.es");
+		
+		// Web page EMT login to get accessToken
+		ObjectNode response = client.get()
+				.uri("/v1/mobilitylabs/user/login/")
+				.headers(httpHeaders -> {
+					httpHeaders.set("email", "enjoymadridapp1@gmail.com");
+					httpHeaders.set("password", "EnjoyMadrid123");
+					//httpHeaders.set("X-ClientId", "c49496a8-53bf-4b86-bb2a-66b3ecbdc494");
+					//httpHeaders.set("passKey",
+					//		"FD89F93FAE0DB64EE23E7B0D2B8B719EF1EF06FC5F88E5AB9CF2000EF8133799CD44F59380BC194475E526BA2B6EA5E5676E340B87C4BBF3AF4DC1D681E");
+				})
+				.retrieve()
+				.bodyToMono(ObjectNode.class)
+				.onErrorResume(WebClientResponseException.class, error -> Mono.empty())
+				.block();
+		
+		if (response == null) {
+			logger.error("Error when trying to create a session with the EMT Api");
+			return;	
+		}
+		// Get accessToken for the api requests
+		accessToken = response.get("data").get(0).get("accessToken").asText();
 	}
 	
 	/**
