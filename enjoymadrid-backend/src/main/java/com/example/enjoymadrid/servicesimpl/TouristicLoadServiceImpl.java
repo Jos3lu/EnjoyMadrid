@@ -77,6 +77,7 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 
 		// Index last dataOrigins array
 		int originLast = dataOrigins.length - 1;
+		
 		// Each thread for type of tourism
 		ExecutorService ex = Executors.newFixedThreadPool(originLast);
 

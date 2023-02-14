@@ -61,26 +61,36 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 
 	@Override
 	public void loadTransportPoints() {
+		// Get accessToken for EMT Api
+		loginEMTApi();
+		
 		// Data sources
-		String[][] publicTransportTypes = {
+		String[][] transportTypes = {
 				{"Metro", "static/subway/stops_subway.geojson", "static/subway/lines_subway.json"}, 
 				{"Bus", "static/bus/stops_bus.geojson", "static/bus/lines_bus.json"}, 
 				{"Cercanías", "static/commuter/stops_commuter.geojson", "static/commuter/lines_commuter.json"},
+				{"BiciMAD", "static/bicycle/stops_bicycle.geojson", ""}
 		};
 		
+		// Index last transportTypes array
+		int transportLast = transportTypes.length - 1;
+		
 		// Thread for each type of transport
-		ExecutorService ex = Executors.newFixedThreadPool(publicTransportTypes.length);
+		ExecutorService ex = Executors.newFixedThreadPool(transportLast);
 		
 		// Sync threads pool
-		CyclicBarrier waitToEnd = new CyclicBarrier(publicTransportTypes.length + 1);
+		CyclicBarrier waitToEnd = new CyclicBarrier(transportTypes.length);
 		
-		for (String[] publicTransport : publicTransportTypes) {
-			ex.execute(() -> loadPublicTransportPoints(publicTransport[0], publicTransport[1], publicTransport[2], waitToEnd));
+		for (int i = 0; i < transportLast; i++) {
+			final int transportIndex = i;
+			ex.execute(() -> loadTransportPoints(transportTypes[transportIndex][0], transportTypes[transportIndex][1],
+					transportTypes[transportIndex][2], waitToEnd));
 		}	
 		ex.shutdown();
 		
 		// Main working at the same time as threads
-		loadBiciMADPoints("BiciMAD", "static/bicycle/stops_bicycle.geojson", waitToEnd);
+		loadTransportPoints(transportTypes[transportLast][0], transportTypes[transportLast][1],
+				transportTypes[transportLast][2], waitToEnd);
 		
 		logger.info("Transport points updated");
 	}
@@ -93,12 +103,16 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 	 * @param linesPath Path of lines' data source
 	 * @param waitToEnd Synchronization aid
 	 */
-	private void loadPublicTransportPoints(String type, String stopsPath, String linesPath, CyclicBarrier waitToEnd) {
+	private void loadTransportPoints(String type, String stopsPath, String linesPath, CyclicBarrier waitToEnd) {
 		
 		// Query to get number of entities in DB
-		boolean publicTransportPointsDB = this.transportPointRepository.existsByType(type);
+		boolean transportPointsDB = this.transportPointRepository.existsByType(type);
 		
-		if (publicTransportPointsDB) {
+		if (transportPointsDB) {
+			// Add availability of each Bike station
+			if (type.equals("BiciMAD")) 
+				updateBiciMADPoints();
+			
 			try {
 				waitToEnd.await();
 			} catch (InterruptedException | BrokenBarrierException e) {
@@ -111,15 +125,22 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		try {
-
 			// Set with the stops
-			Set<PublicTransportPoint> publicTransportPoints = new HashSet<>();
+			Set<PublicTransportPoint> publicTransportPoints = null;
 			// Map with each line associated to the stop
-			Map<String, PublicTransportPoint> linePublicTransportPoints = new HashMap<>();
+			Map<String, PublicTransportPoint> linePublicTransportPoints = null;
 			// Map with each line associated to the stops and its arrival times
-			Map<String, Map<String, Schedule>> timesPublicTransportPoints = new HashMap<>();
+			Map<String, Map<String, Schedule>> timesPublicTransportPoints = null;
 			// Map with each line associated to the stops and its polylines
-			Map<String, Map<Integer, Polyline>> polylinesPublicTransportPoints = new HashMap<>();
+			Map<String, Map<Integer, Polyline>> polylinesPublicTransportPoints = null;
+			
+			// Initialize variables just in case that lines file is passed as parameter
+			if (!linesPath.isBlank()) {
+				publicTransportPoints = new HashSet<>();
+				linePublicTransportPoints = new HashMap<>();
+				timesPublicTransportPoints = new HashMap<>();
+				polylinesPublicTransportPoints = new HashMap<>();
+			}
 			
 			// For jar file, instead of getting getFile use getInputStream and transform into file
 			InputStream stopsStream = new ClassPathResource(stopsPath).getInputStream();			
@@ -136,101 +157,126 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
 				
 				// Store lines of the stop
-				Set<String[]> stopLines = new HashSet<>();
+				Set<String[]> stopLines = null;
+				if (!linesPath.isBlank())
+					stopLines = new HashSet<>();
+				
 				// Get the lines of the stop in the file
 				JsonNode lines = stop.get("lines");
-				for (JsonNode line: lines) {
-					String lineName = line.get("line").asText();
-					String direction = line.get("direction").asText();
-					Integer order = line.get("order").asInt();
-					// Distance in meters
-					Double distance = line.get("distance_previous_segment").asDouble();
-					// Speed in kilometers/hour
-					Double speed = line.get("speed_previous_segment").asDouble();
-					
-					stopLines.add(new String[] {lineName, direction, Integer.toString(order)});
-					
-					JsonNode stopTimes = line.get("stop_times");
-					if (!stopTimes.isNull()) {
-						// Map with arrival times of the stop (in a line)
-						Map<String, LocalTime[]> daysArrivalTimes = new HashMap<>();
+				if (!lines.isNull()) {
+					for (JsonNode line: lines) {
+						String lineName = line.get("line").asText();
+						String direction = line.get("direction").asText();
+						Integer order = line.get("order").asInt();
+						// Distance in meters
+						Double distance = line.get("distance_previous_segment").asDouble();
+						// Speed in kilometers/hour
+						Double speed = line.get("speed_previous_segment").asDouble();
 						
-						for (JsonNode arrivalTimesWeek: stopTimes) {
-							// Get days of the week
-							List<String> daysList = getDaysWeek(arrivalTimesWeek);
+						stopLines.add(new String[] {lineName, direction, Integer.toString(order)});
+						
+						JsonNode stopTimes = line.get("stop_times");
+						if (!stopTimes.isNull()) {
+							// Map with arrival times of the stop (in a line)
+							Map<String, LocalTime[]> daysArrivalTimes = new HashMap<>();
 							
-							List<LocalTime> lineTimes = new ArrayList<>();
-							JsonNode arrivalTimes = arrivalTimesWeek.get("arrival_times");
-							for (JsonNode arrivalTime: arrivalTimes) {
-								LocalTime time = LocalTime.parse(arrivalTime.asText());
-								lineTimes.add(time);
+							for (JsonNode arrivalTimesWeek: stopTimes) {
+								// Get days of the week
+								List<String> daysList = getDaysWeek(arrivalTimesWeek);
+								
+								List<LocalTime> lineTimes = new ArrayList<>();
+								JsonNode arrivalTimes = arrivalTimesWeek.get("arrival_times");
+								for (JsonNode arrivalTime: arrivalTimes) {
+									LocalTime time = LocalTime.parse(arrivalTime.asText());
+									lineTimes.add(time);
+								}
+								
+								// Store frequencies in a map
+								for (String dayArrivalTimes : daysList) {
+									daysArrivalTimes.put(dayArrivalTimes, lineTimes.toArray(new LocalTime[lineTimes.size()]));
+								}
+								
 							}
 							
-							// Store frequencies in a map
-							for (String dayArrivalTimes : daysList) {
-								daysArrivalTimes.put(dayArrivalTimes, lineTimes.toArray(new LocalTime[lineTimes.size()]));
+							// Put the arrival times
+							Map<String, Schedule> stopTimesMap = timesPublicTransportPoints.get(lineName + " [" + direction + "]");
+							if (stopTimesMap == null) {
+								stopTimesMap = new HashMap<>();
 							}
+							stopTimesMap.put(Integer.toString(order), new Time(daysArrivalTimes));
+							timesPublicTransportPoints.put(lineName + " [" + direction + "]", stopTimesMap);
 							
 						}
 						
-						// Put the arrival times
-						Map<String, Schedule> stopTimesMap = timesPublicTransportPoints.get(lineName + " [" + direction + "]");
-						if (stopTimesMap == null) {
-							stopTimesMap = new HashMap<>();
+						JsonNode polyline = line.get("geometry");
+						if (!polyline.isNull()) {
+							JsonNode polylineCoords = polyline.get("coordinates");
+							List<Double[]> coordinates = new ArrayList<>();
+							for (JsonNode point: polylineCoords) {
+								Double longitudePoint = point.get(0).asDouble();
+								Double latitudePoint = point.get(1).asDouble();
+								coordinates.add(new Double[] {latitudePoint, longitudePoint});
+							}
+							
+							Map<Integer, Polyline> stopPolylines = polylinesPublicTransportPoints.get(lineName + " [" + direction + "]");
+							if (stopPolylines == null) {
+								stopPolylines = new HashMap<>();
+							}
+							
+							// Duration in seconds
+							Double duration = 0.0;
+							if (speed != 0.0) {
+								duration = distance / (speed * (1000.0 / 3600.0));
+							}
+							stopPolylines.put(order, new Polyline(duration, coordinates));
+							polylinesPublicTransportPoints.put(lineName + " [" + direction + "]", stopPolylines);
 						}
-						stopTimesMap.put(Integer.toString(order), new Time(daysArrivalTimes));
-						timesPublicTransportPoints.put(lineName + " [" + direction + "]", stopTimesMap);
-						
-					}
-					
-					JsonNode polyline = line.get("geometry");
-					if (!polyline.isNull()) {
-						JsonNode polylineCoords = polyline.get("coordinates");
-						List<Double[]> coordinates = new ArrayList<>();
-						for (JsonNode point: polylineCoords) {
-							Double longitudePoint = point.get(0).asDouble();
-							Double latitudePoint = point.get(1).asDouble();
-							coordinates.add(new Double[] {latitudePoint, longitudePoint});
-						}
-						
-						Map<Integer, Polyline> stopPolylines = polylinesPublicTransportPoints.get(lineName + " [" + direction + "]");
-						if (stopPolylines == null) {
-							stopPolylines = new HashMap<>();
-						}
-						
-						// Duration in seconds
-						Double duration = 0.0;
-						if (speed != 0.0) {
-							duration = distance / (speed * (1000.0 / 3600.0));
-						}
-						stopPolylines.put(order, new Polyline(duration, coordinates));
-						polylinesPublicTransportPoints.put(lineName + " [" + direction + "]", stopPolylines);
 					}
 				}
-				// Save stop in DB
-				PublicTransportPoint publicTransportPoint = 
-						this.transportPointRepository.save(new PublicTransportPoint(name, longitude, latitude, type, stopLines));
 				
-				// Store transport points
-				publicTransportPoints.add(publicTransportPoint);
-								
-				// Set in the map each line associated to its point
-				for (String[] line: stopLines) {
-					linePublicTransportPoints.put(line[0] + "_" + line[1] + "_" + line[2], publicTransportPoint);
+				// Save stop in DB
+				if (type.equals("BiciMAD")) {
+					String stationNumber = stop.get("number").asText();
+					this.transportPointRepository.save((new BicycleTransportPoint(stationNumber, name, longitude, latitude,
+							type, 0, 0, 0, false, true, 0)));
+				} else {
+					PublicTransportPoint publicTransportPoint = 
+							this.transportPointRepository.save(new PublicTransportPoint(name, longitude, latitude, type, stopLines));
+					
+					// Store transport points
+					publicTransportPoints.add(publicTransportPoint);
+									
+					// Set in the map each line associated to its point
+					for (String[] line: stopLines) {
+						linePublicTransportPoints.put(line[0] + "_" + line[1] + "_" + line[2], publicTransportPoint);
+					}
+				}			
+			}
+			
+			// In case of BiciMAD end the function
+			if (type.equals("BiciMAD")) {
+				// Add availability of each Bike station
+				updateBiciMADPoints();
+				
+				try {
+					waitToEnd.await();
+				} catch (InterruptedException | BrokenBarrierException e) {
+					logger.error(e.getMessage());
 				}
-								
+				
+				return;
 			}
 			
 			// Set next stops of our transport point
 			for (PublicTransportPoint transportPoint : publicTransportPoints) {
 				Map<String, PublicTransportPoint> nextStops = new HashMap<>();
 				// Get the neighboring points of the current
-				transportPoint.getStopLines().forEach(line -> {
+				for (String[] line : transportPoint.getStopLines()) {
 					String lineNextStop = line[0] + "_" + line[1] + "_" + (Integer.parseInt(line[2]) + 1);
 					PublicTransportPoint nextStop = linePublicTransportPoints.get(lineNextStop);
 					if (nextStop != null)
 						nextStops.put(line[0] + " [" + line[1] + "]", nextStop);
-				});
+				}
 				transportPoint.setNextStops(nextStops);
 				this.transportPointRepository.save(transportPoint);
 			}
@@ -318,75 +364,6 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
-		
-		try {
-			waitToEnd.await();
-		} catch (InterruptedException | BrokenBarrierException e) {
-			logger.error(e.getMessage());
-		}
-		
-	}
-	
-	/**
-	 * Load Bicycle points from BiciMAD
-	 * 
-	 * @param type Transport mode
-	 * @param stopsPath Path of stations' data source
-	 * @param waitToEnd Synchronization aid
-	 */
-	private void loadBiciMADPoints(String type, String stopsPath, CyclicBarrier waitToEnd) {
-		
-		// Get accessToken for EMT Api
-		loginEMTApi();
-		
-		// Query to get number of entities in DB
-		boolean bicycleTransportPointsDB = this.transportPointRepository.existsByType(type);
-		
-		if (bicycleTransportPointsDB) {
-			// Add availability of each Bike station
-			updateBiciMADPoints();
-			
-			try {
-				waitToEnd.await();
-			} catch (InterruptedException | BrokenBarrierException e) {
-				logger.error(e.getMessage());
-			}
-			
-			return;
-		}
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		
-		// Transform json file to tree model
-		try {
-			
-			// For jar file, instead of getting getFile use getInputStream and transform into file
-			InputStream stopsStream = new ClassPathResource(stopsPath).getInputStream();
-			File stopsFile = File.createTempFile("stops", "gejson");
-			stopsFile.deleteOnExit();
-			FileOutputStream outputStream = new FileOutputStream(stopsFile);
-			IOUtils.copy(stopsStream, outputStream);
-			
-			// Transform json file to tree model
-			JsonNode stops = objectMapper.readTree(stopsFile).get("data");
-			for (JsonNode stop: stops) {
-				String name = stop.get("name").asText();
-				String stationNumber = stop.get("number").asText();
-				Double longitude = stop.get("geometry").get("coordinates").get(0).asDouble();
-				Double latitude = stop.get("geometry").get("coordinates").get(1).asDouble();
-
-				// Save it in the DB
-				this.transportPointRepository.save(new BicycleTransportPoint(stationNumber, name, longitude, latitude,
-						type, 0, 0, 0, false, true, 0));
-										
-			}
-
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-		} 
-		
-		// Add availability of each Bike station
-		updateBiciMADPoints();
 		
 		try {
 			waitToEnd.await();
