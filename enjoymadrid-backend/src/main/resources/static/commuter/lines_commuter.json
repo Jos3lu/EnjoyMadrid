@@ -1,114 +1,180 @@
 {
-"name": "Lines_Commuter",
-"data": [
-	{ 
-		"id": 1, "line_headsign": "P.Pío-Atocha-Recoletos-Chamartín-Aeropuerto T4", "line": "C-1", "direction": "1", "line_color": "#4FB0E5", 
-		"week_schedule": [ "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 2, "line_headsign": "Aeropuerto T4-Chamartín-Recoletos-Atocha-P.Pío", "line": "C-1", "direction": "2", "line_color": "#4FB0E5", 
-		"week_schedule": [ "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 3, "line_headsign": "Guadalajara-Alcalá de Henares-Atocha-Chamartín", "line": "C-2", "direction": "1", "line_color": "#008B45", 
-		"week_schedule": [ "05:06 - 00:17", "05:06 - 00:17", "05:06 - 00:17", "05:06 - 00:17", "05:06 - 00:17", "05:27 - 00:17", "05:27 - 00:17" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 4, "line_headsign": "Chamartín-Atocha-Alcalá de Henares-Guadalajara", "line": "C-2", "direction": "2", "line_color": "#008B45", 
-		"week_schedule": [ "05:00 - 00:53", "05:00 - 00:53", "05:00 - 00:53", "05:00 - 00:53", "05:00 - 00:53", "05:28 - 00:53", "05:28 - 00:53" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 5, "line_headsign": "Aranjuez-Atocha-Chamartín", "line": "C-3", "direction": "1", "line_color": "#9F2E86", 
-		"week_schedule": [ "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 6, "line_headsign": "Chamartín-Atocha-Aranjuez", "line": "C-3", "direction": "2", "line_color": "#9F2E86", 
-		"week_schedule": [ "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 7, "line_headsign": "Aranjuez-Atocha-Chamartín-El Escorial", "line": "C-3a", "direction": "1", "line_color": "#EA65A8", 
-		"week_schedule": [ "05:35 - 00:41", "05:35 - 00:41", "05:35 - 00:41", "05:35 - 00:41", "05:35 - 00:41", "05:49 - 00:41", "05:49 - 00:41" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 8, "line_headsign": "El Escorial-Chamartín-Atocha-Aranjuez", "line": "C-3a", "direction": "2", "line_color": "#EA65A8", 
-		"week_schedule": [ "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 9, "line_headsign": "Parla-Atocha-Chamartín-Cantoblanco-Alcobendas-S.Sebastián de los Reyes", "line": "C-4a", "direction": "1", "line_color": "#005AA3", 
-		"week_schedule": [ "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 10, "line_headsign": "S.Sebastián de los Reyes-Alcobendas-Cantoblanco-Chamartín-Atocha-Parla", "line": "C-4a", "direction": "2", "line_color": "#005AA3", 
-		"week_schedule": [ "05:26 - 23:11", "05:26 - 23:11", "05:26 - 23:11", "05:26 - 23:11", "05:26 - 23:11", "05:29 - 23:11", "05:29 - 23:11" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 11, "line_headsign": "Parla-Atocha-Chamartín-Cantoblanco-Colmenar Viejo", "line": "C-4b", "direction": "1", "line_color": "#005AA3", 
-		"week_schedule": [ "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 12, "line_headsign": "Colmenar Viejo-Cantoblanco-Chamartín-Atocha-Parla", "line": "C-4b", "direction": "2", "line_color": "#005AA3", 
-		"week_schedule": [ "05:40 - 00:21", "05:40 - 00:21", "05:40 - 00:21", "05:40 - 00:21", "05:40 - 00:21", "05:51 - 00:21", "05:51 - 00:21" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 13, "line_headsign": "Móstoles El Soto-Atocha-Fuenlabrada-Humanes", "line": "C-5", "direction": "1", "line_color": "#F9BA13", 
-		"week_schedule": [ "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 14, "line_headsign": "Humanes-Fuenlabrada-Atocha-Móstoles El Soto", "line": "C-5", "direction": "2", "line_color": "#F9BA13", 
-		"week_schedule": [ "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 15, "line_headsign": "Alcalá de Henares-Atocha-Chamartín-Príncipe Pío", "line": "C-7", "direction": "1", "line_color": "#ED1C24", 
-		"week_schedule": [ "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 16, "line_headsign": "Príncipe Pío-Chamartín-Atocha-Alcalá de Henares", "line": "C-7", "direction": "2", "line_color": "#ED1C24", 
-		"week_schedule": [ "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 17, "line_headsign": "Guadalajara-Alcalá de Henares-Atocha-Chamartín-Villalba-Cercedilla", "line": "C-8", "direction": "1", "line_color": "#008B45", 
-		"week_schedule": [ "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 18, "line_headsign": "Cercedilla-Villalba-Chamartín-Atocha-Alcalá de Henares-Guadalajara", "line": "C-8", "direction": "2", "line_color": "#008B45", 
-		"week_schedule": [ "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 19, "line_headsign": "Cercedilla-Cotos", "line": "C-9", "direction": "1", "line_color": "#F95900", 
-		"week_schedule": [ "", "", "", "", "", "10:35 - 12:35", "" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 20, "line_headsign": "Cotos-Cercedilla", "line": "C-9", "direction": "2", "line_color": "#F95900", 
-		"week_schedule": [ "", "", "", "", "", "11:43 - 13:43", "" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 21, "line_headsign": "Villalba-P.Pío-Atocha-Chamartín-Aeropuerto T4", "line": "C-10", "direction": "1", "line_color": "#90B70E", 
-		"week_schedule": [ "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34" ], 
-		"week_frequencies": null 
-	},
-	{ 
-		"id": 22, "line_headsign": "Aeropuerto T4-Chamartín-Atocha-P.Pío-Villalba", "line": "C-10", "direction": "2", "line_color": "#90B70E", 
-		"week_schedule": [ "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07" ], 
-		"week_frequencies": null 
-	}
-] }
+  "name" : "Lines_Commuter",
+  "data" : [ {
+    "id" : 1,
+    "line_headsign" : "P.Pío-Atocha-Recoletos-Chamartín-Aeropuerto T4",
+    "line" : "C-1",
+    "direction" : "1",
+    "line_color" : "#4FB0E5",
+    "week_schedule" : [ "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57", "05:15 - 23:57" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 2,
+    "line_headsign" : "Aeropuerto T4-Chamartín-Recoletos-Atocha-P.Pío",
+    "line" : "C-1",
+    "direction" : "2",
+    "line_color" : "#4FB0E5",
+    "week_schedule" : [ "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14", "06:02 - 00:14" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 3,
+    "line_headsign" : "Guadalajara-Alcalá de Henares-Atocha-Chamartín",
+    "line" : "C-2",
+    "direction" : "1",
+    "line_color" : "#008B45",
+    "week_schedule" : [ "05:06 - 00:17", "05:06 - 00:17", "05:06 - 00:17", "05:06 - 00:17", "05:06 - 00:17", "05:27 - 00:17", "05:27 - 00:17" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 4,
+    "line_headsign" : "Chamartín-Atocha-Alcalá de Henares-Guadalajara",
+    "line" : "C-2",
+    "direction" : "2",
+    "line_color" : "#008B45",
+    "week_schedule" : [ "05:00 - 00:53", "05:00 - 00:53", "05:00 - 00:53", "05:00 - 00:53", "05:00 - 00:53", "05:28 - 00:53", "05:28 - 00:53" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 5,
+    "line_headsign" : "Aranjuez-Atocha-Chamartín",
+    "line" : "C-3",
+    "direction" : "1",
+    "line_color" : "#9F2E86",
+    "week_schedule" : [ "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39", "05:17 - 00:39" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 6,
+    "line_headsign" : "Chamartín-Atocha-Aranjuez",
+    "line" : "C-3",
+    "direction" : "2",
+    "line_color" : "#9F2E86",
+    "week_schedule" : [ "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36", "05:12 - 00:36" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 7,
+    "line_headsign" : "Aranjuez-Atocha-Chamartín-El Escorial",
+    "line" : "C-3a",
+    "direction" : "1",
+    "line_color" : "#EA65A8",
+    "week_schedule" : [ "05:35 - 00:41", "05:35 - 00:41", "05:35 - 00:41", "05:35 - 00:41", "05:35 - 00:41", "05:49 - 00:41", "05:49 - 00:41" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 8,
+    "line_headsign" : "El Escorial-Chamartín-Atocha-Aranjuez",
+    "line" : "C-3a",
+    "direction" : "2",
+    "line_color" : "#EA65A8",
+    "week_schedule" : [ "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06", "05:47 - 00:06" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 9,
+    "line_headsign" : "Parla-Atocha-Chamartín-Cantoblanco-Alcobendas-S.Sebastián de los Reyes",
+    "line" : "C-4a",
+    "direction" : "1",
+    "line_color" : "#005AA3",
+    "week_schedule" : [ "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56", "04:57 - 23:56" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 10,
+    "line_headsign" : "S.Sebastián de los Reyes-Alcobendas-Cantoblanco-Chamartín-Atocha-Parla",
+    "line" : "C-4a",
+    "direction" : "2",
+    "line_color" : "#005AA3",
+    "week_schedule" : [ "05:26 - 23:11", "05:26 - 23:11", "05:26 - 23:11", "05:26 - 23:11", "05:26 - 23:11", "05:29 - 23:11", "05:29 - 23:11" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 11,
+    "line_headsign" : "Parla-Atocha-Chamartín-Cantoblanco-Colmenar Viejo",
+    "line" : "C-4b",
+    "direction" : "1",
+    "line_color" : "#005AA3",
+    "week_schedule" : [ "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47", "05:05 - 23:47" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 12,
+    "line_headsign" : "Colmenar Viejo-Cantoblanco-Chamartín-Atocha-Parla",
+    "line" : "C-4b",
+    "direction" : "2",
+    "line_color" : "#005AA3",
+    "week_schedule" : [ "05:40 - 00:21", "05:40 - 00:21", "05:40 - 00:21", "05:40 - 00:21", "05:40 - 00:21", "05:51 - 00:21", "05:51 - 00:21" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 13,
+    "line_headsign" : "Móstoles El Soto-Atocha-Fuenlabrada-Humanes",
+    "line" : "C-5",
+    "direction" : "1",
+    "line_color" : "#F9BA13",
+    "week_schedule" : [ "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41", "05:00 - 00:41" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 14,
+    "line_headsign" : "Humanes-Fuenlabrada-Atocha-Móstoles El Soto",
+    "line" : "C-5",
+    "direction" : "2",
+    "line_color" : "#F9BA13",
+    "week_schedule" : [ "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45", "05:07 - 00:45" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 15,
+    "line_headsign" : "Alcalá de Henares-Atocha-Chamartín-Príncipe Pío",
+    "line" : "C-7",
+    "direction" : "1",
+    "line_color" : "#ED1C24",
+    "week_schedule" : [ "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03", "05:58 - 23:03" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 16,
+    "line_headsign" : "Príncipe Pío-Chamartín-Atocha-Alcalá de Henares",
+    "line" : "C-7",
+    "direction" : "2",
+    "line_color" : "#ED1C24",
+    "week_schedule" : [ "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54", "05:47 - 23:54" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 17,
+    "line_headsign" : "Guadalajara-Alcalá de Henares-Atocha-Chamartín-Villalba-Cercedilla",
+    "line" : "C-8",
+    "direction" : "1",
+    "line_color" : "#008B45",
+    "week_schedule" : [ "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20", "04:55 - 00:20" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 18,
+    "line_headsign" : "Cercedilla-Villalba-Chamartín-Atocha-Alcalá de Henares-Guadalajara",
+    "line" : "C-8",
+    "direction" : "2",
+    "line_color" : "#008B45",
+    "week_schedule" : [ "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51", "05:57 - 01:51" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 19,
+    "line_headsign" : "Cercedilla-Cotos",
+    "line" : "C-9",
+    "direction" : "1",
+    "line_color" : "#F95900",
+    "week_schedule" : [ "", "", "", "", "", "10:35 - 12:35", "" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 20,
+    "line_headsign" : "Cotos-Cercedilla",
+    "line" : "C-9",
+    "direction" : "2",
+    "line_color" : "#F95900",
+    "week_schedule" : [ "", "", "", "", "", "11:43 - 13:43", "" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 21,
+    "line_headsign" : "Villalba-P.Pío-Atocha-Chamartín-Aeropuerto T4",
+    "line" : "C-10",
+    "direction" : "1",
+    "line_color" : "#90B70E",
+    "week_schedule" : [ "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34", "05:35 - 23:34" ],
+    "week_frequencies" : null
+  }, {
+    "id" : 22,
+    "line_headsign" : "Aeropuerto T4-Chamartín-Atocha-P.Pío-Villalba",
+    "line" : "C-10",
+    "direction" : "2",
+    "line_color" : "#90B70E",
+    "week_schedule" : [ "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07", "05:58 - 00:07" ],
+    "week_frequencies" : null
+  } ]
+}
