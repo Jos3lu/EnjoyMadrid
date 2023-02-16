@@ -68,7 +68,7 @@ public class SecurityConfig {
 		.requestMatchers(HttpMethod.DELETE, "/api/users/*", "/api/users/*/routes/*", "/api/users/*/tourist-points/*").authenticated()
 		.requestMatchers("/**").permitAll();
 		
-		http.headers().frameOptions().disable();
+		//http.headers().frameOptions().disable();
 		
 		// Set our authentication provider
 		http.authenticationProvider(authenticationProvider());

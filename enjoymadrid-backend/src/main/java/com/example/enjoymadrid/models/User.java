@@ -51,6 +51,7 @@ public class User {
 	private String password;
 	
 	@Lob
+	@Column(columnDefinition = "LONGBLOB")
 	@JsonView(UserInterfaces.PictureData.class)
 	private byte[] photo;
 		

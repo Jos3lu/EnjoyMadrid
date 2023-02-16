@@ -31,6 +31,7 @@ public class TouristicPoint extends Point {
 	private String phone;
 
 	@Lob
+	@Column(columnDefinition = "TEXT")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String description;
 	
@@ -41,10 +42,12 @@ public class TouristicPoint extends Point {
 	private String email;
 
 	@Lob
+	@Column(columnDefinition = "TEXT")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String paymentServices;
 
 	@Lob
+	@Column(columnDefinition = "TEXT")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String horary;
 
@@ -62,7 +65,8 @@ public class TouristicPoint extends Point {
 	private List<String> subcategories = new ArrayList<>();
 
 	@ElementCollection
-	@Column(columnDefinition = "LONGTEXT")
+	@Lob
+	@Column(columnDefinition = "TEXT")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	@CollectionTable(name = "TOURISTIC_POINT_IMAGES_TABLE")
 	private List<String> images = new ArrayList<>();
