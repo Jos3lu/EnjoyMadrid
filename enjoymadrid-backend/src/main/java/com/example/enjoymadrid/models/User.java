@@ -58,12 +58,12 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "USER_ID")
 	@JsonView(UserInterfaces.RouteData.class)
-	@CollectionTable(name = "USER_ROUTES")
+	@CollectionTable(name = "USER_ROUTES_TABLE")
 	private List<Route> routes = new ArrayList<>();
 	
 	@ManyToMany
 	@JoinTable(
-			  name = "USER_TOURISTIC_POINT", 
+			  name = "USER_TOURISTIC_POINT_TABLE", 
 			  joinColumns = @JoinColumn(name = "USER_ID"), 
 			  inverseJoinColumns = @JoinColumn(name = "TOURISTIC_POINT_ID"))
 	@JsonView(UserInterfaces.TouristicPointData.class)
