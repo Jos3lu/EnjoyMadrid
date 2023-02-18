@@ -9,8 +9,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.servicesimpl.UserServiceImpl;
@@ -159,22 +156,6 @@ public class UserServiceTests {
     	when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
     	
     	assertThrows(ResponseStatusException.class, () -> userService.deleteUser(1L));
-    }
-
-    @Test
-    public void deleteTouristicPointOfUser() {
-    	User userInput = new User("Sam", "SamSmith", "12345ABCdef");
-    	userInput.setId(1L);
-    	
-    	TouristicPoint touristPoint = new TouristicPoint("Point 1", 40.321, -3.129);
-    	touristPoint.setId(2L);
-    	touristPoint.setUsers(new ArrayList<User>(Arrays.asList(userInput)));
-    	userInput.setTouristicPoints(new ArrayList<TouristicPoint>(Arrays.asList(touristPoint)));
-    	
-    	when(userRepository.save(any())).thenReturn(user).thenReturn(Optional.empty());
-    	
-    	assertDoesNotThrow(
-    			() -> userService.deleteTouristicPointOfUser(userInput, touristPoint));
     }
     
 }

@@ -1,6 +1,7 @@
 package com.example.enjoymadrid.servicesimpl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -50,11 +51,9 @@ public class TouristicPointServiceImpl implements TouristicPointService {
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 		TouristicPoint touristicPoint = this.touristicPointRepository.findById(touristPointId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Punto de interés no encontrado"));
-				
-		touristicPoint.getUsers().add(user);
+		
 		user.getTouristicPoints().add(touristicPoint);
 		
-		this.touristicPointRepository.save(touristicPoint);
 		this.userRepository.save(user);
 	}
 
@@ -65,11 +64,18 @@ public class TouristicPointServiceImpl implements TouristicPointService {
 		TouristicPoint touristicPoint = this.touristicPointRepository.findById(touristPointId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Punto de interés no encontrado"));
 		
-		touristicPoint.getUsers().remove(user);
 		user.getTouristicPoints().remove(touristicPoint);
 		
-		this.touristicPointRepository.save(touristicPoint);
 		this.userRepository.save(user);
+	}
+	
+	@Override
+	public void deleteTouristicPointFromUsers(TouristicPoint touristicPoint) {
+		Set<User> users = this.userRepository.findByTouristicPoints(touristicPoint);
+		for (User user : users) {
+			user.getTouristicPoints().remove(touristicPoint);
+			this.userRepository.save(user);
+		}
 	}
 
 }

@@ -3,6 +3,7 @@ package com.example.enjoymadrid.servicetests;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -11,8 +12,10 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -136,7 +139,6 @@ public class TouristicPointServiceTests {
 		assertDoesNotThrow(
 				() -> touristicPointService.addTouristicPointToUser(user.getId(), touristicPoint.getId()));
 		assertThat(user.getTouristicPoints()).contains(touristicPoint);
-		assertThat(touristicPoint.getUsers()).contains(user);
 		verify(userRepository).findById(user.getId());
 		verify(touristicPointRepository).findById(touristicPoint.getId());	
 	}
@@ -166,7 +168,6 @@ public class TouristicPointServiceTests {
 		assertDoesNotThrow(
 				() -> touristicPointService.deleteUserTouristicPoint(4L, 1L));
 		assertThat(user.getTouristicPoints()).doesNotContain(touristicPoint);
-		assertThat(touristicPoint.getUsers()).doesNotContain(user);
 		verify(userRepository).findById(user.getId());
 		verify(touristicPointRepository, times(0)).findById(touristicPoint.getId());
 	}
@@ -184,6 +185,30 @@ public class TouristicPointServiceTests {
 				() -> touristicPointService.deleteUserTouristicPoint(user.getId(), 7L));
 		verify(userRepository).findById(user.getId());
 		verify(touristicPointRepository).findById(anyLong());
+	}
+	
+	@Test
+	public void deleteTouristicPointFromUsers() {
+		User user = new User("Sam", "SamSmith", "12345ABCdef");
+		user.setId(4L);
+		User user2 = new User("John", "JohnWilliam", "263434GDGdshdAAF");
+		user.setId(5L);
+		user.setTouristicPoints(touristicPoints);
+		user2.setTouristicPoints(touristicPoints);
+		
+		Set<User> users = new HashSet<>();
+		users.add(user);
+		users.add(user2);
+		
+		TouristicPoint touristicPoint = touristicPoints.get(0);
+		
+		when(userRepository.findByTouristicPoints(any(TouristicPoint.class))).thenReturn(users);
+		
+		assertDoesNotThrow(
+				() -> touristicPointService.deleteTouristicPointFromUsers(touristicPoint));
+		assertThat(user.getTouristicPoints()).doesNotContain(touristicPoint);
+		assertThat(user.getTouristicPoints()).doesNotContain(touristicPoint);
+		verify(userRepository).findByTouristicPoints(touristicPoint);
 	}
 	
 }

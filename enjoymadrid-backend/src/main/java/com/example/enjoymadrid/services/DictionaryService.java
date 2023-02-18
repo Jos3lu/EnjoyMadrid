@@ -36,6 +36,6 @@ public interface DictionaryService {
 	 * 
 	 * @param point Tourist point to remove from scores of term
 	 */
-	public void deleteTouristicPointOfTerm(TouristicPoint point);
+	public void deleteTouristicPointFromTerm(TouristicPoint point);
 	
 }

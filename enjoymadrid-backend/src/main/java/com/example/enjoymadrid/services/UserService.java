@@ -2,7 +2,6 @@ package com.example.enjoymadrid.services;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.User;
 
 public interface UserService {
@@ -56,12 +55,4 @@ public interface UserService {
 	 */
 	public void deleteUser(Long userId);
 	
-	/**
-	 * Unbundled a user from a tourist point
-	 * 
-	 * @param user User
-	 * @param point Tourist point
-	 */
-	public void deleteTouristicPointOfUser(User user, TouristicPoint point);
-		
 }

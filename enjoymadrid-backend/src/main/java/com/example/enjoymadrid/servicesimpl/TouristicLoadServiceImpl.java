@@ -36,7 +36,7 @@ import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.services.DictionaryLoadService;
 import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.TouristicLoadService;
-import com.example.enjoymadrid.services.UserService;
+import com.example.enjoymadrid.services.TouristicPointService;
 
 @Service
 public class TouristicLoadServiceImpl implements TouristicLoadService {
@@ -44,14 +44,14 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 	private static final Logger logger = LoggerFactory.getLogger(TouristicLoadService.class);
 		
 	private final TouristicPointRepository touristicPointRepository;
-	private final UserService userService;
+	private final TouristicPointService touristicPointService;
 	private final DictionaryLoadService dictionaryLoadService;
 	private final DictionaryService dictionaryService;
 	
-	public TouristicLoadServiceImpl(TouristicPointRepository touristicPointRepository, UserService userService,
+	public TouristicLoadServiceImpl(TouristicPointRepository touristicPointRepository, TouristicPointService touristicPointService, 
 			DictionaryLoadService dictionaryLoadService, DictionaryService dictionaryService) {
 		this.touristicPointRepository = touristicPointRepository;
-		this.userService = userService;
+		this.touristicPointService = touristicPointService;
 		this.dictionaryLoadService = dictionaryLoadService;
 		this.dictionaryService = dictionaryService;
 	}
@@ -216,10 +216,8 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 				List<String> terms = this.dictionaryLoadService.analyzeText(point);
 				point.setDocLength(terms.size());
 				
-				if (pointDB != null) {
+				if (pointDB != null)
 					point.setId(pointDB.getId());
-					point.setUsers(pointDB.getUsers());
-				}
 
 				// Save the point in the database
 				point = this.touristicPointRepository.save(point);
@@ -246,13 +244,13 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 	private void deleteOutdatedTouristicPoints(Set<TouristicPoint> touristicPointsDB,
 			Set<TouristicPoint> touristicPoints) {
 		// Delete points not outdated
-		touristicPointsDB.removeAll(touristicPoints);		
+		touristicPointsDB.removeAll(touristicPoints);
 		// Delete points from terms in Dictionary & TouristicPoint entity
 		touristicPointsDB.forEach(point -> {
 			// Delete point in associated keywords (Dictionary entity)
-			this.dictionaryService.deleteTouristicPointOfTerm(point);
+			this.dictionaryService.deleteTouristicPointFromTerm(point);
 			// Delete point in associated users
-			point.getUsers().forEach(user -> this.userService.deleteTouristicPointOfUser(user, point));
+			this.touristicPointService.deleteTouristicPointFromUsers(point);
 			// Delete point
 			this.touristicPointRepository.delete(point);
 		});

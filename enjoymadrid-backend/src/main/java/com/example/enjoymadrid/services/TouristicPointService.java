@@ -46,4 +46,11 @@ public interface TouristicPointService {
 	 */
 	public void deleteUserTouristicPoint(Long userId, Long touristPointId);
 	
+	/**
+	 * Remove from the users the tourist point in case it's associated
+	 * 
+	 * @param touristicPoint Tourist point
+	 */
+	public void deleteTouristicPointFromUsers(TouristicPoint touristicPoint);
+	
 }

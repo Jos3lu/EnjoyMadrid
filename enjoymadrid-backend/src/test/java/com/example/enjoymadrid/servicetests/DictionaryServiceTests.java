@@ -109,7 +109,7 @@ public class DictionaryServiceTests {
 		when(dictionaryRepository.findByWeightsTouristicPoint(any(TouristicPoint.class)))
 			.thenReturn(new HashSet<>(Arrays.asList(dictionary, dictionary2)));
 		
-		assertDoesNotThrow(() -> dictionaryService.deleteTouristicPointOfTerm(touristicPoint));
+		assertDoesNotThrow(() -> dictionaryService.deleteTouristicPointFromTerm(touristicPoint));
 		assertThat(dictionary.getWeights()).doesNotContainKey(touristicPoint);
 		assertThat(dictionary2.getWeights()).doesNotContainKey(touristicPoint);
 		verify(dictionaryRepository).findByWeightsTouristicPoint(touristicPoint);

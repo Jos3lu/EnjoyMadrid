@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.services.UserService;
@@ -82,11 +81,5 @@ public class UserServiceImpl implements UserService {
 		User user = getUser(userId);
 		this.userRepository.delete(user);
 	}
-
-	@Override
-	public void deleteTouristicPointOfUser(User user, TouristicPoint point) {
-		user.getTouristicPoints().remove(point);
-		this.userRepository.save(user);
-	}
-			
+	
 }

@@ -167,7 +167,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 	}
 		
 	@Override
-	public void deleteTouristicPointOfTerm(TouristicPoint point) {
+	public void deleteTouristicPointFromTerm(TouristicPoint point) {
 		// Get Terms -> (points, scores) & remove obsolete points 
 		Set<Dictionary> keywords = this.dictionaryRepository.findByWeightsTouristicPoint(point);
 		for (Dictionary dictionary : keywords) {

@@ -19,7 +19,7 @@ public class Time extends Schedule {
 	@ElementCollection
 	@MapKeyColumn(name = "WEEK_DAY")
 	@Lob
-	@Column(name = "TIMES", columnDefinition = "BLOB")
+	@Column(name = "TIMES", length = 10000)
 	@CollectionTable(name = "DAY_TIMES_TABLE")
 	private Map<String, LocalTime[]> dayTimes = new HashMap<>();
 	

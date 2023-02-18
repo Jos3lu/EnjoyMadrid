@@ -109,13 +109,10 @@ public class TouristicPointControllerTests {
 		
 		TouristicPoint touristicPoint1 = new TouristicPoint("Tourist Point 1", -3.704349, 40.416137);
 		touristicPoint1.setId(2L);
-		touristicPoint1.setUsers(new ArrayList<>(Arrays.asList(user)));
 		TouristicPoint touristicPoint2 = new TouristicPoint("Tourist Point 2", -3.693230, 40.422353);
 		touristicPoint2.setId(3L);
-		touristicPoint2.setUsers(new ArrayList<>(Arrays.asList(user)));
 		TouristicPoint touristicPoint3 = new TouristicPoint("Tourist Point 3", -3.692698, 40.414706);
 		touristicPoint3.setId(4L);
-		touristicPoint3.setUsers(new ArrayList<>(Arrays.asList(user)));
 		List<TouristicPoint> expectedTouristicPoints = new ArrayList<>(Arrays
 				.asList(touristicPoint1, touristicPoint2, touristicPoint3));
 		user.setTouristicPoints(expectedTouristicPoints);

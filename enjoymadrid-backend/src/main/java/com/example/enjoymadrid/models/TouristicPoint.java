@@ -13,7 +13,6 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -70,11 +69,7 @@ public class TouristicPoint extends Point {
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	@CollectionTable(name = "TOURISTIC_POINT_IMAGES_TABLE")
 	private List<String> images = new ArrayList<>();
-	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "touristicPoints")
-	private List<User> users = new ArrayList<>();
-	
+		
 	public TouristicPoint() {}
 
 	public TouristicPoint(String name, Double longitude, Double latitude) {
@@ -192,14 +187,6 @@ public class TouristicPoint extends Point {
 
 	public void setImages(List<String> images) {
 		this.images = images;
-	}
-
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
 	}
 	
 }
