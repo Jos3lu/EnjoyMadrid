@@ -31,11 +31,4 @@ public interface DictionaryService {
 	 */
 	public List<TouristicPoint> getTouristicPoints(String query);
 	
-	/**
-	 * Remove the score of a term associated to a tourist point
-	 * 
-	 * @param point Tourist point to remove from scores of term
-	 */
-	public void deleteTouristicPointFromTerm(TouristicPoint point);
-	
 }

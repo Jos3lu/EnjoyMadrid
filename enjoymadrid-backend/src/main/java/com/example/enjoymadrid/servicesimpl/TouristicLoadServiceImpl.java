@@ -34,7 +34,6 @@ import org.xml.sax.SAXException;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.services.DictionaryLoadService;
-import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.TouristicLoadService;
 import com.example.enjoymadrid.services.TouristicPointService;
 
@@ -46,14 +45,12 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 	private final TouristicPointRepository touristicPointRepository;
 	private final TouristicPointService touristicPointService;
 	private final DictionaryLoadService dictionaryLoadService;
-	private final DictionaryService dictionaryService;
 	
-	public TouristicLoadServiceImpl(TouristicPointRepository touristicPointRepository, TouristicPointService touristicPointService, 
-			DictionaryLoadService dictionaryLoadService, DictionaryService dictionaryService) {
+	public TouristicLoadServiceImpl(TouristicPointRepository touristicPointRepository, 
+			TouristicPointService touristicPointService, DictionaryLoadService dictionaryLoadService) {
 		this.touristicPointRepository = touristicPointRepository;
 		this.touristicPointService = touristicPointService;
 		this.dictionaryLoadService = dictionaryLoadService;
-		this.dictionaryService = dictionaryService;
 	}
 
 	@Override
@@ -247,8 +244,6 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 		touristicPointsDB.removeAll(touristicPoints);
 		// Delete points from terms in Dictionary & TouristicPoint entity
 		touristicPointsDB.forEach(point -> {
-			// Delete point in associated keywords (Dictionary entity)
-			this.dictionaryService.deleteTouristicPointFromTerm(point);
 			// Delete point in associated users
 			this.touristicPointService.deleteTouristicPointFromUsers(point);
 			// Delete point

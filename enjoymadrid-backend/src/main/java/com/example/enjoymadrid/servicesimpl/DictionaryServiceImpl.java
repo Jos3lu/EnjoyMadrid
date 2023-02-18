@@ -165,17 +165,6 @@ public class DictionaryServiceImpl implements DictionaryService {
 		score = this.modelService.rank(score, weight, freq);
 		scores.put(point, score);
 	}
-		
-	@Override
-	public void deleteTouristicPointFromTerm(TouristicPoint point) {
-		// Get Terms -> (points, scores) & remove obsolete points 
-		Set<Dictionary> keywords = this.dictionaryRepository.findByWeightsTouristicPoint(point);
-		for (Dictionary dictionary : keywords) {
-			Map<TouristicPoint, Double> weights = dictionary.getWeights();
-			weights.remove(point);
-			this.dictionaryRepository.save(dictionary);
-		}
-	}
 	
 	@Override
 	public List<String> analyze(String text) {
