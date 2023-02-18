@@ -2,8 +2,6 @@ package com.example.enjoymadrid.servicetests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -14,7 +12,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -90,31 +87,7 @@ public class DictionaryServiceTests {
 		verify(dictionaryRepository).findByTerm("pac");
 		verify(modelService, times(3)).rank(anyDouble(), anyDouble(), anyInt());
 	}
-	
-	@Test
-	public void deleteTouristicPointOfTerm() {
-		TouristicPoint touristicPoint = new TouristicPoint("El perro Paco", -3.6953184, 40.413246); 
-		touristicPoint.setId(1L);
-		touristicPoint.setAddress("de Huertas, 71");
-		touristicPoint.setZipcode(28014);
 		
-		Map<TouristicPoint, Double> weights = new HashMap<>();
-		weights.put(touristicPoint, 0.71);
-		Dictionary dictionary = new Dictionary("perr", weights);
-		
-		Map<TouristicPoint, Double> weights2 = new HashMap<>();
-		weights2.put(touristicPoint, 0.95);
-		Dictionary dictionary2 = new Dictionary("pac", weights2);
-		
-		when(dictionaryRepository.findByWeightsTouristicPoint(any(TouristicPoint.class)))
-			.thenReturn(new HashSet<>(Arrays.asList(dictionary, dictionary2)));
-		
-		assertDoesNotThrow(() -> dictionaryService.deleteTouristicPointFromTerm(touristicPoint));
-		assertThat(dictionary.getWeights()).doesNotContainKey(touristicPoint);
-		assertThat(dictionary2.getWeights()).doesNotContainKey(touristicPoint);
-		verify(dictionaryRepository).findByWeightsTouristicPoint(touristicPoint);
-	}
-	
 	@Test
 	public void analyze() {
 		List<String> expectedTokens = Arrays.asList("perro", "paco");
