@@ -360,7 +360,6 @@ public class RouteServiceImpl implements RouteService {
 		// Get air quality level from nearest station
 		int aqi;
 		try {
-			airQualityPoints = new ArrayList<>();
 			aqi = Collections.min(airQualityPoints, Comparator.comparing(station -> 
 					haversine(station.getLatitude(), station.getLongitude(), 
 						((Point) point).getLatitude(), ((Point) point).getLongitude())))
