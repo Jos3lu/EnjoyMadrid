@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
@@ -357,9 +358,16 @@ public class RouteServiceImpl implements RouteService {
 		double minDistanceToDestination = calculateDistance(point, destination);
 
 		// Get air quality level from nearest station
-		AirQualityPoint aqiStation = Collections.min(airQualityPoints, Comparator.comparing(station -> 
-			haversine(station.getLatitude(), station.getLongitude(), ((Point) point).getLatitude(), ((Point) point).getLongitude())));
-		int aqi = aqiStation != null ? aqiStation.getAqi() : 1;
+		int aqi;
+		try {
+			airQualityPoints = new ArrayList<>();
+			aqi = Collections.min(airQualityPoints, Comparator.comparing(station -> 
+					haversine(station.getLatitude(), station.getLongitude(), 
+						((Point) point).getLatitude(), ((Point) point).getLongitude())))
+					.getAqi();
+		} catch (NoSuchElementException e) {
+			aqi = 1;
+		}
 
 		// Get touristic points within a radius of 500 meters
 		List<TouristicPoint> nearTouristicPoints = touristicPoints.stream()
