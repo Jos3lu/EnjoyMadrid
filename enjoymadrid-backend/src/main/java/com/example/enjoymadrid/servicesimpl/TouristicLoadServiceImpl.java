@@ -86,12 +86,12 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 		
 		// Keep the Main busy
 		loadTouristicPoints(dataOrigins[originLast], waitToEnd, touristicPointsDBMap, touristicPoints);
-
-		// Delete out of date tourist points
-		deleteOutdatedTouristicPoints(touristicPointsDB, touristicPoints);
 		
 		// Calculate score of terms depending on the model used
 		this.dictionaryLoadService.calculateScoreTerms();
+		
+		// Delete out of date tourist points
+		deleteOutdatedTouristicPoints(touristicPointsDB, touristicPoints);
 		
 		logger.info("Touristic points updated");
 	}
