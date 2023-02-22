@@ -9,7 +9,6 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,10 +16,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
@@ -63,6 +62,9 @@ import reactor.core.publisher.Mono;
 @Service
 public class RouteServiceImpl implements RouteService {
 	
+	// For heuristic, weighting factors
+	private static final double PREFERENCE_FACTOR = 1.5;
+		
 	private final UserService userService;
 	private final UserRepository userRepository;
 	private final RouteRepository routeRepository;
@@ -266,7 +268,10 @@ public class RouteServiceImpl implements RouteService {
 		boolean directNeighbors = isDirectNeighbor(pointWrapper.getPrevious() != null ? pointWrapper.getPrevious().getPoint() : null, point, true);
 		if (point instanceof PublicTransportPoint) {	
 			// If public transport get next stop in line(s)
-			neighbors =  (Set<P>) ((PublicTransportPoint) point).getNextStops().values().stream().collect(Collectors.toSet());		
+			neighbors =  ((PublicTransportPoint) point).getNextStops()
+					.values().stream()
+					.map(stop -> (P) stop)
+					.collect(Collectors.toSet());		
 		} else if (point instanceof BicycleTransportPoint) {			
 			// If bicycle station get available stations 
 			neighbors = new HashSet<>(bicyclePoints);
@@ -339,8 +344,7 @@ public class RouteServiceImpl implements RouteService {
 	
 	/**
 	 * 
-	 * Get heuristic from current point to destination:
-	 * (min distance to destination * air quality index) / user's tourist preferences
+	 * Get heuristic from current point to destination
 	 * 
 	 * @param <P> Type inference
 	 * @param point Info point
@@ -353,66 +357,56 @@ public class RouteServiceImpl implements RouteService {
 	private <P extends Comparable<P>> double calculateHeuristic(P point, P destination,
 			List<AirQualityPoint> airQualityPoints, List<TouristicPoint> touristicPoints,
 			Map<String, Integer> preferences) {
-				
+						
 		// Calculate distance to destination using haversine formula
 		double minDistanceToDestination = calculateDistance(point, destination);
 
 		// Get air quality level from nearest station
-		int aqi;
-		try {
-			aqi = Collections.min(airQualityPoints, Comparator.comparing(station -> 
-					haversine(station.getLatitude(), station.getLongitude(), 
+		int aqi = airQualityPoints.stream()
+				.min(Comparator.comparingDouble(station -> haversine(station.getLatitude(), station.getLongitude(), 
 						((Point) point).getLatitude(), ((Point) point).getLongitude())))
-					.getAqi();
-		} catch (NoSuchElementException e) {
-			aqi = 1;
-		}
+				.map(AirQualityPoint::getAqi)
+				.orElse(1);
 
-		// Get touristic points within a radius of 500 meters
+		// Get tourist points within a radius of 500 meters
 		List<TouristicPoint> nearTouristicPoints = touristicPoints.stream()
 				.filter(touristicPoint -> haversine(touristicPoint.getLatitude(), touristicPoint.getLongitude(),
 						((Point) point).getLatitude(), ((Point) point).getLongitude()) <= 0.5)
 				.collect(Collectors.toList());
 		
+		// Calculate the number of nearby places matching the preference
+	    Map<String, BiFunction<List<TouristicPoint>, String, Double>> preferenceTypes = Map.of(
+	            "C_", (places, placeType) -> (double) places.stream()
+	            	.filter(place -> place.getCategories().contains(placeType)).count(),
+	            "R_", (places, placeType) -> (double) places.stream()
+	            	.filter(place -> place.getType().equals("Restaurantes") || place.getType().equals("Clubs")).count(),
+	            "D_", (places, placeType) -> (double) places.stream()
+	            	.filter(place -> place.getType().equals(placeType) || place.getCategories().contains("Instalaciones deportivas")).count(),
+	            "T_", (places, placeType) -> (double) places.stream()
+	            	.filter(place -> place.getType().equals(placeType)).count()
+	    );
+				
 		double interestPlaces = 0.0;
-		if (!nearTouristicPoints.isEmpty()) {
-			// Calculate value respect to the number of sites of a given type
+		if (!nearTouristicPoints.isEmpty()) {			
 			interestPlaces = preferences.entrySet().stream().reduce(0.0, (sum, preference) -> {
 				// Get preference type
-				String preferenceName = preference.getKey().substring(preference.getKey().indexOf('_') + 1);
-				// Search the touristic point by category attribute
-				double nearPlaces = 0.0;
-				if (preference.getKey().contains("C_")) {
-					nearPlaces = nearTouristicPoints.stream()
-							.filter(place -> place.getCategories().contains(preferenceName))
-							.count();
+				String preferenceKey = preference.getKey();
+				String preferenceName = preferenceKey.substring(preference.getKey().indexOf('_') + 1);
+								
+				BiFunction<List<TouristicPoint>, String, Double> preferenceFunction = preferenceTypes.get(preferenceKey.substring(0, 2));
+				if (preferenceFunction == null) {
+					return 0.0;
 				}
-				// Preference is a combination of 2 types
-				else if (preference.getKey().contains("R_")) {
-					nearPlaces = nearTouristicPoints.stream()
-							.filter(place -> place.getType().equals("Restaurantes") || place.getType().equals("Clubs"))
-							.count();
-				}
-				// Preference by sport type or category
-				else if (preference.getKey().contains("D_")) {
-					nearPlaces = nearTouristicPoints.stream()
-							.filter(place -> place.getType().equals(preferenceName)
-									|| place.getCategories().contains("Instalaciones deportivas"))
-							.count();
-				}
-				// Search the touristic point by type attribute
-				else if (preference.getKey().contains("T_")) {
-					nearPlaces = nearTouristicPoints.stream()
-							.filter(place -> place.getType().equals(preferenceName))
-							.count();
-				}
-				nearPlaces *= preference.getValue() * 1.5; 
+				
+				double nearPlaces = preferenceFunction.apply(nearTouristicPoints, preferenceName);
+				nearPlaces *= preference.getValue() * PREFERENCE_FACTOR; 
 				return sum + nearPlaces;
-			}, (p1, p2) -> p1 + p2);
+			}, Double::sum);
 		}
 		
-		if (aqi == 0) aqi = 1;
-		if (interestPlaces == 0.0) interestPlaces = 1.0;
+		// Ensure non-zero values
+		aqi = Math.max(aqi, 1);
+		interestPlaces = Math.max(interestPlaces, 1.0);
 		
 		return (minDistanceToDestination * aqi) / interestPlaces;
 	}
@@ -426,9 +420,8 @@ public class RouteServiceImpl implements RouteService {
 	 * @return Haversine formula
 	 */
 	private <P extends Comparable<P>> double calculateDistance(P origin, P destination) {
-		Point source = (Point) origin;
-		Point target = (Point) destination;
-		return haversine(source.getLatitude(), source.getLongitude(), target.getLatitude(), target.getLongitude());
+		return haversine(((Point) origin).getLatitude(), ((Point) origin).getLongitude(), 
+				((Point) destination).getLatitude(), ((Point) destination).getLongitude());
 	}
 	
 	/**
@@ -590,6 +583,7 @@ public class RouteServiceImpl implements RouteService {
 				if (transportPoint_1.getType().equals(transportPoint_2.getType())) {
 					// Subway, commuter or bus
 					if (transportPoint_1 instanceof PublicTransportPoint && transportPoint_2 instanceof PublicTransportPoint) {
+						// Cast to Public Transport Point
 						PublicTransportPoint publicTransportPoint_1 = (PublicTransportPoint) transportPoint_1;
 						PublicTransportPoint publicTransportPoint_2 = (PublicTransportPoint) transportPoint_2;
 						if (publicTransportPoint_1.getNextStops().containsValue(publicTransportPoint_2)) {

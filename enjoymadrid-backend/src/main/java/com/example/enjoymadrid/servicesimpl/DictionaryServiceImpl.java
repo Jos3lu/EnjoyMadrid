@@ -91,28 +91,30 @@ public class DictionaryServiceImpl implements DictionaryService {
 		
 		// Score of each tourist point
 		Map<TouristicPoint, Double> scores = new HashMap<>();
-		//ConcurrentHashMap<TouristicPoint, DoubleAccumulator> scores = new ConcurrentHashMap<>();
+		// Map<TouristicPoint, Double> scores = new ConcurrentHashMap<>();
 		
 		// (DS Model) At least a query term appears in a tourist point
-		Set<TouristicPoint> pointsFreqNotZero = new HashSet<>();
+		Set<Long> pointsFreqNotZero = new HashSet<>();
 		
-		// Tourist points (if Dirichlet Smoothing Model used get points from DB)
-		List<TouristicPoint> points = new ArrayList<>();
-		if (this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class) {
+		// Tourist points, if Dirichlet Smoothing Model used get points from DB
+		List<TouristicPoint> points;
+		boolean isDirichletSmoothingModel = this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class;
+		if (isDirichletSmoothingModel) {
 			points = this.touristicPointRepository.findAll();
+		} else {
+			points = new ArrayList<>();
 		}
 		
 		// Iterate over terms of query
-		//terms.forEach((term, freq) -> {
-		for (Entry<String, Long> entry : terms.entrySet()) {
+		terms.entrySet().stream().forEach(entry -> {
 			Optional<Dictionary> optDict = this.dictionaryRepository.findByTerm(entry.getKey());
-			if (optDict.isEmpty()) continue;
+			if (optDict.isEmpty()) return;
 			
 			// Get weights of term associated to the tourist points
 			Map<TouristicPoint, Double> weights = optDict.get().getWeights();
 			
 			// For DS Model (to take account of absent terms)
-			if (this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class) {
+			if (isDirichletSmoothingModel) {
 				for (TouristicPoint point : points) {
 					Double weight = weights.get(point);
 					if (weight == null) {
@@ -120,7 +122,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 						weight = this.modelService.calculateScore(
 								new DictionaryScoreSpec(0, point.getDocLength(), optDict.get().getProbTermCol()));
 					} else {
-						pointsFreqNotZero.add(point);
+						pointsFreqNotZero.add(point.getId());
 					}
 					// Get accumulative score of query (DS Model)
 					calculateQueryScore(scores, point, 1.0, weight, entry.getValue().intValue());
@@ -133,22 +135,16 @@ public class DictionaryServiceImpl implements DictionaryService {
 					calculateQueryScore(scores, entryPoint.getKey(), 0.0, entryPoint.getValue(), entry.getValue().intValue());
 				}
 			}			
-		}
+		});
 						
-		// Order scores
-		List<Entry<TouristicPoint, Double>> termEntries = new ArrayList<>(scores.entrySet());
-		Collections.sort(termEntries, Collections.reverseOrder(Entry.comparingByValue()));
-		// Get only Tourist points
-		points = termEntries.stream()
-				.map(entry -> entry.getKey())
+		// Order scores (If Dirichlet Smoothing Model then delimit result)
+		return scores.entrySet().stream()
+				.filter(entry -> isDirichletSmoothingModel 
+						? pointsFreqNotZero.contains(entry.getKey().getId()) : true)
+				// Sort by scores & get only tourist points
+				.sorted(Collections.reverseOrder(Entry.comparingByValue()))
+				.map(Entry::getKey)
 				.collect(Collectors.toList());
-				
-		if (this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class) {
-			// Delimit result
-			points.retainAll(pointsFreqNotZero);
-		}
-		
-		return points;
 	}
 	
 	/**
@@ -164,6 +160,10 @@ public class DictionaryServiceImpl implements DictionaryService {
 		double score = scores.getOrDefault(point, initValue);
 		score = this.modelService.rank(score, weight, freq);
 		scores.put(point, score);
+		
+//		// For concurrency
+//		scores.putIfAbsent(point, initValue);
+//		scores.compute(point, (key, value) -> this.modelService.rank(value, weight, freq));
 	}
 	
 	@Override
