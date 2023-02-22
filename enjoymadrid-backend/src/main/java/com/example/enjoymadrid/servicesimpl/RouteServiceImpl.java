@@ -53,6 +53,7 @@ import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.models.repositories.TransportPointRepository;
 import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.services.RouteService;
+import com.example.enjoymadrid.services.SharedService;
 import com.example.enjoymadrid.services.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -64,7 +65,7 @@ public class RouteServiceImpl implements RouteService {
 	
 	// For heuristic, weighting factors
 	private static final double PREFERENCE_FACTOR = 1.5;
-		
+	
 	private final UserService userService;
 	private final UserRepository userRepository;
 	private final RouteRepository routeRepository;
@@ -72,17 +73,18 @@ public class RouteServiceImpl implements RouteService {
 	private final PublicTransportLineRepository publicTransportLineRepository;
 	private final TouristicPointRepository touristicPointRepository;
 	private final AirQualityPointRepository airQualityPointRepository;
+	private final SharedService sharedService;
 	
 	public RouteServiceImpl(RouteRepository routeRepository, UserRepository userRepository, UserService userService, 
 			TransportPointRepository transportPointRepository, PublicTransportLineRepository publicTransportLineRepository, 
-			TouristicPointRepository touristicPointRepository, AirQualityPointRepository airQualityPointRepository) {
+			TouristicPointRepository touristicPointRepository, AirQualityPointRepository airQualityPointRepository, SharedService sharedService) {
 		this.routeRepository = routeRepository;
 		this.userRepository = userRepository;
 		this.userService = userService;
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;
-		this.touristicPointRepository = touristicPointRepository;
 		this.airQualityPointRepository = airQualityPointRepository;
+		this.sharedService = sharedService;
 	}
 
 	@Override
@@ -288,6 +290,7 @@ public class RouteServiceImpl implements RouteService {
 			neighbors.addAll(
 				// Iterate over points (nearest distance established by user)
 				// & if stop is public transport delete from stops same lines
+				// & add only stops if not already in neighbors Set
 				transportPoints.stream()					
 					.filter(neighbor -> calculateDistance(point, neighbor) <= maxDistance)
 					.map(neighbor -> {
@@ -358,12 +361,12 @@ public class RouteServiceImpl implements RouteService {
 			List<AirQualityPoint> airQualityPoints, List<TouristicPoint> touristicPoints,
 			Map<String, Integer> preferences) {
 						
-		// Calculate distance to destination using haversine formula
+		// Calculate distance to destination using Haversine formula
 		double minDistanceToDestination = calculateDistance(point, destination);
 
 		// Get air quality level from nearest station
 		int aqi = airQualityPoints.stream()
-				.min(Comparator.comparingDouble(station -> haversine(station.getLatitude(), station.getLongitude(), 
+				.min(Comparator.comparingDouble(station -> this.sharedService.haversine(station.getLatitude(), station.getLongitude(), 
 						((Point) point).getLatitude(), ((Point) point).getLongitude())))
 				.map(AirQualityPoint::getAqi)
 				.orElse(1);
@@ -420,35 +423,8 @@ public class RouteServiceImpl implements RouteService {
 	 * @return Haversine formula
 	 */
 	private <P extends Comparable<P>> double calculateDistance(P origin, P destination) {
-		return haversine(((Point) origin).getLatitude(), ((Point) origin).getLongitude(), 
+		return this.sharedService.haversine(((Point) origin).getLatitude(), ((Point) origin).getLongitude(), 
 				((Point) destination).getLatitude(), ((Point) destination).getLongitude());
-	}
-	
-	/**
-	 * Calculate distance between two points on Earth
-	 * 
-	 * @param lat1/lon1 Start point latitude/longitude
-	 * @param lat2/lat2 End point latitude/longitude
-	 * @return Distance in kilometers
-	 */
-	private double haversine(double lat1, double lon1, double lat2, double lon2) {
-		// Radius of earth (km)
-		final double R = 6371; 
-		
-		// Distance between latitudes and longitudes
-		double distLat = Math.toRadians(lat2 - lat1);
-		double distLon = Math.toRadians(lon2 - lon1);
-		
-		// Convert latitudes to radians
-		lat1 = Math.toRadians(lat1);
-		lat2 = Math.toRadians(lat2);
-		
-		// Haversine formula
-		double h = Math.pow(Math.sin(distLat / 2), 2)
-				+ Math.pow(Math.sin(distLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
-		double c = 2 * Math.asin(Math.sqrt(h)); //2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h)); 
-		
-		return R * c;
 	}
 	
 	/**
@@ -715,7 +691,7 @@ public class RouteServiceImpl implements RouteService {
 					Point sourcePoint = points.get(0);
 					Point targetPoint = points.get(points.size() - 1);
 					// Calculate distance using haversine formula 
-					distanceSegment = haversine(sourcePoint.getLatitude(), sourcePoint.getLongitude(),
+					distanceSegment = this.sharedService.haversine(sourcePoint.getLatitude(), sourcePoint.getLongitude(),
 							targetPoint.getLatitude(), targetPoint.getLongitude());
 					// Get time using duration = distance / speed
 					double speed = transportMode.equals("A pie") ? 6.0 // Walking

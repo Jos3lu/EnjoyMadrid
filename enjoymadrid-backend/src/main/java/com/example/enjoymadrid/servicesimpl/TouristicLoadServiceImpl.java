@@ -34,6 +34,7 @@ import org.xml.sax.SAXException;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.services.DictionaryLoadService;
+import com.example.enjoymadrid.services.SharedService;
 import com.example.enjoymadrid.services.TouristicLoadService;
 import com.example.enjoymadrid.services.TouristicPointService;
 
@@ -45,12 +46,14 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 	private final TouristicPointRepository touristicPointRepository;
 	private final TouristicPointService touristicPointService;
 	private final DictionaryLoadService dictionaryLoadService;
+	private final SharedService sharedService;
 	
-	public TouristicLoadServiceImpl(TouristicPointRepository touristicPointRepository, 
-			TouristicPointService touristicPointService, DictionaryLoadService dictionaryLoadService) {
+	public TouristicLoadServiceImpl(TouristicPointRepository touristicPointRepository, TouristicPointService touristicPointService, 
+			DictionaryLoadService dictionaryLoadService, SharedService sharedService) {
 		this.touristicPointRepository = touristicPointRepository;
 		this.touristicPointService = touristicPointService;
 		this.dictionaryLoadService = dictionaryLoadService;
+		this.sharedService = sharedService;
 	}
 
 	@Override
@@ -137,8 +140,10 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 				String name = element.getElementsByTagName("name").item(0).getTextContent();
 				// Unescape a string containing entity escapes to a string containing the actual Unicode characters
 				name = StringEscapeUtils.unescapeHtml4(name);		
-				Double longitude = tryParseDouble(element.getElementsByTagName("longitude").item(0).getTextContent());
-				Double latitude = tryParseDouble(element.getElementsByTagName("latitude").item(0).getTextContent());
+				Double longitude = this.sharedService
+						.tryParseDouble(element.getElementsByTagName("longitude").item(0).getTextContent());
+				Double latitude = this.sharedService
+						.tryParseDouble(element.getElementsByTagName("latitude").item(0).getTextContent());
 				String type = element.getElementsByTagName("extradata").item(0).getChildNodes().item(1).getTextContent();
 
 				// To delete the points that are removed from the page of Madrid
@@ -161,7 +166,8 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 				// Unescape a string containing entity escapes to a string containing the actual Unicode characters
 				description = StringEscapeUtils.unescapeHtml4(description);		
 				String address = element.getElementsByTagName("address").item(0).getTextContent();
-				Integer zipcode = tryParseInteger(element.getElementsByTagName("zipcode").item(0).getTextContent());
+				Integer zipcode = this.sharedService
+						.tryParseInteger(element.getElementsByTagName("zipcode").item(0).getTextContent());
 				String phone = element.getElementsByTagName("phone").item(0).getTextContent();
 				String email = element.getElementsByTagName("email").item(0).getTextContent();
 				String paymentServices = "";
@@ -251,34 +257,4 @@ public class TouristicLoadServiceImpl implements TouristicLoadService {
 		});
 	}
 		
-	/**
-	 * Try to parse to Double if not possible then return null
-	 * 
-	 * @param parseString String to parse to Double
-	 * @return Double or null if not possible
-	 */
-	private Double tryParseDouble(String parseString) {
-		// Try to parse to Double if not possible then return null
-		try {
-			return Double.parseDouble(parseString);
-		} catch (NumberFormatException e) {
-			return null;
-		}
-	}
-	
-	/**
-	 * Try to parse to Integer if not possible then return null
-	 * 
-	 * @param parseString String to parse to Integer 
-	 * @return Integer or null if not possible
-	 */
-	private Integer tryParseInteger(String parseString) {
-		// Try to parse to Integer if not possible then return null
-		try {
-			return Integer.parseInt(parseString);
-		} catch (NumberFormatException e) {
-			return null;
-		}
-	}
-
 }

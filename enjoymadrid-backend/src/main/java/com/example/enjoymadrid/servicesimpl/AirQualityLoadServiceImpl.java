@@ -29,6 +29,7 @@ import org.xml.sax.SAXException;
 import com.example.enjoymadrid.models.AirQualityPoint;
 import com.example.enjoymadrid.models.repositories.AirQualityPointRepository;
 import com.example.enjoymadrid.services.AirQualityLoadService;
+import com.example.enjoymadrid.services.SharedService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
@@ -40,9 +41,11 @@ public class AirQualityLoadServiceImpl implements AirQualityLoadService {
 	private static final Logger logger = LoggerFactory.getLogger(AirQualityLoadService.class);
 	
 	private final AirQualityPointRepository airQualityPointRepository;
+	private final SharedService sharedService;
 	
-	public AirQualityLoadServiceImpl(AirQualityPointRepository airQualityPointRepository) {
+	public AirQualityLoadServiceImpl(AirQualityPointRepository airQualityPointRepository, SharedService sharedService) {
 		this.airQualityPointRepository = airQualityPointRepository;
+		this.sharedService = sharedService;
 	}
 
 	@Override
@@ -82,8 +85,10 @@ public class AirQualityLoadServiceImpl implements AirQualityLoadService {
 				Element element = (Element) node;
 
 				String name = element.getElementsByTagName("title").item(0).getTextContent();
-				Double longitude = tryParseDouble(element.getElementsByTagName("geo:long").item(0).getTextContent());
-				Double latitude = tryParseDouble(element.getElementsByTagName("geo:lat").item(0).getTextContent());
+				Double longitude = this.sharedService
+						.tryParseDouble(element.getElementsByTagName("geo:long").item(0).getTextContent());
+				Double latitude = this.sharedService
+						.tryParseDouble(element.getElementsByTagName("geo:lat").item(0).getTextContent());
 
 				// Save air quality point in DB
 				this.airQualityPointRepository.save(new AirQualityPoint(name, longitude, latitude));
@@ -149,7 +154,7 @@ public class AirQualityLoadServiceImpl implements AirQualityLoadService {
 			for (int i = 1; i < rows.size(); i++) {
 				Elements points = rows.get(i).select("td");
 				String name = points.get(0).ownText();
-				Integer aqi = tryParseInteger(points.get(1).child(0).text());
+				Integer aqi = this.sharedService.tryParseInteger(points.get(1).child(0).text());
 				
 				// Change the station name to match with the other information source
 				if (namePoints.containsKey(name)) {
@@ -185,35 +190,6 @@ public class AirQualityLoadServiceImpl implements AirQualityLoadService {
 		}
 
 		logger.info("Air quality stations updated");
-	}
-	
-	/**
-	 * Try to parse to Double if not possible then return null
-	 * 
-	 * @param parseString String to parse to Double
-	 * @return Double or null if not possible
-	 */
-	private Double tryParseDouble(String parseString) {
-		try {
-			return Double.parseDouble(parseString);
-		} catch (NumberFormatException e) {
-			return null;
-		}
-	}
-	
-	/**
-	 * Try to parse to Integer if not possible then return null
-	 * 
-	 * @param parseString String to parse to Integer 
-	 * @return Integer or null if not possible
-	 */
-	private Integer tryParseInteger(String parseString) {
-		// Try to parse to Integer if not possible then return null
-		try {
-			return Integer.parseInt(parseString);
-		} catch (NumberFormatException e) {
-			return null;
-		}
 	}
 
 }
