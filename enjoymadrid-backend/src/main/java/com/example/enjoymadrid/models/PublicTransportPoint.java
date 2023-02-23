@@ -31,13 +31,14 @@ public class PublicTransportPoint extends TransportPoint {
 	
 	public PublicTransportPoint() {}
 	
-	public PublicTransportPoint(String name, Double longitude, Double latitude, String type, Set<String[]> stopLines) {
-		super(name, longitude, latitude, type);
+	public PublicTransportPoint(String name, Double longitude, Double latitude, String type, 
+			Map<String, Long> nearbyTouristicPoints, Set<String[]> stopLines) {
+		super(name, longitude, latitude, type, nearbyTouristicPoints);
 		this.stopLines = stopLines;
 	}
 	
 	public PublicTransportPoint(PublicTransportPoint point) {
-		super(point.getName(), point.getLongitude(), point.getLatitude(), point.getType());
+		super(point.getName(), point.getLongitude(), point.getLatitude(), point.getType(), point.getNearbyTouristicPoints());
 		this.setId(point.getId());
 		this.stopLines = new HashSet<>(point.getStopLines());
 		this.nextStops = new HashMap<String, PublicTransportPoint>(point.getNextStops());

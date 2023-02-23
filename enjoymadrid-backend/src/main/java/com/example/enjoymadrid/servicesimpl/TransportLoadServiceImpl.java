@@ -7,15 +7,19 @@ import java.io.InputStream;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -33,8 +37,11 @@ import com.example.enjoymadrid.models.PublicTransportLine;
 import com.example.enjoymadrid.models.PublicTransportPoint;
 import com.example.enjoymadrid.models.Schedule;
 import com.example.enjoymadrid.models.Time;
+import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.PublicTransportLineRepository;
+import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.models.repositories.TransportPointRepository;
+import com.example.enjoymadrid.services.SharedService;
 import com.example.enjoymadrid.services.TransportLoadService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,20 +56,44 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 	
 	// AccessToken for EMT API (get information about BiciMad stations), auto-extend each the API is invoked
 	private static String accessToken;
+	// Number of nearby tourist points to a station that match a preference
+	private static ConcurrentHashMap<String, BiFunction<List<TouristicPoint>, String, Long>> preferenceFunctions;
+	// Preferences of tourist points
+	private static final List<String> PREFERENCE_TYPES = Arrays.asList("C_Instalaciones culturales", "C_Parques y jardines", 
+			"C_Escuelas de cocina y catas de vinos y aceites", "C_Empresas de guías turísticos", 
+			"C_Edificios y monumentos", "C_Parques y centros de ocio", "D_Deportes", "T_Tiendas", "R_Restauración");
 	
+	private final TouristicPointRepository touristicPointRepository;
 	private final TransportPointRepository transportPointRepository;
 	private final PublicTransportLineRepository publicTransportLineRepository;
+	private final SharedService sharedService;
 	
-	public TransportLoadServiceImpl(TransportPointRepository transportPointRepository, 
-			PublicTransportLineRepository publicTransportLineRepository) {
+	public TransportLoadServiceImpl(TouristicPointRepository touristicPointRepository, TransportPointRepository transportPointRepository, 
+			PublicTransportLineRepository publicTransportLineRepository, SharedService sharedService) {
+		this.touristicPointRepository = touristicPointRepository;
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;
+		this.sharedService = sharedService;
 	}
 
 	@Override
 	public void loadTransportPoints() {
 		// Get accessToken for EMT Api
 		loginEMTApi();
+		
+		// Get all the touristic points
+		List<TouristicPoint> touristicPoints = this.touristicPointRepository.findAll();
+				
+		// HashMap for calculating the number of places near the station that match the preference
+		preferenceFunctions = new ConcurrentHashMap<>();
+		preferenceFunctions.put("C_", (places, placeType) -> places.stream()
+		    .filter(place -> place.getCategories().contains(placeType)).count());
+		preferenceFunctions.put("R_", (places, placeType) -> places.stream()
+		    .filter(place -> place.getType().equals("Restaurantes") || place.getType().equals("Clubs")).count());
+		preferenceFunctions.put("D_", (places, placeType) -> places.stream()
+		    .filter(place -> place.getType().equals(placeType) || place.getCategories().contains("Instalaciones deportivas")).count());
+		preferenceFunctions.put("T_", (places, placeType) -> places.stream()
+		    .filter(place -> place.getType().equals(placeType)).count());
 		
 		// Data sources
 		String[][] transportTypes = {
@@ -84,13 +115,13 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		for (int i = 0; i < transportLast; i++) {
 			final int transportIndex = i;
 			ex.execute(() -> loadTransportPoints(transportTypes[transportIndex][0], transportTypes[transportIndex][1],
-					transportTypes[transportIndex][2], waitToEnd));
+					transportTypes[transportIndex][2], touristicPoints, waitToEnd));
 		}	
 		ex.shutdown();
 		
 		// Main working at the same time as threads
 		loadTransportPoints(transportTypes[transportLast][0], transportTypes[transportLast][1],
-				transportTypes[transportLast][2], waitToEnd);
+				transportTypes[transportLast][2], touristicPoints, waitToEnd);
 		
 		logger.info("Transport points updated");
 	}
@@ -103,12 +134,16 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 	 * @param linesPath Path of lines' data source
 	 * @param waitToEnd Synchronization aid
 	 */
-	private void loadTransportPoints(String type, String stopsPath, String linesPath, CyclicBarrier waitToEnd) {
+	private void loadTransportPoints(String type, String stopsPath, String linesPath, 
+			List<TouristicPoint> touristicPoints, CyclicBarrier waitToEnd) {
 		
 		// Query to get number of entities in DB
 		boolean transportPointsDB = this.transportPointRepository.existsByType(type);
 		
 		if (transportPointsDB) {
+			// Update nearby tourist points of a transport station
+			updateNearbyTouristicPoints(touristicPoints);
+			
 			// Add availability of each Bike station
 			if (type.equals("BiciMAD")) 
 				updateBiciMADPoints();
@@ -234,14 +269,18 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 					}
 				}
 				
+				// Get tourist points near the station (by type)
+				Map<String, Long> nearbyTouristicPoint = getNearbyTouristicPoints(touristicPoints, latitude, longitude);
+				
 				// Save stop in DB
 				if (type.equals("BiciMAD")) {
 					String stationNumber = stop.get("number").asText();
-					this.transportPointRepository.save((new BicycleTransportPoint(stationNumber, name, longitude, latitude,
-							type, 0, 0, 0, false, true, 0)));
+					this.transportPointRepository.save((new BicycleTransportPoint(stationNumber, name, longitude,
+							latitude, type, nearbyTouristicPoint, 0, 0, 0, false, true, 0)));
 				} else {
-					PublicTransportPoint publicTransportPoint = 
-							this.transportPointRepository.save(new PublicTransportPoint(name, longitude, latitude, type, stopLines));
+					PublicTransportPoint publicTransportPoint = this.transportPointRepository
+							.save(new PublicTransportPoint(name, longitude, latitude, type, nearbyTouristicPoint,
+									stopLines));
 					
 					// Store transport points
 					publicTransportPoints.add(publicTransportPoint);
@@ -371,6 +410,38 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 			logger.error(e.getMessage());
 		}
 		
+	}
+	
+	@Override
+	public void updateNearbyTouristicPoints(List<TouristicPoint> touristicPoints) {
+		this.transportPointRepository.findAll().parallelStream().forEach(transport -> {
+			transport.setNearbyTouristicPoints(
+					getNearbyTouristicPoints(touristicPoints, transport.getLatitude(), transport.getLongitude()));
+			this.transportPointRepository.save(transport);
+		});
+	}
+	
+	private Map<String, Long> getNearbyTouristicPoints(List<TouristicPoint> touristicPoints, double latitude, double longitude) {
+		// Get tourist points within a radius of 500 meters
+		List<TouristicPoint> nearbyTouristicPoints = touristicPoints.stream()
+				.filter(touristicPoint -> this.sharedService.haversine(touristicPoint.getLatitude(),
+						touristicPoint.getLongitude(), latitude, longitude) <= 0.5)
+				.collect(Collectors.toList());
+		
+		// Associate the type of preference with the number of tourist points encountered
+		return PREFERENCE_TYPES.stream()
+				.collect(Collectors.toMap(Function.identity(), preferenceType -> {
+					// Get preference type
+					String preferenceName = preferenceType.substring(preferenceType.indexOf('_') + 1);
+					
+					// A reference to a separate instance of the lambda function is returned
+					BiFunction<List<TouristicPoint>, String, Long> preferenceFunction = preferenceFunctions
+							.get(preferenceType.substring(0, 2));
+
+					return preferenceFunction != null
+							? preferenceFunction.apply(nearbyTouristicPoints, preferenceName)
+							: 0L;
+				}));
 	}
 	
 	@Override

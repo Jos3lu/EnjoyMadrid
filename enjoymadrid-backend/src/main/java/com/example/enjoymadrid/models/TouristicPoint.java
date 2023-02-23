@@ -12,6 +12,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
@@ -53,7 +54,7 @@ public class TouristicPoint extends Point {
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String type;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	@CollectionTable(name = "TOURISTIC_POINT_CATEGORIES_TABLE")
 	private List<String> categories = new ArrayList<>();

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyCollection;
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,9 +34,9 @@ import com.example.enjoymadrid.models.dtos.RouteResultDto;
 import com.example.enjoymadrid.models.repositories.AirQualityPointRepository;
 import com.example.enjoymadrid.models.repositories.PublicTransportLineRepository;
 import com.example.enjoymadrid.models.repositories.RouteRepository;
-import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.models.repositories.TransportPointRepository;
 import com.example.enjoymadrid.models.repositories.UserRepository;
+import com.example.enjoymadrid.services.SharedService;
 import com.example.enjoymadrid.services.UserService;
 import com.example.enjoymadrid.servicesimpl.RouteServiceImpl;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -59,13 +60,13 @@ public class RouteServiceTests {
 	private AirQualityPointRepository airQualityPointRepository;
 	
 	@Mock
-	private TouristicPointRepository touristicPointRepository;
-	
-	@Mock
 	private PublicTransportLineRepository publicTransportLineRepository;
 			
 	@Mock
 	private UserService userService;
+	
+	@Mock
+	private SharedService sharedService;
 	
 	@Mock
 	private WebClient webClient;
@@ -151,8 +152,8 @@ public class RouteServiceTests {
 	public void createRoute() throws IOException {
 		Route route = new Route();
 		route.setName("Route");
-		route.setOrigin(new TransportPoint("Origin", -3.706009, 40.420331, ""));
-		route.setDestination(new TransportPoint("Destination", -3.703678, 40.416798, ""));
+		route.setOrigin(new TransportPoint("Origin", -3.706009, 40.420331, "", null));
+		route.setDestination(new TransportPoint("Destination", -3.703678, 40.416798, "", null));
 		route.setMaxDistance(1.2);
 		route.setPreferences(new HashMap<>());
 		
@@ -163,8 +164,8 @@ public class RouteServiceTests {
 		when(publicTransportLineRepository.findAll()).thenReturn(new ArrayList<>());
 		when(airQualityPointRepository.findByAqiIsNotNull())
 			.thenReturn(Arrays.asList(airQualityPoint));
-		when(touristicPointRepository.findAll()).thenReturn(new ArrayList<>());
 		when(transportPointRepository.findByTypeIn(anyCollection())).thenReturn(new ArrayList<>());
+		when(sharedService.haversine(anyDouble(), anyDouble(), anyDouble(), anyDouble())).thenReturn(0.7);
 		
 		RouteResultDto resultDto = routeService.createRoute(route, null);
 		assertThat(resultDto.getName()).isEqualTo("Route");
@@ -173,7 +174,6 @@ public class RouteServiceTests {
 		assertThat(resultDto.getSegments()).isNotEmpty();
 		verify(publicTransportLineRepository).findAll();
 		verify(airQualityPointRepository).findByAqiIsNotNull();
-		verify(touristicPointRepository).findAll();
 		verify(transportPointRepository).findByTypeIn(anyCollection());
 	}
 

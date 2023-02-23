@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.services.AirQualityLoadService;
 import com.example.enjoymadrid.services.RefreshTokenService;
 import com.example.enjoymadrid.services.TouristicLoadService;
@@ -22,17 +23,20 @@ public class LoadPointsComponent implements CommandLineRunner {
 	private final AirQualityLoadService airQualityLoadService;
 	private final TouristicLoadService touristicLoadService;
 	private final TransportLoadService transportLoadService;
+	private final TouristicPointRepository touristicPointRepository;
 	
 	public LoadPointsComponent(
 			RefreshTokenService refreshTokenService,
 			AirQualityLoadService airQualityLoadService,
 			TouristicLoadService touristicLoadService,
-			TransportLoadService transportLoadService
+			TransportLoadService transportLoadService,
+			TouristicPointRepository touristicPointRepository
 	) {
 		this.refreshTokenService = refreshTokenService;
 		this.airQualityLoadService = airQualityLoadService;
 		this.touristicLoadService = touristicLoadService;
 		this.transportLoadService = transportLoadService;
+		this.touristicPointRepository = touristicPointRepository;
 	}
 
 	@Override
@@ -82,6 +86,7 @@ public class LoadPointsComponent implements CommandLineRunner {
 	@Scheduled(cron = "0 0 0 1 * *", zone = "Europe/Madrid")
 	private void loadDataTouristicPoints() {
 		this.touristicLoadService.loadTouristicPoints();
+		this.transportLoadService.updateNearbyTouristicPoints(this.touristicPointRepository.findAll());
 	}
 		
 	/**

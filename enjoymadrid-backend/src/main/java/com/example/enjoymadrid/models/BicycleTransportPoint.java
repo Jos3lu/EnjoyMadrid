@@ -1,5 +1,7 @@
 package com.example.enjoymadrid.models;
 
+import java.util.Map;
+
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -20,8 +22,9 @@ public class BicycleTransportPoint extends TransportPoint {
 	public BicycleTransportPoint() {}
 	
 	public BicycleTransportPoint(String stationNumber, String name, Double longitude, Double latitude, String type, 
-			Integer totalBases, Integer dockBases, Integer freeBases, Boolean activate, Boolean no_available, Integer reservations) {
-		super(name, longitude, latitude, type);
+			Map<String, Long> nearbyTouristicPoints, Integer totalBases, Integer dockBases, Integer freeBases, 
+			Boolean activate, Boolean no_available, Integer reservations) {
+		super(name, longitude, latitude, type, nearbyTouristicPoints);
 		this.stationNumber = stationNumber;
 		this.totalBases = totalBases;
 		this.dockBases = dockBases;
