@@ -408,12 +408,13 @@ public class RouteServiceImpl implements RouteService {
 		// Query to get the points in order to create the route
 		List<TransportPoint> transportPoints = this.transportPointRepository.findByTypeIn(transports);
 						
-		transportPoints = transportPoints.stream()
+		return transportPoints.stream()
 				.map(point -> {
 					if (point instanceof PublicTransportPoint) {						
 						PublicTransportPoint publicTransportPoint = (PublicTransportPoint) point;
-						Set<String[]> lines = new HashSet<>(publicTransportPoint.getStopLines());
-						for (String[] line: lines) {
+						Iterator<String[]> linesIterator = publicTransportPoint.getStopLines().iterator();
+						while (linesIterator.hasNext()) {
+							String[] line = (String[]) linesIterator.next();
 							PublicTransportLine publicTransportLine = lineStops.get(point.getType() + "_" + line[0] + " [" + line[1] + "]");
 							
 							// Schedule is null & stop doesn't operate right now
@@ -444,7 +445,7 @@ public class RouteServiceImpl implements RouteService {
 							// Different approach depending on whether the end time is after or before midnight
 							if ( scheduleNull || ( startTime.isBefore(endTime) && ( currentLocalTime.isBefore(startTime) || currentLocalTime.isAfter(endTime) ) ) 
 									|| ( startTime.isAfter(endTime) && (currentLocalTime.isBefore(startTime) && currentLocalTime.isAfter(endTime) ) ) ) {
-								publicTransportPoint.getStopLines().remove(line);
+								linesIterator.remove();
 								publicTransportPoint.getNextStops().remove(line[0] + " [" + line[1] + "]");
 							}
 							
@@ -463,8 +464,6 @@ public class RouteServiceImpl implements RouteService {
 					return true;
 				})
 				.collect(Collectors.toList());
-										
-		return transportPoints;
 	}
 	
 	/**
