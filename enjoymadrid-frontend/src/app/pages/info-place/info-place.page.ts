@@ -66,7 +66,7 @@ export class InfoPlacePage implements OnInit {
 
   addFavourite() {
     // Check if interest point is already in favourites
-    if (this.sharedService.getTouristicPoints().includes(this.place)) {
+    if (this.sharedService.getTouristicPoints().find(e => e.id === this.place.id)) {
       // Show toast notifying place is already added to favourites
       this.sharedService.showToast('Punto de interés ya añadido a favoritos',3000);
       return;
