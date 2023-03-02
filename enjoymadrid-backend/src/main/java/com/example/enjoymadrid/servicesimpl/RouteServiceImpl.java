@@ -62,6 +62,7 @@ public class RouteServiceImpl implements RouteService {
 	
 	// For heuristic, weighting factors
 	private static final double PREFERENCE_FACTOR = 1.5;
+	private static final int MAX_PREFERENCE_WEIGHTING = 5;
 	
 	private final UserService userService;
 	private final UserRepository userRepository;
@@ -121,8 +122,11 @@ public class RouteServiceImpl implements RouteService {
 					line.getTransportType() + "_" + line.getLine() + " [" + line.getDirection() + "]", 
 					line -> line));
 		
+		// Map with max number of nearby tourist points of each type from all transport stations
+		Map<String, Long> maxNearbyTouristicPoints = new HashMap<>();
+		
 		// Get all the transport points selected by user
-		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports(), lineStops);
+		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports(), lineStops, maxNearbyTouristicPoints);
 		
 		// Get the air quality measuring stations (that AQI levels are currently available)
 		List<AirQualityPoint> airQualityPoints = this.airQualityPointRepository.findByAqiIsNotNull();
@@ -397,72 +401,77 @@ public class RouteServiceImpl implements RouteService {
 	 * 
 	 * @param transports Transport methods
 	 * @param lineStops Bus, underground & suburban lines
+	 * @param maxNearbyTouristicPoints Max number of nearby stations from stations for each type
 	 * @return Transport points
 	 */
-	private List<TransportPoint> getTransportPoints(List<String> transports, Map<String, PublicTransportLine> lineStops) {
+	private List<TransportPoint> getTransportPoints(List<String> transports, Map<String, PublicTransportLine> lineStops, 
+			Map<String, Long> maxNearbyTouristicPoints) {
 		
 		// Get actual time & day of week
-		LocalTime currentLocalTime = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalTime();
-		DayOfWeek currentDayOfWeek = ZonedDateTime.now(ZoneId.of("Europe/Madrid")).toLocalDate().getDayOfWeek();
-				
+		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Madrid"));
+		LocalTime currentLocalTime = now.toLocalTime();
+		DayOfWeek currentDayOfWeek = now.toLocalDate().getDayOfWeek();
+		
+		// LocalTime midnight
+		LocalTime midnight = LocalTime.MIDNIGHT;
+		
 		// Query to get the points in order to create the route
 		List<TransportPoint> transportPoints = this.transportPointRepository.findByTypeIn(transports);
-						
+		
 		return transportPoints.stream()
-				.map(point -> {
-					if (point instanceof PublicTransportPoint) {						
+				.filter(point -> {
+					if (point instanceof PublicTransportPoint) {				
 						PublicTransportPoint publicTransportPoint = (PublicTransportPoint) point;
-						Iterator<String[]> linesIterator = publicTransportPoint.getStopLines().iterator();
-						while (linesIterator.hasNext()) {
-							String[] line = (String[]) linesIterator.next();
-							PublicTransportLine publicTransportLine = lineStops.get(point.getType() + "_" + line[0] + " [" + line[1] + "]");
-							
-							// Schedule is null & stop doesn't operate right now
-							boolean scheduleNull = false;
-							// First/last time operates the station
-							LocalTime startTime = LocalTime.MIDNIGHT;
-							LocalTime endTime = LocalTime.MIDNIGHT;
-							// Schedule is frequency or arrival times
-							if (publicTransportLine.getScheduleType().equals('F')) {
-								Frequency frequency = (Frequency) publicTransportLine.getStopSchedules().get(currentDayOfWeek.toString());
-								if (frequency == null) {
-									scheduleNull = true;
-								} else {
-									startTime = frequency.getStartSchedule();
-									endTime = frequency.getEndSchedule();
-								}
-							} else {
-								Time time = (Time) publicTransportLine.getStopSchedules().get(line[2]);
-								if (time == null) {
-									scheduleNull = true;
-								} else {
-									LocalTime[] arrivalTimes = time.getDayTimes().get(currentDayOfWeek.toString());
-									startTime = arrivalTimes[0];
-									endTime = arrivalTimes[arrivalTimes.length - 1];	
-								}
-							}
-							
-							// Different approach depending on whether the end time is after or before midnight
-							if ( scheduleNull || ( startTime.isBefore(endTime) && ( currentLocalTime.isBefore(startTime) || currentLocalTime.isAfter(endTime) ) ) 
-									|| ( startTime.isAfter(endTime) && (currentLocalTime.isBefore(startTime) && currentLocalTime.isAfter(endTime) ) ) ) {
-								linesIterator.remove();
-								publicTransportPoint.getNextStops().remove(line[0] + " [" + line[1] + "]");
-							}
-							
-						}
-					}
-					return point;
-				}).filter(point -> {
-					if (point instanceof PublicTransportPoint && ((PublicTransportPoint) point).getStopLines().isEmpty()) {
-						// Remove public transport stop if there aren't any line that operate currently
-						return false;
-					} else if (point instanceof BicycleTransportPoint 
-							&& !((BicycleTransportPoint) point).isAvailable()) {
-						// Exclude bike stations that don't operate (currently) nor have bikes available
-						return false;
+						Set<String[]> stopLines = publicTransportPoint.getStopLines().stream()
+								.filter(line -> {
+									PublicTransportLine publicTransportLine = lineStops.get(point.getType() + "_" + line[0] + " [" + line[1] + "]");
+									if (publicTransportLine == null) return false;
+									
+									// First/last time operates the station
+									LocalTime startTime = midnight;
+									LocalTime endTime = midnight;
+									// Schedule is frequency or arrival times
+									if (publicTransportLine.getScheduleType().equals('F')) {
+										Frequency frequency = (Frequency) publicTransportLine.getStopSchedules().get(currentDayOfWeek.toString());
+										if (frequency == null) {
+											return false;
+										} else {
+											startTime = frequency.getStartSchedule();
+											endTime = frequency.getEndSchedule();
+										}
+									} else {
+										Time time = (Time) publicTransportLine.getStopSchedules().get(line[2]);
+										if (time == null) {
+											return false;
+										} else {
+											LocalTime[] arrivalTimes = time.getDayTimes().get(currentDayOfWeek.toString());
+											startTime = arrivalTimes[0];
+											endTime = arrivalTimes[arrivalTimes.length - 1];	
+										}
+									}
+									
+									// Different approach depending on whether the end time is after or before midnight
+									if ((startTime.isBefore(endTime) && (currentLocalTime.isBefore(startTime) || currentLocalTime.isAfter(endTime))) 
+											|| (startTime.isAfter(endTime) && (currentLocalTime.isBefore(startTime) && currentLocalTime.isAfter(endTime)))) {
+										publicTransportPoint.getNextStops().remove(line[0] + " [" + line[1] + "]");
+										return false;
+									}
+									return true;
+								})
+								.collect(Collectors.toSet());
+						publicTransportPoint.setStopLines(stopLines);
+						return !stopLines.isEmpty();
+					} else if (point instanceof BicycleTransportPoint) {
+						return ((BicycleTransportPoint) point).isAvailable();
 					}
 					return true;
 				})
+				.peek(point -> point.getNearbyTouristicPoints().forEach((preferenceType, nearbyTouristicPoints) -> { 
+					long currentMaxNearbyTouristicPoints = maxNearbyTouristicPoints.getOrDefault(preferenceType, 0L); 
+					if (nearbyTouristicPoints > currentMaxNearbyTouristicPoints) { 
+						maxNearbyTouristicPoints.put(preferenceType, nearbyTouristicPoints);
+					}
+		        }))
 				.collect(Collectors.toList());
 	}
 	
