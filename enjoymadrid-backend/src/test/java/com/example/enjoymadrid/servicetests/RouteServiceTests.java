@@ -32,6 +32,7 @@ import com.example.enjoymadrid.models.TransportPoint;
 import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.models.dtos.RouteResultDto;
 import com.example.enjoymadrid.models.repositories.AirQualityPointRepository;
+import com.example.enjoymadrid.models.repositories.MaxNearbyTouristicPointsTypeRepository;
 import com.example.enjoymadrid.models.repositories.PublicTransportLineRepository;
 import com.example.enjoymadrid.models.repositories.RouteRepository;
 import com.example.enjoymadrid.models.repositories.TransportPointRepository;
@@ -61,6 +62,9 @@ public class RouteServiceTests {
 	
 	@Mock
 	private PublicTransportLineRepository publicTransportLineRepository;
+	
+	@Mock
+	private MaxNearbyTouristicPointsTypeRepository maxNearbyTouristicPointsTypeRepository;
 			
 	@Mock
 	private UserService userService;
@@ -164,6 +168,8 @@ public class RouteServiceTests {
 		when(publicTransportLineRepository.findAll()).thenReturn(new ArrayList<>());
 		when(airQualityPointRepository.findByAqiIsNotNull())
 			.thenReturn(Arrays.asList(airQualityPoint));
+		when(maxNearbyTouristicPointsTypeRepository.findAll())
+			.thenReturn(new ArrayList<>());
 		when(transportPointRepository.findByTypeIn(anyCollection())).thenReturn(new ArrayList<>());
 		when(sharedService.haversine(anyDouble(), anyDouble(), anyDouble(), anyDouble())).thenReturn(0.7);
 		

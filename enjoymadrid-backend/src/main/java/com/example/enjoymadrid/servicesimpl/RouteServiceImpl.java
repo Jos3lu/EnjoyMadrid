@@ -3,12 +3,15 @@ package com.example.enjoymadrid.servicesimpl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,6 +36,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.enjoymadrid.models.AirQualityPoint;
 import com.example.enjoymadrid.models.BicycleTransportPoint;
 import com.example.enjoymadrid.models.Frequency;
+import com.example.enjoymadrid.models.MaxNearbyTouristicPointsType;
 import com.example.enjoymadrid.models.Point;
 import com.example.enjoymadrid.models.PointWrapper;
 import com.example.enjoymadrid.models.Polyline;
@@ -45,6 +49,7 @@ import com.example.enjoymadrid.models.TransportPoint;
 import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.models.dtos.RouteResultDto;
 import com.example.enjoymadrid.models.repositories.AirQualityPointRepository;
+import com.example.enjoymadrid.models.repositories.MaxNearbyTouristicPointsTypeRepository;
 import com.example.enjoymadrid.models.repositories.PublicTransportLineRepository;
 import com.example.enjoymadrid.models.repositories.RouteRepository;
 import com.example.enjoymadrid.models.repositories.TransportPointRepository;
@@ -61,8 +66,10 @@ import reactor.core.publisher.Mono;
 public class RouteServiceImpl implements RouteService {
 	
 	// For heuristic, weighting factors
-	private static final double PREFERENCE_FACTOR = 1.5;
 	private static final int MAX_PREFERENCE_WEIGHTING = 5;
+	private static final double DIST_WEIGHTING = 0.5;
+	private static final double AQI_WEIGHTING = 0.3;
+	private static final double PLACES_WEIGHTING = 0.2;
 	
 	private final UserService userService;
 	private final UserRepository userRepository;
@@ -70,17 +77,20 @@ public class RouteServiceImpl implements RouteService {
 	private final TransportPointRepository transportPointRepository;
 	private final PublicTransportLineRepository publicTransportLineRepository;
 	private final AirQualityPointRepository airQualityPointRepository;
+	private final MaxNearbyTouristicPointsTypeRepository maxNearbyTouristicPointsTypeRepository;
 	private final SharedService sharedService;
 	
 	public RouteServiceImpl(RouteRepository routeRepository, UserRepository userRepository, UserService userService, 
 			TransportPointRepository transportPointRepository, PublicTransportLineRepository publicTransportLineRepository, 
-			AirQualityPointRepository airQualityPointRepository, SharedService sharedService) {
+			AirQualityPointRepository airQualityPointRepository, SharedService sharedService, 
+			MaxNearbyTouristicPointsTypeRepository maxNearbyTouristicPointsTypeRepository) {
 		this.routeRepository = routeRepository;
 		this.userRepository = userRepository;
 		this.userService = userService;
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;
 		this.airQualityPointRepository = airQualityPointRepository;
+		this.maxNearbyTouristicPointsTypeRepository = maxNearbyTouristicPointsTypeRepository;
 		this.sharedService = sharedService;
 	}
 
@@ -103,6 +113,8 @@ public class RouteServiceImpl implements RouteService {
 	
 	@Override
 	public RouteResultDto createRoute(Route route, Long userId) {
+		Instant start = Instant.now();
+		
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
 		TransportPoint destination = route.getDestination();
@@ -123,14 +135,27 @@ public class RouteServiceImpl implements RouteService {
 					line -> line));
 		
 		// Map with max number of nearby tourist points of each type from all transport stations
-		Map<String, Long> maxNearbyTouristicPoints = new HashMap<>();
+		List<MaxNearbyTouristicPointsType> maxNearbyTouristicPointsType = this.maxNearbyTouristicPointsTypeRepository
+				.findAll();
+		Map<String, Long> maxNearbyTouristicPoints = maxNearbyTouristicPointsType.stream()
+				.findFirst()
+				.map(MaxNearbyTouristicPointsType::getMaxNearbyTouristicPoints)
+				.orElse(Collections.emptyMap())
+				.entrySet().stream()
+				.collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue() == 0 ? 1 : entry.getValue()));
 		
 		// Get all the transport points selected by user
-		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports(), lineStops, maxNearbyTouristicPoints);
+		List<TransportPoint> transportPoints = getTransportPoints(route.getTransports(), lineStops);
 		
 		// Get the air quality measuring stations (that AQI levels are currently available)
 		List<AirQualityPoint> airQualityPoints = this.airQualityPointRepository.findByAqiIsNotNull();
-				
+
+		// Max Aqi value
+		int maxAqi = Math.max(airQualityPoints.stream()
+				.mapToInt(AirQualityPoint::getAqi)
+				.max()
+				.orElse(0), 1);
+		
 		// Get only bicycle stations from DB if selected by user
 		Set<TransportPoint> bicyclePoints = route.getTransports().contains("BiciMAD") ? 
 				transportPoints.stream()
@@ -140,12 +165,12 @@ public class RouteServiceImpl implements RouteService {
 		
 		// Find the best route
 		List<TransportPoint> routePoints = findBestRoute(origin, destination, maxDistance, transportPoints, 
-				preferences, airQualityPoints, bicyclePoints);
+				preferences, maxNearbyTouristicPoints, airQualityPoints, maxAqi, bicyclePoints);
 		if (routePoints == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"No se ha podido crear la ruta con estos parámetros de entrada");
 		}
-					
+		
 		// Set the different segments that form the route
 		RouteResultDto routeResultDto = setSegments(routePoints, route.getName(), lineStops);
 		
@@ -157,6 +182,10 @@ public class RouteServiceImpl implements RouteService {
 			this.userRepository.save(user);
 			routeResultDto.setId(route.getId());
 		}
+		
+		Instant end = Instant.now();
+		Duration timeDuration = Duration.between(start, end);
+		System.out.println("Time: " + timeDuration.toMillis());
 		
 		return routeResultDto;
 	}
@@ -170,11 +199,14 @@ public class RouteServiceImpl implements RouteService {
 	 * @param maxDistance Maximum distance to walk between points of route
 	 * @param transportPoints Transport points filtered by user's chosen transport mode
 	 * @param preferences User's tourist preferences
+	 * @param maxNearbyTouristicPoints Max nearby tourist points of each type
+	 * @param maxAqi Max value of AQI stations
+	 * @param bicyclePoints Set of Bicycle Points
 	 * @return Complete route
 	 */
-	private <P extends Comparable<P>> List<P> findBestRoute(P origin, P destination, double maxDistance,
-			List<P> transportPoints, Map<String, Integer> preferences, List<AirQualityPoint> airQualityPoints,
-			Set<P> bicyclePoints) {
+	private <P extends Comparable<P>> List<P> findBestRoute(P origin, P destination, double maxDistance, List<P> transportPoints, 
+			Map<String, Integer> preferences, Map<String, Long> maxNearbyTouristicPoints, List<AirQualityPoint> airQualityPoints, 
+			int maxAqi, Set<P> bicyclePoints) {
 
 		// Map that delivers the wrapper for a point
 		Map<P, PointWrapper<P>> points = new HashMap<>();
@@ -185,7 +217,7 @@ public class RouteServiceImpl implements RouteService {
 
 		// Add origin point
 		PointWrapper<P> originWrapper = new PointWrapper<>(origin, null, false, 0.0,
-				calculateHeuristic(origin, destination, airQualityPoints, preferences));
+				calculateHeuristic(origin, destination, airQualityPoints, preferences, maxNearbyTouristicPoints, maxAqi));
 		points.put(origin, originWrapper);
 		openList.add(originWrapper);
 
@@ -195,9 +227,8 @@ public class RouteServiceImpl implements RouteService {
 			bestPointsFound.add(point);
 
 			// Point destination reached, return list of points
-			if (calculateDistance(point, destination) <= maxDistance
-					&& (isDirectNeighbor(pointWrapper.getPrevious() != null ? pointWrapper.getPrevious().getPoint() : null, point, true) 
-						|| point.equals(origin))) {
+			if (calculateDistance(point, destination) <= maxDistance && (isDirectNeighbor(pointWrapper.getPrevious() != null 
+					? pointWrapper.getPrevious().getPoint() : null, point, true) || point.equals(origin))) {
 				List<P> route = new LinkedList<>();
 				while (pointWrapper != null) {
 					route.add(0, pointWrapper.getPoint());
@@ -223,7 +254,7 @@ public class RouteServiceImpl implements RouteService {
 				PointWrapper<P> neighborWrapper = points.get(neighbor);
 				if (neighborWrapper == null) {
 					neighborWrapper = new PointWrapper<P>(neighbor, pointWrapper, directNeighbor, distanceFromOrigin,
-							calculateHeuristic(neighbor, destination, airQualityPoints, preferences));
+							calculateHeuristic(neighbor, destination, airQualityPoints, preferences, maxNearbyTouristicPoints, maxAqi));
 					points.put(neighbor, neighborWrapper);
 					openList.add(neighborWrapper);
 				}
@@ -351,12 +382,14 @@ public class RouteServiceImpl implements RouteService {
 	 * @param point Info point
 	 * @param destination Destination point
 	 * @param airQualityPoints Air quality stations in Madrid
-	 * @param touristicPoints Tourist places in Madrid
 	 * @param preferences User preferences
-	 * @return Heuristic
+	 * @param maxNearbyTouristicPoints Max nearby tourist points of each type
+	 * @param maxAqi Max AQI value
+	 * @return Double
 	 */
 	private <P extends Comparable<P>> double calculateHeuristic(P point, P destination,
-			List<AirQualityPoint> airQualityPoints, Map<String, Integer> preferences) {
+			List<AirQualityPoint> airQualityPoints, Map<String, Integer> preferences, 
+			Map<String, Long> maxNearbyTouristicPoints, int maxAqi) {
 						
 		// Calculate distance to destination using Haversine formula
 		double minDistanceToDestination = calculateDistance(point, destination);
@@ -368,20 +401,43 @@ public class RouteServiceImpl implements RouteService {
 				.map(AirQualityPoint::getAqi)
 				.orElse(1);
 		
+		double aqiHeuristic = aqiHeuristic(aqi, maxAqi);
+		
 		// Number of nearby tourist points to station
 		Map<String, Long> nearbyTouristicPoints = ((TransportPoint) point).getNearbyTouristicPoints();
-		double interestPlaces = preferences.entrySet().stream().reduce(0.0, (sum, preference) -> {	
-			double nearbyPlaces = nearbyTouristicPoints.getOrDefault(preference.getKey(), 0L);
-			nearbyPlaces *= preference.getValue() * PREFERENCE_FACTOR; 
-			return sum + nearbyPlaces;
+		double nearbyPlacesHeuristic = preferences.entrySet().stream().reduce(0.0, (sum, preference) -> {	
+			long nearbyPlaces = nearbyTouristicPoints.getOrDefault(preference.getKey(), 0L);
+			long maxNearbyPlaces = maxNearbyTouristicPoints.getOrDefault(preference.getKey(), 1L);
+			return sum + nearbyPlacesHeuristic(nearbyPlaces, preference.getValue(), maxNearbyPlaces);
 		}, Double::sum);
-		
-		// Ensure non-zero values
-		aqi = Math.max(aqi, 1);
-		interestPlaces = Math.max(interestPlaces, 1.0);
-		
-		return (minDistanceToDestination * aqi) / interestPlaces;
+				
+		return DIST_WEIGHTING * minDistanceToDestination + AQI_WEIGHTING * aqiHeuristic + PLACES_WEIGHTING * nearbyPlacesHeuristic;
 	}
+	
+	/**
+	 * Calculate the heuristics if AQI
+	 * 
+	 * @param aqi AQI from nearest station
+	 * @param maxAqi Max AQI of all stations
+	 * @return Double
+	 */
+	private double aqiHeuristic(int aqi, int maxAqi) {
+		return aqi / maxAqi;
+	}
+	
+	/**
+	 * Calculate the heuristics of tourist points
+	 * 
+	 * @param nearbyPlaces Tourist points near the transport stations
+	 * @param preferenceWeighting User's preference weighting
+	 * @param maxNearbyPlaces Max tourist points near any transport station
+	 * @return Double
+	 */
+	private double nearbyPlacesHeuristic(long nearbyPlaces, int preferenceWeighting, long maxNearbyPlaces) {
+		return 1 - ((nearbyPlaces * preferenceWeighting) / (maxNearbyPlaces * MAX_PREFERENCE_WEIGHTING));
+	}
+	
+	
 		
 	/**
 	 * Calculate haversine formula via latitude & longitude
@@ -401,11 +457,9 @@ public class RouteServiceImpl implements RouteService {
 	 * 
 	 * @param transports Transport methods
 	 * @param lineStops Bus, underground & suburban lines
-	 * @param maxNearbyTouristicPoints Max number of nearby stations from stations for each type
 	 * @return Transport points
 	 */
-	private List<TransportPoint> getTransportPoints(List<String> transports, Map<String, PublicTransportLine> lineStops, 
-			Map<String, Long> maxNearbyTouristicPoints) {
+	private List<TransportPoint> getTransportPoints(List<String> transports, Map<String, PublicTransportLine> lineStops) {
 		
 		// Get actual time & day of week
 		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Madrid"));
@@ -415,10 +469,8 @@ public class RouteServiceImpl implements RouteService {
 		// LocalTime midnight
 		LocalTime midnight = LocalTime.MIDNIGHT;
 		
-		// Query to get the points in order to create the route
-		List<TransportPoint> transportPoints = this.transportPointRepository.findByTypeIn(transports);
-		
-		return transportPoints.stream()
+		// Query to get the points in order to create the route		
+		return this.transportPointRepository.findByTypeIn(transports).stream()
 				.filter(point -> {
 					if (point instanceof PublicTransportPoint) {				
 						PublicTransportPoint publicTransportPoint = (PublicTransportPoint) point;
@@ -466,12 +518,6 @@ public class RouteServiceImpl implements RouteService {
 					}
 					return true;
 				})
-				.peek(point -> point.getNearbyTouristicPoints().forEach((preferenceType, nearbyTouristicPoints) -> { 
-					long currentMaxNearbyTouristicPoints = maxNearbyTouristicPoints.getOrDefault(preferenceType, 0L); 
-					if (nearbyTouristicPoints > currentMaxNearbyTouristicPoints) { 
-						maxNearbyTouristicPoints.put(preferenceType, nearbyTouristicPoints);
-					}
-		        }))
 				.collect(Collectors.toList());
 	}
 	

@@ -32,12 +32,14 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import com.example.enjoymadrid.models.BicycleTransportPoint;
 import com.example.enjoymadrid.models.Frequency;
+import com.example.enjoymadrid.models.MaxNearbyTouristicPointsType;
 import com.example.enjoymadrid.models.Polyline;
 import com.example.enjoymadrid.models.PublicTransportLine;
 import com.example.enjoymadrid.models.PublicTransportPoint;
 import com.example.enjoymadrid.models.Schedule;
 import com.example.enjoymadrid.models.Time;
 import com.example.enjoymadrid.models.TouristicPoint;
+import com.example.enjoymadrid.models.repositories.MaxNearbyTouristicPointsTypeRepository;
 import com.example.enjoymadrid.models.repositories.PublicTransportLineRepository;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.models.repositories.TransportPointRepository;
@@ -66,13 +68,16 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 	private final TouristicPointRepository touristicPointRepository;
 	private final TransportPointRepository transportPointRepository;
 	private final PublicTransportLineRepository publicTransportLineRepository;
+	private final MaxNearbyTouristicPointsTypeRepository maxNearbyTouristicPointsTypeRepository;
 	private final SharedService sharedService;
 	
 	public TransportLoadServiceImpl(TouristicPointRepository touristicPointRepository, TransportPointRepository transportPointRepository, 
-			PublicTransportLineRepository publicTransportLineRepository, SharedService sharedService) {
+			PublicTransportLineRepository publicTransportLineRepository, SharedService sharedService, 
+			MaxNearbyTouristicPointsTypeRepository maxNearbyTouristicPointsTypeRepository) {
 		this.touristicPointRepository = touristicPointRepository;
 		this.transportPointRepository = transportPointRepository;
 		this.publicTransportLineRepository = publicTransportLineRepository;
+		this.maxNearbyTouristicPointsTypeRepository = maxNearbyTouristicPointsTypeRepository;
 		this.sharedService = sharedService;
 	}
 
@@ -83,7 +88,10 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		
 		// Get all the touristic points
 		List<TouristicPoint> touristicPoints = this.touristicPointRepository.findAll();
-				
+		
+		// There are transport points already loaded in DB
+		boolean existsTransportPoints = this.transportPointRepository.count() > 0;
+		
 		// HashMap for calculating the number of places near the station that match the preference
 		preferenceFunctions = new ConcurrentHashMap<>();
 		preferenceFunctions.put("C_", (places, placeType) -> places.stream()
@@ -94,6 +102,9 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		    .filter(place -> place.getType().equals(placeType) || place.getCategories().contains("Instalaciones deportivas")).count());
 		preferenceFunctions.put("T_", (places, placeType) -> places.stream()
 		    .filter(place -> place.getType().equals(placeType)).count());
+		
+		// Max nearby tourist points of each preference type
+		ConcurrentHashMap<String, Long> maxNearbyTouristicPoints = new ConcurrentHashMap<>();
 		
 		// Data sources
 		String[][] transportTypes = {
@@ -115,13 +126,21 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		for (int i = 0; i < transportLast; i++) {
 			final int transportIndex = i;
 			ex.execute(() -> loadTransportPoints(transportTypes[transportIndex][0], transportTypes[transportIndex][1],
-					transportTypes[transportIndex][2], touristicPoints, waitToEnd));
+					transportTypes[transportIndex][2], touristicPoints, maxNearbyTouristicPoints, waitToEnd));
 		}	
 		ex.shutdown();
 		
 		// Main working at the same time as threads
 		loadTransportPoints(transportTypes[transportLast][0], transportTypes[transportLast][1],
-				transportTypes[transportLast][2], touristicPoints, waitToEnd);
+				transportTypes[transportLast][2], touristicPoints, maxNearbyTouristicPoints, waitToEnd);
+		
+		if (existsTransportPoints) {
+			// Update in DB nearby tourist points & max nearby tourist points
+			updateNearbyTouristicPoints(touristicPoints);
+		} else {
+			// Update in DB max nearby tourist points
+			updateMaxNearbyTouristicPoints(maxNearbyTouristicPoints);
+		}
 		
 		logger.info("Transport points updated");
 	}
@@ -132,18 +151,17 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 	 * @param type Transport mode
 	 * @param stopsPath Path of point's data source
 	 * @param linesPath Path of lines' data source
+	 * @param touristicPoints Tourist points
+	 * @param maxNearbyTouristicPoints Max nearby tourist points of each type
 	 * @param waitToEnd Synchronization aid
 	 */
-	private void loadTransportPoints(String type, String stopsPath, String linesPath, 
-			List<TouristicPoint> touristicPoints, CyclicBarrier waitToEnd) {
+	private void loadTransportPoints(String type, String stopsPath, String linesPath, List<TouristicPoint> touristicPoints, 
+			Map<String, Long> maxNearbyTouristicPoints, CyclicBarrier waitToEnd) {
 		
 		// Query to get number of entities in DB
 		boolean transportPointsDB = this.transportPointRepository.existsByType(type);
 		
-		if (transportPointsDB) {
-			// Update nearby tourist points of a transport station
-			updateNearbyTouristicPoints(touristicPoints);
-			
+		if (transportPointsDB) {			
 			// Add availability of each Bike station
 			if (type.equals("BiciMAD")) 
 				updateBiciMADPoints();
@@ -270,7 +288,8 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 				}
 				
 				// Get tourist points near the station (by type)
-				Map<String, Long> nearbyTouristicPoint = getNearbyTouristicPoints(touristicPoints, latitude, longitude);
+				Map<String, Long> nearbyTouristicPoint = getNearbyTouristicPoints(touristicPoints, latitude, longitude,
+						maxNearbyTouristicPoints);
 				
 				// Save stop in DB
 				if (type.equals("BiciMAD")) {
@@ -414,14 +433,30 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 	
 	@Override
 	public void updateNearbyTouristicPoints(List<TouristicPoint> touristicPoints) {
+		// Max nearby tourist points of each preference type
+		ConcurrentHashMap<String, Long> maxNearbyTouristicPoints = new ConcurrentHashMap<>();
+		
 		this.transportPointRepository.findAll().parallelStream().forEach(transport -> {
 			transport.setNearbyTouristicPoints(
-					getNearbyTouristicPoints(touristicPoints, transport.getLatitude(), transport.getLongitude()));
+					getNearbyTouristicPoints(touristicPoints, transport.getLatitude(), transport.getLongitude(), 
+							maxNearbyTouristicPoints));
 			this.transportPointRepository.save(transport);
 		});
+		
+		updateMaxNearbyTouristicPoints(maxNearbyTouristicPoints);
 	}
 	
-	private Map<String, Long> getNearbyTouristicPoints(List<TouristicPoint> touristicPoints, double latitude, double longitude) {
+	/**
+	 * Get nearby tourist points of a transport station
+	 * 
+	 * @param touristicPoints Tourist points
+	 * @param latitude Latitude of transport station
+	 * @param longitude Longitude of transport station
+	 * @param maxNearbyTouristicPoints Max nearby tourist points
+	 * @return Nearby tourist points
+	 */
+	private Map<String, Long> getNearbyTouristicPoints(List<TouristicPoint> touristicPoints, double latitude, double longitude, 
+			Map<String, Long> maxNearbyTouristicPoints) {
 		// Get tourist points within a radius of 500 meters
 		List<TouristicPoint> nearbyTouristicPoints = touristicPoints.stream()
 				.filter(touristicPoint -> this.sharedService.haversine(touristicPoint.getLatitude(),
@@ -438,10 +473,29 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 					BiFunction<List<TouristicPoint>, String, Long> preferenceFunction = preferenceFunctions
 							.get(preferenceType.substring(0, 2));
 
-					return preferenceFunction != null
+					long nTouristicPoints = preferenceFunction != null
 							? preferenceFunction.apply(nearbyTouristicPoints, preferenceName)
 							: 0L;
+					
+					// Max nearby tourist points
+					long currentMaxNearbyTouristicPoints = maxNearbyTouristicPoints.getOrDefault(preferenceType, 0L);
+					if (nTouristicPoints > currentMaxNearbyTouristicPoints) {
+						maxNearbyTouristicPoints.put(preferenceType, nTouristicPoints);
+					}
+					
+					return nTouristicPoints;
 				}));
+	}
+	
+	/**
+	 * Update in DB max nearby tourist points
+	 * 
+	 * @param maxNearbyTouristicPoints Max nearby tourist points of each type
+	 */
+	private void updateMaxNearbyTouristicPoints(Map<String, Long> maxNearbyTouristicPoints) {
+		this.maxNearbyTouristicPointsTypeRepository.deleteAll();
+		this.maxNearbyTouristicPointsTypeRepository.save(
+				new MaxNearbyTouristicPointsType(maxNearbyTouristicPoints));
 	}
 	
 	@Override
