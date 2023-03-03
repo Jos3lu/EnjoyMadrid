@@ -3,8 +3,6 @@ package com.example.enjoymadrid.servicesimpl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -112,9 +110,7 @@ public class RouteServiceImpl implements RouteService {
 	}
 	
 	@Override
-	public RouteResultDto createRoute(Route route, Long userId) {
-		Instant start = Instant.now();
-		
+	public RouteResultDto createRoute(Route route, Long userId) {		
 		// Parameters to create route
 		TransportPoint origin = route.getOrigin();
 		TransportPoint destination = route.getDestination();
@@ -182,11 +178,7 @@ public class RouteServiceImpl implements RouteService {
 			this.userRepository.save(user);
 			routeResultDto.setId(route.getId());
 		}
-		
-		Instant end = Instant.now();
-		Duration timeDuration = Duration.between(start, end);
-		System.out.println("Time: " + timeDuration.toMillis());
-		
+				
 		return routeResultDto;
 	}
 			
@@ -361,7 +353,6 @@ public class RouteServiceImpl implements RouteService {
 	 * @return If previous point & actual point are neighbors (e.g. same subway/bus line & directly connected)
 	 */
 	private <P extends Comparable<P>> boolean isDirectNeighbor(P previous, P point, boolean includeBicycle) {
-		
 		if (previous != null && point != null) {
 			if (previous instanceof PublicTransportPoint && point instanceof PublicTransportPoint) {
 				return ((PublicTransportPoint) previous).getNextStops().values().contains((PublicTransportPoint) point);
@@ -411,8 +402,58 @@ public class RouteServiceImpl implements RouteService {
 			return sum + nearbyPlacesHeuristic(nearbyPlaces, preference.getValue(), maxNearbyPlaces);
 		}, Double::sum);
 				
+		return heuristicA(minDistanceToDestination, aqiHeuristic, nearbyPlacesHeuristic);
+		//return heuristicB(aqiHeuristic, nearbyPlacesHeuristic);
+		//return heuristicC(minDistanceToDestination, aqiHeuristic, nearbyPlacesHeuristic);
+	}
+	
+	/**
+	 * h(n) = DIST_WEIGHTING * min_distance(node, goal) + AQI_WEIGHTING * (aqi / max_aqi) 
+	 * + PLACES_WEIGHTING * Sum(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))
+	 * 
+	 * DIST_WEIGHTING = 0.5
+	 * AQI_WEIGHTING = 0.3
+	 * PLACES_WEIGHTING = 0.2
+	 * 
+	 * @param minDistanceToDestination min_distance(node, goal)
+	 * @param aqiHeuristic aqi / max_aqi
+	 * @param nearbyPlacesHeuristic Sum(1 - (nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING))
+	 * @return Double
+	 */
+	private double heuristicA(double minDistanceToDestination, double aqiHeuristic, double nearbyPlacesHeuristic) {
 		return DIST_WEIGHTING * minDistanceToDestination + AQI_WEIGHTING * aqiHeuristic + PLACES_WEIGHTING * nearbyPlacesHeuristic;
 	}
+	
+	/**
+	 * h(n) = AQI_WEIGHTING * (aqi / max_aqi) + PLACES_WEIGHTING * 
+	 * Sum(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))
+	 * 
+	 * AQI_WEIGHTING = 0.6
+	 * PLACES_WEIGHTING = 0.4
+	 * 
+	 * @param aqiHeuristic aqi / max_aqi
+	 * @param nearbyPlacesHeuristic Sum(1 - (nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING))
+	 * @return Double
+	 */
+//	private double heuristicB(double aqiHeuristic, double nearbyPlacesHeuristic) {
+//		return AQI_WEIGHTING * aqiHeuristic + PLACES_WEIGHTING * nearbyPlacesHeuristic;
+//	}
+	
+	/**
+	 * h(n) = min_distance(node, goal) * [AQI_WEIGHTING * (aqi / max_aqi) + PLACES_WEIGHTING * 
+	 * Sum(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))]
+	 * 
+	 * AQI_WEIGHTING = 0.6
+	 * PLACES_WEIGHTING = 0.4
+	 * 
+	 * @param minDistanceToDestination
+	 * @param aqiHeuristic
+	 * @param nearbyPlacesHeuristic
+	 * @return
+	 */
+//	private double heuristicC(double minDistanceToDestination, double aqiHeuristic, double nearbyPlacesHeuristic) {
+//		return minDistanceToDestination * (AQI_WEIGHTING * aqiHeuristic + PLACES_WEIGHTING * nearbyPlacesHeuristic);
+//	}
 	
 	/**
 	 * Calculate the heuristics if AQI
@@ -422,7 +463,7 @@ public class RouteServiceImpl implements RouteService {
 	 * @return Double
 	 */
 	private double aqiHeuristic(int aqi, int maxAqi) {
-		return aqi / maxAqi;
+		return ((double) aqi) / maxAqi;
 	}
 	
 	/**
@@ -434,11 +475,9 @@ public class RouteServiceImpl implements RouteService {
 	 * @return Double
 	 */
 	private double nearbyPlacesHeuristic(long nearbyPlaces, int preferenceWeighting, long maxNearbyPlaces) {
-		return 1 - ((nearbyPlaces * preferenceWeighting) / (maxNearbyPlaces * MAX_PREFERENCE_WEIGHTING));
+		return 1.0 - ((double) nearbyPlaces * preferenceWeighting / (maxNearbyPlaces * MAX_PREFERENCE_WEIGHTING));
 	}
 	
-	
-		
 	/**
 	 * Calculate haversine formula via latitude & longitude
 	 * 
