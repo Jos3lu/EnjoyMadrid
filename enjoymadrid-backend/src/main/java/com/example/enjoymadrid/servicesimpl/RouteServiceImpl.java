@@ -400,7 +400,7 @@ public class RouteServiceImpl implements RouteService {
 			long nearbyPlaces = nearbyTouristicPoints.getOrDefault(preference.getKey(), 0L);
 			long maxNearbyPlaces = maxNearbyTouristicPoints.getOrDefault(preference.getKey(), 1L);
 			return sum + nearbyPlacesHeuristic(nearbyPlaces, preference.getValue(), maxNearbyPlaces);
-		}, Double::sum);
+		}, Double::sum) / 9;
 				
 		return heuristicA(minDistanceToDestination, aqiHeuristic, nearbyPlacesHeuristic);
 		//return heuristicB(aqiHeuristic, nearbyPlacesHeuristic);
