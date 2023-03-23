@@ -1,6 +1,7 @@
 package com.example.enjoymadrid.components;
 
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -86,7 +87,8 @@ public class LoadPointsComponent implements CommandLineRunner {
 	@Scheduled(cron = "0 0 0 1 * *", zone = "Europe/Madrid")
 	private void loadDataTouristicPoints() {
 		this.touristicLoadService.loadTouristicPoints();
-		this.transportLoadService.updateNearbyTouristicPoints(this.touristicPointRepository.findAll());
+		this.transportLoadService.updateNearbyTouristicPoints(this.touristicPointRepository.findAll(), 
+				new ConcurrentHashMap<>());
 	}
 		
 	/**

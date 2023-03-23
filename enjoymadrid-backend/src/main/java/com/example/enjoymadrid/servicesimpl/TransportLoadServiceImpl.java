@@ -136,7 +136,7 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		
 		if (existsTransportPoints) {
 			// Update in DB nearby tourist points & max nearby tourist points
-			updateNearbyTouristicPoints(touristicPoints);
+			updateNearbyTouristicPoints(touristicPoints, maxNearbyTouristicPoints);
 		} else {
 			// Update in DB max nearby tourist points
 			updateMaxNearbyTouristicPoints(maxNearbyTouristicPoints);
@@ -432,10 +432,7 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 	}
 	
 	@Override
-	public void updateNearbyTouristicPoints(List<TouristicPoint> touristicPoints) {
-		// Max nearby tourist points of each preference type
-		ConcurrentHashMap<String, Long> maxNearbyTouristicPoints = new ConcurrentHashMap<>();
-		
+	public void updateNearbyTouristicPoints(List<TouristicPoint> touristicPoints, Map<String, Long> maxNearbyTouristicPoints) {		
 		this.transportPointRepository.findAll().parallelStream().forEach(transport -> {
 			transport.setNearbyTouristicPoints(
 					getNearbyTouristicPoints(touristicPoints, transport.getLatitude(), transport.getLongitude(), 
