@@ -59,7 +59,7 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 	// AccessToken for EMT API (get information about BiciMad stations), auto-extend each the API is invoked
 	private static String accessToken;
 	// Number of nearby tourist points to a station that match a preference
-	private static ConcurrentHashMap<String, BiFunction<List<TouristicPoint>, String, Long>> preferenceFunctions;
+	private static Map<String, BiFunction<List<TouristicPoint>, String, Long>> preferenceFunctions;
 	// Preferences of tourist points
 	private static final List<String> PREFERENCE_TYPES = Arrays.asList("C_Instalaciones culturales", "C_Parques y jardines", 
 			"C_Escuelas de cocina y catas de vinos y aceites", "C_Empresas de guías turísticos", 
@@ -475,8 +475,7 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 							: 0L;
 					
 					// Max nearby tourist points
-					maxNearbyTouristicPoints.compute(preferenceType, 
-							(k, v) -> v == null || nTouristicPoints > v ? nTouristicPoints : v);
+					maxNearbyTouristicPoints.merge(preferenceType, nTouristicPoints, Math::max);
 					
 					return nTouristicPoints;
 				}));
