@@ -475,10 +475,8 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 							: 0L;
 					
 					// Max nearby tourist points
-					long currentMaxNearbyTouristicPoints = maxNearbyTouristicPoints.getOrDefault(preferenceType, 0L);
-					if (nTouristicPoints > currentMaxNearbyTouristicPoints) {
-						maxNearbyTouristicPoints.put(preferenceType, nTouristicPoints);
-					}
+					maxNearbyTouristicPoints.compute(preferenceType, 
+							(k, v) -> v == null || nTouristicPoints > v ? nTouristicPoints : v);
 					
 					return nTouristicPoints;
 				}));
