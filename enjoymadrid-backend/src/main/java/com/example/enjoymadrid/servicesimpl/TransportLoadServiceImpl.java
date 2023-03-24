@@ -104,7 +104,7 @@ public class TransportLoadServiceImpl implements TransportLoadService {
 		    .filter(place -> place.getType().equals(placeType)).count());
 		
 		// Max nearby tourist points of each preference type
-		ConcurrentHashMap<String, Long> maxNearbyTouristicPoints = new ConcurrentHashMap<>();
+		Map<String, Long> maxNearbyTouristicPoints = new ConcurrentHashMap<>();
 		
 		// Data sources
 		String[][] transportTypes = {
