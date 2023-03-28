@@ -64,6 +64,7 @@ import reactor.core.publisher.Mono;
 public class RouteServiceImpl implements RouteService {
 	
 	// For heuristic, weighting factors
+	private static final int TOTAL_NUMBER_PREFERENCES = 9;
 	private static final int MAX_PREFERENCE_WEIGHTING = 5;
 	private static final double DIST_WEIGHTING = 0.5;
 	private static final double AQI_WEIGHTING = 0.3;
@@ -400,7 +401,7 @@ public class RouteServiceImpl implements RouteService {
 			long nearbyPlaces = nearbyTouristicPoints.getOrDefault(preference.getKey(), 0L);
 			long maxNearbyPlaces = maxNearbyTouristicPoints.getOrDefault(preference.getKey(), 1L);
 			return sum + nearbyPlacesHeuristic(nearbyPlaces, preference.getValue(), maxNearbyPlaces);
-		}, Double::sum) / 9;
+		}, Double::sum) / TOTAL_NUMBER_PREFERENCES;
 				
 		return heuristicA(minDistanceToDestination, aqiHeuristic, nearbyPlacesHeuristic);
 		//return heuristicB(aqiHeuristic, nearbyPlacesHeuristic);
