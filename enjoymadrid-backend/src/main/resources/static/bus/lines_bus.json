@@ -586,26 +586,26 @@
     "line" : "8",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:05 - 23:15", "06:05 - 23:15", "06:05 - 23:15", "06:05 - 23:15", "06:05 - 23:15", "06:05 - 23:15", "07:00 - 23:15" ],
+    "week_schedule" : [ "06:05 - 23:25", "06:05 - 23:25", "06:05 - 23:25", "06:05 - 23:25", "06:05 - 23:25", "06:05 - 23:28", "07:00 - 23:28" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:15",
+        "end_time" : "23:28",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:05",
-        "end_time" : "23:15",
+        "end_time" : "23:25",
         "frequency" : 1080
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:05",
-        "end_time" : "23:15",
+        "end_time" : "23:28",
         "frequency" : 1560
       } ]
     } ]
@@ -615,26 +615,26 @@
     "line" : "8",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:30 - 22:40", "05:30 - 22:40", "05:30 - 22:40", "05:30 - 22:40", "05:30 - 22:40", "05:30 - 22:40", "07:00 - 22:40" ],
+    "week_schedule" : [ "05:30 - 23:55", "05:30 - 23:55", "05:30 - 23:55", "05:30 - 23:55", "05:30 - 23:55", "05:30 - 23:57", "07:00 - 23:55" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "22:40",
+        "end_time" : "23:55",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:30",
-        "end_time" : "22:40",
+        "end_time" : "23:55",
         "frequency" : 1080
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:30",
-        "end_time" : "22:40",
+        "end_time" : "23:57",
         "frequency" : 1560
       } ]
     } ]
@@ -1253,7 +1253,7 @@
     "line" : "20",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:55 - 00:05", "05:55 - 00:05", "05:55 - 00:05", "05:55 - 00:05", "05:55 - 00:05", "05:55 - 00:10", "07:00 - 00:04" ],
+    "week_schedule" : [ "05:55 - 00:06", "05:55 - 00:06", "05:55 - 00:06", "05:55 - 00:06", "05:55 - 00:06", "05:55 - 00:08", "07:00 - 00:04" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
@@ -1265,14 +1265,14 @@
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:55",
-        "end_time" : "00:05",
+        "end_time" : "00:06",
         "frequency" : 1200
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:55",
-        "end_time" : "00:10",
+        "end_time" : "00:08",
         "frequency" : 1440
       } ]
     } ]
@@ -1369,7 +1369,7 @@
     "line" : "22",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:35 - 00:13", "05:35 - 00:13", "05:35 - 00:13", "05:35 - 00:13", "05:35 - 00:13", "05:35 - 00:14", "07:00 - 00:13" ],
+    "week_schedule" : [ "05:30 - 00:14", "05:30 - 00:14", "05:30 - 00:14", "05:30 - 00:14", "05:30 - 00:14", "05:30 - 00:14", "07:00 - 00:13" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
@@ -1380,14 +1380,14 @@
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
-        "start_time" : "05:35",
-        "end_time" : "00:13",
+        "start_time" : "05:30",
+        "end_time" : "00:14",
         "frequency" : 1200
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
-        "start_time" : "05:35",
+        "start_time" : "05:30",
         "end_time" : "00:14",
         "frequency" : 1680
       } ]
@@ -1462,21 +1462,21 @@
       "frequencies" : [ {
         "start_time" : "07:30",
         "end_time" : "23:30",
-        "frequency" : 1860
+        "frequency" : 1440
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:10",
         "end_time" : "23:30",
-        "frequency" : 1140
+        "frequency" : 1200
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:10",
         "end_time" : "23:30",
-        "frequency" : 1500
+        "frequency" : 1320
       } ]
     } ]
   }, {
@@ -1485,27 +1485,27 @@
     "line" : "24",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:40 - 23:05", "05:40 - 23:05", "05:40 - 23:05", "05:40 - 23:05", "05:40 - 23:05", "05:40 - 23:05", "07:00 - 23:05" ],
+    "week_schedule" : [ "05:40 - 00:00", "05:40 - 00:00", "05:40 - 00:00", "05:40 - 00:00", "05:40 - 00:00", "05:40 - 23:05", "07:00 - 23:05" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:05",
-        "frequency" : 1860
+        "frequency" : 1440
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:40",
-        "end_time" : "23:05",
-        "frequency" : 1140
+        "end_time" : "00:00",
+        "frequency" : 1200
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:40",
         "end_time" : "23:05",
-        "frequency" : 1500
+        "frequency" : 1320
       } ]
     } ]
   }, {
@@ -1514,26 +1514,26 @@
     "line" : "25",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:25 - 23:30", "06:25 - 23:30", "06:25 - 23:30", "06:25 - 23:30", "06:25 - 23:30", "06:25 - 23:30", "07:30 - 23:30" ],
+    "week_schedule" : [ "06:25 - 23:36", "06:25 - 23:36", "06:25 - 23:36", "06:25 - 23:36", "06:25 - 23:36", "06:25 - 23:40", "07:30 - 23:35" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:30",
-        "end_time" : "23:30",
+        "end_time" : "23:35",
         "frequency" : 1500
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:25",
-        "end_time" : "23:30",
+        "end_time" : "23:36",
         "frequency" : 1200
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:25",
-        "end_time" : "23:30",
+        "end_time" : "23:40",
         "frequency" : 1320
       } ]
     } ]
@@ -1543,26 +1543,26 @@
     "line" : "25",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:55 - 23:00", "05:55 - 23:00", "05:55 - 23:00", "05:55 - 23:00", "05:55 - 23:00", "05:55 - 23:00", "07:00 - 23:00" ],
+    "week_schedule" : [ "05:55 - 00:08", "05:55 - 00:08", "05:55 - 00:08", "05:55 - 00:08", "05:55 - 00:08", "05:55 - 00:12", "07:00 - 00:08" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:00",
+        "end_time" : "00:08",
         "frequency" : 1500
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:55",
-        "end_time" : "23:00",
+        "end_time" : "00:08",
         "frequency" : 1200
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:55",
-        "end_time" : "23:00",
+        "end_time" : "00:12",
         "frequency" : 1320
       } ]
     } ]
@@ -2448,7 +2448,7 @@
       "frequencies" : [ {
         "start_time" : "07:30",
         "end_time" : "23:30",
-        "frequency" : 1860
+        "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
@@ -2471,26 +2471,26 @@
     "line" : "41",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:55 - 23:05", "05:55 - 23:05", "05:55 - 23:05", "05:55 - 23:05", "05:55 - 23:05", "05:55 - 23:05", "07:00 - 23:05" ],
+    "week_schedule" : [ "05:55 - 23:55", "05:55 - 23:55", "05:55 - 23:55", "05:55 - 23:55", "05:55 - 23:55", "05:55 - 23:57", "07:00 - 23:56" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:05",
-        "frequency" : 1860
+        "end_time" : "23:56",
+        "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:55",
-        "end_time" : "23:05",
+        "end_time" : "23:55",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:55",
-        "end_time" : "23:05",
+        "end_time" : "23:57",
         "frequency" : 1800
       } ]
     } ]
@@ -2529,26 +2529,26 @@
     "line" : "42",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:40 - 23:25", "05:40 - 23:25", "05:40 - 23:25", "05:40 - 23:25", "05:40 - 23:25", "05:40 - 23:25", "07:00 - 23:25" ],
+    "week_schedule" : [ "05:40 - 00:05", "05:40 - 00:05", "05:40 - 00:05", "05:40 - 00:05", "05:40 - 00:05", "05:40 - 00:07", "07:00 - 00:08" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:25",
+        "end_time" : "00:08",
         "frequency" : 1680
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:40",
-        "end_time" : "23:25",
+        "end_time" : "00:05",
         "frequency" : 1440
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:40",
-        "end_time" : "23:25",
+        "end_time" : "00:07",
         "frequency" : 1500
       } ]
     } ]
@@ -2674,27 +2674,27 @@
     "line" : "45",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "05:00 - 23:02", "07:00 - 23:02" ],
+    "week_schedule" : [ "05:00 - 00:07", "05:00 - 00:07", "05:00 - 00:07", "05:00 - 00:07", "05:00 - 00:07", "05:00 - 00:10", "07:00 - 00:09" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:02",
+        "end_time" : "00:09",
         "frequency" : 2100
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:00",
-        "end_time" : "23:02",
+        "end_time" : "00:07",
         "frequency" : 1080
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:00",
-        "end_time" : "23:02",
-        "frequency" : 1320
+        "end_time" : "00:10",
+        "frequency" : 1380
       } ]
     } ]
   }, {
@@ -2703,7 +2703,7 @@
     "line" : "45",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:30 - 23:30", "05:30 - 23:30", "05:30 - 23:30", "05:30 - 23:30", "05:30 - 23:30", "05:30 - 23:30", "07:00 - 23:30" ],
+    "week_schedule" : [ "05:30 - 23:34", "05:30 - 23:34", "05:30 - 23:34", "05:30 - 23:34", "05:30 - 23:34", "05:30 - 23:37", "07:00 - 23:30" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
@@ -2715,15 +2715,15 @@
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:30",
-        "end_time" : "23:30",
+        "end_time" : "23:34",
         "frequency" : 1080
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:30",
-        "end_time" : "23:30",
-        "frequency" : 1320
+        "end_time" : "23:37",
+        "frequency" : 1380
       } ]
     } ]
   }, {
@@ -2790,27 +2790,27 @@
     "line" : "47",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:45 - 23:30", "05:45 - 23:30", "05:45 - 23:30", "05:45 - 23:30", "05:45 - 23:30", "05:45 - 23:30", "07:30 - 23:30" ],
+    "week_schedule" : [ "05:45 - 23:37", "05:45 - 23:37", "05:45 - 23:37", "05:45 - 23:37", "05:45 - 23:37", "05:45 - 23:39", "07:30 - 23:37" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:30",
-        "end_time" : "23:30",
+        "end_time" : "23:37",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:45",
-        "end_time" : "23:30",
+        "end_time" : "23:37",
         "frequency" : 1200
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:45",
-        "end_time" : "23:30",
-        "frequency" : 1740
+        "end_time" : "23:39",
+        "frequency" : 1800
       } ]
     } ]
   }, {
@@ -2819,27 +2819,27 @@
     "line" : "47",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:05 - 22:55", "05:05 - 22:55", "05:05 - 22:55", "05:05 - 22:55", "05:05 - 22:55", "05:05 - 22:55", "07:00 - 22:55" ],
+    "week_schedule" : [ "05:05 - 00:16", "05:05 - 00:16", "05:05 - 00:16", "05:05 - 00:16", "05:05 - 00:16", "05:05 - 00:20", "07:00 - 00:16" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "22:55",
+        "end_time" : "00:16",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:05",
-        "end_time" : "22:55",
+        "end_time" : "00:16",
         "frequency" : 1200
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:05",
-        "end_time" : "22:55",
-        "frequency" : 1740
+        "end_time" : "00:20",
+        "frequency" : 1800
       } ]
     } ]
   }, {
@@ -3376,7 +3376,7 @@
       "frequencies" : [ {
         "start_time" : "07:30",
         "end_time" : "23:30",
-        "frequency" : 1860
+        "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
@@ -3399,19 +3399,19 @@
     "line" : "57",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:20 - 23:00", "05:20 - 23:00", "05:20 - 23:00", "05:20 - 23:00", "05:20 - 23:00", "05:20 - 23:00", "07:00 - 23:00" ],
+    "week_schedule" : [ "05:20 - 00:01", "05:20 - 00:01", "05:20 - 00:01", "05:20 - 00:01", "05:20 - 00:01", "05:20 - 23:00", "07:00 - 23:00" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:00",
-        "frequency" : 1860
+        "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:20",
-        "end_time" : "23:00",
+        "end_time" : "00:01",
         "frequency" : 1200
       } ]
     }, {
@@ -3660,26 +3660,26 @@
     "line" : "62",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:50 - 23:30", "05:50 - 23:30", "05:50 - 23:30", "05:50 - 23:30", "05:50 - 23:30", "05:50 - 23:30", "07:30 - 23:30" ],
+    "week_schedule" : [ "05:50 - 00:07", "05:50 - 00:07", "05:50 - 00:07", "05:50 - 00:07", "05:50 - 00:07", "05:50 - 00:05", "07:30 - 00:04" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:30",
-        "end_time" : "23:30",
+        "end_time" : "00:04",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:50",
-        "end_time" : "23:30",
+        "end_time" : "00:07",
         "frequency" : 1140
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:50",
-        "end_time" : "23:30",
+        "end_time" : "00:05",
         "frequency" : 2160
       } ]
     } ]
@@ -3689,26 +3689,26 @@
     "line" : "62",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:40 - 23:20", "05:40 - 23:20", "05:40 - 23:20", "05:40 - 23:20", "05:40 - 23:20", "05:40 - 23:20", "07:00 - 23:20" ],
+    "week_schedule" : [ "05:40 - 00:18", "05:40 - 00:18", "05:40 - 00:18", "05:40 - 00:18", "05:40 - 00:18", "05:40 - 00:15", "07:00 - 00:14" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:20",
+        "end_time" : "00:14",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:40",
-        "end_time" : "23:20",
+        "end_time" : "00:18",
         "frequency" : 1140
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:40",
-        "end_time" : "23:20",
+        "end_time" : "00:15",
         "frequency" : 2160
       } ]
     } ]
@@ -4008,26 +4008,26 @@
     "line" : "C1",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:25 - 23:00", "05:25 - 23:00", "05:25 - 23:00", "05:25 - 23:00", "05:25 - 23:00", "05:25 - 23:00", "07:00 - 23:00" ],
+    "week_schedule" : [ "05:25 - 23:57", "05:25 - 23:57", "05:25 - 23:57", "05:25 - 23:57", "05:25 - 23:57", "05:25 - 00:02", "07:00 - 23:59" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:00",
-        "frequency" : 1200
+        "end_time" : "23:59",
+        "frequency" : 1080
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:25",
-        "end_time" : "23:00",
+        "end_time" : "23:57",
         "frequency" : 660
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:25",
-        "end_time" : "23:00",
+        "end_time" : "00:02",
         "frequency" : 900
       } ]
     } ]
@@ -4037,26 +4037,26 @@
     "line" : "C1",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:00 - 23:30", "06:00 - 23:30", "06:00 - 23:30", "06:00 - 23:30", "06:00 - 23:30", "06:00 - 23:30", "07:00 - 23:30" ],
+    "week_schedule" : [ "06:00 - 23:36", "06:00 - 23:36", "06:00 - 23:36", "06:00 - 23:36", "06:00 - 23:36", "06:00 - 23:38", "07:00 - 23:38" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:30",
-        "frequency" : 1200
+        "end_time" : "23:38",
+        "frequency" : 1080
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
-        "end_time" : "23:30",
+        "end_time" : "23:36",
         "frequency" : 660
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
-        "end_time" : "23:30",
+        "end_time" : "23:38",
         "frequency" : 900
       } ]
     } ]
@@ -4066,19 +4066,19 @@
     "line" : "C2",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:25 - 23:00", "05:25 - 23:00", "05:25 - 23:00", "05:25 - 23:00", "05:25 - 23:00", "05:25 - 23:00", "07:00 - 23:00" ],
+    "week_schedule" : [ "05:25 - 00:06", "05:25 - 00:06", "05:25 - 00:06", "05:25 - 00:06", "05:25 - 00:06", "05:25 - 23:00", "07:00 - 23:00" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:00",
-        "frequency" : 1200
+        "frequency" : 1140
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:25",
-        "end_time" : "23:00",
+        "end_time" : "00:06",
         "frequency" : 720
       } ]
     }, {
@@ -4095,19 +4095,19 @@
     "line" : "C2",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:00 - 23:30", "06:00 - 23:30", "06:00 - 23:30", "06:00 - 23:30", "06:00 - 23:30", "06:00 - 23:30", "07:00 - 23:30" ],
+    "week_schedule" : [ "06:00 - 23:34", "06:00 - 23:34", "06:00 - 23:34", "06:00 - 23:34", "06:00 - 23:34", "06:00 - 23:30", "07:00 - 23:30" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:30",
-        "frequency" : 1200
+        "frequency" : 1140
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
-        "end_time" : "23:30",
+        "end_time" : "23:34",
         "frequency" : 720
       } ]
     }, {
@@ -4443,7 +4443,7 @@
     "line" : "75",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:00 - 23:15", "06:00 - 23:15", "06:00 - 23:15", "06:00 - 23:15", "06:00 - 23:15", "06:00 - 23:15", "07:00 - 23:15" ],
+    "week_schedule" : [ "06:00 - 23:48", "06:00 - 23:48", "06:00 - 23:48", "06:00 - 23:48", "06:00 - 23:48", "06:00 - 23:15", "07:00 - 23:15" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
@@ -4455,7 +4455,7 @@
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
-        "end_time" : "23:15",
+        "end_time" : "23:48",
         "frequency" : 1200
       } ]
     }, {
@@ -4710,14 +4710,14 @@
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:15",
-        "frequency" : 1800
+        "frequency" : 1980
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:15",
         "end_time" : "23:15",
-        "frequency" : 1800
+        "frequency" : 1260
       } ]
     }, {
       "week_day" : "SATURDAY",
@@ -4733,20 +4733,20 @@
     "line" : "81",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:15 - 22:51", "06:15 - 22:51", "06:15 - 22:51", "06:15 - 22:51", "06:15 - 22:51", "06:15 - 22:51", "07:00 - 22:51" ],
+    "week_schedule" : [ "06:15 - 22:51", "06:15 - 22:51", "06:15 - 22:51", "06:15 - 22:51", "06:15 - 22:51", "06:15 - 22:51", "07:00 - 23:40" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "22:51",
-        "frequency" : 1800
+        "end_time" : "23:40",
+        "frequency" : 1980
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:15",
         "end_time" : "22:51",
-        "frequency" : 1800
+        "frequency" : 1260
       } ]
     }, {
       "week_day" : "SATURDAY",
@@ -4942,7 +4942,7 @@
       "frequencies" : [ {
         "start_time" : "07:30",
         "end_time" : "23:30",
-        "frequency" : 2040
+        "frequency" : 1980
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
@@ -4956,7 +4956,7 @@
       "frequencies" : [ {
         "start_time" : "06:10",
         "end_time" : "23:30",
-        "frequency" : 1620
+        "frequency" : 1560
       } ]
     } ]
   }, {
@@ -4965,19 +4965,19 @@
     "line" : "86",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:40 - 23:00", "05:40 - 23:00", "05:40 - 23:00", "05:40 - 23:00", "05:40 - 23:00", "05:40 - 23:00", "07:00 - 23:00" ],
+    "week_schedule" : [ "05:40 - 00:00", "05:40 - 00:00", "05:40 - 00:00", "05:40 - 00:00", "05:40 - 00:00", "05:40 - 23:00", "07:00 - 23:00" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:00",
-        "frequency" : 2040
+        "frequency" : 1980
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:40",
-        "end_time" : "23:00",
+        "end_time" : "00:00",
         "frequency" : 1200
       } ]
     }, {
@@ -4985,7 +4985,7 @@
       "frequencies" : [ {
         "start_time" : "05:40",
         "end_time" : "23:00",
-        "frequency" : 1620
+        "frequency" : 1560
       } ]
     } ]
   }, {
@@ -5429,7 +5429,7 @@
     "line" : "106",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:35 - 22:55", "05:35 - 22:55", "05:35 - 22:55", "05:35 - 22:55", "05:35 - 22:55", "05:35 - 22:55", "07:00 - 00:04" ],
+    "week_schedule" : [ "05:35 - 00:04", "05:35 - 00:04", "05:35 - 00:04", "05:35 - 00:04", "05:35 - 00:04", "05:35 - 00:05", "07:00 - 00:04" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
@@ -5441,14 +5441,14 @@
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:35",
-        "end_time" : "22:55",
+        "end_time" : "00:04",
         "frequency" : 1140
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:35",
-        "end_time" : "22:55",
+        "end_time" : "00:05",
         "frequency" : 1500
       } ]
     } ]
@@ -5719,26 +5719,26 @@
     "line" : "111",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:45 - 23:25", "05:45 - 23:25", "05:45 - 23:25", "05:45 - 23:25", "05:45 - 23:25", "05:45 - 23:25", "07:00 - 23:25" ],
+    "week_schedule" : [ "05:45 - 00:04", "05:45 - 00:04", "05:45 - 00:04", "05:45 - 00:04", "05:45 - 00:04", "05:45 - 00:04", "07:00 - 00:05" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:25",
+        "end_time" : "00:05",
         "frequency" : 1620
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:45",
-        "end_time" : "23:25",
+        "end_time" : "00:04",
         "frequency" : 1440
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:45",
-        "end_time" : "23:25",
+        "end_time" : "00:04",
         "frequency" : 1500
       } ]
     } ]
@@ -6038,27 +6038,27 @@
     "line" : "118",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "06:15 - 23:30", "07:30 - 23:30" ],
+    "week_schedule" : [ "06:15 - 23:49", "06:15 - 23:49", "06:15 - 23:49", "06:15 - 23:49", "06:15 - 23:49", "06:15 - 23:59", "07:30 - 23:30" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:30",
         "end_time" : "23:30",
-        "frequency" : 1440
+        "frequency" : 1500
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:15",
-        "end_time" : "23:30",
-        "frequency" : 960
+        "end_time" : "23:49",
+        "frequency" : 1020
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:15",
-        "end_time" : "23:30",
-        "frequency" : 1740
+        "end_time" : "23:59",
+        "frequency" : 1680
       } ]
     } ]
   }, {
@@ -6067,27 +6067,27 @@
     "line" : "118",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:35 - 23:15", "05:35 - 23:15", "05:35 - 23:15", "05:35 - 23:15", "05:35 - 23:15", "05:35 - 23:15", "07:00 - 23:15" ],
+    "week_schedule" : [ "05:35 - 00:12", "05:35 - 00:12", "05:35 - 00:12", "05:35 - 00:12", "05:35 - 00:12", "05:35 - 00:18", "07:00 - 23:15" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:15",
-        "frequency" : 1440
+        "frequency" : 1500
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:35",
-        "end_time" : "23:15",
-        "frequency" : 960
+        "end_time" : "00:12",
+        "frequency" : 1020
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:35",
-        "end_time" : "23:15",
-        "frequency" : 1740
+        "end_time" : "00:18",
+        "frequency" : 1680
       } ]
     } ]
   }, {
@@ -6212,7 +6212,7 @@
     "line" : "121",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:05 - 23:47", "06:05 - 23:47", "06:05 - 23:47", "06:05 - 23:47", "06:05 - 23:47", "06:05 - 23:00", "07:00 - 23:00" ],
+    "week_schedule" : [ "06:05 - 23:46", "06:05 - 23:46", "06:05 - 23:46", "06:05 - 23:46", "06:05 - 23:46", "06:05 - 23:00", "07:00 - 23:00" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
@@ -6224,7 +6224,7 @@
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:05",
-        "end_time" : "23:47",
+        "end_time" : "23:46",
         "frequency" : 1200
       } ]
     }, {
@@ -6392,7 +6392,7 @@
       "frequencies" : [ {
         "start_time" : "07:30",
         "end_time" : "23:45",
-        "frequency" : 1860
+        "frequency" : 1920
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
@@ -6415,19 +6415,19 @@
     "line" : "124",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:40 - 23:10", "05:40 - 23:10", "05:40 - 23:10", "05:40 - 23:10", "05:40 - 23:10", "05:40 - 23:10", "07:00 - 23:10" ],
+    "week_schedule" : [ "05:40 - 00:20", "05:40 - 00:20", "05:40 - 00:20", "05:40 - 00:20", "05:40 - 00:20", "05:40 - 23:10", "07:00 - 23:10" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:10",
-        "frequency" : 1860
+        "frequency" : 1920
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:40",
-        "end_time" : "23:10",
+        "end_time" : "00:20",
         "frequency" : 1080
       } ]
     }, {
@@ -6734,12 +6734,12 @@
     "line" : "130",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:15 - 00:01", "05:15 - 00:01", "05:15 - 00:01", "05:15 - 00:01", "05:15 - 00:01", "05:15 - 00:00", "07:00 - 00:00" ],
+    "week_schedule" : [ "05:15 - 00:01", "05:15 - 00:01", "05:15 - 00:01", "05:15 - 00:01", "05:15 - 00:01", "05:15 - 00:00", "07:00 - 23:15" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "00:00",
+        "end_time" : "23:15",
         "frequency" : 1560
       } ]
     }, {
@@ -6747,7 +6747,7 @@
       "frequencies" : [ {
         "start_time" : "05:15",
         "end_time" : "00:01",
-        "frequency" : 1440
+        "frequency" : 1380
       } ]
     }, {
       "week_day" : "SATURDAY",
@@ -6763,12 +6763,12 @@
     "line" : "130",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:00 - 23:59", "06:00 - 23:59", "06:00 - 23:59", "06:00 - 23:59", "06:00 - 23:59", "06:00 - 23:57", "07:00 - 23:57" ],
+    "week_schedule" : [ "06:00 - 23:59", "06:00 - 23:59", "06:00 - 23:59", "06:00 - 23:59", "06:00 - 23:59", "06:00 - 23:57", "07:00 - 23:15" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:57",
+        "end_time" : "23:15",
         "frequency" : 1560
       } ]
     }, {
@@ -6776,7 +6776,7 @@
       "frequencies" : [ {
         "start_time" : "06:00",
         "end_time" : "23:59",
-        "frequency" : 1440
+        "frequency" : 1380
       } ]
     }, {
       "week_day" : "SATURDAY",
@@ -6850,7 +6850,7 @@
     "line" : "132",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:35 - 23:30", "06:35 - 23:30", "06:35 - 23:30", "06:35 - 23:30", "06:35 - 23:30", "06:35 - 23:30", "07:00 - 23:30" ],
+    "week_schedule" : [ "06:35 - 23:30", "06:35 - 23:30", "06:35 - 23:30", "06:35 - 23:30", "06:35 - 23:30", "06:35 - 23:35", "07:00 - 23:30" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
@@ -6863,14 +6863,14 @@
       "frequencies" : [ {
         "start_time" : "06:35",
         "end_time" : "23:30",
-        "frequency" : 1020
+        "frequency" : 960
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:35",
-        "end_time" : "23:30",
-        "frequency" : 1500
+        "end_time" : "23:35",
+        "frequency" : 1320
       } ]
     } ]
   }, {
@@ -6879,27 +6879,27 @@
     "line" : "132",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:00 - 22:55", "06:00 - 22:55", "06:00 - 22:55", "06:00 - 22:55", "06:00 - 22:55", "06:00 - 22:55", "07:00 - 22:55" ],
+    "week_schedule" : [ "06:00 - 00:10", "06:00 - 00:10", "06:00 - 00:10", "06:00 - 00:10", "06:00 - 00:10", "06:00 - 00:12", "07:00 - 00:09" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "22:55",
+        "end_time" : "00:09",
         "frequency" : 2100
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
-        "end_time" : "22:55",
-        "frequency" : 1020
+        "end_time" : "00:10",
+        "frequency" : 960
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
-        "end_time" : "22:55",
-        "frequency" : 1500
+        "end_time" : "00:12",
+        "frequency" : 1320
       } ]
     } ]
   }, {
@@ -6928,7 +6928,7 @@
       "frequencies" : [ {
         "start_time" : "06:30",
         "end_time" : "23:30",
-        "frequency" : 1920
+        "frequency" : 1200
       } ]
     } ]
   }, {
@@ -6937,27 +6937,27 @@
     "line" : "133",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:30 - 22:50", "06:30 - 22:50", "06:30 - 22:50", "06:30 - 22:50", "06:30 - 22:50", "06:30 - 22:50", "07:00 - 22:50" ],
+    "week_schedule" : [ "06:30 - 00:11", "06:30 - 00:11", "06:30 - 00:11", "06:30 - 00:11", "06:30 - 00:11", "06:30 - 00:16", "07:00 - 00:08" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "22:50",
+        "end_time" : "00:08",
         "frequency" : 1500
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:30",
-        "end_time" : "22:50",
+        "end_time" : "00:11",
         "frequency" : 840
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:30",
-        "end_time" : "22:50",
-        "frequency" : 1920
+        "end_time" : "00:16",
+        "frequency" : 1200
       } ]
     } ]
   }, {
@@ -7633,26 +7633,26 @@
     "line" : "145",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:00 - 23:15", "06:00 - 23:15", "06:00 - 23:15", "06:00 - 23:15", "06:00 - 23:15", "06:00 - 23:15", "07:00 - 23:15" ],
+    "week_schedule" : [ "06:00 - 00:15", "06:00 - 00:15", "06:00 - 00:15", "06:00 - 00:15", "06:00 - 00:15", "06:00 - 00:17", "07:00 - 00:15" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:15",
+        "end_time" : "00:15",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
-        "end_time" : "23:15",
+        "end_time" : "00:15",
         "frequency" : 1080
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
-        "end_time" : "23:15",
+        "end_time" : "00:17",
         "frequency" : 1500
       } ]
     } ]
@@ -7778,13 +7778,13 @@
     "line" : "148",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:45 - 23:34", "06:45 - 23:34", "06:45 - 23:34", "06:45 - 23:34", "06:45 - 23:34", "06:45 - 23:30", "07:30 - 23:30" ],
+    "week_schedule" : [ "06:45 - 23:34", "06:45 - 23:34", "06:45 - 23:34", "06:45 - 23:34", "06:45 - 23:34", "06:45 - 23:36", "07:30 - 23:30" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:30",
         "end_time" : "23:30",
-        "frequency" : 1860
+        "frequency" : 1500
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
@@ -7797,7 +7797,7 @@
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:45",
-        "end_time" : "23:30",
+        "end_time" : "23:36",
         "frequency" : 1500
       } ]
     } ]
@@ -7807,13 +7807,13 @@
     "line" : "148",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:30 - 00:04", "06:30 - 00:04", "06:30 - 00:04", "06:30 - 00:04", "06:30 - 00:04", "06:30 - 23:00", "07:00 - 00:02" ],
+    "week_schedule" : [ "06:30 - 00:04", "06:30 - 00:04", "06:30 - 00:04", "06:30 - 00:04", "06:30 - 00:04", "06:30 - 00:08", "07:00 - 00:05" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "00:02",
-        "frequency" : 1860
+        "end_time" : "00:05",
+        "frequency" : 1500
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
@@ -7826,7 +7826,7 @@
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:30",
-        "end_time" : "23:00",
+        "end_time" : "00:08",
         "frequency" : 1500
       } ]
     } ]
@@ -8190,7 +8190,7 @@
       "frequencies" : [ {
         "start_time" : "07:30",
         "end_time" : "23:30",
-        "frequency" : 1620
+        "frequency" : 1560
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
@@ -8213,13 +8213,13 @@
     "line" : "156",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:30 - 23:05", "05:30 - 23:05", "05:30 - 23:05", "05:30 - 23:05", "05:30 - 23:05", "05:30 - 23:05", "07:00 - 23:05" ],
+    "week_schedule" : [ "05:30 - 23:05", "05:30 - 23:05", "05:30 - 23:05", "05:30 - 23:05", "05:30 - 23:05", "05:30 - 23:05", "07:00 - 23:52" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:05",
-        "frequency" : 1620
+        "end_time" : "23:52",
+        "frequency" : 1560
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
@@ -8416,27 +8416,27 @@
     "line" : "162",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "05:55 - 23:28", "05:55 - 23:28", "05:55 - 23:28", "05:55 - 23:28", "05:55 - 23:28", "05:55 - 23:28", "07:00 - 23:28" ],
+    "week_schedule" : [ "05:55 - 23:55", "05:55 - 23:55", "05:55 - 23:55", "05:55 - 23:55", "05:55 - 23:55", "05:55 - 23:28", "07:00 - 23:28" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:28",
-        "frequency" : 2340
+        "frequency" : 2100
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "05:55",
-        "end_time" : "23:28",
-        "frequency" : 1800
+        "end_time" : "23:55",
+        "frequency" : 1920
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "05:55",
         "end_time" : "23:28",
-        "frequency" : 2400
+        "frequency" : 2100
       } ]
     } ]
   }, {
@@ -8445,27 +8445,27 @@
     "line" : "162",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:30 - 23:30", "06:30 - 23:30", "06:30 - 23:30", "06:30 - 23:30", "06:30 - 23:30", "06:30 - 23:30", "07:00 - 23:30" ],
+    "week_schedule" : [ "06:30 - 00:00", "06:30 - 00:00", "06:30 - 00:00", "06:30 - 00:00", "06:30 - 00:00", "06:30 - 23:30", "07:00 - 23:30" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:30",
-        "frequency" : 2340
+        "frequency" : 2100
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:30",
-        "end_time" : "23:30",
-        "frequency" : 1800
+        "end_time" : "00:00",
+        "frequency" : 1920
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:30",
         "end_time" : "23:30",
-        "frequency" : 2400
+        "frequency" : 2100
       } ]
     } ]
   }, {
@@ -8474,26 +8474,26 @@
     "line" : "163",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00" ],
+    "week_schedule" : [ "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:00",
+        "end_time" : "23:20",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:00",
+        "end_time" : "23:20",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:00",
+        "end_time" : "23:20",
         "frequency" : 1800
       } ]
     } ]
@@ -8503,26 +8503,26 @@
     "line" : "163",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00", "07:00 - 23:00" ],
+    "week_schedule" : [ "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20", "07:00 - 23:20" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:00",
+        "end_time" : "23:20",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:00",
+        "end_time" : "23:20",
         "frequency" : 1800
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
-        "end_time" : "23:00",
+        "end_time" : "23:20",
         "frequency" : 1800
       } ]
     } ]
@@ -8532,12 +8532,12 @@
     "line" : "165",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:45 - 22:38", "06:45 - 22:38", "06:45 - 22:38", "06:45 - 22:38", "06:45 - 22:38", "", "" ],
+    "week_schedule" : [ "06:45 - 21:20", "06:45 - 21:20", "06:45 - 21:20", "06:45 - 21:20", "06:45 - 21:20", "", "" ],
     "week_frequencies" : [ {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:45",
-        "end_time" : "22:38",
+        "end_time" : "21:20",
         "frequency" : 1500
       } ]
     } ]
@@ -9340,14 +9340,14 @@
       "frequencies" : [ {
         "start_time" : "07:30",
         "end_time" : "23:30",
-        "frequency" : 2280
+        "frequency" : 2040
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:26",
         "end_time" : "23:30",
-        "frequency" : 2100
+        "frequency" : 1980
       } ]
     }, {
       "week_day" : "SATURDAY",
@@ -9363,26 +9363,26 @@
     "line" : "247",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:00 - 23:05", "06:00 - 23:05", "06:00 - 23:05", "06:00 - 23:05", "06:00 - 23:05", "06:00 - 23:05", "07:00 - 23:05" ],
+    "week_schedule" : [ "06:00 - 23:05", "06:00 - 23:05", "06:00 - 23:05", "06:00 - 23:05", "06:00 - 23:05", "06:00 - 00:00", "07:00 - 23:05" ],
     "week_frequencies" : [ {
       "week_day" : "SUNDAY",
       "frequencies" : [ {
         "start_time" : "07:00",
         "end_time" : "23:05",
-        "frequency" : 2280
+        "frequency" : 2040
       } ]
     }, {
       "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
         "end_time" : "23:05",
-        "frequency" : 2100
+        "frequency" : 1980
       } ]
     }, {
       "week_day" : "SATURDAY",
       "frequencies" : [ {
         "start_time" : "06:00",
-        "end_time" : "23:05",
+        "end_time" : "00:00",
         "frequency" : 2100
       } ]
     } ]
@@ -9508,44 +9508,16 @@
     "line" : "172SF",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "", "", "", "", "", "06:20 - 23:30", "07:30 - 23:30" ],
-    "week_frequencies" : [ {
-      "week_day" : "SUNDAY",
-      "frequencies" : [ {
-        "start_time" : "07:30",
-        "end_time" : "23:30",
-        "frequency" : 1800
-      } ]
-    }, {
-      "week_day" : "SATURDAY",
-      "frequencies" : [ {
-        "start_time" : "06:20",
-        "end_time" : "23:30",
-        "frequency" : 1800
-      } ]
-    } ]
+    "week_schedule" : [ "", "", "", "", "", "", "" ],
+    "week_frequencies" : [ ]
   }, {
     "id" : 334,
     "line_headsign" : "Las Tablas",
     "line" : "172SF",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "", "", "", "", "", "05:40 - 23:05", "07:00 - 23:05" ],
-    "week_frequencies" : [ {
-      "week_day" : "SUNDAY",
-      "frequencies" : [ {
-        "start_time" : "07:00",
-        "end_time" : "23:05",
-        "frequency" : 1800
-      } ]
-    }, {
-      "week_day" : "SATURDAY",
-      "frequencies" : [ {
-        "start_time" : "05:40",
-        "end_time" : "23:05",
-        "frequency" : 1800
-      } ]
-    } ]
+    "week_schedule" : [ "", "", "", "", "", "", "" ],
+    "week_frequencies" : [ ]
   }, {
     "id" : 335,
     "line_headsign" : "Cibeles",
@@ -10050,30 +10022,16 @@
     "line" : "T62",
     "direction" : "1",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:30 - 21:55", "06:30 - 21:55", "06:30 - 21:55", "06:30 - 21:55", "06:30 - 21:55", "", "" ],
-    "week_frequencies" : [ {
-      "week_day" : "MONDAY-FRIDAY",
-      "frequencies" : [ {
-        "start_time" : "06:30",
-        "end_time" : "21:55",
-        "frequency" : 1800
-      } ]
-    } ]
+    "week_schedule" : [ "", "", "", "", "", "", "" ],
+    "week_frequencies" : [ ]
   }, {
     "id" : 358,
     "line_headsign" : "Chamartin",
     "line" : "T62",
     "direction" : "2",
     "line_color" : "#0072ce",
-    "week_schedule" : [ "06:40 - 22:10", "06:40 - 22:10", "06:40 - 22:10", "06:40 - 22:10", "06:40 - 22:10", "", "" ],
-    "week_frequencies" : [ {
-      "week_day" : "MONDAY-FRIDAY",
-      "frequencies" : [ {
-        "start_time" : "06:40",
-        "end_time" : "22:10",
-        "frequency" : 1800
-      } ]
-    } ]
+    "week_schedule" : [ "", "", "", "", "", "", "" ],
+    "week_frequencies" : [ ]
   }, {
     "id" : 359,
     "line_headsign" : "Sierra Guadalupe",
@@ -10590,50 +10548,108 @@
     } ]
   }, {
     "id" : 383,
-    "line_headsign" : "Conde de Casal",
-    "line" : "E",
+    "line_headsign" : "Principe Pio",
+    "line" : "SE832",
     "direction" : "1",
-    "line_color" : "#7bb7e8",
-    "week_schedule" : [ "07:25 - 22:05", "07:25 - 22:05", "07:25 - 22:05", "07:25 - 22:05", "07:25 - 22:05", "", "" ],
+    "line_color" : "#0072ce",
+    "week_schedule" : [ "07:00 - 00:10", "07:00 - 00:10", "07:00 - 00:10", "07:00 - 00:10", "07:00 - 00:10", "07:00 - 00:10", "07:00 - 00:10" ],
     "week_frequencies" : [ {
-      "week_day" : "FRIDAY",
+      "week_day" : "SUNDAY",
       "frequencies" : [ {
-        "start_time" : "07:25",
-        "end_time" : "22:05",
-        "frequency" : 1500
+        "start_time" : "07:00",
+        "end_time" : "00:10",
+        "frequency" : 2700
       } ]
     }, {
-      "week_day" : "MONDAY-THURSDAY",
+      "week_day" : "MONDAY-FRIDAY",
       "frequencies" : [ {
-        "start_time" : "07:25",
-        "end_time" : "22:05",
-        "frequency" : 1500
+        "start_time" : "07:00",
+        "end_time" : "00:10",
+        "frequency" : 2700
+      } ]
+    }, {
+      "week_day" : "SATURDAY",
+      "frequencies" : [ {
+        "start_time" : "07:00",
+        "end_time" : "00:10",
+        "frequency" : 2700
       } ]
     } ]
   }, {
     "id" : 384,
-    "line_headsign" : "Sierra de Guadalupe",
-    "line" : "E",
+    "line_headsign" : "Hospital Fundación San Jose",
+    "line" : "SE832",
     "direction" : "2",
+    "line_color" : "#0072ce",
+    "week_schedule" : [ "07:45 - 23:30", "07:45 - 23:30", "07:45 - 23:30", "07:45 - 23:30", "07:45 - 23:30", "07:45 - 23:30", "07:45 - 23:30" ],
+    "week_frequencies" : [ {
+      "week_day" : "SUNDAY",
+      "frequencies" : [ {
+        "start_time" : "07:45",
+        "end_time" : "23:30",
+        "frequency" : 2700
+      } ]
+    }, {
+      "week_day" : "MONDAY-FRIDAY",
+      "frequencies" : [ {
+        "start_time" : "07:45",
+        "end_time" : "23:30",
+        "frequency" : 2700
+      } ]
+    }, {
+      "week_day" : "SATURDAY",
+      "frequencies" : [ {
+        "start_time" : "07:45",
+        "end_time" : "23:30",
+        "frequency" : 2700
+      } ]
+    } ]
+  }, {
+    "id" : 385,
+    "line_headsign" : "Conde de Casal",
+    "line" : "E",
+    "direction" : "1",
     "line_color" : "#7bb7e8",
-    "week_schedule" : [ "07:25 - 22:10", "07:25 - 22:10", "07:25 - 22:10", "07:25 - 22:10", "07:25 - 22:10", "", "" ],
+    "week_schedule" : [ "07:25 - 22:26", "07:25 - 22:26", "07:25 - 22:26", "07:25 - 22:26", "07:25 - 22:26", "", "" ],
     "week_frequencies" : [ {
       "week_day" : "FRIDAY",
       "frequencies" : [ {
         "start_time" : "07:25",
-        "end_time" : "22:10",
+        "end_time" : "22:26",
         "frequency" : 1500
       } ]
     }, {
       "week_day" : "MONDAY-THURSDAY",
       "frequencies" : [ {
         "start_time" : "07:25",
-        "end_time" : "22:10",
+        "end_time" : "22:26",
         "frequency" : 1500
       } ]
     } ]
   }, {
-    "id" : 385,
+    "id" : 386,
+    "line_headsign" : "Sierra de Guadalupe",
+    "line" : "E",
+    "direction" : "2",
+    "line_color" : "#7bb7e8",
+    "week_schedule" : [ "07:25 - 22:19", "07:25 - 22:19", "07:25 - 22:19", "07:25 - 22:19", "07:25 - 22:19", "", "" ],
+    "week_frequencies" : [ {
+      "week_day" : "FRIDAY",
+      "frequencies" : [ {
+        "start_time" : "07:25",
+        "end_time" : "22:19",
+        "frequency" : 1500
+      } ]
+    }, {
+      "week_day" : "MONDAY-THURSDAY",
+      "frequencies" : [ {
+        "start_time" : "07:25",
+        "end_time" : "22:19",
+        "frequency" : 1500
+      } ]
+    } ]
+  }, {
+    "id" : 387,
     "line_headsign" : "Cuatro Caminos",
     "line" : "F",
     "direction" : "1",
@@ -10655,7 +10671,7 @@
       } ]
     } ]
   }, {
-    "id" : 386,
+    "id" : 388,
     "line_headsign" : "Ciudad Universitaria",
     "line" : "F",
     "direction" : "2",
@@ -10677,29 +10693,29 @@
       } ]
     } ]
   }, {
-    "id" : 387,
+    "id" : 389,
     "line_headsign" : "Moncloa",
     "line" : "G",
     "direction" : "1",
     "line_color" : "#7bb7e8",
-    "week_schedule" : [ "07:30 - 22:05", "07:30 - 22:05", "07:30 - 22:05", "07:30 - 22:05", "07:30 - 22:05", "", "" ],
+    "week_schedule" : [ "07:30 - 22:33", "07:30 - 22:33", "07:30 - 22:33", "07:30 - 22:33", "07:30 - 22:33", "", "" ],
     "week_frequencies" : [ {
       "week_day" : "FRIDAY",
       "frequencies" : [ {
         "start_time" : "07:30",
-        "end_time" : "22:05",
+        "end_time" : "22:33",
         "frequency" : 900
       } ]
     }, {
       "week_day" : "MONDAY-THURSDAY",
       "frequencies" : [ {
         "start_time" : "07:30",
-        "end_time" : "22:05",
+        "end_time" : "22:33",
         "frequency" : 660
       } ]
     } ]
   }, {
-    "id" : 388,
+    "id" : 390,
     "line_headsign" : "Ciudad Universitaria",
     "line" : "G",
     "direction" : "2",
@@ -10721,7 +10737,7 @@
       } ]
     } ]
   }, {
-    "id" : 389,
+    "id" : 391,
     "line_headsign" : "Moncloa",
     "line" : "A",
     "direction" : "1",
@@ -10750,7 +10766,7 @@
       } ]
     } ]
   }, {
-    "id" : 390,
+    "id" : 392,
     "line_headsign" : "Somosaguas",
     "line" : "A",
     "direction" : "2",
@@ -10779,7 +10795,7 @@
       } ]
     } ]
   }, {
-    "id" : 391,
+    "id" : 393,
     "line_headsign" : "Aluche",
     "line" : "H",
     "direction" : "1",
@@ -10801,7 +10817,7 @@
       } ]
     } ]
   }, {
-    "id" : 392,
+    "id" : 394,
     "line_headsign" : "Somosaguas",
     "line" : "H",
     "direction" : "2",
@@ -10823,18 +10839,18 @@
       } ]
     } ]
   }, {
-    "id" : 393,
+    "id" : 395,
     "line_headsign" : "Avenida Seneca",
     "line" : "U",
     "direction" : "1",
     "line_color" : "#7bb7e8",
-    "week_schedule" : [ "07:15 - 21:48", "07:15 - 21:48", "07:15 - 21:48", "07:15 - 21:48", "07:15 - 21:48", "", "" ],
+    "week_schedule" : [ "07:15 - 21:48", "07:15 - 21:48", "07:15 - 21:48", "07:15 - 21:48", "07:15 - 22:12", "", "" ],
     "week_frequencies" : [ {
       "week_day" : "FRIDAY",
       "frequencies" : [ {
         "start_time" : "07:15",
-        "end_time" : "21:48",
-        "frequency" : 1260
+        "end_time" : "22:12",
+        "frequency" : 1080
       } ]
     }, {
       "week_day" : "MONDAY-THURSDAY",
@@ -10845,7 +10861,7 @@
       } ]
     } ]
   }, {
-    "id" : 394,
+    "id" : 396,
     "line_headsign" : "Paraninfo",
     "line" : "U",
     "direction" : "2",
@@ -10856,7 +10872,7 @@
       "frequencies" : [ {
         "start_time" : "07:25",
         "end_time" : "22:00",
-        "frequency" : 1260
+        "frequency" : 1080
       } ]
     }, {
       "week_day" : "MONDAY-THURSDAY",
@@ -10867,7 +10883,7 @@
       } ]
     } ]
   }, {
-    "id" : 395,
+    "id" : 397,
     "line_headsign" : "Cibeles",
     "line" : "N1",
     "direction" : "1",
@@ -10903,7 +10919,7 @@
       } ]
     } ]
   }, {
-    "id" : 396,
+    "id" : 398,
     "line_headsign" : "Sanchinarro",
     "line" : "N1",
     "direction" : "2",
@@ -10939,7 +10955,7 @@
       } ]
     } ]
   }, {
-    "id" : 397,
+    "id" : 399,
     "line_headsign" : "Cibeles",
     "line" : "N2",
     "direction" : "1",
@@ -10975,7 +10991,7 @@
       } ]
     } ]
   }, {
-    "id" : 398,
+    "id" : 400,
     "line_headsign" : "Valdebebas",
     "line" : "N2",
     "direction" : "2",
@@ -11011,7 +11027,7 @@
       } ]
     } ]
   }, {
-    "id" : 399,
+    "id" : 401,
     "line_headsign" : "Cibeles",
     "line" : "N3",
     "direction" : "1",
@@ -11047,7 +11063,7 @@
       } ]
     } ]
   }, {
-    "id" : 400,
+    "id" : 402,
     "line_headsign" : "Canillas",
     "line" : "N3",
     "direction" : "2",
@@ -11083,7 +11099,7 @@
       } ]
     } ]
   }, {
-    "id" : 401,
+    "id" : 403,
     "line_headsign" : "Cibeles",
     "line" : "N4",
     "direction" : "1",
@@ -11119,7 +11135,7 @@
       } ]
     } ]
   }, {
-    "id" : 402,
+    "id" : 404,
     "line_headsign" : "Barajas",
     "line" : "N4",
     "direction" : "2",
@@ -11155,7 +11171,7 @@
       } ]
     } ]
   }, {
-    "id" : 403,
+    "id" : 405,
     "line_headsign" : "Cibeles",
     "line" : "N5",
     "direction" : "1",
@@ -11191,7 +11207,7 @@
       } ]
     } ]
   }, {
-    "id" : 404,
+    "id" : 406,
     "line_headsign" : "Fin de Semana",
     "line" : "N5",
     "direction" : "2",
@@ -11227,7 +11243,7 @@
       } ]
     } ]
   }, {
-    "id" : 405,
+    "id" : 407,
     "line_headsign" : "Cibeles",
     "line" : "N6",
     "direction" : "1",
@@ -11263,7 +11279,7 @@
       } ]
     } ]
   }, {
-    "id" : 406,
+    "id" : 408,
     "line_headsign" : "Las Rosas",
     "line" : "N6",
     "direction" : "2",
@@ -11299,7 +11315,7 @@
       } ]
     } ]
   }, {
-    "id" : 407,
+    "id" : 409,
     "line_headsign" : "Cibeles",
     "line" : "N7",
     "direction" : "1",
@@ -11335,7 +11351,7 @@
       } ]
     } ]
   }, {
-    "id" : 408,
+    "id" : 410,
     "line_headsign" : "Valderrivas",
     "line" : "N7",
     "direction" : "2",
@@ -11371,7 +11387,7 @@
       } ]
     } ]
   }, {
-    "id" : 409,
+    "id" : 411,
     "line_headsign" : "Cibeles",
     "line" : "N8",
     "direction" : "1",
@@ -11407,7 +11423,7 @@
       } ]
     } ]
   }, {
-    "id" : 410,
+    "id" : 412,
     "line_headsign" : "Valdebernardo",
     "line" : "N8",
     "direction" : "2",
@@ -11443,7 +11459,7 @@
       } ]
     } ]
   }, {
-    "id" : 411,
+    "id" : 413,
     "line_headsign" : "Cibeles",
     "line" : "N9",
     "direction" : "1",
@@ -11479,7 +11495,7 @@
       } ]
     } ]
   }, {
-    "id" : 412,
+    "id" : 414,
     "line_headsign" : "Ensanche Vallecas",
     "line" : "N9",
     "direction" : "2",
@@ -11515,7 +11531,7 @@
       } ]
     } ]
   }, {
-    "id" : 413,
+    "id" : 415,
     "line_headsign" : "Cibeles",
     "line" : "N10",
     "direction" : "1",
@@ -11551,7 +11567,7 @@
       } ]
     } ]
   }, {
-    "id" : 414,
+    "id" : 416,
     "line_headsign" : "Palomeras",
     "line" : "N10",
     "direction" : "2",
@@ -11587,7 +11603,7 @@
       } ]
     } ]
   }, {
-    "id" : 415,
+    "id" : 417,
     "line_headsign" : "Cibeles",
     "line" : "N11",
     "direction" : "1",
@@ -11623,7 +11639,7 @@
       } ]
     } ]
   }, {
-    "id" : 416,
+    "id" : 418,
     "line_headsign" : "Madrid Sur",
     "line" : "N11",
     "direction" : "2",
@@ -11659,7 +11675,7 @@
       } ]
     } ]
   }, {
-    "id" : 417,
+    "id" : 419,
     "line_headsign" : "Cibeles",
     "line" : "N12",
     "direction" : "1",
@@ -11695,7 +11711,7 @@
       } ]
     } ]
   }, {
-    "id" : 418,
+    "id" : 420,
     "line_headsign" : "Butarque",
     "line" : "N12",
     "direction" : "2",
@@ -11731,7 +11747,7 @@
       } ]
     } ]
   }, {
-    "id" : 419,
+    "id" : 421,
     "line_headsign" : "Cibeles",
     "line" : "N13",
     "direction" : "1",
@@ -11767,7 +11783,7 @@
       } ]
     } ]
   }, {
-    "id" : 420,
+    "id" : 422,
     "line_headsign" : "San Cristobal",
     "line" : "N13",
     "direction" : "2",
@@ -11803,7 +11819,7 @@
       } ]
     } ]
   }, {
-    "id" : 421,
+    "id" : 423,
     "line_headsign" : "Cibeles",
     "line" : "N14",
     "direction" : "1",
@@ -11839,7 +11855,7 @@
       } ]
     } ]
   }, {
-    "id" : 422,
+    "id" : 424,
     "line_headsign" : "Villaverde Alto",
     "line" : "N14",
     "direction" : "2",
@@ -11875,7 +11891,7 @@
       } ]
     } ]
   }, {
-    "id" : 423,
+    "id" : 425,
     "line_headsign" : "Cibeles",
     "line" : "N15",
     "direction" : "1",
@@ -11911,7 +11927,7 @@
       } ]
     } ]
   }, {
-    "id" : 424,
+    "id" : 426,
     "line_headsign" : "Orcasur",
     "line" : "N15",
     "direction" : "2",
@@ -11947,7 +11963,7 @@
       } ]
     } ]
   }, {
-    "id" : 425,
+    "id" : 427,
     "line_headsign" : "Cibeles",
     "line" : "N16",
     "direction" : "1",
@@ -11983,7 +11999,7 @@
       } ]
     } ]
   }, {
-    "id" : 426,
+    "id" : 428,
     "line_headsign" : "La Peseta",
     "line" : "N16",
     "direction" : "2",
@@ -12019,7 +12035,7 @@
       } ]
     } ]
   }, {
-    "id" : 427,
+    "id" : 429,
     "line_headsign" : "Cibeles",
     "line" : "N17",
     "direction" : "1",
@@ -12055,7 +12071,7 @@
       } ]
     } ]
   }, {
-    "id" : 428,
+    "id" : 430,
     "line_headsign" : "Carabanchel Alto",
     "line" : "N17",
     "direction" : "2",
@@ -12091,7 +12107,7 @@
       } ]
     } ]
   }, {
-    "id" : 429,
+    "id" : 431,
     "line_headsign" : "Cibeles",
     "line" : "N18",
     "direction" : "1",
@@ -12127,7 +12143,7 @@
       } ]
     } ]
   }, {
-    "id" : 430,
+    "id" : 432,
     "line_headsign" : "Aluche",
     "line" : "N18",
     "direction" : "2",
@@ -12163,7 +12179,7 @@
       } ]
     } ]
   }, {
-    "id" : 431,
+    "id" : 433,
     "line_headsign" : "Cibeles",
     "line" : "N19",
     "direction" : "1",
@@ -12199,7 +12215,7 @@
       } ]
     } ]
   }, {
-    "id" : 432,
+    "id" : 434,
     "line_headsign" : "San Ignacio",
     "line" : "N19",
     "direction" : "2",
@@ -12235,7 +12251,7 @@
       } ]
     } ]
   }, {
-    "id" : 433,
+    "id" : 435,
     "line_headsign" : "Cibeles",
     "line" : "N20",
     "direction" : "1",
@@ -12271,7 +12287,7 @@
       } ]
     } ]
   }, {
-    "id" : 434,
+    "id" : 436,
     "line_headsign" : "Pitis",
     "line" : "N20",
     "direction" : "2",
@@ -12307,7 +12323,7 @@
       } ]
     } ]
   }, {
-    "id" : 435,
+    "id" : 437,
     "line_headsign" : "Cibeles",
     "line" : "N21",
     "direction" : "1",
@@ -12343,7 +12359,7 @@
       } ]
     } ]
   }, {
-    "id" : 436,
+    "id" : 438,
     "line_headsign" : "Arroyo Fresno",
     "line" : "N21",
     "direction" : "2",
@@ -12379,7 +12395,7 @@
       } ]
     } ]
   }, {
-    "id" : 437,
+    "id" : 439,
     "line_headsign" : "Cibeles",
     "line" : "N22",
     "direction" : "1",
@@ -12415,7 +12431,7 @@
       } ]
     } ]
   }, {
-    "id" : 438,
+    "id" : 440,
     "line_headsign" : "Barrio del Pilar",
     "line" : "N22",
     "direction" : "2",
@@ -12451,7 +12467,7 @@
       } ]
     } ]
   }, {
-    "id" : 439,
+    "id" : 441,
     "line_headsign" : "Cibeles",
     "line" : "N23",
     "direction" : "1",
@@ -12487,7 +12503,7 @@
       } ]
     } ]
   }, {
-    "id" : 440,
+    "id" : 442,
     "line_headsign" : "Montecarmelo",
     "line" : "N23",
     "direction" : "2",
@@ -12523,7 +12539,7 @@
       } ]
     } ]
   }, {
-    "id" : 441,
+    "id" : 443,
     "line_headsign" : "Cibeles",
     "line" : "N24",
     "direction" : "1",
@@ -12559,7 +12575,7 @@
       } ]
     } ]
   }, {
-    "id" : 442,
+    "id" : 444,
     "line_headsign" : "Las Tablas",
     "line" : "N24",
     "direction" : "2",
@@ -12595,7 +12611,7 @@
       } ]
     } ]
   }, {
-    "id" : 443,
+    "id" : 445,
     "line_headsign" : "Alonso Martinez",
     "line" : "N25",
     "direction" : "1",
@@ -12631,7 +12647,7 @@
       } ]
     } ]
   }, {
-    "id" : 444,
+    "id" : 446,
     "line_headsign" : "Villa Vallecas",
     "line" : "N25",
     "direction" : "2",
@@ -12667,7 +12683,7 @@
       } ]
     } ]
   }, {
-    "id" : 445,
+    "id" : 447,
     "line_headsign" : "Alonso Martinez",
     "line" : "N26",
     "direction" : "1",
@@ -12703,7 +12719,7 @@
       } ]
     } ]
   }, {
-    "id" : 446,
+    "id" : 448,
     "line_headsign" : "Aluche",
     "line" : "N26",
     "direction" : "2",
@@ -12739,7 +12755,7 @@
       } ]
     } ]
   }, {
-    "id" : 447,
+    "id" : 449,
     "line_headsign" : "Cibeles",
     "line" : "N27",
     "direction" : "1",
@@ -12775,7 +12791,7 @@
       } ]
     } ]
   }, {
-    "id" : 448,
+    "id" : 450,
     "line_headsign" : "Aeropuerto",
     "line" : "N27",
     "direction" : "2",
@@ -12811,7 +12827,7 @@
       } ]
     } ]
   }, {
-    "id" : 449,
+    "id" : 451,
     "line_headsign" : "Moncloa",
     "line" : "N28",
     "direction" : "1",
@@ -12847,7 +12863,7 @@
       } ]
     } ]
   }, {
-    "id" : 450,
+    "id" : 452,
     "line_headsign" : "Aravaca",
     "line" : "N28",
     "direction" : "2",

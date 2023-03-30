@@ -53,7 +53,7 @@ public class UpdateStopsBiciMAD {
         responseBody.remove("datetime");
 
         List<String> filter = Arrays.asList("code", "description", "datetime", "light", "activate", "no_available",
-                "total_bases", "dock_bikes", "free_bases", "reservations_count");
+                "total_bases", "dock_bikes", "free_bases", "reservations_count", "virtualDelete");
 
         JsonNode stations = responseBody.get("data");
         for (JsonNode stationNode: stations) {
@@ -63,7 +63,7 @@ public class UpdateStopsBiciMAD {
                 station.putNull("lines");
 
                 String name = station.get("name").asText();
-                station.put("name", name.split(" - ", 2)[1]);
+                station.put("name", name.split("- ", 2)[1]);
             }
         }
 
