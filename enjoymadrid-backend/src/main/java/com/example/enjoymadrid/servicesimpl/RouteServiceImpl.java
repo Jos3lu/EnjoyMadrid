@@ -285,13 +285,7 @@ public class RouteServiceImpl implements RouteService {
 	@SuppressWarnings("unchecked")
 	private <P extends Comparable<P>> Set<P> getNeighbors(PointWrapper<P> pointWrapper, P point, List<P> transportPoints, 
 			Set<P> bicyclePoints, double maxDistance, P origin, P destination) {
-				
-		// Less distance to the destination point than the max distance set by the user
-		if (calculateDistance(point, destination) <= maxDistance && (isDirectNeighbor(pointWrapper.getPrevious() != null 
-				? pointWrapper.getPrevious().getPoint() : null, point, true) || point.equals(origin))) {
-			return Set.of(destination);
-		}
-		
+						
 		// No duplicates in neighbors
 		Set<P> neighbors = new HashSet<>();
 		
@@ -306,6 +300,13 @@ public class RouteServiceImpl implements RouteService {
 		} else if (point instanceof BicycleTransportPoint) {			
 			// If bicycle station get available stations 
 			neighbors = new HashSet<>(bicyclePoints);
+		}
+		
+		// Less distance to the destination point than the max distance set by the user
+		if (calculateDistance(point, destination) <= maxDistance && (isDirectNeighbor(pointWrapper.getPrevious() != null 
+				? pointWrapper.getPrevious().getPoint() : null, point, true) || point.equals(origin))) {
+			neighbors.add(destination);
+			return neighbors;
 		}
 		
 		if (directNeighbors || (neighbors.isEmpty() && !(point instanceof PublicTransportPoint))) {
