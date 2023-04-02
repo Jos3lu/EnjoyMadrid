@@ -306,7 +306,6 @@ public class RouteServiceImpl implements RouteService {
 		if (calculateDistance(point, destination) <= maxDistance && (isDirectNeighbor(pointWrapper.getPrevious() != null 
 				? pointWrapper.getPrevious().getPoint() : null, point, true) || point.equals(origin))) {
 			neighbors.add(destination);
-			return neighbors;
 		}
 		
 		if (directNeighbors || (neighbors.isEmpty() && !(point instanceof PublicTransportPoint))) {
