@@ -118,6 +118,7 @@ public class RouteServiceImpl implements RouteService {
 		origin.setType("");
 		origin.setNearbyTouristicPoints(new HashMap<>());
 		destination.setType("");
+		destination.setNearbyTouristicPoints(new HashMap<>());
 		
 		// Walking distance to the next transport point
 		double maxDistance = route.getMaxDistance() * 0.7;
@@ -220,18 +221,17 @@ public class RouteServiceImpl implements RouteService {
 			bestPointsFound.add(point);
 
 			// Point destination reached, return list of points
-			if (calculateDistance(point, destination) <= maxDistance && (isDirectNeighbor(pointWrapper.getPrevious() != null 
-					? pointWrapper.getPrevious().getPoint() : null, point, true) || point.equals(origin))) {
+			if (point.equals(destination)) {
 				List<P> route = new LinkedList<>();
 				while (pointWrapper != null) {
 					route.add(0, pointWrapper.getPoint());
 					pointWrapper = pointWrapper.getPrevious();
 				}
-				route.add(destination);
 				return route;
 			}
 
-			Set<P> neighbors = getNeighbors(pointWrapper, point, transportPoints, bicyclePoints, maxDistance);			
+			Set<P> neighbors = getNeighbors(pointWrapper, point, transportPoints, bicyclePoints, maxDistance, 
+					origin, destination);			
 			for (P neighbor : neighbors) {
 				// Continue with next neighbor if already in best points
 				if (bestPointsFound.contains(neighbor)) {
@@ -284,9 +284,16 @@ public class RouteServiceImpl implements RouteService {
 	 */
 	@SuppressWarnings("unchecked")
 	private <P extends Comparable<P>> Set<P> getNeighbors(PointWrapper<P> pointWrapper, P point, List<P> transportPoints, 
-			Set<P> bicyclePoints, double maxDistance) {
+			Set<P> bicyclePoints, double maxDistance, P origin, P destination) {
+				
+		// Less distance to the destination point than the max distance set by the user
+		if (calculateDistance(point, destination) <= maxDistance && (isDirectNeighbor(pointWrapper.getPrevious() != null 
+				? pointWrapper.getPrevious().getPoint() : null, point, true) || point.equals(origin))) {
+			return Set.of(destination);
+		}
+		
 		// No duplicates in neighbors
-		Set<P> neighbors = new HashSet<>();	
+		Set<P> neighbors = new HashSet<>();
 		
 		// Check if previous point and actual point are directly connected (Example: Same line of bus or subway)
 		boolean directNeighbors = isDirectNeighbor(pointWrapper.getPrevious() != null ? pointWrapper.getPrevious().getPoint() : null, point, true);
