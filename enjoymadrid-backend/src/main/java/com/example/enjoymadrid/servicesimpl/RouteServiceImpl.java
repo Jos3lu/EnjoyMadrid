@@ -66,9 +66,6 @@ public class RouteServiceImpl implements RouteService {
 	// For heuristic, weighting factors
 	private static final int TOTAL_NUMBER_PREFERENCES = 9;
 	private static final int MAX_PREFERENCE_WEIGHTING = 5;
-	private static final double DIST_WEIGHTING = 0.5;
-	private static final double AQI_WEIGHTING = 0.3;
-	private static final double PLACES_WEIGHTING = 0.2;
 	
 	private final UserService userService;
 	private final UserRepository userRepository;
@@ -303,8 +300,8 @@ public class RouteServiceImpl implements RouteService {
 		}
 		
 		// Less distance to the destination point than the max distance set by the user
-		if (calculateDistance(point, destination) <= maxDistance && (isDirectNeighbor(pointWrapper.getPrevious() != null 
-				? pointWrapper.getPrevious().getPoint() : null, point, true) || point.equals(origin))) {
+		if (calculateDistance(point, destination) <= maxDistance && 
+				(directNeighbors || point.equals(origin))) {
 			neighbors.add(destination);
 		}
 		
@@ -411,57 +408,65 @@ public class RouteServiceImpl implements RouteService {
 		}, Double::sum) / TOTAL_NUMBER_PREFERENCES;
 				
 		return heuristicA(minDistanceToDestination, aqiHeuristic, nearbyPlacesHeuristic);
-		//return heuristicB(aqiHeuristic, nearbyPlacesHeuristic);
+		//return heuristicB(minDistanceToDestination, aqiHeuristic, nearbyPlacesHeuristic);
 		//return heuristicC(minDistanceToDestination, aqiHeuristic, nearbyPlacesHeuristic);
+		//return heuristicD(minDistanceToDestination, aqiHeuristic, nearbyPlacesHeuristic);
 	}
 	
 	/**
-	 * h(n) = DIST_WEIGHTING * min_distance(node, goal) + AQI_WEIGHTING * (aqi / max_aqi) 
-	 * + PLACES_WEIGHTING * Sum(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))
-	 * 
-	 * DIST_WEIGHTING = 0.5
-	 * AQI_WEIGHTING = 0.3
-	 * PLACES_WEIGHTING = 0.2
+	 * h(n) = min_distance(node, goal) + (aqi / max_aqi) + 
+	 * Σ(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))
 	 * 
 	 * @param minDistanceToDestination min_distance(node, goal)
 	 * @param aqiHeuristic aqi / max_aqi
-	 * @param nearbyPlacesHeuristic Sum(1 - (nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING))
+	 * @param nearbyPlacesHeuristic Σ(1 - (nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING))
 	 * @return Double
 	 */
 	private double heuristicA(double minDistanceToDestination, double aqiHeuristic, double nearbyPlacesHeuristic) {
-		return DIST_WEIGHTING * minDistanceToDestination + AQI_WEIGHTING * aqiHeuristic + PLACES_WEIGHTING * nearbyPlacesHeuristic;
+		return minDistanceToDestination + aqiHeuristic + nearbyPlacesHeuristic;
 	}
 	
 	/**
-	 * h(n) = AQI_WEIGHTING * (aqi / max_aqi) + PLACES_WEIGHTING * 
-	 * Sum(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))
+	 * h(n) = min_distance(node, goal) + AQI_WEIGHTING * (aqi / max_aqi) 
+	 * + PLACES_WEIGHTING * Σ(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))
 	 * 
-	 * AQI_WEIGHTING = 0.6
-	 * PLACES_WEIGHTING = 0.4
+	 * AQI_WEIGHTING = 7
+	 * PLACES_WEIGHTING = 5
 	 * 
+	 * @param minDistanceToDestination min_distance(node, goal)
 	 * @param aqiHeuristic aqi / max_aqi
-	 * @param nearbyPlacesHeuristic Sum(1 - (nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING))
+	 * @param nearbyPlacesHeuristic Σ(1 - (nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING))
 	 * @return Double
 	 */
-//	private double heuristicB(double aqiHeuristic, double nearbyPlacesHeuristic) {
-//		return AQI_WEIGHTING * aqiHeuristic + PLACES_WEIGHTING * nearbyPlacesHeuristic;
-//	}
+	private double heuristicB(double minDistanceToDestination, double aqiHeuristic, double nearbyPlacesHeuristic) {
+		return minDistanceToDestination + 7 * aqiHeuristic + 5 * nearbyPlacesHeuristic;
+	}
 	
 	/**
-	 * h(n) = min_distance(node, goal) * [AQI_WEIGHTING * (aqi / max_aqi) + PLACES_WEIGHTING * 
-	 * Sum(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))]
+	 * h(n) = min_distance(node, goal) + [(aqi / max_aqi) * 
+	 * Σ(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))]
 	 * 
-	 * AQI_WEIGHTING = 0.6
-	 * PLACES_WEIGHTING = 0.4
-	 * 
-	 * @param minDistanceToDestination
-	 * @param aqiHeuristic
-	 * @param nearbyPlacesHeuristic
-	 * @return
+	 * @param minDistanceToDestination min_distance(node, goal)
+	 * @param aqiHeuristic aqi / max_aqi
+	 * @param nearbyPlacesHeuristic Σ(1 - (nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING))
+	 * @return Double
 	 */
-//	private double heuristicC(double minDistanceToDestination, double aqiHeuristic, double nearbyPlacesHeuristic) {
-//		return minDistanceToDestination * (AQI_WEIGHTING * aqiHeuristic + PLACES_WEIGHTING * nearbyPlacesHeuristic);
-//	}
+	private double heuristicC(double minDistanceToDestination, double aqiHeuristic, double nearbyPlacesHeuristic) {
+		return minDistanceToDestination + aqiHeuristic * nearbyPlacesHeuristic;
+	}
+	
+	/**
+	 * h(n) = min_distance(node, goal) * [(aqi / max_aqi) + 
+	 * Σ(1 - ((nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING)))]
+	 * 
+	 * @param minDistanceToDestination min_distance(node, goal)
+	 * @param aqiHeuristic aqi / max_aqi
+	 * @param nearbyPlacesHeuristic Σ(1 - (nearby_places * preference_weighting) / (MAX_NEARBY_PLACES * MAX_PREFERENCE_WEIGHTING))
+	 * @return Double
+	 */
+	private double heuristicD(double minDistanceToDestination, double aqiHeuristic, double nearbyPlacesHeuristic) {
+		return minDistanceToDestination * (aqiHeuristic + nearbyPlacesHeuristic);
+	}
 	
 	/**
 	 * Calculate the heuristics if AQI
