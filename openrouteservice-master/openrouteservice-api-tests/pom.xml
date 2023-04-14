@@ -82,7 +82,7 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <!-- keep oldish version as we want to support 1.5 for a while -->
-            <version>20140107</version>
+            <version>20230227</version>
             <scope>test</scope>
         </dependency>
         <dependency>
