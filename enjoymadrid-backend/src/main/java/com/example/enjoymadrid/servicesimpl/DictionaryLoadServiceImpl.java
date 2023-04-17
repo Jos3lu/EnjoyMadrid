@@ -107,34 +107,23 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 			String term = entryTerm.getKey();
 			// Map for scores
 			Map<TouristicPoint, Double> scores = new HashMap<>();
-			// Map for Models
-			Map<Class<?>, DictionaryScoreSpec> models;
 			for (Entry<TouristicPoint, Integer> entryPoint: entryTerm.getValue().entrySet()) {
 				// Get data to calculate score
 				TouristicPoint touristicPoint = entryPoint.getKey();
 				int tf = entryPoint.getValue().intValue();
 				
-				// Map with Models classes & associated information
-				models = Map.of(
-						// Vector Space Model
-						VectorSpaceModelServiceImpl.class, new DictionaryScoreSpec(tf, totalDocs.intValue(),
-								docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint)),
-						// BM25 Model
-						BM25ModelServiceImpl.class, new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
-								docsLength.get(touristicPoint).intValue(), ((double) collectionLength.longValue()) / totalDocs.intValue()),
-						// Dirichlet Smoothing Model
-						DirichletSmoothingModelServiceImpl.class, new DictionaryScoreSpec(tf, docsLength.get(touristicPoint).intValue(),
-								((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue())
-				);
-				// Select Model
-				DictionaryScoreSpec scoreSpec = null;
-				for (Entry<Class<?>, DictionaryScoreSpec> entry : models.entrySet()) {
-					if (this.modelService.getClass() == entry.getKey()) {
-						scoreSpec = entry.getValue();
-						break;
-					}
-				}
+				// Vector Space Model
+//				DictionaryScoreSpec scoreSpec = new DictionaryScoreSpec(tf, totalDocs.intValue(),
+//						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
 				
+				// BM25 Model
+//				DictionaryScoreSpec scoreSpec = new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
+//						docsLength.get(touristicPoint).intValue(), ((double) collectionLength.longValue()) / totalDocs.intValue());
+				
+				// Dirichlet Smoothing Model
+				DictionaryScoreSpec scoreSpec = new DictionaryScoreSpec(tf, docsLength.get(touristicPoint).intValue(),
+						((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue());
+								
 				// Model to use for documents score
 				double score = this.modelService.calculateScore(scoreSpec);
 								
