@@ -49,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
 		User user = userService.getUserByUsername(loginDto.getUsername());
 		RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
 		
-		return new SignInResponseDto(jwtToken, refreshToken.getRefreshToken(), user.getId(),
+		return new SignInResponseDto(jwtToken, refreshToken.getToken(), user.getId(),
 				user.getName(), user.getUsername(), user.getPhoto(), user.getRoutes(), user.getTouristicPoints());
 	}
 

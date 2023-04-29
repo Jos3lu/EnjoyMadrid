@@ -1,6 +1,6 @@
 package com.example.enjoymadrid.models;
 
-public class DictionaryScoreSpec {
+public class TermWeightSpec {
 	
 	private int tf;
 	private int totalDocs;
@@ -11,7 +11,7 @@ public class DictionaryScoreSpec {
 	private double probTermCol;
 		
 	// Vector Space Model Constructor
-	public DictionaryScoreSpec(int tf, int totalDocs, int docFreq, double tfSumDoc) {
+	public TermWeightSpec(int tf, int totalDocs, int docFreq, double tfSumDoc) {
 		this.tf = tf;
 		this.totalDocs = totalDocs;
 		this.docFreq = docFreq;
@@ -19,7 +19,7 @@ public class DictionaryScoreSpec {
 	}
 	
 	// BM25 Model Constructor
-	public DictionaryScoreSpec(int tf, int totalDocs, int docFreq, int docLength, double avgDoc) {
+	public TermWeightSpec(int tf, int totalDocs, int docFreq, int docLength, double avgDoc) {
 		this.tf = tf;
 		this.totalDocs = totalDocs;
 		this.docFreq = docFreq;
@@ -28,7 +28,7 @@ public class DictionaryScoreSpec {
 	}
 	
 	// Dirichlet Model Constructor
-	public DictionaryScoreSpec(int tf, int docLength, double probTermCol) {
+	public TermWeightSpec(int tf, int docLength, double probTermCol) {
 		this.tf = tf;
 		this.docLength = docLength;
 		this.probTermCol = probTermCol;

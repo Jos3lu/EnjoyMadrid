@@ -24,8 +24,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.tartarus.snowball.ext.SpanishStemmer;
 
-import com.example.enjoymadrid.models.Dictionary;
-import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TermWeight;
+import com.example.enjoymadrid.models.TermWeightSpec;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.DictionaryRepository;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
@@ -107,11 +107,11 @@ public class DictionaryServiceImpl implements DictionaryService {
 		
 		// Iterate over terms of query
 		terms.entrySet().stream().forEach(entry -> {
-			Optional<Dictionary> optDict = this.dictionaryRepository.findByTerm(entry.getKey());
-			if (optDict.isEmpty()) return;
+			Optional<TermWeight> optTerm = this.dictionaryRepository.findByTerm(entry.getKey());
+			if (optTerm.isEmpty()) return;
 			
 			// Get weights of term associated to the tourist points
-			Map<TouristicPoint, Double> weights = optDict.get().getWeights();
+			Map<TouristicPoint, Double> weights = optTerm.get().getWeights();
 			
 			// For DS Model (to take account of absent terms)
 			if (isDirichletSmoothingModel) {
@@ -119,8 +119,8 @@ public class DictionaryServiceImpl implements DictionaryService {
 					Double weight = weights.get(point);
 					if (weight == null) {
 						// Calculate score for absent term
-						weight = this.modelService.calculateScore(
-								new DictionaryScoreSpec(0, point.getDocLength(), optDict.get().getProbTermCol()));
+						weight = this.modelService.calculateWeight(
+								new TermWeightSpec(0, point.getDocLength(), optTerm.get().getProbTermCol()));
 					} else {
 						pointsFreqNotZero.add(point.getId());
 					}

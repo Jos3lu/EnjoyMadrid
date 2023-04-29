@@ -26,16 +26,16 @@ public class RefreshToken {
 	private User user;
 	
 	@Column(nullable = false, unique = true)
-	private String refreshToken;
+	private String token;
 	
 	@Column(nullable = false)
 	private Instant expiryDate;
 	
 	public RefreshToken() {}
 
-	public RefreshToken(User user, String refreshToken, Instant expiryDate) {
+	public RefreshToken(User user, String token, Instant expiryDate) {
 		this.user = user;
-		this.refreshToken = refreshToken;
+		this.token = token;
 		this.expiryDate = expiryDate;
 	}
 
@@ -55,12 +55,12 @@ public class RefreshToken {
 		this.user = user;
 	}
 
-	public String getRefreshToken() {
-		return refreshToken;
+	public String getToken() {
+		return token;
 	}
 
-	public void setRefreshToken(String refreshToken) {
-		this.refreshToken = refreshToken;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public Instant getExpiryDate() {

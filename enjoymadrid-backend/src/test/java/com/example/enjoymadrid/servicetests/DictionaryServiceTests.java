@@ -24,7 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.TestPropertySource;
 import org.tartarus.snowball.ext.SpanishStemmer;
 
-import com.example.enjoymadrid.models.Dictionary;
+import com.example.enjoymadrid.models.TermWeight;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.DictionaryRepository;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
@@ -74,12 +74,12 @@ public class DictionaryServiceTests {
 				entry(touristicPoint2, 0.16),
 				entry(touristicPoint3, 0.11)
 		);
-		Dictionary dictionary = new Dictionary("pac", weights);
+		TermWeight termWeight = new TermWeight("pac", weights);
 		
 		List<TouristicPoint> touristicPoints = new ArrayList<TouristicPoint>(Arrays.asList(touristicPoint, touristicPoint2, touristicPoint3));
 		
 		when(touristicPointRepository.findAll()).thenReturn(touristicPoints);
-		when(dictionaryRepository.findByTerm(anyString())).thenReturn(Optional.of(dictionary));
+		when(dictionaryRepository.findByTerm(anyString())).thenReturn(Optional.of(termWeight));
 		when(modelService.rank(anyDouble(), anyDouble(), anyInt())).thenReturn(3.12);
 		
 		List<TouristicPoint> pointsResult = dictionaryService.getTouristicPoints("Paco");

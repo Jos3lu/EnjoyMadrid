@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.TestPropertySource;
 
-import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TermWeightSpec;
 import com.example.enjoymadrid.servicesimpl.DirichletSmoothingModelServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,12 +34,12 @@ public class DirichletSmoothingModelServiceTests {
 		int termFreq = 2;
 		int docLength = 50;
 		double probTermCol = 0.07;
-		DictionaryScoreSpec dictionaryScoreSpec = new DictionaryScoreSpec(termFreq, docLength, probTermCol);
+		TermWeightSpec termWeightSpec = new TermWeightSpec(termFreq, docLength, probTermCol);
 		
 		double mu = 2000;
 		double expectedResult = (termFreq + mu * probTermCol) / (docLength + mu);
 		
-		double result = modelService.calculateScore(dictionaryScoreSpec);
+		double result = modelService.calculateWeight(termWeightSpec);
 		assertThat(result).isEqualTo(expectedResult);
 	}
 }

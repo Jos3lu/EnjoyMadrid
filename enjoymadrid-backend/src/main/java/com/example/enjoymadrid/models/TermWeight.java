@@ -14,8 +14,8 @@ import jakarta.persistence.MapKeyJoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name ="DICTIONARY_TABLE")
-public class Dictionary {
+@Table(name = "DICTIONARY_TABLE")
+public class TermWeight {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,9 +34,9 @@ public class Dictionary {
 	// Number of occurrences of term T in the Collection / total number tokens in the Collection
 	private Double probTermCol;
 	
-	public Dictionary() {}
+	public TermWeight() {}
 
-	public Dictionary(String term, Map<TouristicPoint, Double> weights) {
+	public TermWeight(String term, Map<TouristicPoint, Double> weights) {
 		this.term = term;
 		this.weights = weights;
 	}

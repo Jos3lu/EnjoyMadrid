@@ -1,25 +1,27 @@
 package com.example.enjoymadrid.services;
 
-import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TermWeightSpec;
 
 public interface ModelService {
 
 	/**
-	 * Add current point score to an accumulated score of a query term
+	 * Add/multiply the tourist point's term weight to the cumulative score 
+	 * of the query terms
 	 * 
-	 * @param score Accumulated score of query term
-	 * @param weight Point score corresponding to a term
-	 * @param freq Frequency of query term
-	 * @return Sum of current point score & accumulate score of query term
+	 * @param score Cumulative score of Tourist Point P for the given query
+	 * @param weight Weight of term T associated to Tourist point P
+	 * @param freq Frequency of current query term
+	 * @return Weight of Term T associated to Tourist point P +/* cumulative score of Tourist point P for the given query
 	 */
 	public double rank(double score, double weight, int freq);
 	
 	/**
-	 * Get score of a term associated to a document depending of the IR Model used
+	 * Get term weight of a tourist point
+	 * Models: Vector Space Model, Okapi BM25 Model, Dirichlet Smoothing Model
 	 * 
-	 * @param dictionaryScoreSpec Input data used for the IR Model
-	 * @return Score of IR Model
+	 * @param termWeightSpec Input data used for the IR Model
+	 * @return Weight of term T associated to Tourist point P
 	 */
-	public double calculateScore(DictionaryScoreSpec dictionaryScoreSpec);
+	public double calculateWeight(TermWeightSpec termWeightSpec);
 	
 }

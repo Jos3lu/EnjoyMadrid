@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TermWeightSpec;
 import com.example.enjoymadrid.services.ModelService;
 
 @Service
@@ -29,17 +29,17 @@ public class DirichletSmoothingModelServiceImpl implements ModelService {
 	}
 
 	/**
-	 * Score = (term_frequency + µ * (term_frequency_collection / collection_length) / (doc_length + µ))
+	 * Weight = (term_frequency + µ * (term_frequency_collection / collection_length) / (doc_length + µ))
 	 * 
-	 * @param tf Term frequencies in documents/tourist points
-	 * @param tfCollection Term frequencies in collection
-	 * @param docLength Length of the document D in words
-	 * @param collectionLength Length of the collection C in words
-	 * @return Score/weight of term T associated with document D
+	 * @param tf Frequency of term T in Tourist point P
+	 * @param tfCollection Frequency of Term T in the collection
+	 * @param docLength Length of Tourist point P in words
+	 * @param collectionLength Length of the collection in words
+	 * @return Weight of term T associated with Tourist point P
 	 */
 	@Override
-	public double calculateScore(DictionaryScoreSpec scoreSpec) {
-		return (scoreSpec.getTf() + mu * scoreSpec.getProbTermCol()) / (scoreSpec.getDocLength() + mu);
+	public double calculateWeight(TermWeightSpec weightSpec) {
+		return (weightSpec.getTf() + mu * weightSpec.getProbTermCol()) / (weightSpec.getDocLength() + mu);
 	}
 
 }

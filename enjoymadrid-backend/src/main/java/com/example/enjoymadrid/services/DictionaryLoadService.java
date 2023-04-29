@@ -9,7 +9,7 @@ public interface DictionaryLoadService {
 	/**
 	 * Tokenize & filter text
 	 * 
-	 * @param point Point from which the text is extracted
+	 * @param point Tourist point from which the text is extracted
 	 * @return Text split into tokens
 	 */
 	public List<String> analyzeText(TouristicPoint point);
@@ -17,7 +17,8 @@ public interface DictionaryLoadService {
 	/**
 	 * Load the terms of tourist points associated to its scores into DB
 	 * 
-	 * @param point Tourist point to extract terms
+	 * @param point Tourist point to which the statistics of the terms are associated
+	 * @param resultTerms Terms of tourist point
 	 */
 	public void loadTerms(TouristicPoint point, List<String> resultTerms);
 	

@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.TestPropertySource;
 
-import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TermWeightSpec;
 import com.example.enjoymadrid.servicesimpl.BM25ModelServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,14 +36,14 @@ public class BM25ModelServiceTests {
 		int docFreq = 1;
 		int docLength = 50;
 		double avgDoc = 65.5;
-		DictionaryScoreSpec dictionaryScoreSpec = new DictionaryScoreSpec(termFreq, totalDocs, docFreq, docLength, avgDoc);
+		TermWeightSpec termWeightSpec = new TermWeightSpec(termFreq, totalDocs, docFreq, docLength, avgDoc);
 		
 		double k1 = 1.2;
 		double b = 0.75;
 		double expectedResult = (termFreq * (k1 + 1) / (termFreq + k1 * (1 - b + b * docLength / avgDoc)) + 1)
 				* Math.log10((totalDocs - docFreq + 0.5) / (docFreq + 0.5) + 1);
 		
-		double result = modelService.calculateScore(dictionaryScoreSpec);
+		double result = modelService.calculateWeight(termWeightSpec);
 		assertThat(result).isEqualTo(expectedResult);
 	}
 	

@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.TestPropertySource;
 
-import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TermWeightSpec;
 import com.example.enjoymadrid.servicesimpl.VectorSpaceModelServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,11 +35,11 @@ public class VectorSpaceModelServiceTests {
 		int totalDocs = 7;
 		int docFreq = 1;
 		double tfSumDoc = 0.32;
-		DictionaryScoreSpec dictionaryScoreSpec = new DictionaryScoreSpec(termFreq, totalDocs, docFreq, tfSumDoc);
+		TermWeightSpec termWeightSpec = new TermWeightSpec(termFreq, totalDocs, docFreq, tfSumDoc);
 		
 		double expectedResult = ((1 + Math.log10(termFreq)) / tfSumDoc) * (Math.log10(totalDocs / docFreq));
 		
-		double result = modelService.calculateScore(dictionaryScoreSpec);
+		double result = modelService.calculateWeight(termWeightSpec);
 		assertThat(result).isEqualTo(expectedResult);
 	}
 	

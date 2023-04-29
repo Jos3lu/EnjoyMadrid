@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.enjoymadrid.models.Dictionary;
+import com.example.enjoymadrid.models.TermWeight;
 
-public interface DictionaryRepository extends JpaRepository<Dictionary, Long> {
+public interface DictionaryRepository extends JpaRepository<TermWeight, Long> {
 		
-	Optional<Dictionary> findByTerm(String term);
+	Optional<TermWeight> findByTerm(String term);
 	
 }

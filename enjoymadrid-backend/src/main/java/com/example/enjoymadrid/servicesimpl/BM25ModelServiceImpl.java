@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TermWeightSpec;
 import com.example.enjoymadrid.services.ModelService;
 
 @Service
@@ -51,22 +51,22 @@ public class BM25ModelServiceImpl implements ModelService {
 	/**
 	 * tf = term_frequency * (k1 + 1) / (term_frequency + k1 * (1 - b + b * document_length / average_document_length))
 	 * idf = log((total_docs - doc_frequency) / (doc_frequency  + 0.5) + 1)
-	 * Score = tf * idf
+	 * Weight = tf * idf
 	 * 
-	 * @param tf Term frequencies in documents/tourist points
-	 * @param totalDocs Total number of documents/tourist points
-	 * @param docFreq Number of documents where the term T appears
-	 * @param docLength Length of the document D in words
-	 * @param avgDoc Average document length in the text collection
-	 * @return Score/weight of term T associated with document D
+	 * @param tf Frequency of term T in Tourist point P
+	 * @param totalDocs Total number of tourist points
+	 * @param docFreq Number of tourist points where term T appears
+	 * @param docLength Length of Tourist point P in words
+	 * @param avgDoc Average Tourist point length in the text collection
+	 * @return Weight of term T associated with Tourist point P
 	 */
 	@Override
-	public double calculateScore(DictionaryScoreSpec scoreSpec) {
-		if (scoreSpec.getTf() <= 0) return 0.0;
+	public double calculateWeight(TermWeightSpec weightSpec) {
+		if (weightSpec.getTf() <= 0) return 0.0;
 		
-		double tf = scoreSpec.getTf() * (k1 + 1)
-				/ (scoreSpec.getTf() + k1 * (1 - b + b * scoreSpec.getDocLength() / scoreSpec.getAvgDoc()));
-		double idf = Math.log10((scoreSpec.getTotalDocs() - scoreSpec.getDocFreq() + 0.5) / (scoreSpec.getDocFreq() + 0.5) + 1);
+		double tf = weightSpec.getTf() * (k1 + 1)
+				/ (weightSpec.getTf() + k1 * (1 - b + b * weightSpec.getDocLength() / weightSpec.getAvgDoc()));
+		double idf = Math.log10((weightSpec.getTotalDocs() - weightSpec.getDocFreq() + 0.5) / (weightSpec.getDocFreq() + 0.5) + 1);
 		
 		return (tf + delta) * idf;
 	}

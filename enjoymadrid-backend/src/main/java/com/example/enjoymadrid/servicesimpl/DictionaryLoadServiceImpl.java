@@ -14,8 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.example.enjoymadrid.models.Dictionary;
-import com.example.enjoymadrid.models.DictionaryScoreSpec;
+import com.example.enjoymadrid.models.TermWeight;
+import com.example.enjoymadrid.models.TermWeightSpec;
 import com.example.enjoymadrid.models.TouristicPoint;
 import com.example.enjoymadrid.models.repositories.DictionaryRepository;
 import com.example.enjoymadrid.services.DictionaryLoadService;
@@ -102,43 +102,43 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	public void calculateScoreTerms() {	
 		// Remove all the entities
 		this.dictionaryRepository.deleteAll();
-		// Iterate over: terms -> (Tourist points -> frequency) to calculate score
+		// Iterate over: terms -> (Tourist points -> frequency) to calculate weights
 		termFreq.entrySet().parallelStream().forEach(entryTerm -> {
 			String term = entryTerm.getKey();
-			// Map for scores
-			Map<TouristicPoint, Double> scores = new HashMap<>();
+			// Map for weights
+			Map<TouristicPoint, Double> weights = new HashMap<>();
 			for (Entry<TouristicPoint, Integer> entryPoint: entryTerm.getValue().entrySet()) {
-				// Get data to calculate score
+				// Get data to calculate weight
 				TouristicPoint touristicPoint = entryPoint.getKey();
 				int tf = entryPoint.getValue().intValue();
 				
 				// Vector Space Model
-//				DictionaryScoreSpec scoreSpec = new DictionaryScoreSpec(tf, totalDocs.intValue(),
+//				TermWeightSpec weightSpec = new TermWeightSpec(tf, totalDocs.intValue(),
 //						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
 				
 				// BM25 Model
-//				DictionaryScoreSpec scoreSpec = new DictionaryScoreSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
+//				TermWeightSpec weightSpec = new TermWeightSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
 //						docsLength.get(touristicPoint).intValue(), ((double) collectionLength.longValue()) / totalDocs.intValue());
 				
 				// Dirichlet Smoothing Model
-				DictionaryScoreSpec scoreSpec = new DictionaryScoreSpec(tf, docsLength.get(touristicPoint).intValue(),
+				TermWeightSpec weightSpec = new TermWeightSpec(tf, docsLength.get(touristicPoint).intValue(),
 						((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue());
 								
 				// Model to use for documents score
-				double score = this.modelService.calculateScore(scoreSpec);
+				double weight = this.modelService.calculateWeight(weightSpec);
 								
 				// Don't store a score = 0
-				if (score == 0) continue;
+				if (weight == 0) continue;
 				// Save the score associated to the tourist point (document)
-				scores.put(touristicPoint, score);
+				weights.put(touristicPoint, weight);
 			}
-			// Create term -> scores
-			Dictionary dict = new Dictionary(term, scores);
+			// Create term -> weights
+			TermWeight termWeight = new TermWeight(term, weights);
 			if (this.modelService.getClass() == DirichletSmoothingModelServiceImpl.class) 
-				dict.setProbTermCol(((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue());
+				termWeight.setProbTermCol(((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue());
 			
 			// Save the term & scores in DB
-			this.dictionaryRepository.save(dict);
+			this.dictionaryRepository.save(termWeight);
 		});
 		
 		//Reset the variables for the next time the function is called
