@@ -30,7 +30,7 @@ public class VectorSpaceModelServiceTests {
 	}
 	
 	@Test
-	public void calculateScore() {
+	public void calculateWeight() {
 		int termFreq = 2;
 		int totalDocs = 7;
 		int docFreq = 1;

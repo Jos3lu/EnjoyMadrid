@@ -30,7 +30,7 @@ public class DirichletSmoothingModelServiceTests {
 	}
 	
 	@Test
-	public void calculateScore() {
+	public void calculateWeight() {
 		int termFreq = 2;
 		int docLength = 50;
 		double probTermCol = 0.07;
