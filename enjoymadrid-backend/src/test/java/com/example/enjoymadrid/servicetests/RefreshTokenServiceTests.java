@@ -55,24 +55,24 @@ public class RefreshTokenServiceTests {
 	
 	@Test
 	public void findByRefreshToken() {
-		when(refreshTokenRepository.findByRefreshToken(anyString()))
+		when(refreshTokenRepository.findByToken(anyString()))
 			.thenReturn(Optional.of(refreshToken));
 		
 		RefreshToken refreshTokenResult = refreshTokenService.findByRefreshToken("mockRefreshToken");
 		
 		assertThat(refreshTokenResult).isEqualTo(refreshToken);
-		verify(refreshTokenRepository).findByRefreshToken("mockRefreshToken");
+		verify(refreshTokenRepository).findByToken("mockRefreshToken");
 	}
 	
 	@Test
 	public void findByRefreshToken_exception() {
 		// Refresh token not found
-		when(refreshTokenRepository.findByRefreshToken(anyString()))
+		when(refreshTokenRepository.findByToken(anyString()))
 			.thenReturn(Optional.empty());
 		
 		assertThrows(ResponseStatusException.class, 
 				() -> refreshTokenService.findByRefreshToken("mockRefreshToken"));
-		verify(refreshTokenRepository).findByRefreshToken("mockRefreshToken");
+		verify(refreshTokenRepository).findByToken("mockRefreshToken");
 	}
 	
 	@Test

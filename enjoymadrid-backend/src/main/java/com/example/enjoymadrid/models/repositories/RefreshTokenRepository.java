@@ -11,7 +11,7 @@ import com.example.enjoymadrid.models.RefreshToken;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long>{
 
-	Optional<RefreshToken> findByRefreshToken(String refreshToken);
+	Optional<RefreshToken> findByToken(String token);
 	
 	@Query("DELETE FROM RefreshToken t WHERE t.expiryDate <= :now")
 	void deleteByExpiryDateLessThan(@Param("now") Instant now);

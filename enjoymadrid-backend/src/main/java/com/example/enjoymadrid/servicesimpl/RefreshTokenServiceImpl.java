@@ -27,7 +27,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
 	@Override
 	public RefreshToken findByRefreshToken(String refreshToken) {
-		return this.refreshTokenRepository.findByRefreshToken(refreshToken)
+		return this.refreshTokenRepository.findByToken(refreshToken)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Autenticación no posible!"));
 	}
 
