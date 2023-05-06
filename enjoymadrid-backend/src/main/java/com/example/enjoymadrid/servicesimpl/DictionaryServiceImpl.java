@@ -115,6 +115,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 			
 			// For DS Model (to take account of absent terms)
 			if (isDirichletSmoothingModel) {
+				//points.parallelStream().forEach(point -> {
 				for (TouristicPoint point : points) {
 					Double weight = weights.get(point);
 					if (weight == null) {
@@ -136,7 +137,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 				}
 			}			
 		});
-						
+		
 		// Order scores (If Dirichlet Smoothing Model then delimit result)
 		return scores.entrySet().stream()
 				.filter(entry -> isDirichletSmoothingModel 
@@ -161,9 +162,9 @@ public class DictionaryServiceImpl implements DictionaryService {
 		score = this.modelService.rank(score, weight, freq);
 		scores.put(point, score);
 		
-//		// For concurrency
-//		scores.putIfAbsent(point, initValue);
-//		scores.compute(point, (key, value) -> this.modelService.rank(value, weight, freq));
+		// For concurrency
+		//scores.putIfAbsent(point, initValue);
+		//scores.compute(point, (key, value) -> this.modelService.rank(value, weight, freq));
 	}
 	
 	@Override
