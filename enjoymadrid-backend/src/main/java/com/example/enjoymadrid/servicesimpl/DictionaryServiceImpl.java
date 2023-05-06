@@ -106,6 +106,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 		}
 		
 		// Iterate over terms of query
+		// For concurrency: terms.entrySet().parallelStream()
 		terms.entrySet().stream().forEach(entry -> {
 			Optional<TermWeight> optTerm = this.dictionaryRepository.findByTerm(entry.getKey());
 			if (optTerm.isEmpty()) return;
