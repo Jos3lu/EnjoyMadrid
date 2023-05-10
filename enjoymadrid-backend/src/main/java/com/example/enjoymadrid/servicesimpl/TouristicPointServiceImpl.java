@@ -13,18 +13,21 @@ import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.services.DictionaryService;
 import com.example.enjoymadrid.services.TouristicPointService;
+import com.example.enjoymadrid.services.UserService;
 
 @Service
 public class TouristicPointServiceImpl implements TouristicPointService {
 
 	private final TouristicPointRepository touristicPointRepository;
 	private final UserRepository userRepository;
+	private final UserService userService;
 	private final DictionaryService dictionaryService;
 	
 	public TouristicPointServiceImpl(TouristicPointRepository touristicPointRepository, UserRepository userRepository, 
-			DictionaryService dictionaryService) {
+			UserService userService, DictionaryService dictionaryService) {
 		this.touristicPointRepository = touristicPointRepository;
 		this.userRepository = userRepository;
+		this.userService = userService;
 		this.dictionaryService = dictionaryService;
 	}
 	
@@ -40,32 +43,28 @@ public class TouristicPointServiceImpl implements TouristicPointService {
 
 	@Override
 	public List<TouristicPoint> getUserTouristicPoints(Long userId) {
-		return this.userRepository.findById(userId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"))
-				.getTouristicPoints();
+		return this.userService.getUser(userId).getTouristicPoints();
 	}
 
 	@Override
 	public void addTouristicPointToUser(Long userId, Long touristPointId) {
-		User user = this.userRepository.findById(userId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-		TouristicPoint touristicPoint = this.touristicPointRepository.findById(touristPointId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Punto de interés no encontrado"));
+		// Get user & tourist point from DB
+		User user = this.userService.getUser(userId);
+		TouristicPoint touristicPoint = this.geTouristicPoint(touristPointId);
 		
+		// Add tourist point to user & save in DB
 		user.getTouristicPoints().add(touristicPoint);
-		
 		this.userRepository.save(user);
 	}
 
 	@Override
 	public void deleteUserTouristicPoint(Long userId, Long touristPointId) {
-		User user = this.userRepository.findById(userId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-		TouristicPoint touristicPoint = this.touristicPointRepository.findById(touristPointId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Punto de interés no encontrado"));
+		// Get user & tourist point from DB
+		User user = this.userService.getUser(userId);
+		TouristicPoint touristicPoint = this.geTouristicPoint(touristPointId);
 		
+		// Remove tourist point from user & save in DB
 		user.getTouristicPoints().remove(touristicPoint);
-		
 		this.userRepository.save(user);
 	}
 	
@@ -76,6 +75,11 @@ public class TouristicPointServiceImpl implements TouristicPointService {
 			user.getTouristicPoints().remove(touristicPoint);
 			this.userRepository.save(user);
 		}
+	}
+	
+	private TouristicPoint geTouristicPoint(Long touristPointId) {
+		return this.touristicPointRepository.findById(touristPointId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Punto de interés no encontrado"));
 	}
 
 }
