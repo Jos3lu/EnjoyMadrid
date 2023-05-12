@@ -3,6 +3,9 @@ package com.example.enjoymadrid.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.example.enjoymadrid.models.interfaces.TouristicPointInterfaces;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -12,7 +15,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
@@ -54,18 +56,21 @@ public class TouristicPoint extends Point {
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	private String type;
 
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection
+	@Fetch(FetchMode.JOIN)
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	@CollectionTable(name = "TOURISTIC_POINT_CATEGORIES_TABLE")
 	private List<String> categories = new ArrayList<>();
 
 	@ElementCollection
+	@Fetch(FetchMode.JOIN)
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	@CollectionTable(name = "TOURISTIC_POINT_SUBCATEGORIES_TABLE")
 	private List<String> subcategories = new ArrayList<>();
 
 	@ElementCollection
 	@Lob
+	@Fetch(FetchMode.JOIN)
 	@Column(columnDefinition = "TEXT")
 	@JsonView(TouristicPointInterfaces.BasicData.class)
 	@CollectionTable(name = "TOURISTIC_POINT_IMAGES_TABLE")

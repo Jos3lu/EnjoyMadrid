@@ -79,12 +79,12 @@ public class DictionaryServiceTests {
 		List<TouristicPoint> touristicPoints = new ArrayList<TouristicPoint>(Arrays.asList(touristicPoint, touristicPoint2, touristicPoint3));
 		
 		when(touristicPointRepository.findAll()).thenReturn(touristicPoints);
-		when(dictionaryRepository.findByTerm(anyString())).thenReturn(Optional.of(termWeight));
+		when(dictionaryRepository.findTopByTerm(anyString())).thenReturn(Optional.of(termWeight));
 		when(modelService.rank(anyDouble(), anyDouble(), anyInt())).thenReturn(3.12);
 		
 		List<TouristicPoint> pointsResult = dictionaryService.getTouristicPoints("Paco");
 		assertThat(pointsResult).containsAll(touristicPoints);
-		verify(dictionaryRepository).findByTerm("pac");
+		verify(dictionaryRepository).findTopByTerm("pac");
 		verify(modelService, times(3)).rank(anyDouble(), anyDouble(), anyInt());
 	}
 		

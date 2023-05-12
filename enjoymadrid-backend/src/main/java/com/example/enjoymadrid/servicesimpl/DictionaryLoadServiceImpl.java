@@ -56,7 +56,7 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 
 	@Override
 	public List<String> analyzeText(TouristicPoint point) {
-		// Get title, address & description from point
+		// Get title & description from point
 		StringJoiner text = new StringJoiner(" ");
 		text.add(getStringIfNotNull(point.getName()));
 		text.add(getStringIfNotNull(parseHtml(point.getDescription())));

@@ -3,6 +3,9 @@ package com.example.enjoymadrid.models;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -26,6 +29,7 @@ public class TermWeight {
 		
 	// Touristic place (documents) -> score/weight of term 
 	@ElementCollection
+	@Fetch(FetchMode.JOIN)
 	@MapKeyJoinColumn(name = "TOURISTIC_POINT_ID")
 	@Column(name = "WEIGHT")
 	@CollectionTable(name = "DICTIONARY_WEIGHTS_TABLE")
