@@ -59,8 +59,6 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 		// Get title, address & description from point
 		StringJoiner text = new StringJoiner(" ");
 		text.add(getStringIfNotNull(point.getName()));
-		text.add(getStringIfNotNull(point.getAddress()));
-		text.add(getStringIfNotNull(point.getZipcode()));
 		text.add(getStringIfNotNull(parseHtml(point.getDescription())));
 		
 		// Tokenize string, lowercase tokens, filter symbols/stop words
