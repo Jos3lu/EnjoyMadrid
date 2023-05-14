@@ -97,8 +97,7 @@ export class FindPlacesPage implements OnInit {
           'Mercados',
           'Floristerías',
           'Anticuarios',
-          'Perfumerías-Belleza',
-          'Otros'
+          'Perfumerías-Belleza'
         ]
       },
       {
@@ -113,10 +112,8 @@ export class FindPlacesPage implements OnInit {
           'Bar de copas',
           'Bingos - Casinos',
           'Karaokes',
-          'Bares',
           'Coctelerías',
-          'Chocolaterías',
-          'Otros'
+          'Chocolaterías'
         ]
       },
       {
