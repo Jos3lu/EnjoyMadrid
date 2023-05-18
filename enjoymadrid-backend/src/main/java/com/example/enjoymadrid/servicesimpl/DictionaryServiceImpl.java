@@ -55,7 +55,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 			"hubieras", "hubieron", "hubiese", "hubieseis", "hubiesen", "hubieses", "hubimos", "hubiste", "hubisteis", "hubiéramos", "hubiésemos", "hubo", "i", "incluso", "indicó", "informo", "informó", "intenta", "intentais", "intentamos", "intentan", 
 			"intentar", "intentas", "intento", "ir", "j", "junto", "k", "l", "la", "lado", "las", "le", "les", "llegó", "lleva", "llevar", "lo", "los", "luego", "lugar", "m", "mal", "manera", "manifestó", "mas", "me", "mediante", "mejor", "mencionó", 
 			"menos", "menudo", "mi", "mia", "mias", "mientras", "mio", "mios", "mis", "misma", "mismas", "mismo", "mismos", "modo", "momento", "mucha", "muchas", "mucho", "muchos", "muy", "más", "mí", "mía", "mías", "mío", "míos", "n", "nada", "nadie", 
-			"ni", "ninguna", "ningunas", "ninguno", "ningunos", "ningún", "no", "nos", "nosotras", "nosotros", "nuestra", "nuestras", "nuestro", "nuestros", "nunca", "o", "ocho", "ofrece", "ofrecen", "os", "otra", "otras", "otro", "otros", "p", "pais", 
+			"ni", "ninguna", "ningunas", "ninguno", "ningunos", "ningún", "no", "nos", "nosotras", "nosotros", "nuestra", "nuestras", "nuestro", "nuestros", "nunca", "o", "ocho", "ofrece", "ofrecen", "ofrezcan", "os", "otra", "otras", "otro", "otros", "p", "pais", 
 			"para", "parece", "parte", "partir", "peor", "pero", "pesar", "poca", "pocas", "poco", "pocos", "podeis", "podemos", "poder", "podria", "podriais", "podriamos", "podrian", "podrias", "podrá", "podrán", "podría", "podrían", "poner", "por", 
 			"porque", "posible", "primer", "primera", "primero", "primeros", "principalmente", "pronto", "propia", "propias", "propio", "propios", "proximo", "próximo", "próximos", "pudo", "pueda", "puede", "pueden", "puedo", "pues", "q", "que", "quedó", 
 			"queremos", "quien", "quienes", "quiere", "quiza", "quizas", "quizá", "quizás", "quién", "quiénes", "qué", "r", "raras", "realizado", "realizar", "realizó", "repente", "respecto", "s", "sabe", "sabeis", "sabemos", "saben", "saber", "sabes", 
@@ -78,7 +78,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 	
 	public DictionaryServiceImpl(DictionaryRepository dictionaryRepository,
 			TouristicPointRepository touristicPointRepository,
-			@Qualifier("dirichletSmoothingModel") ModelService modelService) {
+			@Qualifier("dirichletSmoothingModelService") ModelService modelService) {
 		this.dictionaryRepository = dictionaryRepository;
 		this.touristicPointRepository = touristicPointRepository;
 		this.modelService = modelService;

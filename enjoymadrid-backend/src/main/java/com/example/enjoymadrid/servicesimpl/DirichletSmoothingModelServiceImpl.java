@@ -8,7 +8,7 @@ import com.example.enjoymadrid.models.TermWeightSpec;
 import com.example.enjoymadrid.services.ModelService;
 
 @Service
-@Qualifier("dirichletSmoothingModel")
+@Qualifier("dirichletSmoothingModelService")
 public class DirichletSmoothingModelServiceImpl implements ModelService {
 	
 	// Smoothing parameter. In IR literature, DS Model uses a fixed value of µ = 2000
