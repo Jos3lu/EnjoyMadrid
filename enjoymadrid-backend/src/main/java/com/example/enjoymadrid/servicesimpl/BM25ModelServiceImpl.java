@@ -15,17 +15,13 @@ public class BM25ModelServiceImpl implements ModelService {
 	private final double k1;
 	// Free parameter, normally b = 0.75
 	private final double b;
-	// Used in BM25+. In BM25 term frequency normalization by document length is not properly lower-bounded. 
-	// Minimizing the chances of over-penalizing those very long documents
-	// Normally delta = 1
-	private final double delta;
 	
 	@Autowired
 	public BM25ModelServiceImpl() {
-		this(1.2, 0.75, 1.0);
+		this(1.2, 0.75);
 	}
 	
-	public BM25ModelServiceImpl(double k1, double b, double delta) {
+	public BM25ModelServiceImpl(double k1, double b) {
 		if (k1 < 0) {
 			throw new IllegalArgumentException("Not valid k1 = " + k1);
 		}
@@ -33,14 +29,9 @@ public class BM25ModelServiceImpl implements ModelService {
 		if (b < 0 || b > 1) {
 			throw new IllegalArgumentException("Not valid b = " + b);
 		}
-		
-		if (delta < 0) {
-			throw new IllegalArgumentException("Not valid delta = " + delta);
-		}
-		
+				
 		this.k1 = k1;
 		this.b = b;
-		this.delta = delta;
 	}
 	
 	@Override
@@ -68,7 +59,7 @@ public class BM25ModelServiceImpl implements ModelService {
 				/ (weightSpec.getTf() + k1 * (1 - b + b * weightSpec.getDocLength() / weightSpec.getAvgDoc()));
 		double idf = Math.log10((weightSpec.getTotalDocs() - weightSpec.getDocFreq() + 0.5) / (weightSpec.getDocFreq() + 0.5) + 1);
 		
-		return (tf + delta) * idf;
+		return tf * idf;
 	}
 
 }
