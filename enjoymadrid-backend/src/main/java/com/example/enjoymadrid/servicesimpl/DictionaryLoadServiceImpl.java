@@ -48,7 +48,7 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	private final DictionaryService dictionaryService;
 
 	public DictionaryLoadServiceImpl(DictionaryRepository dictionaryRepository, DictionaryService dictionaryService,
-			@Qualifier("dirichletSmoothingModel") ModelService modelService) {
+			@Qualifier("dirichletSmoothingModelService") ModelService modelService) {
 		this.dictionaryRepository = dictionaryRepository;
 		this.dictionaryService = dictionaryService;
 		this.modelService = modelService;
