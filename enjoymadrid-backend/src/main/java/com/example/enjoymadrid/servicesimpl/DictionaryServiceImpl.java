@@ -78,7 +78,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 	
 	public DictionaryServiceImpl(DictionaryRepository dictionaryRepository,
 			TouristicPointRepository touristicPointRepository,
-			@Qualifier("dirichletSmoothingModelService") ModelService modelService) {
+			@Qualifier("bm25ModelService") ModelService modelService) {
 		this.dictionaryRepository = dictionaryRepository;
 		this.touristicPointRepository = touristicPointRepository;
 		this.modelService = modelService;

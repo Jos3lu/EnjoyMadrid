@@ -48,7 +48,7 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 	private final DictionaryService dictionaryService;
 
 	public DictionaryLoadServiceImpl(DictionaryRepository dictionaryRepository, DictionaryService dictionaryService,
-			@Qualifier("dirichletSmoothingModelService") ModelService modelService) {
+			@Qualifier("bm25ModelService") ModelService modelService) {
 		this.dictionaryRepository = dictionaryRepository;
 		this.dictionaryService = dictionaryService;
 		this.modelService = modelService;
@@ -115,12 +115,12 @@ public class DictionaryLoadServiceImpl implements DictionaryLoadService {
 //						docFreq.get(term).intValue(), tfSumDoc.get(touristicPoint));
 				
 				// BM25 Model
-//				TermWeightSpec weightSpec = new TermWeightSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
-//						docsLength.get(touristicPoint).intValue(), ((double) collectionLength.longValue()) / totalDocs.intValue());
+				TermWeightSpec weightSpec = new TermWeightSpec(tf, totalDocs.intValue(), docFreq.get(term).intValue(), 
+						docsLength.get(touristicPoint).intValue(), ((double) collectionLength.longValue()) / totalDocs.intValue());
 				
 				// Dirichlet Smoothing Model
-				TermWeightSpec weightSpec = new TermWeightSpec(tf, docsLength.get(touristicPoint).intValue(),
-						((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue());
+//				TermWeightSpec weightSpec = new TermWeightSpec(tf, docsLength.get(touristicPoint).intValue(),
+//						((double) termFreqCollection.get(term).intValue()) / collectionLength.longValue());
 								
 				// Model to use for documents score
 				double weight = this.modelService.calculateWeight(weightSpec);
