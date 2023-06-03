@@ -63,7 +63,7 @@ public class UpdateStopsBiciMAD {
                 station.putNull("lines");
 
                 String name = station.get("name").asText();
-                station.put("name", name.split("- ", 2)[1]);
+                station.put("name", name.split("-", 2)[1].strip());
             }
         }
 
