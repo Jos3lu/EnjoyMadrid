@@ -50,6 +50,16 @@
     "number" : "395b",
     "lines" : null
   }, {
+    "address" : "Calle del Pinzon, 1A,",
+    "geometry" : {
+      "type" : "Point",
+      "coordinates" : [ -3.7405438, 40.39229225 ]
+    },
+    "id" : 2152,
+    "name" : "Calle del Pinzon, 1A",
+    "number" : "376",
+    "lines" : null
+  }, {
     "address" : "Calle de Dulce Chacon, sn,",
     "geometry" : {
       "type" : "Point",
@@ -2720,6 +2730,16 @@
     "number" : "434",
     "lines" : null
   }, {
+    "address" : "Calle Albarracin, sn,",
+    "geometry" : {
+      "type" : "Point",
+      "coordinates" : [ -3.63251641, 40.43397327 ]
+    },
+    "id" : 2076,
+    "name" : "Calle Albarracin, sn",
+    "number" : "506",
+    "lines" : null
+  }, {
     "address" : "Calle Castillo de Ucles, 37,",
     "geometry" : {
       "type" : "Point",
@@ -2828,6 +2848,16 @@
     "id" : 2128,
     "name" : "Avenida de Oporto, 34",
     "number" : "364",
+    "lines" : null
+  }, {
+    "address" : "Avenida Alfonso XIII, 113,",
+    "geometry" : {
+      "type" : "Point",
+      "coordinates" : [ -3.6972, 40.4481 ]
+    },
+    "id" : 2135,
+    "name" : "Avenida Alfonso XIII, 113",
+    "number" : "291",
     "lines" : null
   }, {
     "address" : "Calle San Mariano, 58,",
