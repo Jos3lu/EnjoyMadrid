@@ -40,7 +40,7 @@ public class BM25ModelServiceTests {
 		
 		double k1 = 1.2;
 		double b = 0.75;
-		double expectedResult = (termFreq * (k1 + 1) / (termFreq + k1 * (1 - b + b * docLength / avgDoc)) + 1)
+		double expectedResult = termFreq * (k1 + 1) / (termFreq + k1 * (1 - b + b * docLength / avgDoc))
 				* Math.log10((totalDocs - docFreq + 0.5) / (docFreq + 0.5) + 1);
 		
 		double result = modelService.calculateWeight(termWeightSpec);
