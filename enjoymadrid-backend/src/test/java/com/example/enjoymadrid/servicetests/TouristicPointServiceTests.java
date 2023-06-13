@@ -31,6 +31,7 @@ import com.example.enjoymadrid.models.User;
 import com.example.enjoymadrid.models.repositories.TouristicPointRepository;
 import com.example.enjoymadrid.models.repositories.UserRepository;
 import com.example.enjoymadrid.services.DictionaryService;
+import com.example.enjoymadrid.services.UserService;
 import com.example.enjoymadrid.servicesimpl.TouristicPointServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,6 +43,9 @@ public class TouristicPointServiceTests {
 	
 	@Mock
 	private UserRepository userRepository;
+	
+	@Mock
+	private UserService userService;
 	
 	@Mock
 	private DictionaryService dictionaryService;
@@ -107,23 +111,13 @@ public class TouristicPointServiceTests {
 		user.setId(4L);
 		user.setTouristicPoints(touristicPoints);
 		
-		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+		when(userService.getUser(anyLong())).thenReturn(user);
 		
 		List<TouristicPoint> pointsResult = touristicPointService.getUserTouristicPoints(user.getId());
 		assertThat(touristicPoints).isEqualTo(pointsResult);
-		verify(userRepository).findById(user.getId());
+		verify(userService).getUser(user.getId());
 	}
-	
-	@Test
-	public void getUserTouristicPoints_exception() {
-		// User not found
-		when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 		
-		assertThrows(ResponseStatusException.class, 
-				() -> touristicPointService.getUserTouristicPoints(4L));
-		verify(userRepository).findById(anyLong());
-	}
-	
 	@Test
 	public void addTouristicPointToUser() {
 		User user = new User("Sam", "SamSmith", "12345ABCdef");
@@ -133,27 +127,16 @@ public class TouristicPointServiceTests {
 		TouristicPoint touristicPoint = new TouristicPoint("Museo Thyssen", -3.4638293, 40.37463545);
 		touristicPoint.setId(5L);
 		
-		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+		when(userService.getUser(anyLong())).thenReturn(user);
 		when(touristicPointRepository.findById(anyLong())).thenReturn(Optional.of(touristicPoint));
 		
 		assertDoesNotThrow(
 				() -> touristicPointService.addTouristicPointToUser(user.getId(), touristicPoint.getId()));
 		assertThat(user.getTouristicPoints()).contains(touristicPoint);
-		verify(userRepository).findById(user.getId());
+		verify(userService).getUser(user.getId());
 		verify(touristicPointRepository).findById(touristicPoint.getId());	
 	}
-	
-	@Test
-	public void addTouristicPointToUser_exception() {
-		// User not found
-		when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 		
-		assertThrows(ResponseStatusException.class, 
-				() -> touristicPointService.addTouristicPointToUser(4L, 5L));
-		verify(userRepository).findById(anyLong());
-		verify(touristicPointRepository, times(0)).findById(anyLong());
-	}
-	
 	@Test
 	public void deleteUserTouristicPoint() {
 		User user = new User("Sam", "SamSmith", "12345ABCdef");
@@ -162,13 +145,13 @@ public class TouristicPointServiceTests {
 		
 		TouristicPoint touristicPoint = touristicPoints.get(0);
 		
-		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+		when(userService.getUser(anyLong())).thenReturn(user);
 		when(touristicPointRepository.findById(anyLong())).thenReturn(Optional.of(touristicPoint));
 		
 		assertDoesNotThrow(
 				() -> touristicPointService.deleteUserTouristicPoint(4L, 1L));
 		assertThat(user.getTouristicPoints()).doesNotContain(touristicPoint);
-		verify(userRepository).findById(user.getId());
+		verify(userService).getUser(user.getId());
 		verify(touristicPointRepository, times(0)).findById(touristicPoint.getId());
 	}
 	
@@ -178,12 +161,12 @@ public class TouristicPointServiceTests {
 		User user = new User("Sam", "SamSmith", "12345ABCdef");
 		user.setId(4L);
 		
-		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+		when(userService.getUser(anyLong())).thenReturn(user);
 		when(touristicPointRepository.findById(anyLong())).thenReturn(Optional.empty());
 		
 		assertThrows(ResponseStatusException.class, 
 				() -> touristicPointService.deleteUserTouristicPoint(user.getId(), 7L));
-		verify(userRepository).findById(user.getId());
+		verify(userService).getUser(user.getId());
 		verify(touristicPointRepository).findById(anyLong());
 	}
 	
