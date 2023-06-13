@@ -46,7 +46,7 @@
       "coordinates" : [ -3.71569102, 40.36916772 ]
     },
     "id" : 2226,
-    "name" : "395 - Guetaria , 84b",
+    "name" : "395 - Guetaria  84b",
     "number" : "395b",
     "lines" : null
   }, {
@@ -1300,10 +1300,10 @@
     "number" : "164",
     "lines" : null
   }, {
-    "address" : "Paseo de la Chopera nº 53,",
+    "address" : "Paseo de la Chopera nº 14,",
     "geometry" : {
       "type" : "Point",
-      "coordinates" : [ -3.697496559524538, 40.39279990173008 ]
+      "coordinates" : [ -3.697596, 40.392888 ]
     },
     "id" : 1571,
     "name" : "Entrada Matadero",
@@ -2536,7 +2536,7 @@
       "coordinates" : [ -3.6408, 40.4099 ]
     },
     "id" : 2047,
-    "name" : "Corregidor licenciado Antonio de Mena, sn",
+    "name" : "Corregidor Ldo. Antonio de Mena, sn",
     "number" : "461",
     "lines" : null
   }, {
@@ -2838,6 +2838,16 @@
     "id" : 2116,
     "name" : "Calle de Mesena, 102",
     "number" : "534",
+    "lines" : null
+  }, {
+    "address" : "Calle Cebreros, 97,",
+    "geometry" : {
+      "type" : "Point",
+      "coordinates" : [ -3.7521352, 40.40323821 ]
+    },
+    "id" : 2122,
+    "name" : "Calle Cebreros, 97",
+    "number" : "328",
     "lines" : null
   }, {
     "address" : "Avenida de Oporto, 34,",
