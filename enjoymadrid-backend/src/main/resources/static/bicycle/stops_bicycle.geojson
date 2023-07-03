@@ -110,26 +110,6 @@
     "number" : "438",
     "lines" : null
   }, {
-    "address" : "Paseo de la Infanta Isabel nº 3",
-    "geometry" : {
-      "type" : "Point",
-      "coordinates" : [ -3.6902255, 40.4075685 ]
-    },
-    "id" : 84,
-    "name" : "Atocha A",
-    "number" : "80a",
-    "lines" : null
-  }, {
-    "address" : "Paseo de la Infanta Isabel nº 3",
-    "geometry" : {
-      "type" : "Point",
-      "coordinates" : [ -3.6901234, 40.4074902 ]
-    },
-    "id" : 85,
-    "name" : "Atocha B",
-    "number" : "80b",
-    "lines" : null
-  }, {
     "address" : "Calle Serrano nº 34",
     "geometry" : {
       "type" : "Point",
@@ -138,26 +118,6 @@
     "id" : 111,
     "name" : "Colón A",
     "number" : "106a",
-    "lines" : null
-  }, {
-    "address" : "Calle Virgen de la Alegría nº 18",
-    "geometry" : {
-      "type" : "Point",
-      "coordinates" : [ -3.6554918, 40.4351256 ]
-    },
-    "id" : 197,
-    "name" : "Avenida Donostiarra",
-    "number" : "189",
-    "lines" : null
-  }, {
-    "address" : "Puerta del Sol nº 1,",
-    "geometry" : {
-      "type" : "Point",
-      "coordinates" : [ -3.70179, 40.41715 ]
-    },
-    "id" : 1404,
-    "name" : "Puerta del Sol A",
-    "number" : "1a",
     "lines" : null
   }, {
     "address" : "Calle Miguel Moya nº 1,",
@@ -358,16 +318,6 @@
     "id" : 1442,
     "name" : "Plaza de los Carros",
     "number" : "38",
-    "lines" : null
-  }, {
-    "address" : "Plaza del Conde de Romanones nº 9,",
-    "geometry" : {
-      "type" : "Point",
-      "coordinates" : [ -3.7049407, 40.4138846 ]
-    },
-    "id" : 1444,
-    "name" : "Conde de Romanones",
-    "number" : "40",
     "lines" : null
   }, {
     "address" : "Calle Santa Isabel 32,",
@@ -793,7 +743,7 @@
     "address" : "Calle Serrano nº 32,",
     "geometry" : {
       "type" : "Point",
-      "coordinates" : [ -3.687916093254089, 40.424905054084604 ]
+      "coordinates" : [ -3.68789, 40.424776 ]
     },
     "id" : 1510,
     "name" : "Colón B",
@@ -1068,16 +1018,6 @@
     "id" : 1543,
     "name" : "Plaza de la República Argentina",
     "number" : "137",
-    "lines" : null
-  }, {
-    "address" : "Paseo de la Castellana esquina calle Raimundo Fernández Villaverde,",
-    "geometry" : {
-      "type" : "Point",
-      "coordinates" : [ -3.6914063, 40.4457414 ]
-    },
-    "id" : 1544,
-    "name" : "Paseo de la Castellana con Raimundo Fer",
-    "number" : "138",
     "lines" : null
   }, {
     "address" : "Calle José Gutiérrez Abascal nº 2,",
@@ -1653,7 +1593,7 @@
     "address" : "Calle Sierra Toledana nº 33,",
     "geometry" : {
       "type" : "Point",
-      "coordinates" : [ -3.660188083470652, 40.40248333540473 ]
+      "coordinates" : [ -3.660345, 40.402506 ]
     },
     "id" : 1631,
     "name" : "Doctor Lozano",
@@ -1906,8 +1846,18 @@
       "coordinates" : [ -3.6779, 40.4679 ]
     },
     "id" : 1970,
-    "name" : "Plaza Duque Pastrana, 1",
+    "name" : "Plaza Duque Pastrana 1",
     "number" : "286",
+    "lines" : null
+  }, {
+    "address" : "Calle de la Yuca, 1,",
+    "geometry" : {
+      "type" : "Point",
+      "coordinates" : [ -3.6762, 40.4765 ]
+    },
+    "id" : 1971,
+    "name" : "Calle de la Yuca, 1",
+    "number" : "287",
     "lines" : null
   }, {
     "address" : "Memorial 11 Marzo de 2004, 28,",
@@ -1946,7 +1896,7 @@
       "coordinates" : [ -3.62927465, 40.400094 ]
     },
     "id" : 1975,
-    "name" : "Luis de Hoyos Sainz, 198",
+    "name" : "Luis de Hoyos Sainz  198",
     "number" : "455",
     "lines" : null
   }, {
@@ -2006,7 +1956,7 @@
       "coordinates" : [ -3.6242, 40.4191 ]
     },
     "id" : 1981,
-    "name" : "Hermanos Garcia Noblejas, 133",
+    "name" : "Hermanos Garcia Noblejas 133",
     "number" : "501",
     "lines" : null
   }, {
@@ -2023,7 +1973,7 @@
     "address" : "Calle Alcala, 590,",
     "geometry" : {
       "type" : "Point",
-      "coordinates" : [ -3.6120901, 40.4465492 ]
+      "coordinates" : [ -3.6121996, 40.4466561 ]
     },
     "id" : 1983,
     "name" : "Calle Alcala, 590",
@@ -2053,7 +2003,7 @@
     "address" : "Calle Puerto Serrano, 1,",
     "geometry" : {
       "type" : "Point",
-      "coordinates" : [ -3.6874911558197088, 40.38610668169473 ]
+      "coordinates" : [ -3.688529, 40.385404 ]
     },
     "id" : 1986,
     "name" : "Calle Puerto Serrano, 1",
@@ -2116,7 +2066,7 @@
       "coordinates" : [ -3.6464629, 40.4293263 ]
     },
     "id" : 1993,
-    "name" : "Francisco Villaespesa, 39",
+    "name" : "Francisco Villaespesa  39",
     "number" : "485",
     "lines" : null
   }, {
@@ -2240,13 +2190,13 @@
     "number" : "492",
     "lines" : null
   }, {
-    "address" : "Paseo de los Jesuitas, 67,",
+    "address" : "Paseo de los Jesuitas  67,",
     "geometry" : {
       "type" : "Point",
       "coordinates" : [ -3.7351, 40.408 ]
     },
     "id" : 2007,
-    "name" : "Paseo de los Jesuitas, 67",
+    "name" : "Paseo de los Jesuitas  67",
     "number" : "322",
     "lines" : null
   }, {
@@ -2576,7 +2526,7 @@
       "coordinates" : [ -3.703526, 40.47817 ]
     },
     "id" : 2051,
-    "name" : "Ginzo de Limia, 36",
+    "name" : "Ginzo de Limia  36",
     "number" : "575",
     "lines" : null
   }, {
@@ -2766,7 +2716,7 @@
       "coordinates" : [ -3.612392, 40.409247 ]
     },
     "id" : 2081,
-    "name" : "Calle Casalarreina",
+    "name" : "Calle Casalarreina 18",
     "number" : "463",
     "lines" : null
   }, {
@@ -2823,7 +2773,7 @@
     "address" : "Calle Serrano 32,",
     "geometry" : {
       "type" : "Point",
-      "coordinates" : [ -3.687916, 40.424905 ]
+      "coordinates" : [ -3.687807, 40.424924 ]
     },
     "id" : 2110,
     "name" : "106a- Plaza Colón",
@@ -2883,7 +2833,7 @@
     "address" : "Calle Tampico, 71,",
     "geometry" : {
       "type" : "Point",
-      "coordinates" : [ -3.63533933, 40.44444845 ]
+      "coordinates" : [ -3.6353383, 40.4445655 ]
     },
     "id" : 2144,
     "name" : "Calle Tampico, 71",
@@ -3123,7 +3073,7 @@
     "address" : "Calle Sodio nº 1B,",
     "geometry" : {
       "type" : "Point",
-      "coordinates" : [ -3.691187, 40.389093 ]
+      "coordinates" : [ -3.691076, 40.389041 ]
     },
     "id" : 1641,
     "name" : "Embajadores 191",
@@ -3350,16 +3300,6 @@
     "number" : "134",
     "lines" : null
   }, {
-    "address" : "Calle Pedro Rico nº 4,",
-    "geometry" : {
-      "type" : "Point",
-      "coordinates" : [ -3.688463, 40.481086 ]
-    },
-    "id" : 1623,
-    "name" : "Pedro Rico",
-    "number" : "217",
-    "lines" : null
-  }, {
     "address" : "Paseo de la Ermita del Santo nº 48,",
     "geometry" : {
       "type" : "Point",
@@ -3540,16 +3480,6 @@
     "number" : "122",
     "lines" : null
   }, {
-    "address" : "Plaza de la Independencia nº 6,",
-    "geometry" : {
-      "type" : "Point",
-      "coordinates" : [ -3.688398, 40.419752 ]
-    },
-    "id" : 1464,
-    "name" : "Plaza de la Independencia",
-    "number" : "60",
-    "lines" : null
-  }, {
     "address" : "Calle Hermosilla nº 135,",
     "geometry" : {
       "type" : "Point",
@@ -3573,7 +3503,7 @@
     "address" : "Avenida Juan de Herrera frente a la calle Paul Guinard,",
     "geometry" : {
       "type" : "Point",
-      "coordinates" : [ -3.7312408, 40.43969 ]
+      "coordinates" : [ -3.730527, 40.438873 ]
     },
     "id" : 1663,
     "name" : "INEF",
@@ -3888,6 +3818,46 @@
     "id" : 1441,
     "name" : "Plaza de San Francisco",
     "number" : "37",
+    "lines" : null
+  }, {
+    "address" : "Calle Virgen de la Alegría nº 18,",
+    "geometry" : {
+      "type" : "Point",
+      "coordinates" : [ -3.6554918, 40.4351256 ]
+    },
+    "id" : 1595,
+    "name" : "Avenida Donostiarra",
+    "number" : "189",
+    "lines" : null
+  }, {
+    "address" : "Paseo de la Castellana esquina calle Raimundo Fernández Villaverde,",
+    "geometry" : {
+      "type" : "Point",
+      "coordinates" : [ -3.6914063, 40.4457414 ]
+    },
+    "id" : 1544,
+    "name" : "Paseo de la Castellana con Raimundo Fer",
+    "number" : "138",
+    "lines" : null
+  }, {
+    "address" : "Calle Pedro Rico nº 6,",
+    "geometry" : {
+      "type" : "Point",
+      "coordinates" : [ -3.6890758, 40.480884 ]
+    },
+    "id" : 1623,
+    "name" : "Pedro Rico",
+    "number" : "217",
+    "lines" : null
+  }, {
+    "address" : "Plaza de la Independencia nº 6",
+    "geometry" : {
+      "type" : "Point",
+      "coordinates" : [ -3.688398, 40.419752 ]
+    },
+    "id" : 64,
+    "name" : "Plaza de la Independencia",
+    "number" : "60",
     "lines" : null
   } ],
   "name" : "Stops_Bicycle"
